@@ -47,6 +47,7 @@ class ApplicationController < ActionController::Base
       host = request.host_with_port
     end # if
 
-    "http://#{subdomain}.#{host}#{request.path}"
+    # "http://#{subdomain}.#{host}#{request.path}"
+    "http://#{host}#{request.path}"
   end # app_url
 end # class
