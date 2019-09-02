@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-12">
+    <div class="clearfix">
+      <p class="float-right">
+        <%= link_to "Log in", new_session_path('user'), class: 'btn btn-primary' %>
+        <%= link_to "Sign up", new_registration_path('user'), class: 'btn btn-primary' %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='offset-sm-2 col-sm-8 col-12'>
+    <div class='jumbotron'>
+      <h1 class='display-4'>
+        Welcome to MyApp
+      </h1>
+      <p class='lead'>
+      </p>
+      <hr class='mt-4'>
+      <p>
+        Start using the app by signing up as a user (tenant).
+      </p>
+      <p>
+        When you are signing up you are asked for a subdomain. This will be your own subdomain. Everything belonging to your user will be accessible only via this subdomain. Actually in this app it’s only a fake dashboard which belongs to a user. But nevertheless it’s only reachable via a subdomain.
+      </p>
+      <p>
+        After logging in try to access your dashboard through another subdomain even a subdomain which belongs to another user and see what happens.
+      </p>
+    </div>
+  </div>
+</div>
