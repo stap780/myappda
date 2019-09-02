@@ -31,11 +31,11 @@ class ApplicationController < ActionController::Base
 
 
   def redirect_to_app_url
-    # return if request.subdomain.present? && request.subdomain == 'app'
-    #
-    # url = app_url
-    # redirect_to url
-    redirect_to root_url
+    return if request.subdomain.present? && request.subdomain == 'app'
+
+    url = app_url
+    redirect_to url
+    # redirect_to root_url
   end # redirect_to_app_url
 
 
