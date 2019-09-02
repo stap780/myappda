@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 
     url = app_url
     redirect_to url
-    # redirect_to root_url
+  
   end # redirect_to_app_url
 
 

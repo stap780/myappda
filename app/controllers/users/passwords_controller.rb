@@ -1,5 +1,5 @@
 class Users::PasswordsController < Devise::PasswordsController
-  before_action :redirect_to_app_url
+  # before_action :redirect_to_app_url
 
   # GET /resource/password/new
   # def new
