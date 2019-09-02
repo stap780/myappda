@@ -1,5 +1,5 @@
 class Users::UnlocksController < Devise::UnlocksController
-  # before_action :redirect_to_app_url
+  before_action :redirect_to_app_url
 
 
   # GET /resource/unlock/new

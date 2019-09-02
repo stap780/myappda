@@ -1,5 +1,5 @@
 class Users::ConfirmationsController < Devise::ConfirmationsController
-  # before_action :redirect_to_app_url
+  before_action :redirect_to_app_url
 
 
   # GET /resource/confirmation/new
