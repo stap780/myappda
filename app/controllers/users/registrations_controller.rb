@@ -8,6 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def new
     puts params[:shop].present?
     if params[:shop].present?
+      head :ok
       save_subdomain = "insales"+params[:insales_id]
       email = save_subdomain+"@mail.ru"
       puts save_subdomain
@@ -18,7 +19,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
         password = Digest::MD5.hexdigest(params[:token] + secret_key)
         Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
       end
-    render status :ok
     else
     super
     end
