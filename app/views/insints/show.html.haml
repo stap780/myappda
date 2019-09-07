@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Subdomen:
+  = @insint.subdomen
+%p
+  %b Password:
+  = @insint.password
+%p
+  %b Insalesid:
+  = @insint.insalesid
+%p
+  %b User:
+  = @insint.user_id
+
+= link_to 'Edit', edit_insint_path(@insint)
+\|
+= link_to 'Back', insints_path

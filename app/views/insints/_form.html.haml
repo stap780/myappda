@@ -1,0 +1,11 @@
+= simple_form_for(@insint) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :subdomen
+    = f.input :password
+    = f.input :insalesid
+    = f.input :user_id
+
+  .form-actions
+    = f.button :submit

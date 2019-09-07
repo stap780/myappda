@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   after_create :create_tenant
   after_destroy :delete_tenant
+  has_many	 :insints, :dependent => :destroy
+  accepts_nested_attributes_for :insints, allow_destroy: true
 
   validates :name, presence: true
   validates :subdomain, presence: true
