@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :insints
+
   root to: 'home#index'
 
   devise_for :users, controllers: {
@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   }
 
   constraints SubdomainConstraint do
+    resources :insints
     get 'dashboard/index'
   end # constraints
 

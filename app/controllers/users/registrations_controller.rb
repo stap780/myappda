@@ -5,13 +5,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
-
-  # POST /resource
-  def create
-    puts params
+  def new
+  puts params
     # if params[:shop].present?
     #   save_subdomain = "ins_"+params[:insales_id]
     #   user = User.create(:name => params[:insales_id], :subdomain => save_subdomain)
@@ -22,6 +17,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
     # end
   end
+
+  # POST /resource
+  # def create
+  #   super
+  # end
 
   # GET /resource/edit
   # def edit
