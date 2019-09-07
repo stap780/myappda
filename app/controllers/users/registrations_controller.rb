@@ -5,18 +5,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
 
   # GET /resource/sign_up
-  def new
-  puts params
-    # if params[:shop].present?
-    #   save_subdomain = "ins_"+params[:insales_id]
-    #   user = User.create(:name => params[:insales_id], :subdomain => save_subdomain)
-    #   secret_key = 'my_test_secret_key'
-    #   password = Digest::MD5.hexdigest(params[:token] + secret_key)
-    #   Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
-    # else
-    super
-    # end
-  end
+  # def new
+  # puts params
+  #   # if params[:shop].present?
+  #   #   save_subdomain = "ins_"+params[:insales_id]
+  #   #   user = User.create(:name => params[:insales_id], :subdomain => save_subdomain)
+  #   #   secret_key = 'my_test_secret_key'
+  #   #   password = Digest::MD5.hexdigest(params[:token] + secret_key)
+  #   #   Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
+  #   # else
+  #   super
+  #   # end
+  # end
 
   # POST /resource
   # def create
