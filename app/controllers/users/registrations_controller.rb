@@ -7,6 +7,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # # GET /resource/sign_up
   def new
     puts params
+    puts params[:shop].present?
     if params[:shop].present?
       save_subdomain = "ins_"+params[:insales_id]
       user = User.create(:name => params[:insales_id], :subdomain => save_subdomain)
