@@ -6,9 +6,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # # GET /resource/sign_up
   def new
+    head :ok
+    super
+  end
+
+  # POST /resource
+  def create
     puts params[:shop].present?
     if params[:shop].present?
-      head :ok
       save_subdomain = "insales"+params[:insales_id]
       email = save_subdomain+"@mail.ru"
       puts save_subdomain
@@ -20,14 +25,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
         Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
       end
     else
-    super
-    end
-  end
 
-  # # POST /resource
-  # def create
-  #   super
-  # end
+    super
+    end    
+  end
 
   # GET /resource/edit
   # def edit
