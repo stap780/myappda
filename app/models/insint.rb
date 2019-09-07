@@ -1,5 +1,5 @@
 class Insint < ApplicationRecord
 
-belong_to :user
+belongs_to :user
 
 end
