@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 
     url = app_url
     redirect_to url
-  
+
   end # redirect_to_app_url
 
 
@@ -49,6 +49,5 @@ class ApplicationController < ActionController::Base
     end # if
 
     "http://#{subdomain}.#{host}#{request.path}"
-    # "http://#{host}#{request.path}"
   end # app_url
 end # class
