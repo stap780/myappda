@@ -1,5 +1,6 @@
 class InsintsController < ApplicationController
-  before_action :set_insint, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user! , except: [:install, :uninstall]
+  before_action :set_insint, only: [:show, :edit, :update, :install, :uninstall, :destroy]
 
   # GET /insints
   # GET /insints.json
@@ -76,7 +77,7 @@ class InsintsController < ApplicationController
   end
 
   def uninstall
-
+    head :ok
   end
 
   private
