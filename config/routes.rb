@@ -9,7 +9,12 @@ Rails.application.routes.draw do
   }
 
   constraints SubdomainConstraint do
-    resources :insints
+    resources :insints do
+      collection do
+        get :install
+        get :uninstall
+      end
+    end
     get '/dashboard/index' , to: 'dashboard#index'
   end # constraints
 
