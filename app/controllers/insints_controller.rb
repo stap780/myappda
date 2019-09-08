@@ -1,6 +1,6 @@
 class InsintsController < ApplicationController
   before_action :authenticate_user! , except: [:install, :uninstall]
-  before_action :set_insint, only: [:show, :edit, :update, :install, :uninstall, :destroy]
+  before_action :set_insint, only: [:show, :edit, :update, :destroy]
 
   # GET /insints
   # GET /insints.json
@@ -63,21 +63,38 @@ class InsintsController < ApplicationController
   end
 
   def install
-    save_subdomain = "insales"+params[:insales_id]
-    email = save_subdomain+"@mail.ru"
-    puts save_subdomain
-    user = User.create(:name => params[:insales_id], :subdomain => save_subdomain, :password => save_subdomain, :password_confirmation => save_subdomain, :email => email)
-    puts user.id
-    if user.id.present?
+    puts params[:insales_id]
+    @insint = Insint.find_by_insalesid(params[:insales_id])
+    if @insint.present?
+      puts "есть пользователь insint"
+    else
+      save_subdomain = "insales"+params[:insales_id]
+      email = save_subdomain+"@mail.ru"
+      puts save_subdomain
+      user = User.create(:name => params[:insales_id], :subdomain => save_subdomain, :password => save_subdomain, :password_confirmation => save_subdomain, :email => email)
+      puts user.id
       secret_key = 'my_test_secret_key'
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
       Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
+      head :ok
     end
-    head :ok
   end
 
   def uninstall
-    head :ok
+    @insint = Insint.find_by_insalesid(params[:insales_id])
+    saved_subdomain = "insales"+params[:insales_id]
+    @user = User.find_by_subdomain(saved_subdomain)
+    if @insint.present?
+      puts "удаляем пользователя insint - ""#{@insint.id}"
+      @insint.delete
+      @user.delete
+      Apartment::Tenant.drop(saved_subdomain)
+      head :ok
+    end
+  end
+
+  def login
+    
   end
 
   private

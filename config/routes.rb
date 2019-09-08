@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       collection do
         get :install
         get :uninstall
+        get :login
       end
     end
     get '/dashboard/index' , to: 'dashboard#index'
