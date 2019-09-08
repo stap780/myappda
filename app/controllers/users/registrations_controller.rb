@@ -4,10 +4,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :redirect_to_app_url
 
 
-  # # GET /resource/sign_up
-  def new
-    super
-  end
+  # # # GET /resource/sign_up
+  # def new
+  #   super
+  # end
 
   # # POST /resource
   # def create
