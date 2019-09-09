@@ -2,9 +2,9 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
-  get '/insints/install' , to: 'insints#install',   as: :install
-  get '/insints/uninstall' , to: 'insints#uninstall',   as: :uninstall
-  get '/insints/login' , to: 'insints#login',   as: :login
+  get '/insints/install' , to: 'insints#install'
+  get '/insints/uninstall' , to: 'insints#uninstall'
+  get '/insints/login' , to: 'insints#login'
 
 
   devise_for :users, controllers: {
