@@ -2,6 +2,14 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
+  resources :insints do
+    collection do
+      get :install
+      get :uninstall
+      get :login
+    end
+  end
+
   devise_for :users, controllers: {
     registrations:  'users/registrations',
     sessions:       'users/sessions',
@@ -9,13 +17,7 @@ Rails.application.routes.draw do
   }
 
   constraints SubdomainConstraint do
-    resources :insints do
-      collection do
-        get :install
-        get :uninstall
-        get :login
-      end
-    end
+
     get '/dashboard/index' , to: 'dashboard#index'
   end # constraints
 
