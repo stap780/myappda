@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="offset-sm-2 col-sm-8 col-12">
+    <div class="jumbotron">
+      <h2 class="display-4">
+        Sign up to MyApp
+      </h2>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= f.error_notification %>
+        <%= devise_error_messages! %>
+        <div class="form-inputs">
+          <%= f.input :email, autofocus: true %>
+          <%= f.input :password, hint: "(#{@minimum_password_length} characters minimum)" %>
+          <%= f.input :password_confirmation %>
+          <%= f.input :name %>
+          <%= f.input :subdomain %>
+        </div>
+        <div class="form-actions clearfix">
+          <%= f.submit "Sign up", class: 'btn btn-success float-right' %>
+        </div>
+      <% end %>
+      <p class="mt-2">
+        <%= render "devise/shared/links" %>
+      </p>
+    </div>
+  </div>
+</div>
