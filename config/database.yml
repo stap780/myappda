@@ -85,4 +85,4 @@ production:
   <<: *default
   database: myappda_production
   username: myappda
-  password: <%= ENV['GOAPP_DATABASE_PASSWORD'] %>
+  password: <%= ENV['MYAPPDA_DATABASE_PASSWORD'] %>
