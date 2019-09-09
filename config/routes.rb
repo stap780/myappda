@@ -2,6 +2,11 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
+  get '/insints/install' , to: 'insints#install',   as: :install
+  get '/insints/uninstall' , to: 'insints#uninstall',   as: :uninstall
+  get '/insints/login' , to: 'insints#login',   as: :login
+
+
   devise_for :users, controllers: {
     registrations:  'users/registrations',
     sessions:       'users/sessions',
@@ -9,13 +14,7 @@ Rails.application.routes.draw do
   }
 
   constraints SubdomainConstraint do
-    resources :insints do
-      collection do
-        get :install
-        get :uninstall
-        get :login
-      end
-    end
+    get '/insints/index' , to: 'insints#index'
     get '/dashboard/index' , to: 'dashboard#index'
   end # constraints
 
