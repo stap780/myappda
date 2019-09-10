@@ -101,6 +101,8 @@ class InsintsController < ApplicationController
       if @insint.present?
         user_account = Useraccount.find_by_insuserid(params[:user_id])
         if user_account.present?
+          name = params[:user_id]+params[:shop]
+          user_account.update_attributes(:user_id => @user.id, :shop => params[:shop], :email => params[:user_email], :insuserid => params[:user_id], :name => name)
           sign_in(:user, @user)
           redirect_to after_sign_in_path_for(@user)
         else

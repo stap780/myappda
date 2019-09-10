@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :useraccounts
   root to: 'home#index'
 
   get '/insints/install' , to: 'insints#install'
@@ -15,6 +14,7 @@ Rails.application.routes.draw do
   }
 
   constraints SubdomainConstraint do
+    resources :useraccounts
     get '/insints/index' , to: 'insints#index'
     get '/dashboard/index' , to: 'dashboard#index'
   end # constraints
