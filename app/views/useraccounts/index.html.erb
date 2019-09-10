@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Useraccounts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Shop</th>
+      <th>Insuserid</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @useraccounts.each do |useraccount| %>
+      <tr>
+        <td><%= useraccount.name %></td>
+        <td><%= useraccount.email %></td>
+        <td><%= useraccount.shop %></td>
+        <td><%= useraccount.insuserid %></td>
+        <td><%= useraccount.user_id %></td>
+        <td><%= link_to 'Show', useraccount %></td>
+        <td><%= link_to 'Edit', edit_useraccount_path(useraccount) %></td>
+        <td><%= link_to 'Destroy', useraccount, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Useraccount', new_useraccount_path %>

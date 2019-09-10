@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :useraccounts
   root to: 'home#index'
 
   get '/insints/install' , to: 'insints#install'

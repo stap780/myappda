@@ -94,7 +94,21 @@ class InsintsController < ApplicationController
   end
 
   def login
-
+    @insint = Insint.find_by_insalesid(params[:insales_id])
+    saved_subdomain = "insales"+params[:insales_id]
+    @user = User.find_by_subdomain(saved_subdomain)
+    if @user.present?
+      if @insint.present?
+        user_account = Useraccount.find_by_insuserid(params[:user_id])
+        if user_account.present?
+          redirect_to after_sign_in_path(@user)
+        else
+          name = params[:user_id]+params[:shop]
+          user_account = Useraccount.create(:user_id => @user.id, :shop => params[:shop], :email => params[:user_email], :insuserid => params[:user_id], :name => name)
+          redirect_to after_sign_in_path(@user)
+        end
+      end
+    end
   end
 
   private
