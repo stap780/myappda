@@ -8,6 +8,9 @@ class User < ApplicationRecord
   after_destroy :delete_tenant
   has_many	 :insints, :dependent => :destroy
   accepts_nested_attributes_for :insints, allow_destroy: true
+  has_many	 :useraccounts
+  accepts_nested_attributes_for :useraccounts, allow_destroy: true
+
 
   validates :name, presence: true
   validates :subdomain, presence: true
