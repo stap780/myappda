@@ -90,7 +90,6 @@ class InsintsController < ApplicationController
       @user.delete
       Apartment::Tenant.drop(saved_subdomain)
       head :ok
-      redirect_to root_url
     end
   end
 
