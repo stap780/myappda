@@ -5,7 +5,7 @@ class InsintsController < ApplicationController
   # GET /insints
   # GET /insints.json
   def index
-    @insints = Insint.all
+    @insints = current_user.insints
   end
 
   # GET /insints/1
@@ -90,24 +90,26 @@ class InsintsController < ApplicationController
       @user.delete
       Apartment::Tenant.drop(saved_subdomain)
       head :ok
+      redirect_to root_url
     end
   end
 
   def login
     @insint = Insint.find_by_insalesid(params[:insales_id])
     saved_subdomain = "insales"+params[:insales_id]
+    Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
     if @user.present?
       if @insint.present?
         user_account = Useraccount.find_by_insuserid(params[:user_id])
         if user_account.present?
           name = params[:user_id]+params[:shop]
-          user_account.update_attributes(:user_id => @user.id, :shop => params[:shop], :email => params[:user_email], :insuserid => params[:user_id], :name => name)
+          user_account.update_attributes(:shop => params[:shop], :email => params[:user_email], :insuserid => params[:user_id], :name => name)
           sign_in(:user, @user)
           redirect_to after_sign_in_path_for(@user)
         else
           name = params[:user_id]+params[:shop]
-          user_account = Useraccount.create(:user_id => @user.id, :shop => params[:shop], :email => params[:user_email], :insuserid => params[:user_id], :name => name)
+          user_account = Useraccount.create(:shop => params[:shop], :email => params[:user_email], :insuserid => params[:user_id], :name => name)
           sign_in(:user, @user)
           redirect_to after_sign_in_path_for(@user)
         end

@@ -1,0 +1,42 @@
+<h1>Listing insints</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Subdomen</th>
+      <th>Password</th>
+      <th>Insalesid</th>
+      <th>User</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @insints.each do |insint| %>
+      <tr>
+        <td>
+          <%= insint.subdomen %>
+        </td>
+        <td>
+          <%= insint.password %>
+        </td>
+        <td>
+          <%= insint.insalesid %>
+        </td>
+        <td>
+          <%= insint.user_id %>
+        </td>
+        <td>
+          <%= link_to 'Show', insint %>
+        </td>
+        <td>
+          <%= link_to 'Edit', edit_insint_path(insint) %>
+        </td>
+        <td>
+          <%= link_to 'Destroy', insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br/>

@@ -4,15 +4,10 @@
       <h1 class="float-left">
         Dashboard
       </h1>
-      <p class="float-right">
-        <%= link_to 'Log out', destroy_user_session_url, method: :delete, class: 'btn btn-danger' %>
-      </p>
     </div>
     <p>
       Welcome <%=current_user.name %>!
     </p>
-    <p>
-      <%= link_to 'Back to Homepage', root_url %>
-    </p>
+
   </div>
 </div>

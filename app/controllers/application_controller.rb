@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   private
 
   def after_sign_in_path_for(resource_or_scope)
+    puts resource_or_scope.subdomain
     dashboard_index_url(subdomain: resource_or_scope.subdomain)
   end # after_sign_in_path_for
 
@@ -20,13 +21,12 @@ class ApplicationController < ActionController::Base
 
   def redirect_to_subdomain
     return if self.is_a?(DeviseController)
-
     if current_user.present? && request.subdomain != current_user.subdomain
       subdomain = current_user.subdomain
-      host = request.host_with_port.sub! "#{request.subdomain}", subdomain
-
+      host = request.host_with_port.sub!("#{request.subdomain}", subdomain)
       redirect_to "http://#{host}#{request.path}"
-    end # if
+    end
+
   end # redirect_to_subdomain
 
 
