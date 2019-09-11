@@ -5,10 +5,10 @@ Rails.application.routes.draw do
   get '/insints/install' , to: 'insints#install'
   get '/insints/uninstall' , to: 'insints#uninstall'
   get '/insints/login' , to: 'insints#login'
+  get '/insints' , to: 'home#index'
 
   constraints SubdomainConstraint do
     resources :useraccounts
-    get '/insints/index' , to: 'insints#index'
     get '/dashboard/index' , to: 'dashboard#index'
   end # constraints
 
