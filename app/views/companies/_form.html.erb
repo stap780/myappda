@@ -1,0 +1,24 @@
+
+<%= simple_form_for @company do |f| %>
+<div class="row">
+<div class="col-6 row">
+  <%= f.input :inn, wrapper_html: { class: 'col-6' }, label: 'ИНН', input_html: { onchange: "myInnFunction(this.value)" } %>
+  <%= f.input :kpp, wrapper_html: { class: 'col-6' }, label: 'КПП'  %>
+  <%= f.input :title, wrapper_html: { class: 'col-12' }, label: 'Название' %>
+  <%= f.input :uraddress, wrapper_html: { class: 'col-12' }, label: 'Юр адрес' %>
+  <%= f.input :factaddress, wrapper_html: { class: 'col-12' }, label: 'Факт адрес' %>
+</div>
+<div class="col-6 row">
+  <%= f.input :ogrn, wrapper_html: { class: 'col-6' }, label: 'ОГРН' %>
+  <%= f.input :okpo, wrapper_html: { class: 'col-6' }, label: 'ОКПО' %>
+  <%= f.input :bik, wrapper_html: { class: 'col-6' }, label: 'БИК', input_html: { onchange: "myBikFunction(this.value)" } %>
+  <%= f.input :bankaccount, wrapper_html: { class: 'col-6' }, label: 'Номер счета' %>
+  <%= f.input :banktitle, wrapper_html: { class: 'col-12' }, label: 'Название банка' %>
+</div>
+</div>
+
+  <div class="col-3 btn-group mt-5">
+    <%= f.button :submit , 'Сохранить', class: 'btn btn-success'%>
+    <%= link_to 'Назад', useraccounts_path, class: 'btn btn-outline-primary' %>
+  </div>
+<% end %>

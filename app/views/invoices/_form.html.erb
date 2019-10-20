@@ -1,0 +1,18 @@
+
+<%= simple_form_for(@invoice) do |f| %>
+
+    <div class="payplan-wrapper mt-5">
+      <p>Выберите тип плательщика:</p>
+      <%= f.input :payertype, as: :radio_buttons, collection: [['fiz', 'Физ лицо'], ['ur', 'Юр лицо']], label_method: :second, value_method: :first, label: false, :checked => 'fiz' %>
+      <p>Выберите период продления:</p>
+      <%= f.association :payplan, as: :radio_buttons, label_method: lambda { |plan| "Период продления #{plan.period}. Стоимость -  #{plan.price} руб" }, value_method: :id, :checked => 2, label: false, input_html: { class: 'payplan-item-wrapper' }, wrapper_html: { class: 'text-center mt-3 mb-3'} %>
+      <p>Выберите способ оплаты:</p>
+      <%= f.input :paymenttype, as: :radio_buttons, collection: [['invoice', 'Счёт для юр лиц'],['creditcard', 'Кредитные карты'], ['paypal', 'Paypal']], label_method: :second, value_method: :first, label: false, :checked => 'creditcard' %>
+    </div>
+
+
+  <div class="btn-group mt-5">
+    <%= f.button :submit, 'Сохранить', class: 'btn btn-success'  %>
+    <%= link_to 'Назад', invoices_path, class: 'btn btn-outline-primary'  %>
+  </div>
+<% end %>

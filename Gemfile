@@ -33,17 +33,15 @@ gem 'bcrypt_pbkdf', '< 2.0', :require => false
 gem 'ed25519', '~> 1.2', '>= 1.2.4'
 
 gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
+gem 'wkhtmltopdf-binary', '~> 0.12.3.1'
 gem 'combine_pdf'
 # gem 'haml-rails', '~> 0.9'
 gem 'pg'
 # User and Tenant management
 gem 'apartment'
 gem 'devise'
+gem 'devise_date_restrictable'
 gem 'bootstrap'
-# source 'https://rails-assets.org' do
-#   gem 'rails-assets-tether', '>= 1.3.3'
-# end
 gem 'simple_form'
 gem 'unicorn'
 gem 'rest-client'
@@ -55,6 +53,7 @@ gem 'roo'
 gem 'roo-xls'
 gem 'whenever', require: false
 gem 'delayed_job_active_record'
+gem 'ru_propisju'
 
 
 group :development, :test do

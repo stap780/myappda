@@ -10,16 +10,67 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190910120804) do
+ActiveRecord::Schema.define(version: 20191017163445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "clients", force: :cascade do |t|
+    t.string   "clientid"
+    t.string   "izb_productid"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "companies", force: :cascade do |t|
+    t.string   "inn"
+    t.string   "kpp"
+    t.string   "title"
+    t.string   "uraddress"
+    t.string   "factaddress"
+    t.string   "ogrn"
+    t.string   "okpo"
+    t.string   "bik"
+    t.string   "banktitle"
+    t.string   "bankaccount"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "insints", force: :cascade do |t|
     t.string   "subdomen"
     t.string   "password"
     t.integer  "insalesid"
     t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.integer  "payplan_id"
+    t.string   "sum"
+    t.string   "status"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "payertype"
+    t.string   "paymenttype"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "invoice_id"
+    t.integer  "payplan_id"
+    t.string   "status"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "paymenttype"
+    t.datetime "paymentdate"
+    t.string   "paymentid"
+  end
+
+  create_table "payplans", force: :cascade do |t|
+    t.string   "period"
+    t.decimal  "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -48,6 +99,8 @@ ActiveRecord::Schema.define(version: 20190910120804) do
     t.string   "subdomain"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.date     "valid_from"
+    t.date     "valid_until"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end

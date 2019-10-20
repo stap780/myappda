@@ -1,14 +1,31 @@
 Rails.application.routes.draw do
 
+  resources :payments do
+    collection do
+      post :success
+      post :fail
+      post :result
+    end
+  end
+  resources :payplans
+
   root to: 'home#index'
 
   get '/insints/install' , to: 'insints#install'
   get '/insints/uninstall' , to: 'insints#uninstall'
   get '/insints/login' , to: 'insints#login'
+  get '/insints/addizb' , to: 'insints#addizb'
+  get '/insints/getizb' , to: 'insints#getizb'
+  get '/insints/deleteizb' , to: 'insints#deleteizb'
   get '/insints' , to: 'home#index'
 
   constraints SubdomainConstraint do
     resources :useraccounts
+    resources :clients
+    resources :invoices do
+      get :print
+    end
+    resources :companies
     get '/dashboard/index' , to: 'dashboard#index'
   end # constraints
 

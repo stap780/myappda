@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Period:</strong>
+  <%= @payplan.period %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @payplan.price %>
+</p>
+
+<%= link_to 'Edit', edit_payplan_path(@payplan) %> |
+<%= link_to 'Back', payplans_path %>

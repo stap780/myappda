@@ -4,6 +4,12 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   # Every logged in user should be redirected to their own subdomain
   before_action :redirect_to_subdomain
+  before_action :allow_cross_domain_ajax
+
+  def allow_cross_domain_ajax
+      headers['Access-Control-Allow-Origin'] = '*'
+      headers['Access-Control-Request-Method'] = 'GET, POST, OPTIONS'
+  end
 
 
   private

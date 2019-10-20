@@ -1,0 +1,15 @@
+
+<%= simple_form_for(@payplan) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <div class="mt-5 row">
+    <%= f.input :period , wrapper_html: { class: 'col-4'}%>
+    <%= f.input :price, wrapper_html: { class: 'col-4'} %>
+  </div>
+
+  <div class="btn-group mt-5">
+    <%= f.button :submit, 'Сохранить', class: 'btn btn-success'  %>
+    <%= link_to 'Назад', payplans_path, class: 'btn btn-outline-primary'  %>
+  </div>
+<% end %>

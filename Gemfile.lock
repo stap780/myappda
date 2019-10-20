@@ -96,6 +96,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise_date_restrictable (0.0.2)
+      devise (>= 4.0.0)
+      rails (>= 5.0.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     ed25519 (1.2.4)
@@ -201,6 +204,7 @@ GEM
       nokogiri
       roo (>= 2.0.0, < 3)
       spreadsheet (> 0.9.0)
+    ru_propisju (2.6.0)
     ruby-ole (1.2.12.2)
     ruby-rc4 (0.1.5)
     rubyzip (1.2.4)
@@ -270,7 +274,7 @@ GEM
     wicked_pdf (1.4.0)
       activesupport
     will_paginate (3.0.12)
-    wkhtmltopdf-binary (0.12.4)
+    wkhtmltopdf-binary (0.12.3.1)
 
 PLATFORMS
   ruby
@@ -289,6 +293,7 @@ DEPENDENCIES
   combine_pdf
   delayed_job_active_record
   devise
+  devise_date_restrictable
   ed25519 (~> 1.2, >= 1.2.4)
   jbuilder (~> 2.5)
   jquery-rails
@@ -302,6 +307,7 @@ DEPENDENCIES
   rest-client
   roo
   roo-xls
+  ru_propisju
   sass-rails (~> 5.0)
   simple_form
   spring
@@ -312,7 +318,7 @@ DEPENDENCIES
   whenever
   wicked_pdf
   will_paginate (~> 3.0.6)
-  wkhtmltopdf-binary
+  wkhtmltopdf-binary (~> 0.12.3.1)
 
 BUNDLED WITH
    1.16.6

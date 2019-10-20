@@ -1,0 +1,19 @@
+
+<%= simple_form_for(@payment) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="mt-5 row">
+    <%= f.input :user_id , wrapper_html: { class: 'col-3'} %>
+    <%= f.input :invoice_id , wrapper_html: { class: 'col-3'} %>
+    <%= f.input :payplan_id , wrapper_html: { class: 'col-3'} %>
+    <%= f.input :status, collection: ['Не оплачен', 'Оплачен'], wrapper_html: { class: 'col-3'}  %>
+    <%= f.input :paymentdate, wrapper_html: { class: 'col-3'} %>
+    <%= f.input :paymentid, wrapper_html: { class: 'col-3'}  %>
+  </div>
+
+  <div class="btn-group mt-5">
+    <%= f.button :submit, 'Сохранить', class: 'btn btn-success'  %>
+    <%= link_to 'Назад', payments_path, class: 'btn btn-outline-primary'  %>
+  </div>
+<% end %>

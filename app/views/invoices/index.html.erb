@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col">
+    <h1>Счета</h1>
+  </div>
+  <div class="col">
+    <%= link_to 'Новый счет', new_invoice_path, class: 'btn btn-outline-primary'  %>
+  </div>
+  <div class="col">
+  </div>
+</div>
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th>Номер счета</th>
+      <th>Период продления</th>
+      <th>Сумма</th>
+      <th>Статус</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @invoices.each do |invoice| %>
+      <tr>
+        <td><%= link_to invoice.id , invoice %></td>
+        <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
+        <td><%= invoice.sum %></td>
+        <td><%= invoice.status %></td>
+        <% if invoice.status != 'Оплачен' %>
+        <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_invoice_path(invoice) %></td>
+        <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, invoice, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

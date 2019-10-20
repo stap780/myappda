@@ -1,0 +1,153 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<head>
+<title>Счёт <%= @invoice.id %></title>
+</head>
+<body>
+  <style>
+    	.navbar, .footer {display: none;}
+      body  {
+        font-size: 12px; color: #000;
+        background-color: #fff;
+        font-family: sans-serif;
+        margin: 30px;
+        width: 750px;
+      }
+      table { border-spacing: 0px; font-size: 12px; }
+      .clear {clear:both; margin:2px 0px; height:5px;}
+      .border {
+        border-bottom:1px solid black;
+        padding-bottom:0;
+       }
+      .accent {font-size: 13px; font-weight: bold;}
+      .bold {font-weight: bold;}
+      .borders_table {width: 100%; border-collapse: collapse;}
+      .borders_table, .borders_table  td, .products_table th {border: 1px solid #999; }
+      .page_break { display:block; clear:both; page-break-after:always; }
+      h2 {font-size:15px;}
+  </style>
+<div style='width:750px'>
+<p>
+<small><p>Счет действителен в течении 2 дней.</p></small>
+</p>
+
+<h3 class='border' style='margin-bottom:40px; display:inline;'>ИП Эмексизов Панаёт Алексеевич</h3>
+<div class='small' style='margin-top:10px'>108803, Москва г., Сосенское п., тер. СНТ Победа-Потапово, д. 89 стр1</div>
+<center style='margin-top:40px'>
+<h3>Образец заполнения платежного поручения</h3>
+</center>
+<table class='borders_table' style='width:750px'>
+  <tr>
+    <td width='150'>ИНН 772745849012</td>
+    <td width='150'>КПП </td>
+    <td style='border-bottom:0'></td>
+    <td style='border-bottom:0'></td>
+  </tr>
+  <tr>
+    <td colspan='2'>
+    <p>Получатель: ИП Эмексизов П А </p>
+    </td>
+    <td align='center' style='border-top:0' valign='bottom'>Сч. №</td>
+    <td style='border-top:0' valign='bottom'>40802810200070017229</td>
+  </tr>
+  <tr>
+    <td colspan='2' style='border-bottom:0'>Банк получателя</td>
+    <td align='center'>БИК</td>
+    <td style='border-bottom:0'>044525201</td>
+  </tr>
+  <tr>
+    <td colspan='2' style='border-top:0'>ПАО АКБ "АВАНГАРД" г. МОСКВА</td>
+    <td align='center'>Сч. №</td>
+    <td style='border-top:0'>30101810000000000201</td>
+  </tr>
+</table>
+<center style='margin-top:40px'>
+<h2>СЧЕТ № <%= @invoice.id %> от <%= @invoice.created_at.strftime("%d / %m / %Y")%></h2>
+</center>
+<p style='margin-top:30px;'>Плательщик:
+<span style='margin-left: 27px'>
+<%= @company.title if @company !=nil %> <%= @company.uraddress if @company!=nil%> ИНН<%= @company.inn if @company !=nil%> КПП <%= @companykpp if @company !=nil%>
+</span>
+</p>
+<p>
+Грузополучатель:
+<span>
+<%= @company.title if @company !=nil %> <%= @company.uraddress if @company!=nil%> ИНН<%= @company.inn if @company !=nil%> КПП <%= @companykpp if @company !=nil%>
+</span>
+</p>
+<table class='borders_table products_table' style='width:750px; margin-top: 20px'>
+  <thead>
+    <tr>
+    	<th align='left'>№</th>
+    		<th>Артикул</th>
+    		<th>Наименование товара<br>(выполненных работ, оказанных услуг)</th>
+    		<th>Единица измерения</th>
+    		<th>Количество</th>
+    		<th>Цена</th>
+    		<th>Сумма</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+       <% pr = @invoice.payplan %>
+      <td align='center'>1</td>
+      <td align="center"></td>
+      <td>Сервис k-comment.ru . Период продления <%= pr.period %></td>
+      <td align='center'>шт</td>
+      <td align='center'>1</td>
+      <td align='right'><%= pr.price %></td>
+      <td align='right'><%= pr.price.to_f.round(2)%></td>
+    </tr>
+  </tbody>
+</table>
+<table align='right'>
+<tr>
+<td align='right' width='120'>
+<b>Итого</b>
+</td>
+<td align='right' width='80'><%= pr.price.to_f.round(2)%></td>
+</tr>
+<tr>
+<td align='right' width='120'>
+<b>Скидка</b>
+</td>
+<td align='right' width='80'></td>
+</tr>
+<tr>
+<td align='right' width='120'>
+<!--<b>Доставка</b>-->
+</td>
+</tr>
+<tr>
+<td align='right' width='120'>
+<b>В том числе НДС</b>
+</td>
+<td align='right' width='80'>Без НДС</td>
+</tr>
+<tr>
+<td align='right' width='120'>
+<b>Всего к оплате</b>
+</td>
+<td align='right' width='80'><%= pr.price.to_f.round(2) %></td>
+</tr>
+</table>
+<div style='clear:both'></div>
+<p>
+<b>
+Всего наименований: 1
+</b>
+<br>
+<b>
+Всего к оплате: <%= RuPropisju.rublej(pr.price.to_f.round(2) )%>.
+</b>
+<b>
+
+</b>
+</p>
+<div style='height:60px; position:relative;'>
+	<span style='width:100px;display: inline-block;'>Поставщик</span>
+	<span style='border-bottom: 1px solid;'>Индивидуальный предприниматель</span>
+	<span style='border-bottom: 1px solid;margin-left:30px;'><%= wicked_pdf_image_tag("podpis.png", :height =>'60') %></span>
+	<span style='border-bottom: 1px solid;margin-left:30px;'>/ Эмексизов П.А./</span>
+</div>
+</div>
+</body>

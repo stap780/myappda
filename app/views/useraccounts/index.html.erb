@@ -1,34 +1,89 @@
+<div class="row">
+<div class="col">
+<h1>Общая информация</h1>
+</div>
+</div>
+<div class="row mt-3">
+  <div class="col">
+    <h3>Регистрация <small><%= current_user.name%> (<%= current_user.subdomain%>)</small></h3>
+  <p>Оплачено до <%= current_user.valid_until %></p>
+  <p><b>Название магазина:</b> <%= @ins_title %></p>
+  <p><b>Телефон:</b> <%= @ins_phone %></p>
+</div>
+<div class="col">
+  <h3>Юр лица</h3>
+<table class="table">
+<thead class="thead-light">
+  <tr>
+    <th>Название</th>
+    <th>ИНН</th>
+    <th colspan="2"></th>
+  </tr>
+</thead>
 
-<h1>Useraccounts</h1>
-
-
-<table>
-  <thead>
+<tbody>
+  <% Company.all.each do |company| %>
     <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Shop</th>
-      <th>Insuserid</th>
-      <th>User</th>
-      <th colspan="3"></th>
+      <td><%= company.title %></td>
+      <td><%= company.inn %></td>
+      <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_company_path(company) %></td>
+      <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
-  </thead>
+  <% end %>
+</tbody>
+</table>
+<%= link_to 'Добавить компанию', new_company_path, class: 'btn btn-outline-primary mb-3'  %>
+  <h3>Пользователи</h3>
+<table class="table">
+<thead class="thead-light">
+  <tr>
+    <th>Имя</th>
+    <th>Email</th>
+    <th>Магазин</th>
+    <th>id в магазине</th>
+  </tr>
+</thead>
 
-  <tbody>
-    <% @useraccounts.each do |useraccount| %>
-      <tr>
-        <td><%= useraccount.name %></td>
-        <td><%= useraccount.email %></td>
-        <td><%= useraccount.shop %></td>
-        <td><%= useraccount.insuserid %></td>
-        <td><%= link_to 'Show', useraccount %></td>
-        <td><%= link_to 'Edit', edit_useraccount_path(useraccount) %></td>
-        <td><%= link_to 'Destroy', useraccount, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+<tbody>
+  <% @useraccounts.each do |useraccount| %>
+    <tr>
+      <td><%= useraccount.name %></td>
+      <td><%= useraccount.email %></td>
+      <td><%= useraccount.shop %></td>
+      <td><%= useraccount.insuserid %></td>
+    </tr>
+  <% end %>
+</tbody>
 </table>
 
-<br>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-6">
+  <h3>Последние счета</h3>
+<table class="table">
+<thead class="thead-light">
+  <tr>
+    <th>Номер счета</th>
+    <th>Период продления</th>
+    <th>Сумма</th>
+    <th>Статус</th>
+  </tr>
+</thead>
 
-<%= link_to 'New Useraccount', new_useraccount_path %>
+<tbody>
+  <% Invoice.all.limit(5).each do |invoice| %>
+    <tr>
+      <td><%= link_to invoice.id , invoice %></td>
+      <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
+      <td><%= invoice.sum %></td>
+      <td><%= invoice.status %></td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+<%= link_to 'Новый счет', new_invoice_path, class: 'btn btn-outline-primary mt-2'  %>
+</div>
+<div class="col">
+</div>
+</div>

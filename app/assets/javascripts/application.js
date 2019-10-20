@@ -15,3 +15,9 @@
 //= require bootstrap
 //= require cocoon
 //= require_tree .
+
+$(document).ready(function(){
+  if ($('#new_user').length > 0){
+    $('.navbar').css('display','none');
+  }
+});

@@ -1,0 +1,55 @@
+  <p>
+    <strong>ИНН:</strong>
+    <%= @company.inn %>
+  </p>
+
+  <p>
+    <strong>КПП:</strong>
+    <%= @company.kpp %>
+  </p>
+
+  <p>
+    <strong>Название:</strong>
+    <%= @company.title %>
+  </p>
+
+  <p>
+    <strong>Юр адрес:</strong>
+    <%= @company.uraddress %>
+  </p>
+
+  <p>
+    <strong>Факт адрес:</strong>
+    <%= @company.factaddress %>
+  </p>
+
+  <p>
+    <strong>ОГРН:</strong>
+    <%= @company.ogrn %>
+  </p>
+
+  <p>
+    <strong>ОКПО:</strong>
+    <%= @company.okpo %>
+  </p>
+
+  <p>
+    <strong>БИК:</strong>
+    <%= @company.bik %>
+  </p>
+
+  <p>
+    <strong>Название банка:</strong>
+    <%= @company.banktitle %>
+  </p>
+
+  <p>
+    <strong>Рассчетный счет:</strong>
+    <%= @company.bankaccount %>
+  </p>
+
+
+<div class="col-2 btn-group mt-5">
+  <%= link_to 'Редактировать', edit_company_path(@company), class: 'btn btn-success'%>
+  <%= link_to 'Назад', useraccounts_path, class: 'btn btn-outline-primary' %>
+</div>

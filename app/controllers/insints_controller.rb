@@ -1,5 +1,5 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user! , except: [:install, :uninstall, :login]
+  before_action :authenticate_user! , except: [:install, :uninstall, :login, :addizb, :getizb, :deleteizb]
   before_action :set_insint, only: [:show, :edit, :update, :destroy]
 
   # GET /insints
@@ -72,10 +72,14 @@ class InsintsController < ApplicationController
       email = save_subdomain+"@mail.ru"
       puts save_subdomain
       user = User.create(:name => params[:insales_id], :subdomain => save_subdomain, :password => save_subdomain, :password_confirmation => save_subdomain, :email => email)
-      puts user.id
+      user.valid_from = user.created_at
+      user.valid_until = user.created_at + 7.days
+      user.save
+      #puts user.id
       secret_key = 'my_test_secret_key'
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
-      Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
+      insint_new = Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
+      Insint.setup_ins_shop(insint_new.id)
       head :ok
     end
   end
@@ -115,6 +119,68 @@ class InsintsController < ApplicationController
       end
     end
   end
+
+  def addizb
+    @insint = Insint.find_by_subdomen(params[:host])
+    saved_subdomain = "insales"+@insint.insalesid.to_s
+    Apartment::Tenant.switch!(saved_subdomain)
+    @user = User.find_by_subdomain(saved_subdomain)
+    if @user.present?
+      if @user.valid_until <= Date.today
+        client = Client.find_by_clientid(params[:client_id])
+        if client.present?
+          izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
+          client.update_attributes(:izb_productid => izb_productid )
+        else
+          Client.create(:clientid => params[:client_id], :izb_productid => params[:product_id])
+        end
+      end
+    end
+    head :ok
+  end
+
+  def getizb
+    @insint = Insint.find_by_subdomen(params[:host])
+    saved_subdomain = "insales"+@insint.insalesid.to_s
+    Apartment::Tenant.switch!(saved_subdomain)
+    @user = User.find_by_subdomain(saved_subdomain)
+    if @user.present?
+      if @user.valid_until <= Date.today
+        client = Client.find_by_clientid(params[:client_id])
+        if client.present?
+          render :json=> {:success=>true, :products =>client.izb_productid}
+        else
+          render :json=> {:success=>false, :message=>"нет такого клиента"}, :status=>422
+        end
+      end
+    end
+  end
+
+  def deleteizb
+    @insint = Insint.find_by_subdomen(params[:host])
+    saved_subdomain = "insales"+@insint.insalesid.to_s
+    Apartment::Tenant.switch!(saved_subdomain)
+    @user = User.find_by_subdomain(saved_subdomain)
+    if @user.present?
+      if @user.valid_until <= Date.today
+        client = Client.find_by_clientid(params[:client_id])
+        if client.present?
+          products = client.izb_productid
+          if products.include?(params[:product_id])
+            ecxlude_string = []
+            ecxlude_string.push(params[:product_id])
+            products = ( client.izb_productid.split(',') - ecxlude_string ).uniq.join(',')
+            puts products
+            client.update_attributes( :izb_productid => products )
+            render :json=> {:success=>true}
+          else
+            render :json=> {:success=>false, :message=>"нет такого товара"}, :status=>422
+          end
+        end
+      end
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
