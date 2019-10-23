@@ -87,26 +87,26 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
 
-  #   config.action_mailer.smtp_settings = {
-  #   tls: true,
-  #   address: "smtp.yandex.com",
-  #   port: 465,
-  #   domain: "yandex.ru",
-  #   authentication: "login",
-  #   enable_starttls_auto: true,
-  #   user_name: '',
-  #   password: ''
-  # 	}
-  config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
-    domain: "teletri.ru",
+    config.action_mailer.smtp_settings = {
+    tls: true,
+    address: "smtp.yandex.com",
+    port: 465,
+    domain: "yandex.ru",
     authentication: "login",
     enable_starttls_auto: true,
-    user_name: "advt@teletri.ru",
-    password: "advt@teletri.ru",
-    openssl_verify_mode: "none"
-  }
+    user_name: 'info@k-comment.ru',
+    password: 'k-comment'
+  	}
+  # config.action_mailer.smtp_settings = {
+  #   address: "smtp.gmail.com",
+  #   port: 587,
+  #   domain: "teletri.ru",
+  #   authentication: "login",
+  #   enable_starttls_auto: true,
+  #   user_name: "advt@teletri.ru",
+  #   password: "advt@teletri.ru",
+  #   openssl_verify_mode: "none"
+  # }
 
     config.action_mailer.default_url_options = { host: 'http://k-comment.ru'}
 
