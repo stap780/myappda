@@ -108,8 +108,19 @@ class InsintsController < ApplicationController
         if user_account.present?
           name = params[:user_id]+params[:shop]
           user_account.update_attributes(:shop => params[:shop], :email => params[:user_email], :insuserid => params[:user_id], :name => name)
-          sign_in(:user, @user)
-          redirect_to after_sign_in_path_for(@user)
+          puts @user.valid_until
+          if @user.valid_until <= Date.today
+            puts "время работы истекло - ставим плюс 1 час чтобы клиент сформировал себе счет на оплату"
+            @user.valid_until = Date.today
+            @user.save
+            sign_in(:user, @user)
+            # redirect_to after_sign_in_path_for(@user)
+            redirect_to invoice_path_for(@user), :notice => 'Оплаченный период истёк. Сервис не работает для Ваших клиентов. Пожалуйста оплатите сервис.'
+          else
+            sign_in(:user, @user)
+            redirect_to after_sign_in_path_for(@user)
+            # sign_in_and_redirect(:user, @user)
+          end
         else
           name = params[:user_id]+params[:shop]
           user_account = Useraccount.create(:shop => params[:shop], :email => params[:user_email], :insuserid => params[:user_id], :name => name)

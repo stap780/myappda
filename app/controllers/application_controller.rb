@@ -15,14 +15,14 @@ class ApplicationController < ActionController::Base
   private
 
   def after_sign_in_path_for(resource_or_scope)
-    puts resource_or_scope.subdomain
+    puts resource_or_scope.subdomain + "это из ApplicationController"
     dashboard_index_url(subdomain: resource_or_scope.subdomain)
   end # after_sign_in_path_for
 
 
-  def after_sign_out_path_for(resource_or_scope)
-    root_url(subdomain: '')
-  end # after_sign_out_path_for
+  def invoice_path_for(resource_or_scope)
+    invoices_url(subdomain: resource_or_scope.subdomain)
+  end # invoice_path_for
 
 
   def redirect_to_subdomain
