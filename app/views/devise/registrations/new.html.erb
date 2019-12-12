@@ -1,24 +1,60 @@
-<div class="row">
-  <div class="offset-sm-2 col-sm-8 col-12">
-    <div class="jumbotron">
-      <h2 class="display-4">Sign up to K-comment</h2>
-      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <%= f.error_notification %>
-        <%= devise_error_messages! %>
-        <div class="form-inputs">
-          <%= f.input :email, autofocus: true %>
-          <%= f.input :password, hint: "(#{@minimum_password_length} characters minimum)" %>
-          <%= f.input :password_confirmation %>
-          <%= f.input :name %>
-          <%= f.input :subdomain %>
-        </div>
-        <div class="form-actions clearfix">
-          <%= f.submit "Sign up", class: 'btn btn-success float-right' %>
-        </div>
-      <% end %>
-      <p class="mt-2">
-        <%= render "devise/shared/links" %>
-      </p>
-    </div>
+<style type="text/css">
+  body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+  }
+
+  .form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+  }
+  .form-signin .checkbox,
+  .form-signin .form-signin-heading {
+    margin-bottom: 10px;
+  }
+  .form-signin .checkbox {
+    font-weight: normal;
+  }
+  .form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .form-signin .form-control:focus {
+    z-index: 2;
+  }
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin #user_password_confirmation {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .form-signin #user_subdomain {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+</style>
+
+<div class="container">
+
+  <%= render partial: 'form' %>
+  <div class="form-signin">
+    <%= render "devise/shared/links" %>
   </div>
+
 </div>

@@ -1,0 +1,12 @@
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), :html => { class: 'form-signin' }) do |f| %>
+<h2 class="form-signin-heading"><%= t('.sign_up', :default => "Регистрация") %></h2>
+  <%= f.error_notification %>
+  <%= devise_error_messages! %>
+    <%= f.input_field :email, autofocus: true , class: 'form-control', placeholder: "Email"  %>
+    <%= f.input_field :password, class: 'form-control' , placeholder: "Password - (#{@minimum_password_length} characters minimum)"    %>
+    <%= f.input_field :password_confirmation, class: 'form-control' , placeholder: "Password confirmation"     %>
+    <%= f.input_field :name, class: 'form-control' , placeholder: "Name"   %>
+    <%= f.input_field :subdomain ,  class: 'form-control' , placeholder: "Subdomain"   %>
+
+    <%= f.submit t('.sign_up', :default => "Поехали"), class: 'btn btn-success' %>
+<% end %>
