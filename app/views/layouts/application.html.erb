@@ -61,7 +61,7 @@
 
 
 
-    <div class="container-fluid">
+    <div class="container-fluid <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>p-5<% end %>">
       <%= yield %>
     </div>
 
@@ -86,16 +86,16 @@
             <h5>Меню</h5>
             <ul class="list-unstyled text-small">
               <li>
-                <a class="text-muted" href="#service">О сервисе</a>
+                <a class="text-muted" href="/#service">О сервисе</a>
               </li>
               <li>
-                <a class="text-muted" href="#setup">Настройка</a>
+                <a class="text-muted" href="/index-setup">Настройка</a>
               </li>
               <li>
-                <a class="text-muted" href="#price">Стоимость</a>
+                <a class="text-muted" href="/#price">Стоимость</a>
               </li>
               <li>
-                <a class="text-muted" href="#o-nas">О нас</a>
+                <a class="text-muted" href="/#o-nas">О нас</a>
               </li>
             </ul>
           </div>
