@@ -7,4 +7,11 @@ class HomeController < ApplicationController
   # GET /homes.json
   def index
   end # index
+
+  def index_setup
+  end
+
+  def show
+    render template: "home/#{params[:page]}"
+  end
 end # class

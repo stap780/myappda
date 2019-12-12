@@ -7,7 +7,7 @@ worker_processes 4
 timeout 30
 
 before_fork do |server, worker|
-  old_pid = "/var/www/microsweepstakes/current/tmp/pids/unicorn.pid.oldbin"
+  old_pid = "/var/www/myappda/current/tmp/pids/unicorn.pid.oldbin"
   if old_pid != server.pid
     begin
     sig = (worker.nr + 1) >= server.worker_processes ? :QUIT : :TTOU

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :payplans
 
   root to: 'home#index'
+  get "/index-setup" => "home#index_setup"
 
   get '/insints/install' , to: 'insints#install'
   get '/insints/uninstall' , to: 'insints#uninstall'

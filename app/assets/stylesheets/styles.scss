@@ -1,29 +1,45 @@
 .body-main {
-  margin-top:20px;
+  // margin-top:20px;
 }
+
 .container-fluid {
-    padding-top: 15px;
+  // padding-top: 15px;
 }
+
+.index-header {
+  border-bottom: 1px solid #1abc9c;
+}
+
+footer {
+  border-top: 1px solid #1abc9c;
+}
+
 .payplan-wrapper {
-    max-width: 960px;
-    margin: 0 auto;
+  max-width: 960px;
+  margin: 0 auto;
 }
-.invoice_payplan, .invoice_payertype, .invoice_paymenttype {
+
+.invoice_payertype,
+.invoice_paymenttype,
+.invoice_payplan {
   -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-flow: row wrap;
-    flex-flow: row wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-    display: flex;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  display: flex;
 }
-.invoice_payplan .radio, .invoice_payertype .radio , .invoice_paymenttype .radio{
+
+.invoice_payertype .radio,
+.invoice_paymenttype .radio,
+.invoice_payplan .radio {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-flex: 1;
-  -ms-flex: 1 0 0%;
-  flex: 1 0 0%;
+  -ms-flex: 1 0 0;
+  flex: 1 0 0;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
@@ -35,29 +51,37 @@
   background-color: #fff;
   background-clip: border-box;
   border: 1px solid rgba(0,0,0,.125);
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
   padding: 10px;
 }
-.invoice_payplan .radio input , .invoice_payertype .radio input , .invoice_paymenttype .radio input {
-    margin-right: 10px;
+
+.invoice_payertype .radio input,
+.invoice_paymenttype .radio input,
+.invoice_payplan .radio input {
+  margin-right: 10px;
 }
+
 .dropdown-user {
-text-align: center;
-min-width: 5rem;
+  text-align: center;
+  min-width: 5rem;
 }
+
 .container-fluid {
-    width: 100%;
-     padding-right: 0px;
-     padding-left: 0px;
+  width: 100%;
+  padding-right: 0;
+  padding-left: 0;
 }
+
 .bg-primary {
-    background-color: #1abc9c!important;
+  background-color: #1abc9c!important;
 }
+
 .page-section {
-    padding: 6rem 0;
+  padding: 6rem 0;
 }
+
 .carousel-inner {
-    border: 1px solid #1abc9c;
-    border-radius: 5px;
+  border: 1px solid #1abc9c;
+  border-radius: 5px;
 }
