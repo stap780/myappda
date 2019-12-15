@@ -110,7 +110,7 @@ class InsintsController < ApplicationController
           user_account.update_attributes(:shop => params[:shop], :email => params[:user_email], :insuserid => params[:user_id], :name => name)
           puts @user.valid_until
           if @user.valid_until <= Date.today
-            puts "время работы истекло - ставим плюс 1 час чтобы клиент сформировал себе счет на оплату"
+            puts "время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату"
             @user.valid_until = Date.today
             @user.save
             sign_in(:user, @user)
@@ -137,17 +137,21 @@ class InsintsController < ApplicationController
     Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
     if @user.present?
-      if @user.valid_until <= Date.today
+      if Date.today < @user.valid_until
         client = Client.find_by_clientid(params[:client_id])
         if client.present?
           izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
           client.update_attributes(:izb_productid => izb_productid )
+          render :json=> {:success=>true, :message=>"товар добавлен в избранное"}
         else
           Client.create(:clientid => params[:client_id], :izb_productid => params[:product_id])
+          render :json=> {:success=>true, :message=>"товар добавлен в избранное"}
         end
+      else
+        render :json=> {:error=>false, :message=>"истёк срок оплаты сервиса, товары не добавляются"}
       end
     end
-    head :ok
+    # head :ok
   end
 
   def getizb
@@ -156,14 +160,16 @@ class InsintsController < ApplicationController
     Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
     if @user.present?
-      if @user.valid_until <= Date.today
+      # if Date.today < @user.valid_until
         client = Client.find_by_clientid(params[:client_id])
         if client.present?
           render :json=> {:success=>true, :products =>client.izb_productid}
         else
           render :json=> {:success=>false, :message=>"нет такого клиента"}, :status=>422
         end
-      end
+      # else
+      #   render :json=> {:success=>true, :message=>"истёк срок оплаты сервиса"}
+      # end
     end
   end
 

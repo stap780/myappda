@@ -54,11 +54,13 @@ def self.add_snippet(insint_id, theme_id)
         "dataType": "json"
       }).done(function( data ) {
         console.log( data );
-        alert("Товар добавлен в избранное");
+        alert(data.message);
       }).fail(function( jqxhr, textStatus, error ) {
         var err = textStatus + ", " + error;
         console.log( "Request Failed: " + err );
-      });
+      }).error(function(data ) {
+          alert(data.message);
+        });
     });
 
   });

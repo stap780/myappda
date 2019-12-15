@@ -6,7 +6,8 @@
 <div class="row mt-3">
   <div class="col">
     <h3>Регистрация <small><%= current_user.name%> (<%= current_user.subdomain%>)</small></h3>
-  <p>Оплачено до <%= current_user.valid_until %></p>
+    <p>Оплачен до <%= @pay_period %></p>
+  <p>Работает до <%= current_user.valid_until %></p>
   <p><b>Название магазина:</b> <%= @ins_title %></p>
   <p><b>Телефон:</b> <%= @ins_phone %></p>
 </div>
@@ -68,6 +69,7 @@
     <th>Период продления</th>
     <th>Сумма</th>
     <th>Статус</th>
+    <th>Оплачен</th>
   </tr>
 </thead>
 
@@ -78,6 +80,7 @@
       <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
       <td><%= invoice.sum %></td>
       <td><%= invoice.status %></td>
+      <td><%= invoice.payments[0].paymentdate %></td>
     </tr>
   <% end %>
 </tbody>

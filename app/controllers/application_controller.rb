@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   private
 
   def after_sign_in_path_for(resource_or_scope)
-    puts resource_or_scope.subdomain + "это из ApplicationController"
+    puts resource_or_scope.subdomain + " - это из ApplicationController - after_sign_in_path_for"
     dashboard_index_url(subdomain: resource_or_scope.subdomain)
   end # after_sign_in_path_for
 
@@ -32,7 +32,6 @@ class ApplicationController < ActionController::Base
       host = request.host_with_port.sub!("#{request.subdomain}", subdomain)
       redirect_to "http://#{host}#{request.path}"
     end
-
   end # redirect_to_subdomain
 
 

@@ -1,28 +1,43 @@
+<div class="row">
+  <div class="col-2">
+    <h1>Клиенты</h1>
+    <p>Всего - <%= Client.count%></p>
+  </div>
+  <div class="col-2">
 
-<h1>Clients</h1>
+  </div>
+  <%= search_form_for @search, html: {class: 'form-inline col-3'}  do |f|%>
+    <div class="form-group">
+      <%= f.search_field :clientid_cont_all, placeholder: 'ID', class: "form-control input-sm"%>
+      <%= f.submit 'Поиск', class: 'btn btn-light' %>
+      <%= link_to 'Сбросить',clients_path, class: 'btn btn-outline-secondary' %>
+    </div>
+  <% end %>
+</div>
 
-<table>
-  <thead>
+<div class="table-responsive">
+<table class="table table-hover table-condensed table-sm">
+  <thead class="thead-light">
     <tr>
-      <th>Clientid</th>
-      <th>Izb productid</th>
-      <th colspan="3"></th>
+      <th>ID клиента</th>
+      <th>ФИО</th>
+      <th>Товары в избранном</th>
+      <th colspan="1"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @clients.each do |client| %>
+    <% @full_clients.each do |client| %>
       <tr>
-        <td><%= client.clientid %></td>
-        <td><%= client.izb_productid %></td>
-        <td><%= link_to 'Show', client %></td>
-        <td><%= link_to 'Edit', edit_client_path(client) %></td>
-        <td><%= link_to 'Destroy', client, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= client['clientid'] %></td>
+        <td><%= client['fio'] %></td>
+        <td><%= client['izb_productid'] %></td>
+        <td><%= link_to '<i class="fa fa-eye" aria-hidden="true"></i>'.html_safe, client_path(:id => client['id'], :fio =>  client['fio']) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
+</div>
 
-<%= link_to 'New Client', new_client_path %>
+	<%= will_paginate @clients %>

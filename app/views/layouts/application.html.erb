@@ -24,6 +24,9 @@
         <li class="nav-item <%= 'active' if current_page?(dashboard_index_path) %>">
           <a class="nav-link" href="<%= dashboard_index_path %>">Главная</a>
         </li>
+        <li class="nav-item <%= 'active' if current_page?(clients_path) %>">
+          <a class="nav-link" href="<%= clients_path %>">Клиенты и Товары</a>
+        </li>
         <!-- Dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Настройки</a>
@@ -65,7 +68,7 @@
       <%= yield %>
     </div>
 
-    <% unless current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(new_user_password_url) %>
+    <% unless current_page?(user_session_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(new_user_password_url) or current_page?(edit_user_password_url) %>
     <footer class="pt-4 pt-md-5">
       <div class="container">
         <div class="row">

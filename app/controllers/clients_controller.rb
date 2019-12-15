@@ -4,12 +4,68 @@ class ClientsController < ApplicationController
   # GET /clients
   # GET /clients.json
   def index
-    @clients = Client.all
+    # @clients = Client.all
+    @search = Client.ransack(params[:q])
+    @search.sorts = 'id desc' if @search.sorts.empty?
+    @clients = @search.result.paginate(page: params[:page], per_page: 30)
+
+    fio = []
+    insint = current_user.insints.first
+    if insint.present?
+      @clients.each do |client|
+      arr = []
+      uri = "http://"+"#{insint.subdomen}"+"/admin/clients/"+client.clientid+".json"
+      auth = 'Basic ' + Base64.encode64( 'k-comment:'+"#{insint.password}" ).chomp
+      # puts uri
+      RestClient.get( uri, :Authorization => auth, :content_type => :json, :accept => :json) { |response, request, result, &block|
+              case response.code
+              when 200
+                data = JSON.parse(response)
+                arr.push(client.id, data['name']+" "+data['surname'])
+              when 404
+                arr.push(client.id, "")
+              else
+                response.return!(&block)
+              end
+              }
+      fio.push(arr)
+      end
+      fioHash = Hash[fio]
+      @full_clients = @clients.map{|client| client.attributes.merge({'fio' => fioHash[client.id]})}
+    else
+        @full_clients = @clients
+    end
+
+puts @full_clients
+
+
   end
 
   # GET /clients/1
   # GET /clients/1.json
   def show
+    @fio = params["fio"]
+    pr_datas = []
+    insint = current_user.insints.first
+      @client.izb_productid.split(',').each do |pr|
+        uri = "http://"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
+        auth = 'Basic ' + Base64.encode64( 'k-comment:'+"#{insint.password}" ).chomp
+        RestClient.get( uri, :Authorization => auth, :content_type => :json, :accept => :json) { |response, request, result, &block|
+                case response.code
+                when 200
+                  data = JSON.parse(response)
+                  save_data = pr+","+data['title']+","+data['permalink']+","+data['images'][0]['small_url']+","+data['variants'][0]['price']
+                  pr_datas.push(save_data)
+                when 404
+                  save_data = pr+","+","+","+","
+                  pr_datas.push(save_data)
+                else
+                  response.return!(&block)
+                end
+                }
+      end
+      @client_products = pr_datas
+
   end
 
   # GET /clients/new
