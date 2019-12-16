@@ -11,7 +11,7 @@ class Users::SessionsController < Devise::SessionsController
   def create
       @user = User.find_by_email(params[:user][:email])
       if @user.present?
-        if @user.valid_until <= Date.today
+        if @user.valid_until <= Date.today or @user.valid_until == nil
           puts "время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату"
           @user.valid_until = Date.today
           @user.save
