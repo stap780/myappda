@@ -196,7 +196,7 @@ def self.add_page_izb(insint_id, theme_id)
         //  console.log( "удаляем" );
         //  console.log( data );
         //   console.log( "удаляем" );
-          $(".products-favorite form[data-product-id="+prodId+]").parent().remove();
+          $(".products-favorite form[data-product-id="+prodId+"]").parent().remove();
 
         }).fail(function( jqxhr, textStatus, error ) {
           var err = textStatus + ", " + error;
