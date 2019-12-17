@@ -48,7 +48,7 @@ def self.add_snippet(insint_id, theme_id)
         }
       });
 
-      var url = "http://k-comment.ru:3000/insints/addizb"
+      var url = "http://k-comment.ru/insints/addizb"
       $.ajax({
         "url": url,
         "data": { host: host, client_id: clientId, product_id: productId },
@@ -145,7 +145,7 @@ def self.add_page_izb(insint_id, theme_id)
           }
         });
 
-        var url = "http://k-comment.ru:3000/insints/getizb"
+        var url = "http://k-comment.ru/insints/getizb"
         var products;
         $.ajax({
           "url": url,
@@ -188,7 +188,7 @@ def self.add_page_izb(insint_id, theme_id)
          e.preventDefault();
          var prodId = $(this).data("favorites-trigger");
           $.ajax({
-          "url": "http://k-comment.ru:3000/insints/deleteizb",
+          "url": "http://k-comment.ru/insints/deleteizb",
           "async": false,
           "data": { host: host, client_id: clientId, product_id: prodId },
           "dataType": "json"
