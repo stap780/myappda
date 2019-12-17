@@ -165,7 +165,7 @@ class InsintsController < ApplicationController
         if client.present?
           render :json=> {:success=>true, :products =>client.izb_productid}
         else
-          render :json=> {:success=>false, :message=>"нет такого клиента"}, :status=>422
+          render :json=> {:error=>false, :message=>"нет такого клиента"}
         end
       # else
       #   render :json=> {:success=>true, :message=>"истёк срок оплаты сервиса"}
@@ -189,9 +189,9 @@ class InsintsController < ApplicationController
             products = ( client.izb_productid.split(',') - ecxlude_string ).uniq.join(',')
             puts products
             client.update_attributes( :izb_productid => products )
-            render :json=> {:success=>true}
+            render :json=> {:success=>true, :message=>"товар удалён"}
           else
-            render :json=> {:success=>false, :message=>"нет такого товара"}, :status=>422
+            render :json=> {:error=>false, :message=>"нет такого товара"}
           end
         end
       end
