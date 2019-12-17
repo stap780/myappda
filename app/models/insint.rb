@@ -120,7 +120,7 @@ def self.add_page_izb(insint_id, theme_id)
       );
       if (_merge < 100) {
         sale =
-          "<div class="stiker stiker-sale">" +
+          "<div class=&quot;stiker stiker-sale&quot;>" +
           "<span>" +
           "скидка " +
           _merge +
@@ -196,7 +196,7 @@ def self.add_page_izb(insint_id, theme_id)
         //  console.log( "удаляем" );
         //  console.log( data );
         //   console.log( "удаляем" );
-          $(".products-favorite form[data-product-id=""+prodId+""]").parent().remove();
+          $(".products-favorite form[data-product-id="+prodId+]").parent().remove();
 
         }).fail(function( jqxhr, textStatus, error ) {
           var err = textStatus + ", " + error;
