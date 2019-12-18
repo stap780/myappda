@@ -179,10 +179,11 @@ class InsintsController < ApplicationController
     Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
     if @user.present?
-      if @user.valid_until <= Date.today
+      
         client = Client.find_by_clientid(params[:client_id])
         if client.present?
           products = client.izb_productid
+          puts products
           if products.include?(params[:product_id])
             ecxlude_string = []
             ecxlude_string.push(params[:product_id])
@@ -194,7 +195,7 @@ class InsintsController < ApplicationController
             render :json=> {:error=>false, :message=>"нет такого товара"}
           end
         end
-      end
+
     end
   end
 

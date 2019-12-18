@@ -201,6 +201,8 @@ def self.add_page_izb(insint_id, theme_id)
         }).fail(function( jqxhr, textStatus, error ) {
           var err = textStatus + ", " + error;
         //  console.log( "Request Failed: " + err );
+        }).error(function(data ) {
+          alert(data.message);
         });
 
        });
