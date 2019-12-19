@@ -62,7 +62,7 @@ def self.add_snippet(insint_id, theme_id)
         "data": { host: host, client_id: clientId, product_id: productId },
         "dataType": "json"
       }).done(function( data ) {
-        console.log('дата', data );
+        console.log("дата", data );
         alert(data.message);
  		_this.hide();
         _this.next().show();
@@ -107,8 +107,8 @@ def self.add_snippet(insint_id, theme_id)
          var arrProd =  products.split(",");
          $.each(arrProd, function(key, value) {
            console.log("товар", value)
-           $('[data-izb-add='+value+']').hide();
-           $('[data-izb-delete='+value+']').show();
+           $("[data-izb-add=""+value+""]"").hide();
+           $("[data-izb-delete="+value+"]").show();
             var products_url = "/product_by_id/"+value+"";
               $.ajax({
                   url: products_url,
@@ -143,7 +143,7 @@ def self.add_snippet(insint_id, theme_id)
 
             if($(".products-favorite .row").children().length) {
             } else {
-              $(".js-favorite").html("<div style="text-align: center;" class="notice">В избранном нет товаров</div>");             
+              $(".js-favorite").html("<div style="text-align: center;" class="notice">В избранном нет товаров</div>");
             }
 
         }).fail(function( jqxhr, textStatus, error ) {
