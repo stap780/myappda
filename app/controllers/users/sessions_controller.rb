@@ -13,11 +13,15 @@ class Users::SessionsController < Devise::SessionsController
       if @user.present?
         if  @user.valid_until.nil? || @user.valid_until <= Date.today
           puts "время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату"
-          @user.valid_until = Date.today
-          @user.save
+          @user.update_attributes("valid_until" => Date.today)
           sign_in(:user, @user)
-          # flash[:notice] = "#{ @user.email } время работы истекло."
-          redirect_to invoice_path_for(@user), :notice => 'Оплаченный период истёк. Сервис не работает для Ваших клиентов. Пожалуйста оплатите сервис.'
+            if @user.subdomain == 'ketago' || @user.subdomain == 'twog'
+              puts "админ вошёл - "+"#{@user.subdomain}"
+              redirect_to after_sign_in_path_for(@user)
+            else
+              # flash[:notice] = "#{ @user.email } время работы истекло."
+              redirect_to invoice_path_for(@user), :notice => 'Оплаченный период истёк. Сервис не работает для Ваших клиентов. Пожалуйста оплатите сервис.'
+            end
         else
           super
         end

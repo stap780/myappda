@@ -5,12 +5,12 @@ class ApplicationController < ActionController::Base
   # Every logged in user should be redirected to their own subdomain
   before_action :redirect_to_subdomain
   before_action :allow_cross_domain_ajax
+  helper_method :current_admin
 
   def allow_cross_domain_ajax
       headers['Access-Control-Allow-Origin'] = '*'
       headers['Access-Control-Request-Method'] = 'GET, POST, OPTIONS'
   end
-
 
   private
 
@@ -55,4 +55,13 @@ class ApplicationController < ActionController::Base
 
     "http://#{subdomain}.#{host}#{request.path}"
   end # app_url
+
+
+  def current_admin
+    if current_user.present?
+      current_user.subdomain == "ketago" || current_user.subdomain == "twog"
+    end
+  end
+
+
 end # class

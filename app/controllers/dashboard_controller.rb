@@ -13,4 +13,5 @@ class DashboardController < ApplicationController
     @count_izb = izb_product_string.split(',').count
 
   end # index
+  
 end # index

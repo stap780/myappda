@@ -7,7 +7,10 @@ class PaymentsController < ApplicationController
   # GET /payments
   # GET /payments.json
   def index
-    @payments = Payment.all
+    # @payments = Payment.all
+    @search = Payment.ransack(params[:q])
+    @search.sorts = 'id desc' if @search.sorts.empty?
+    @payments = @search.result.paginate(page: params[:page], per_page: 30)
   end
 
   # GET /payments/1

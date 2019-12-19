@@ -4,7 +4,7 @@
       <h1 class="float-left">Главная</h1>
     </div>
     <p>
-      Добро пожаловать <%=current_user.name %>!
+      Добро пожаловать <strong><% if current_admin %> администратор - <%else%><%end%></strong><%=current_user.name %>!
     </p>
     <p>
       В вашем магазине товаров <%= @product_count %> шт
@@ -14,4 +14,6 @@
     </p>
 
   </div>
+
+
 </div>
