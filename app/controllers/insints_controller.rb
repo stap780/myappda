@@ -89,6 +89,7 @@ class InsintsController < ApplicationController
     saved_subdomain = "insales"+params[:insales_id]
     @user = User.find_by_subdomain(saved_subdomain)
     if @insint.present?
+      Insint.delete_ins_file(@insint.id)
       puts "удаляем пользователя insint - ""#{@insint.id}"
       @insint.delete
       @user.delete
@@ -179,7 +180,7 @@ class InsintsController < ApplicationController
     Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
     if @user.present?
-      
+
         client = Client.find_by_clientid(params[:client_id])
         if client.present?
           products = client.izb_productid

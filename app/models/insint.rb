@@ -184,7 +184,7 @@ def self.add_snippet_to_layout(insint_id, theme_id)
   resp_get_footer_content = RestClient.get(uri)
   data = JSON.parse(resp_get_footer_content)
   footer_content = data['content']
-  new_footer_content = footer_content+' {%include "k-comment-product" %}'
+  new_footer_content = footer_content+' <span class="k-comment-product">{% include "k-comment-product" %}</span>'
   data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
   uri_new_footer = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@footer_id}"+".xml"
   resp_change_footer_content = RestClient.put uri_new_footer, data, :accept => :xml, :content_type => "application/xml"
@@ -486,6 +486,54 @@ def self.add_page_izb(insint_id, theme_id)
   ]]></content><type>Asset::Template</type></asset>'
 
   response = RestClient.post url, data, :accept => :xml, :content_type => "application/xml"
+
+end
+
+def self.delete_ins_file(insint_id)
+  insint = Insint.find(insint_id)
+  saved_subdomain = "insales"+insint.insalesid.to_s
+  Apartment::Tenant.switch!(saved_subdomain)
+
+  uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes.json"
+  response = RestClient.get(uri)
+  data = JSON.parse(response)
+  data.each do |d|
+    if d['is_published'] == true
+      @theme_id = d['id']
+    end
+  end
+
+  theme_id = @theme_id
+
+  response = RestClient.get(url)
+  data = JSON.parse(response)
+  data.each do |d|
+    if d['inner_file_name'] == "page.izb.liquid"
+      page_izb_id = d['id']
+      url_page = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{page_izb_id}"+".json"
+      resp_get_footer_content = RestClient.delete(url_page)
+    end
+    if d['inner_file_name'] == "k-comment-product.liquid"
+      snippet_product_id = d['id']
+      url_snip = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{snippet_product_id}"+".json"
+      resp_get_footer_content = RestClient.delete(url_snip)
+    end
+    if d['inner_file_name'] == "footer.liquid"
+      footer_id = d['id']
+      url_footer = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".json"
+      resp = RestClient.get(url_footer)
+      data = JSON.parse(resp)
+      doc = Nokogiri::HTML(data['content'])
+      doc.css('.k-comment-product').remove
+
+      new_footer_content = doc.inner_html.gsub('<html><body>','').gsub('</body></html>','')
+      new_data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
+      url_footer_xml = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".xml"
+      remove_our_include = RestClient.put url_footer_xml, new_data, :accept => :xml, :content_type => "application/xml"
+    end
+
+  end
+
 
 end
 
