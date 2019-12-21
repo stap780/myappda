@@ -28,6 +28,8 @@ Rails.application.routes.draw do
     end
     resources :companies
     get '/dashboard/index' , to: 'dashboard#index'
+    get '/dashboard/users', to: 'dashboard#users'
+    delete '/dashboard/user_destroy', to: 'dashboard#user_destroy'
   end # constraints
 
   devise_for :users, controllers: {

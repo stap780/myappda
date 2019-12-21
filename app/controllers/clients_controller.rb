@@ -36,8 +36,7 @@ class ClientsController < ApplicationController
         @full_clients = @clients
     end
 
-puts @full_clients
-
+# puts @full_clients
 
   end
 

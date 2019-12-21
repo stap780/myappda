@@ -13,5 +13,20 @@ class DashboardController < ApplicationController
     @count_izb = izb_product_string.split(',').count
 
   end # index
-  
+
+  def users
+    @q = User.ransack(params[:q])
+    @q.sorts = 'id desc' if @q.sorts.empty?
+    @users = @q.result.paginate(page: params[:page], per_page: 30)
+  end
+
+  def user_destroy
+    @user = User.find(params[:user_id])
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to dashboard_users_url, notice: 'User was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
 end # index
