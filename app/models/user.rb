@@ -25,10 +25,6 @@ class User < ApplicationRecord
     Apartment::Tenant.drop(subdomain)
   end # delete_tenant
 
-  def self.delete_user_tenant
-    Apartment::Tenant.drop(subdomain)
-  end # delete_tenant
-
 
 
 end # class

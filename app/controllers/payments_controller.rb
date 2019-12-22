@@ -55,7 +55,11 @@ class PaymentsController < ApplicationController
           @payment.user.update_attributes(valid_until: new_valid_until)
           Apartment::Tenant.switch!(@payment.user.subdomain)
           invoice = Invoice.find(@payment.invoice_id)
-          invoice.update_attributes(:status => 'Оплачен')
+          invoice.update_attributes(:status => 'Оплачен', :payplan_id => @payment.payplan_id, :sum => @payment.payplan.price)
+        else
+          Apartment::Tenant.switch!(@payment.user.subdomain)
+          invoice = Invoice.find(@payment.invoice_id)
+          invoice.update_attributes(:status => 'Не оплачен', :payplan_id => @payment.payplan_id, :sum => @payment.payplan.price)
         end
         format.html { redirect_to @payment, notice: 'Payment was successfully updated.' }
         format.json { render :show, status: :ok, location: @payment }

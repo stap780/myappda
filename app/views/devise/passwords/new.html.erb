@@ -1,8 +1,6 @@
 
       <style type="text/css">
         body {
-          padding-top: 40px;
-          padding-bottom: 40px;
           background-color: #eee;
         }
 
@@ -37,7 +35,7 @@
 
       </style>
 
-      <div class="container">
+    <div class="form-wrap">
         <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), :html => { class: 'form-signin', method: :post  }) do |f| %>
         <h2 class="form-signin-heading"><%= t('.sign_up', :default => "Забыли пароль?") %></h2>
           <%= f.error_notification %>
@@ -46,7 +44,7 @@
 
             <%= f.submit t('.sign_up', :default => "Отправить инструкции"), class: 'btn btn-success' %>
         <% end %>
-      <div class="form-signin">
+      <div class="form-sign-help">
         <%= render "devise/shared/links" %>
       </div>
 

@@ -10,6 +10,8 @@
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application'%>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.css"/>
   </head>
   <body class="<% if current_page?(root_url) or current_page?(index_setup_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url)%>body-main<%end%>">
     <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>
@@ -70,9 +72,15 @@
   </nav>
   <% end %>
 
-
-
     <div class="container-fluid <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>p-5<% end %>">
+<div class="alert-devise">
+      <% flash.each do |key, value| %>
+         <div class="<%= flash_class(key) %> fade show">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <%= value %>
+         </div>
+      <% end %>
+</div>
       <%= yield %>
     </div>
 

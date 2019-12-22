@@ -1,7 +1,6 @@
 <style type="text/css">
   body {
-    padding-top: 40px;
-    padding-bottom: 40px;
+
     background-color: #eee;
   }
 
@@ -38,13 +37,15 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
+  footer {
+    display: none;
+  }
 </style>
 
-<div class="container">
 
+<div class="form-wrap">
   <%= render partial: 'form' %>
-  <div class="form-signin">
-    <%= render "devise/shared/links" %>
+  <div class="form-sign-help">
+  <%= render "devise/shared/links" %>
   </div>
-
 </div>

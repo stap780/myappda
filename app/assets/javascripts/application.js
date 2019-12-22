@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require popper
 //= require bootstrap
 //= require cocoon
 //= require_tree .
@@ -28,5 +29,12 @@ $(document).ready(function(){
 	$('#q_updated_at_datebegin').datepicker({ format: 'yyyy-mm-dd', autoclose: true,  language: "ru", todayHighlight: true});
 	$('#q_updated_at_dateend').datepicker({ format: 'yyyy-mm-dd', autoclose: true,  language: "ru", todayHighlight: true });
 	$('#q_valid_until_dateend').datepicker({ format: 'yyyy-mm-dd', autoclose: true,  language: "ru", todayHighlight: true });
+  $('#payment_paymentdate').datepicker({ format: 'yyyy-mm-dd', autoclose: true,  language: "ru", todayHighlight: true });
+
+  setTimeout(function() {
+      $(".alert").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+      });
+  }, 2000);
 
 });

@@ -1,5 +1,5 @@
 <h1>Редактировать</h1>
-
+<h4>(Пользователь - <%= @payment.user.subdomain%>, счет номер - <%= @payment.invoice_id%>)</h4>
 <%= render 'form', payment: @payment %>
 
 <%# link_to 'Show', @payment %>

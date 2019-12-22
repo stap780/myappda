@@ -74,7 +74,7 @@
 </thead>
 
 <tbody>
-  <% Invoice.all.limit(5).each do |invoice| %>
+  <% Invoice.all.order(:id).limit(5).each do |invoice| %>
     <tr>
       <td><%= link_to invoice.id , invoice %></td>
       <td><%= invoice.payplan.period if invoice.payplan != nil%></td>

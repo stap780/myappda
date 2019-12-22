@@ -23,6 +23,7 @@ class Users::SessionsController < Devise::SessionsController
               redirect_to invoice_path_for(@user), :notice => 'Оплаченный период истёк. Сервис не работает для Ваших клиентов. Пожалуйста оплатите сервис.'
             end
         else
+          puts "мы здесь"
           super
         end
       end
