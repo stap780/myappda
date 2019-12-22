@@ -17,7 +17,16 @@
 //= require_tree .
 
 $(document).ready(function(){
+
   if ($('#new_user').length > 0){
     $('.navbar').css('display','none');
   }
+
+
+	$('#q_created_at_datebegin').datepicker({ format: 'yyyy-mm-dd', autoclose: true,  language: "ru", todayHighlight: true });
+	$('#q_created_at_dateend').datepicker({ format: 'yyyy-mm-dd', autoclose: true,  language: "ru", todayHighlight: true });
+	$('#q_updated_at_datebegin').datepicker({ format: 'yyyy-mm-dd', autoclose: true,  language: "ru", todayHighlight: true});
+	$('#q_updated_at_dateend').datepicker({ format: 'yyyy-mm-dd', autoclose: true,  language: "ru", todayHighlight: true });
+	$('#q_valid_until_dateend').datepicker({ format: 'yyyy-mm-dd', autoclose: true,  language: "ru", todayHighlight: true });
+
 });

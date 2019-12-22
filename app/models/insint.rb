@@ -103,11 +103,11 @@ def self.add_snippet(insint_id, theme_id)
               Products.getList(_.map(product, "id"));
           });
 
-      if(products && products !='') {
+      if(products && products != " ") {
          var arrProd =  products.split(",");
          $.each(arrProd, function(key, value) {
            console.log("товар", value)
-           $("[data-izb-add=""+value+""]"").hide();
+           $("[data-izb-add="+value+"]").hide();
            $("[data-izb-delete="+value+"]").show();
             var products_url = "/product_by_id/"+value+"";
               $.ajax({
@@ -143,7 +143,7 @@ def self.add_snippet(insint_id, theme_id)
 
             if($(".products-favorite .row").children().length) {
             } else {
-              $(".js-favorite").html("<div style="text-align: center;" class="notice">В избранном нет товаров</div>");
+               $(".js-favorite").html("<div style=&quot;text-align: center;&quot; class=&quot;notice&quot;>В избранном нет товаров</div>");
             }
 
         }).fail(function( jqxhr, textStatus, error ) {

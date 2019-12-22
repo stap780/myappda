@@ -7,7 +7,15 @@
       <p>Выберите период продления:</p>
       <%= f.association :payplan, as: :radio_buttons, label_method: lambda { |plan| "Период продления #{plan.period}. Стоимость -  #{plan.price} руб" }, value_method: :id, :checked => 2, label: false, input_html: { class: 'payplan-item-wrapper' }, wrapper_html: { class: 'text-center mt-3 mb-3'} %>
       <p>Выберите способ оплаты:</p>
-      <%= f.input :paymenttype, as: :radio_buttons, collection: [['invoice', 'Счёт для юр лиц'],['creditcard', 'Кредитные карты'], ['paypal', 'Paypal']], label_method: :second, value_method: :first, label: false, :checked => 'creditcard' %>
+      <% credit_text = '<img style="max-width: 120px;" src="/visa-master.png" alt="Visa master"></br>(Webmoney, Сбербанк Онлайн, Apple Pay, Яндекс.Деньги, Альфа-Клик)' %>
+      <%= f.input :paymenttype, as: :radio_buttons, collection: [['invoice', 'Счёт для юр лиц'],['creditcard', 'Кредитные карты'], ['paypal', 'Paypal']], label_method:
+      lambda { |paymenttype|
+        if paymenttype[0] != 'creditcard'
+        "#{paymenttype[1]}"
+        else
+        "#{credit_text}".html_safe
+        end
+      }, value_method: :first, disabled: 'paypal', label: false, :checked => 'creditcard' %>
     </div>
 
 

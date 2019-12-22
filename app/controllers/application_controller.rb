@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
 
   def current_admin
     if current_user.present?
-      current_user.subdomain == "ketago" || current_user.subdomain == "twog" || current_user.subdomain == "teletri"
+      current_user.subdomain == "ketago" || current_user.subdomain == "twog"
     end
   end
 
