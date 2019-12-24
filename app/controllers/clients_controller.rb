@@ -14,10 +14,12 @@ class ClientsController < ApplicationController
     if insint.present?
       @clients.each do |client|
       arr = []
-      uri = "http://"+"#{insint.subdomen}"+"/admin/clients/"+client.clientid+".json"
-      auth = 'Basic ' + Base64.encode64( 'k-comment:'+"#{insint.password}" ).chomp
+      # uri = "http://"+"#{insint.subdomen}"+"/admin/clients/"+client.clientid+".json"
+      uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/"+client.clientid+".json"
+      # auth = 'Basic ' + Base64.encode64( 'k-comment:'+"#{insint.password}" ).chomp
       # puts uri
-      RestClient.get( uri, :Authorization => auth, :content_type => :json, :accept => :json) { |response, request, result, &block|
+      # RestClient.get( uri, :Authorization => auth, :content_type => :json, :accept => :json) { |response, request, result, &block|
+      RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
               case response.code
               when 200
                 data = JSON.parse(response)
