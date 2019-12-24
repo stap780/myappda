@@ -23,7 +23,11 @@ class ClientsController < ApplicationController
               case response.code
               when 200
                 data = JSON.parse(response)
-                arr.push(client.id, data['name']+" "+data['surname'] if !data['surname'].nil? )
+                if data['surname'].nil?
+                  arr.push(client.id, data['name'])
+                else
+                arr.push(client.id, data['name']+" "+data['surname'])
+                end
               when 404
                 arr.push(client.id, "")
               else
