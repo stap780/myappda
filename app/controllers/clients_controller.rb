@@ -61,7 +61,11 @@ class ClientsController < ApplicationController
                   data = JSON.parse(response)
                   title = data['title'] || ''
                   permalink = data['permalink'] || ''
-                  image = data['images'][0]['small_url'] || ''
+                  if data['images'] != nil
+                    image = data['images'][0]['small_url']
+                  else
+                    image = ''
+                  end
                   price = data['variants'][0]['price'] || ''
                   save_data = pr+","+title+","+permalink+","+image+","+price
                   pr_datas.push(save_data)
