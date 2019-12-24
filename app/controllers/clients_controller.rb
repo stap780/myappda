@@ -23,11 +23,11 @@ class ClientsController < ApplicationController
               case response.code
               when 200
                 data = JSON.parse(response)
-                if data['surname'].nil?
-                  arr.push(client.id, data['name'])
-                else
-                arr.push(client.id, data['name']+" "+data['surname'])
-                end
+                name = data['name'] || ''
+                surname = data['surname'] || ''
+
+                arr.push(client.id, name+" "+surname)
+
               when 404
                 arr.push(client.id, "")
               else
@@ -59,7 +59,11 @@ class ClientsController < ApplicationController
                 case response.code
                 when 200
                   data = JSON.parse(response)
-                  save_data = pr+","+data['title']+","+data['permalink']+","+data['images'][0]['small_url']+","+data['variants'][0]['price']
+                  title = data['title'] || ''
+                  permalink = data['permalink'] || ''
+                  image = data['images'][0]['small_url'] || ''
+                  price = data['variants'][0]['price'] || ''
+                  save_data = pr+","+title+","+permalink+","+image+","+price
                   pr_datas.push(save_data)
                 when 404
                   save_data = pr+","+","+","+","
