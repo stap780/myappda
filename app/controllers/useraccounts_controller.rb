@@ -8,15 +8,31 @@ class UseraccountsController < ApplicationController
     @useraccounts = Useraccount.all
     insint = current_user.insints.first
     if insint.present?
-      uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
-      response = RestClient.get(uri)
-      data = JSON.parse(response)
-      @ins_title = data['title']
-      @ins_phone = data['phone']
+      if insint.inskey.present?
+        uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
+        puts uri
+        response = RestClient.get(uri)
+        data = JSON.parse(response)
+        @ins_title = data['title']
+        @ins_phone = data['phone']
+      else
+        uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
+        puts uri
+        response = RestClient.get(uri)
+        data = JSON.parse(response)
+        @ins_title = data['title']
+        @ins_phone = data['phone']
+      end
+
+      # uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
+      # response = RestClient.get(uri)
+      # data = JSON.parse(response)
+      # @ins_title = data['title']
+      # @ins_phone = data['phone']
     end
 
     invoice = Invoice.where(:status => "Оплачен").last
-    @pay_period = invoice.updated_at.to_date + invoice.payplan.period.split(' ')[0].to_i.months || '' if invoice.present? 
+    @pay_period = invoice.updated_at.to_date + invoice.payplan.period.split(' ')[0].to_i.months || '' if invoice.present?
   end
 
   # GET /useraccounts/1

@@ -2,29 +2,34 @@
 <table>
   <thead>
     <tr>
-      <th>Subdomen</th>
+      <th>Inskey</th>
       <th>Password</th>
+      <th>Subdomen</th>
       <th>Insalesid</th>
       <th>User</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>Статус интегр</th>
     </tr>
   </thead>
   <tbody>
     <% @insints.each do |insint| %>
       <tr>
         <td>
-          <%= insint.subdomen %>
+          <%= insint.inskey %>
         </td>
         <td>
           <%= insint.password %>
         </td>
         <td>
+          <%= insint.subdomen %>
+        </td>
+        <td>
           <%= insint.insalesid %>
         </td>
         <td>
-          <%= insint.user_id %>
+          <%= insint.user.name %>
+        </td>
+        <td>
+          <%= insint.status %>
         </td>
         <td>
           <%= link_to 'Show', insint %>

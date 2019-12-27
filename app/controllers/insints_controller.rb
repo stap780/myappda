@@ -1,5 +1,5 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user! , except: [:install, :uninstall, :login, :addizb, :getizb, :deleteizb]
+  before_action :authenticate_user! , except: [:install, :uninstall, :login, :addizb, :getizb, :deleteizb, :setup_script]
   before_action :set_insint, only: [:show, :edit, :update, :destroy]
 
   # GET /insints
@@ -7,6 +7,11 @@ class InsintsController < ApplicationController
   def index
     @insints = current_user.insints
   end
+
+  def adminindex
+    @insints = Insint.order(:id)
+  end
+
 
   # GET /insints/1
   # GET /insints/1.json
@@ -134,7 +139,11 @@ class InsintsController < ApplicationController
 
   def addizb
     @insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = "insales"+@insint.insalesid.to_s
+    if @insint.inskey.present?
+      saved_subdomain = @insint.subdomain
+    else
+      saved_subdomain = "insales"+@insint.insalesid.to_s
+    end
     Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
     if @user.present?
@@ -200,6 +209,23 @@ class InsintsController < ApplicationController
     end
   end
 
+  def setup_script
+    Insint.setup_ins_shop(params[:insint_id])
+    respond_to do |format|
+        # format.html { :controller => 'useraccount', :action => 'index', notice: 'Скрипты добавлены в магазин' }
+        format.html { redirect_to useraccounts_url, notice: 'Скрипты добавлены в магазин' }
+    end
+  end
+
+  def delete_script
+    Insint.delete_ins_file(params[:insint_id])
+    respond_to do |format|
+        # format.html { :controller => 'useraccount', :action => 'index', notice: 'Скрипты добавлены в магазин' }
+        format.html { redirect_to useraccounts_url, notice: 'Скрипты удалены из магазин' }
+    end
+  end
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -209,6 +235,6 @@ class InsintsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def insint_params
-      params.require(:insint).permit(:subdomen, :password, :insalesid, :user_id)
+      params.require(:insint).permit(:subdomen, :password, :insalesid, :user_id, :inskey, :status)
     end
 end

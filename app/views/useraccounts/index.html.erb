@@ -12,6 +12,26 @@
     <p><b>Телефон:</b> <%= @ins_phone %></p>
 </div>
 <div class="col">
+  <h3>Интеграция insales</h3>
+  <p>Состояние: <%if current_user.insints.first.present?%>настроена<%else%>не настроена<% end %>  <% if current_user.insints.first.status %> и файлы добавлены в магазин<%else%> и файлы не добавлены в магазин<%end%></p>
+  <% if current_user.insints.first.present? %>
+    <% if current_user.insints.first.inskey.present?%>
+      <%= link_to 'Редактировать интеграцию', edit_insint_path(current_user.insints.first.id), class: 'btn btn-outline-primary mb-3'  %>
+      <% if current_user.insints.first.status == false ||  current_user.insints.first.status.nil? %>
+      <%= link_to 'Добавить файлы', setup_script_insints_path(:insint_id => current_user.insints.first.id), class: 'btn btn-outline-primary mb-3'  %>
+      <% else %>
+      <%= link_to 'Удалить файлы', delete_script_insints_path(:insint_id => current_user.insints.first.id), class: 'btn btn-outline-danger mb-3'  %>
+      <% end %>
+    <% else %>
+      <% if current_user.insints.first.subdomain.present?%>
+        <p>Регистрация настроена автоматически</p>
+      <% else %>
+        <%= link_to 'Добавить интеграцию', new_insint_path, class: 'btn btn-outline-primary mb-3'  %>
+      <% end %>
+    <% end %>
+    <% else %>
+    <%= link_to 'Добавить интеграцию', new_insint_path, class: 'btn btn-outline-primary mb-3'  %>
+  <% end %>
   <h3>Юр лица</h3>
 <table class="table">
 <thead class="thead-light">

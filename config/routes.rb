@@ -10,15 +10,32 @@ Rails.application.routes.draw do
   resources :payplans
 
   root to: 'home#index'
-  get "/index-setup" => "home#index_setup"
-
-  get '/insints/install' , to: 'insints#install'
-  get '/insints/uninstall' , to: 'insints#uninstall'
-  get '/insints/login' , to: 'insints#login'
-  get '/insints/addizb' , to: 'insints#addizb'
-  get '/insints/getizb' , to: 'insints#getizb'
-  get '/insints/deleteizb' , to: 'insints#deleteizb'
+  get "/index-setup", to: "home#index_setup"
   get '/insints' , to: 'home#index'
+  resources :insints do
+    collection do
+      get :install
+      get :uninstall
+      get :login
+      get :addizb
+      get :getizb
+      get :deleteizb
+      get :adminindex
+      get :setup_script
+      get :delete_script
+    end
+  end
+
+  # get '/insints/install' , to: 'insints#install'
+  # get '/insints/uninstall' , to: 'insints#uninstall'
+  # get '/insints/login' , to: 'insints#login'
+  # get '/insints/addizb' , to: 'insints#addizb'
+  # get '/insints/getizb' , to: 'insints#getizb'
+  # get '/insints/deleteizb' , to: 'insints#deleteizb'
+  # get '/insints' , to: 'home#index'
+  # get '/insints/new' , to: 'insints#new'
+  # get '/insints/:id/edit' , to: 'insints#edit'
+  # get '/insints/adminindex' , to: 'insints#adminindex'
 
   constraints SubdomainConstraint do
     resources :useraccounts

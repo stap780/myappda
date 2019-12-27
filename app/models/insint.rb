@@ -1,33 +1,62 @@
 class Insint < ApplicationRecord
 
 belongs_to :user
+validates :subdomen, uniqueness: true
+validates :subdomen, presence: true
+
 
 def self.setup_ins_shop(insint_id)
   insint = Insint.find(insint_id)
-  saved_subdomain = "insales"+insint.insalesid.to_s
-  Apartment::Tenant.switch!(saved_subdomain)
+  if insint.inskey.present?
+    saved_subdomain = insint.user.subdomain
+    puts saved_subdomain
+    Apartment::Tenant.switch!(saved_subdomain)
 
-  uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes.json"
-  response = RestClient.get(uri)
-  data = JSON.parse(response)
-  data.each do |d|
-    if d['is_published'] == true
-      @theme_id = d['id']
+    uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes.json"
+    response = RestClient.get(uri)
+    data = JSON.parse(response)
+    data.each do |d|
+      if d['is_published'] == true
+        @theme_id = d['id']
+      end
     end
+
+    Insint.add_snippet(insint.id, @theme_id)
+    Insint.add_snippet_to_layout(insint.id, @theme_id)
+    Insint.add_page_izb(insint.id, @theme_id)
+  else
+    saved_subdomain = "insales"+insint.insalesid.to_s
+    Apartment::Tenant.switch!(saved_subdomain)
+
+    uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes.json"
+    response = RestClient.get(uri)
+    data = JSON.parse(response)
+    data.each do |d|
+      if d['is_published'] == true
+        @theme_id = d['id']
+      end
+    end
+
+    Insint.add_snippet(insint.id, @theme_id)
+    Insint.add_snippet_to_layout(insint.id, @theme_id)
+    Insint.add_page_izb(insint.id, @theme_id)
   end
-
-  Insint.add_snippet(insint.id, @theme_id)
-  Insint.add_snippet_to_layout(insint.id, @theme_id)
-  Insint.add_page_izb(insint.id, @theme_id)
-
+  insint.update_attributes(:status => true)
 end
 
 def self.add_snippet(insint_id, theme_id)
   insint = Insint.find(insint_id)
-  saved_subdomain = "insales"+insint.insalesid.to_s
-  Apartment::Tenant.switch!(saved_subdomain)
+  if insint.inskey.present?
+    saved_subdomain = insint.user.subdomain
+    Apartment::Tenant.switch!(saved_subdomain)
 
-  uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.xml"
+    uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.xml"
+  else
+    saved_subdomain = "insales"+insint.insalesid.to_s
+    Apartment::Tenant.switch!(saved_subdomain)
+
+    uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.xml"
+  end
   data = '<?xml version="1.0" encoding="UTF-8"?><asset><name>k-comment-product.liquid</name>
   <content><![CDATA[
     <style>
@@ -168,33 +197,62 @@ end
 
 def self.add_snippet_to_layout(insint_id, theme_id)
   insint = Insint.find(insint_id)
-  saved_subdomain = "insales"+insint.insalesid.to_s
-  Apartment::Tenant.switch!(saved_subdomain)
-  url = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.json"
-  # puts url
-  response = RestClient.get(url)
-  data = JSON.parse(response)
-  data.each do |d|
-    if d['inner_file_name'] == "footer.liquid"
-      @footer_id = d['id']
+  if insint.inskey.present?
+    saved_subdomain = insint.user.subdomain
+    Apartment::Tenant.switch!(saved_subdomain)
+    url = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.json"
+    # puts url
+    response = RestClient.get(url)
+    data = JSON.parse(response)
+    data.each do |d|
+      if d['inner_file_name'] == "footer.liquid"
+        @footer_id = d['id']
+      end
     end
-  end
 
-  uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@footer_id}"+".json"
-  resp_get_footer_content = RestClient.get(uri)
-  data = JSON.parse(resp_get_footer_content)
-  footer_content = data['content']
-  new_footer_content = footer_content+' <span class="k-comment-product">{% include "k-comment-product" %}</span>'
-  data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
-  uri_new_footer = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@footer_id}"+".xml"
-  resp_change_footer_content = RestClient.put uri_new_footer, data, :accept => :xml, :content_type => "application/xml"
+    uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@footer_id}"+".json"
+    resp_get_footer_content = RestClient.get(uri)
+    data = JSON.parse(resp_get_footer_content)
+    footer_content = data['content']
+    new_footer_content = footer_content+' <span class="k-comment-product">{% include "k-comment-product" %}</span>'
+    data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
+    uri_new_footer = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@footer_id}"+".xml"
+    resp_change_footer_content = RestClient.put uri_new_footer, data, :accept => :xml, :content_type => "application/xml"
+  else
+    saved_subdomain = "insales"+insint.insalesid.to_s
+    Apartment::Tenant.switch!(saved_subdomain)
+    url = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.json"
+    # puts url
+    response = RestClient.get(url)
+    data = JSON.parse(response)
+    data.each do |d|
+      if d['inner_file_name'] == "footer.liquid"
+        @footer_id = d['id']
+      end
+    end
+
+    uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@footer_id}"+".json"
+    resp_get_footer_content = RestClient.get(uri)
+    data = JSON.parse(resp_get_footer_content)
+    footer_content = data['content']
+    new_footer_content = footer_content+' <span class="k-comment-product">{% include "k-comment-product" %}</span>'
+    data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
+    uri_new_footer = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@footer_id}"+".xml"
+    resp_change_footer_content = RestClient.put uri_new_footer, data, :accept => :xml, :content_type => "application/xml"
+  end
 end
 
 def self.add_page_izb(insint_id, theme_id)
   insint = Insint.find(insint_id)
-  saved_subdomain = "insales"+insint.insalesid.to_s
-  Apartment::Tenant.switch!(saved_subdomain)
-  url = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.xml"
+  if insint.inskey.present?
+    saved_subdomain = insint.user.subdomain
+    Apartment::Tenant.switch!(saved_subdomain)
+    url = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.xml"
+  else
+    saved_subdomain = "insales"+insint.insalesid.to_s
+    Apartment::Tenant.switch!(saved_subdomain)
+    url = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.xml"
+  end
   data = '<?xml version="1.0" encoding="UTF-8"?><asset><name>page.izb.liquid</name>
   <content><![CDATA[
 
@@ -491,54 +549,100 @@ end
 
 def self.delete_ins_file(insint_id)
   insint = Insint.find(insint_id)
-  saved_subdomain = "insales"+insint.insalesid.to_s
-  Apartment::Tenant.switch!(saved_subdomain)
-  puts "удаляем файлы из магазина"
-  uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes.json"
-  response_theme_id = RestClient.get(uri)
-  data_theme_id = JSON.parse(response_theme_id)
-  data_theme_id.each do |d|
-    if d['is_published'] == true
-      @theme_id = d['id']
+  if insint.inskey.present?
+    saved_subdomain = insint.user.subdomain
+    Apartment::Tenant.switch!(saved_subdomain)
+    puts "удаляем файлы из магазина"
+    uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes.json"
+    response_theme_id = RestClient.get(uri)
+    data_theme_id = JSON.parse(response_theme_id)
+    data_theme_id.each do |d|
+      if d['is_published'] == true
+        @theme_id = d['id']
+      end
+    end
+
+    theme_id = @theme_id
+    uri_delete = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.json"
+    response_delete = RestClient.get(uri_delete)
+    data_delete = JSON.parse(response_delete)
+    data_delete.each do |d|
+      if d['inner_file_name'] == "page.izb.liquid"
+        page_izb_id = d['id']
+        puts "page_izb_id - "+page_izb_id.to_s
+        url_page = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{page_izb_id}"+".json"
+        resp_get_footer_content = RestClient.delete(url_page)
+      end
+      if d['inner_file_name'] == "k-comment-product.liquid"
+        snippet_product_id = d['id']
+        puts "snippet_product_id - "+snippet_product_id.to_s
+        url_snip = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{snippet_product_id}"+".json"
+        resp_get_footer_content = RestClient.delete(url_snip)
+      end
+      #ниже отключил так как в doc.inner_html меняются символы на код html что трудно искать и заменять. проще руками строчку в файле удалить
+      # if d['inner_file_name'] == "footer.liquid"
+      #   footer_id = d['id']
+      #   puts "footer_id - "+footer_id.to_s
+      #   url_footer = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".json"
+      #   resp = RestClient.get(url_footer)
+      #   data = JSON.parse(resp)
+      #   doc = Nokogiri::HTML(data['content'])
+      #   doc.css('.k-comment-product').remove
+      #
+      #   new_footer_content = doc.inner_html.gsub("<html><body>","").gsub("</body></html>","").gsub("%7B%7B%20","{{").gsub("%20%7D%7D","}}")
+      #   new_data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
+      #   url_footer_xml = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".xml"
+      #   remove_our_include = RestClient.put url_footer_xml, new_data, :accept => :xml, :content_type => "application/xml"
+      # end
+    end
+  else
+    saved_subdomain = "insales"+insint.insalesid.to_s
+    Apartment::Tenant.switch!(saved_subdomain)
+    puts "удаляем файлы из магазина"
+    uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes.json"
+    response_theme_id = RestClient.get(uri)
+    data_theme_id = JSON.parse(response_theme_id)
+    data_theme_id.each do |d|
+      if d['is_published'] == true
+        @theme_id = d['id']
+      end
+    end
+
+    theme_id = @theme_id
+    uri_delete = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.json"
+    response_delete = RestClient.get(uri_delete)
+    data_delete = JSON.parse(response_delete)
+    data_delete.each do |d|
+      if d['inner_file_name'] == "page.izb.liquid"
+        page_izb_id = d['id']
+        puts "page_izb_id - "+page_izb_id.to_s
+        url_page = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{page_izb_id}"+".json"
+        resp_get_footer_content = RestClient.delete(url_page)
+      end
+      if d['inner_file_name'] == "k-comment-product.liquid"
+        snippet_product_id = d['id']
+        puts "snippet_product_id - "+snippet_product_id.to_s
+        url_snip = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{snippet_product_id}"+".json"
+        resp_get_footer_content = RestClient.delete(url_snip)
+      end
+      #ниже отключил так как в doc.inner_html меняются символы на код html что трудно искать и заменять. проще руками строчку в файле удалить
+      # if d['inner_file_name'] == "footer.liquid"
+      #   footer_id = d['id']
+      #   puts "footer_id - "+footer_id.to_s
+      #   url_footer = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".json"
+      #   resp = RestClient.get(url_footer)
+      #   data = JSON.parse(resp)
+      #   doc = Nokogiri::HTML(data['content'])
+      #   doc.css('.k-comment-product').remove
+      #
+      #   new_footer_content = doc.inner_html.gsub("<html><body>","").gsub("</body></html>","").gsub("%7B%7B%20","{{").gsub("%20%7D%7D","}}")
+      #   new_data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
+      #   url_footer_xml = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".xml"
+      #   remove_our_include = RestClient.put url_footer_xml, new_data, :accept => :xml, :content_type => "application/xml"
+      # end
     end
   end
-
-  theme_id = @theme_id
-  uri_delete = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.json"
-  response_delete = RestClient.get(uri_delete)
-  data_delete = JSON.parse(response_delete)
-  data_delete.each do |d|
-    if d['inner_file_name'] == "page.izb.liquid"
-      page_izb_id = d['id']
-      puts "page_izb_id - "+page_izb_id.to_s
-      url_page = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{page_izb_id}"+".json"
-      resp_get_footer_content = RestClient.delete(url_page)
-    end
-    if d['inner_file_name'] == "k-comment-product.liquid"
-      snippet_product_id = d['id']
-      puts "snippet_product_id - "+snippet_product_id.to_s
-      url_snip = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{snippet_product_id}"+".json"
-      resp_get_footer_content = RestClient.delete(url_snip)
-    end
-    #ниже отключил так как в doc.inner_html меняются символы на код html что трудно искать и заменять. проще руками строчку в файле удалить
-    # if d['inner_file_name'] == "footer.liquid"
-    #   footer_id = d['id']
-    #   puts "footer_id - "+footer_id.to_s
-    #   url_footer = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".json"
-    #   resp = RestClient.get(url_footer)
-    #   data = JSON.parse(resp)
-    #   doc = Nokogiri::HTML(data['content'])
-    #   doc.css('.k-comment-product').remove
-    #
-    #   new_footer_content = doc.inner_html.gsub("<html><body>","").gsub("</body></html>","").gsub("%7B%7B%20","{{").gsub("%20%7D%7D","}}")
-    #   new_data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
-    #   url_footer_xml = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".xml"
-    #   remove_our_include = RestClient.put url_footer_xml, new_data, :accept => :xml, :content_type => "application/xml"
-    # end
-
-  end
-
-
+  insint.update_attributes(:status => false)
 end
 
 end
