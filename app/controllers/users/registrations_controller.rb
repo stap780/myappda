@@ -10,9 +10,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super
+    current_user.valid_from = current_user.created_at
+    current_user.valid_until = current_user.created_at + 7.days
+    current_user.save
+  end
 
   # GET /resource/edit
   # def edit
