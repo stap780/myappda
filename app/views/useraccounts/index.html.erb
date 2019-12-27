@@ -18,12 +18,12 @@
     <% if current_user.insints.first.inskey.present?%>
       <%= link_to 'Редактировать интеграцию', edit_insint_path(current_user.insints.first.id), class: 'btn btn-outline-primary mb-3'  %>
       <% if current_user.insints.first.status == false ||  current_user.insints.first.status.nil? %>
-      <%= link_to 'Добавить файлы', setup_script_insints_path(:insint_id => current_user.insints.first.id), class: 'btn btn-outline-primary mb-3'  %>
+        <%= link_to 'Добавить файлы', setup_script_insints_path(:insint_id => current_user.insints.first.id), class: 'btn btn-outline-primary mb-3'  %>
       <% else %>
-      <%= link_to 'Удалить файлы', delete_script_insints_path(:insint_id => current_user.insints.first.id), class: 'btn btn-outline-danger mb-3'  %>
+        <%= link_to 'Удалить файлы', delete_script_insints_path(:insint_id => current_user.insints.first.id), class: 'btn btn-outline-danger mb-3'  %>
       <% end %>
     <% else %>
-      <% if current_user.insints.first.subdomain.present?%>
+      <% if current_user.insints.first.subdomen.present?%>
         <p>Регистрация настроена автоматически</p>
       <% else %>
         <%= link_to 'Добавить интеграцию', new_insint_path, class: 'btn btn-outline-primary mb-3'  %>
