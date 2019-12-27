@@ -13,7 +13,7 @@
 </div>
 <div class="col">
   <h3>Интеграция insales</h3>
-  <p>Состояние: <%if current_user.insints.first.present?%>настроена<%else%>не настроена<% end %>  <% if !current_user.insints.first.status.nil? && current_user.insints.first.status %> и файлы добавлены в магазин<%else%> и файлы не добавлены в магазин<%end%></p>
+  <p>Состояние: <%if current_user.insints.first.present?%>настроена<%else%>не настроена<% end %>  <% if current_user.insints.first.present? && current_user.insints.first.status %> и файлы добавлены в магазин<%else%> и файлы не добавлены в магазин<%end%></p>
   <% if current_user.insints.first.present? %>
     <% if current_user.insints.first.inskey.present?%>
       <%= link_to 'Редактировать интеграцию', edit_insint_path(current_user.insints.first.id), class: 'btn btn-outline-primary mb-3'  %>
