@@ -140,7 +140,7 @@ class InsintsController < ApplicationController
   def addizb
     @insint = Insint.find_by_subdomen(params[:host])
     if @insint.inskey.present?
-      saved_subdomain = @insint.subdomain
+      saved_subdomain = @insint.user.subdomain
     else
       saved_subdomain = "insales"+@insint.insalesid.to_s
     end
@@ -166,7 +166,11 @@ class InsintsController < ApplicationController
 
   def getizb
     @insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = "insales"+@insint.insalesid.to_s
+    if @insint.inskey.present?
+      saved_subdomain = @insint.user.subdomain
+    else
+      saved_subdomain = "insales"+@insint.insalesid.to_s
+    end
     Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
     if @user.present?
@@ -185,7 +189,11 @@ class InsintsController < ApplicationController
 
   def deleteizb
     @insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = "insales"+@insint.insalesid.to_s
+    if @insint.inskey.present?
+      saved_subdomain = @insint.user.subdomain
+    else
+      saved_subdomain = "insales"+@insint.insalesid.to_s
+    end
     Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
     if @user.present?
