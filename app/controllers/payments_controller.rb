@@ -49,7 +49,7 @@ class PaymentsController < ApplicationController
     respond_to do |format|
       if @payment.update(payment_params)
         if @payment.status == 'Оплачен'
-          old_valid_until = @payment.user.valid_until || Date.today
+          old_valid_until = @payment.user.valid_until # || Date.today
           add_period = @payment.payplan.period.split(' ')[0]
           new_valid_until = old_valid_until + "#{add_period}".to_i.months
           @payment.user.update_attributes(valid_until: new_valid_until)
