@@ -9,7 +9,11 @@ class InsintsController < ApplicationController
   end
 
   def adminindex
-    @insints = Insint.order(:id)
+    # @insints = Insint.order(:id)
+    @search = Insint.ransack(params[:q])
+    @search.sorts = 'id desc' if @search.sorts.empty?
+    @insints = @search.result.paginate(page: params[:page], per_page: 30)
+
   end
 
 
