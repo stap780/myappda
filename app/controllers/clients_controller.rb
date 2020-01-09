@@ -13,22 +13,26 @@ class ClientsController < ApplicationController
     insint = current_user.insints.first
     if insint.present?
       @clients.each do |client|
-      arr = []
-      uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/"+client.clientid+".json"
-      RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
-              case response.code
-              when 200
-                data = JSON.parse(response)
-                name = data['name'] || ''
-                surname = data['surname'] || ''
-                arr.push(client.id, name+" "+surname)
-              when 404
-                arr.push(client.id, "")
-              else
-                response.return!(&block)
-              end
-              }
-      fio.push(arr)
+        arr = []
+        if insint.inskey.present?
+          uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/"+client.clientid+".json"
+        else
+          uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/"+client.clientid+".json"
+        end
+        RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
+                case response.code
+                when 200
+                  data = JSON.parse(response)
+                  name = data['name'] || ''
+                  surname = data['surname'] || ''
+                  arr.push(client.id, name+" "+surname)
+                when 404
+                  arr.push(client.id, "")
+                else
+                  response.return!(&block)
+                end
+                }
+        fio.push(arr)
       end
       fioHash = Hash[fio]
       @full_clients = @clients.map{|client| client.attributes.merge({'fio' => fioHash[client.id]})}
@@ -47,8 +51,13 @@ class ClientsController < ApplicationController
     pr_datas = []
     insint = current_user.insints.first
       @client.izb_productid.split(',').each do |pr|
-        uri = "http://"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
-        auth = 'Basic ' + Base64.encode64( 'k-comment:'+"#{insint.password}" ).chomp
+        if insint.inskey.present?
+          uri = "http://"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
+          auth = 'Basic ' + Base64.encode64( "#{insint.inskey}"+":"+"#{insint.password}" ).chomp
+        else
+          uri = "http://"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
+          auth = 'Basic ' + Base64.encode64( 'k-comment:'+"#{insint.password}" ).chomp
+        end
         RestClient.get( uri, :Authorization => auth, :content_type => :json, :accept => :json) { |response, request, result, &block|
                 case response.code
                 when 200

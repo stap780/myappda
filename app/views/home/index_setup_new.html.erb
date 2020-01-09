@@ -1,0 +1,66 @@
+<div class="index-header d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white box-shadow">
+  <h4 class="my-0 mr-md-auto font-weight-normal">
+    <strong>K-comment</strong><br>
+    <small>сервис избранных товаров</small>
+  </h4>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" href="/#service">О сервисе</a>
+    <a class="p-2 text-dark" href="/index-setup">Настройка</a>
+    <a class="p-2 text-dark" href="/#price">Стоимость</a>
+<a class="p-2 text-dark" href="/#o-nas">О нас</a>
+  </nav>
+  <%= link_to "Log in", new_session_path('user'), class: 'btn btn-primary' %>
+  <%= link_to "Sign up", new_registration_path('user'), class: 'btn btn-outline-primary' %>
+</div>
+<section class="page-section mb-0" id="setup">
+  <div class="container">
+
+    <!-- About Section Heading -->
+    <h1 class="display-4 text-center text-uppercase pb-4">Настройка</h1>
+
+    <div class="container">
+	  <h1>Инструкция по установке и настройке приложения</h1>
+	  <h2>Установка приложения</h2>
+	  <ol>
+		<li>Авторизуйтесь в бэк-офисе своего магазина, перейдите в раздел Приложения, затем – Центр приложений, найдите приложение "K-comment" и нажмите кнопку Установить.</li>
+	  </ol>
+	  <h2>Настройка приложения</h2>
+	  <ol>
+	  <li>
+		Настройка кнопки в карточке товара
+		<ul>
+			<li>Перейдите в раздел <b>Дизайн</b>.</li>
+			<li>Перейдите в редактирование установленной темы <b>(Редактор HTML/CSS/JS)</b> и выберите сниппет <b>product_form.liquid</b>.</li>
+			<li>В коде найдите строчку  <code>{% unless settings.product_compare_hide %}</code>.</li>
+			<li>Перед это строчкой, выше вставьте следующий коде
+			<code>
+			{%comment%}избранное{%endcomment%}
+				<div style="margin-top: 20px" class="izb-control">
+					<div class="js-izb-add" data-izb-add="{{ product.id }}" >Добавить в избранное</div>
+					<div class="deleteizb js-izb-delete" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" style="display: none;">Удалить из избранного</div>
+				</div>
+			{%comment%}конец избранное{%endcomment%}
+			</code>
+			</li>
+		</ul>
+
+	  </li>
+	  <li>Настройка страницы для вывода избранных товаров
+		<ul>
+			<li>Перейдите в раздел <b>Контент</b>, <b>Меню и страницы</b>.</li>
+			<li>Создайте новую страницу в разделе <b>"Нет навигации"</b></li>
+			<li>Выберете шаблон <code>page.izb.liquid</code> </li>
+			<li>Сохраните страницу</li>
+			<li>Проверьте, что страница появилась, попробуйте добавить товар в "Избранное".</li>
+			<li>Перейдите на страницу избранного, если там отображаются товары, то все работает правильно.</li>
+			<li>Добавьте ссылку на страницу Избранного в нужное меню.</li>
+		</ul>
+	  </li>
+
+	  <li>При установке другой темы или копии текущей, в нее нужно скопирвать следующие файлы: <code>k-comment-product.liquid, page.izb.liquid </code></li>
+	  </ol>
+
+    </div>
+
+    </div>
+</section>

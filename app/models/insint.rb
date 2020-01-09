@@ -9,7 +9,7 @@ def self.setup_ins_shop(insint_id)
   insint = Insint.find(insint_id)
   if insint.inskey.present?
     saved_subdomain = insint.user.subdomain
-    puts saved_subdomain
+    # puts saved_subdomain
     Apartment::Tenant.switch!(saved_subdomain)
 
     uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes.json"

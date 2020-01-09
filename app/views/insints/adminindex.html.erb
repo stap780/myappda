@@ -1,6 +1,22 @@
-<h1>Listing insints</h1>
-<table>
-  <thead>
+<div class="row">
+  <div class="col-2">
+    <h1>Интеграции</h1>
+  </div>
+  <div class="col-2">
+
+  </div>
+  <%= search_form_for @search, html: {class: 'form-inline col-3'}  do |f|%>
+    <div class="form-group">
+      <%= f.search_field :subdomen_cont, placeholder: 'Домен', class: "form-control input-sm"%>
+      <%= f.submit 'Поиск', class: 'btn btn-light' %>
+      <%= link_to 'Сбросить',adminindex_insints_path, class: 'btn btn-outline-secondary' %>
+    </div>
+  <% end %>
+</div>
+
+<div class="table-responsive">
+<table class="table table-hover table-condensed table-sm">
+  <thead class="thead-light">
     <tr>
       <th>Inskey</th>
       <th>Password</th>
@@ -32,16 +48,15 @@
           <%= insint.status %>
         </td>
         <td>
-          <%= link_to 'Show', insint %>
+          <%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_insint_path(insint) %>
         </td>
         <td>
-          <%= link_to 'Edit', edit_insint_path(insint) %>
-        </td>
-        <td>
-          <%= link_to 'Destroy', insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
+          <%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<br/>
+</div>
+
+	<%= will_paginate @insints %>
