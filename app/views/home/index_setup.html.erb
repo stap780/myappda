@@ -35,28 +35,8 @@
 		<li>
 			Авторизуйтесь в бэк-офисе своего магазина, перейдите в раздел Приложения, затем – Центр приложений, найдите приложение "K-comment" и нажмите кнопку Установить.
 			<br/>
-      <a class="thumbnail" href="#"  data-toggle="modal" data-target="#img1">
-            <img class=" img-thumbnail" src="1.jpg"/>
-      </a>
-      <div class="modal fade" id="img1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                Авторизуйтесь в бэк-офисе своего магазина, перейдите в раздел Приложения, затем – Центр приложений, найдите приложение "K-comment" и нажмите кнопку Установить.
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <img class="img-fluid img-thumbnail"
-                   src="1.jpg"/>
-              </div>
-
-            </div>
-          </div>
-        </div>
+        <img class=" img-thumbnail" src="1.jpg"/>
 		</li>
-
 	  </ol>
 	  <h2 class="h3">Настройка приложения на примере темы "Стиль"</h2>
 	  <ol>
@@ -77,21 +57,22 @@
 
 			</li>
 			<li class="list-group-item">
-        В коде найдите строчку  <pre><code>{% unless settings.product_compare_hide %}</code></pre>.
+        В коде найдите строчку <code>{% unless settings.product_compare_hide %}</code>
 				<br/>
 				<img src="5.jpg" />
 			</li>
 			<li class="list-group-item">После {% endunless %},  вставьте следующий код:
-        <pre>
-			<code>
-			{%comment%}избранное{%endcomment%}
-				<div style="margin-top: 20px" class="izb-control">
-					<button class="js-izb-add" data-izb-add="{{ product.id }}" >Добавить в избранное</button>
-					<button class="deleteizb js-izb-delete" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" style="display: none;">Удалить из избранного</button>
-				</div>
-			{%comment%}конец избранное{%endcomment%}
-			</code>
-      </pre>
+<p></p>
+	     <pre>
+{% comment %} избранное {% endcomment %}
+&lt;div style="margin-top: 20px" class="izb-control"&gt;
+&lt;button class="js-izb-add" data-izb-add="{{ product.id }}">Добавить в избранное&lt;/button&gt;
+&lt;button class="deleteizb js-izb-delete" data-favorites-trigger="{{ product.id }}"
+data-izb-delete="{{ product.id }}" style="display: none;"&gt;Удалить из избранного&lt;/button&gt;
+&lt;/div&gt;
+{% comment %} конец избранное {% endcomment %}
+    </pre>
+
 			</li>
 		</ul>
 
@@ -110,22 +91,21 @@
 				<img src="11.jpg" />
 
 			</li>
-			<li class="list-group-item">В коде найдите строчку <pre> <code>{% if bundle_component and bundle_component.product.variants.size > 1 %}</code></pre>.
+			<li class="list-group-item">В коде найдите строчку  <code>{% if bundle_component and bundle_component.product.variants.size > 1 %}</code>.
 				<br/>
 				<img src="12_1.jpg" />
 			</li>
-			<li class="list-group-item">После   <pre><code>{% endif %}</code></pre> вставьте следующий код:
-
-			<code>
-        {%comment%}избранное{%endcomment%}
+			<li class="list-group-item">После  <code>{% endif %}</code> вставьте следующий код:
+        <p></p>
         <pre>
-           <div class="text-right">
-             <i title="Добавить в избранное" data-izb-add="{{ product.id }}" class="izb-icon js-izb-add fa-heart-o fa"></i>
-             <i title="Удалить из избранного" style="display: none;" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-heart fa"></i>
-           </div>
+{%comment%} избранное {%endcomment%}
+&lt;div class="text-right">
+ &lt;i title="Добавить в избранное" data-izb-add="{{ product.id }}" class="izb-icon js-izb-add fa-heart-o fa">&lt;/i&gt;
+&lt;i title="Удалить из избранного" style="display: none;" data-favorites-trigger="{{ product.id }}"
+data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-heart fa"&gt;&lt;/i&gt;
+&lt;/div&gt;
+{%comment%} конец избранное {%endcomment%}
         </pre>
-     {%comment%}конец избранное{%endcomment%}
-			</code>
 
 			</li>
 		 </ul>
@@ -140,7 +120,7 @@
 				<br/>
 				<img src="7.jpg" />
 			</li>
-			<li class="list-group-item">Выберете шаблон <pre><code>page.izb.liquid</code></pre>
+			<li class="list-group-item">Выберете шаблон <code>page.izb.liquid</code>
 				<br/>
 				<img src="8.jpg" />
 			</li>
@@ -177,15 +157,19 @@
         <img src="20.jpg" />
 			</li>
 			<li class="list-group-item">
-        В коде найдите строчку  <code> {% if account.quick_checkout.enabled %}</code> и перед этой строчкой вставьте следующий код:
-        <code>
-          {%comment%}избранное{%endcomment%}
-            <div style="margin-top: 10px;" class="cell- izb-control">
-              <button class="bttn-reg c_button js-izb-add" data-izb-add="{{ product.id }}">Добавить в избранное</button>
-              <button class="deleteizb bttn-reg c_button js-izb-delete" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" style="display: none;">Удалить из избранного</button>
-            </div>
-      			{%comment%}конец избранное{%endcomment%}
-  			</code>
+        В коде найдите строчку  <code>{% if account.quick_checkout.enabled %}</code> и перед этой строчкой вставьте следующий код:
+        <p></p>
+        <pre>
+
+{%comment%} избранное {%endcomment%}
+&lt;div style="margin-top: 10px;" class="cell- izb-control"&gt;
+&lt;button class="bttn-reg c_button js-izb-add" data-izb-add="{{ product.id }}"&gt;Добавить в избранное&lt;/button&gt;
+&lt;button class="deleteizb bttn-reg c_button js-izb-delete" data-favorites-trigger="{{ product.id }}"
+data-izb-delete="{{ product.id }}" style="display: none;"&gt;Удалить из избранного&lt;/button&gt;
+&lt;/div&gt;
+{%comment%} конец избранное {%endcomment%}
+
+        </pre>
 				<br/>
 				<img src="20.jpg" />
 			</li>
@@ -209,12 +193,16 @@
 				<img src="22.jpg" />
 			</li>
 			<li class="list-group-item">Вставьте следующий код:
-			<code>
-			 {%comment%}избранное{%endcomment%}
-					<i title="Добавить в избранное" data-izb-add="{{ product.id }}" class="izb-icon js-izb-add fa-heart-o fa"></i>
-					<i title="Удалить из избранного" style="display: none;" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-heart fa"></i>
-		   {%comment%}конец избранное{%endcomment%}
-			</code>
+        <p></p>
+      <pre>
+
+{%comment%} избранное {%endcomment%}
+&lt;i title="Добавить в избранное" data-izb-add="{{ product.id }}" class="izb-icon js-izb-add fa-heart-o fa">&lt;/i&gt;
+&lt;i title="Удалить из избранного" style="display: none;" data-favorites-trigger="{{ product.id }}"
+data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-heart fa"&gt;&lt;/i&gt;
+{%comment%} конец избранное {%endcomment%}
+
+      </pre>
 			</li>
 		 </ul>
 	   </li>
@@ -273,14 +261,17 @@
   				<img src="5.jpg" />
   			</li>
   			<li class="list-group-item">После {% endunless %},  вставьте следующий код:
-  			<code>
-  			{%comment%}избранное{%endcomment%}
-  				<div style="margin-top: 20px" class="izb-control">
-  					<button class="js-izb-add" data-izb-add="{{ product.id }}" >Добавить в избранное</button>
-  					<button class="deleteizb js-izb-delete" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" style="display: none;">Удалить из избранного</button>
-  				</div>
-  			{%comment%}конец избранное{%endcomment%}
-  			</code>
+          <p></p>
+<pre>
+{%comment%} избранное {%endcomment%}
+<div style="margin-top: 20px" class="izb-control"&gt;
+&lt;button class="js-izb-add" data-izb-add="{{ product.id }}" >Добавить в избранное&lt;/button&gt;
+&lt;button class="deleteizb js-izb-delete" data-favorites-trigger="{{ product.id }}"
+data-izb-delete="{{ product.id }}" style="display: none;"&gt;Удалить из избранного&lt;/button&gt;
+</div>
+{%comment%} конец избранное {%endcomment%}
+
+</pre>
   			</li>
   		</ul>
 
@@ -304,14 +295,16 @@
   				<img src="12_1.jpg" />
   			</li>
   			<li class="list-group-item">После   <code>{% endif %}</code> вставьте следующий код:
-  			<code>
-          {%comment%}избранное{%endcomment%}
-             <div class="text-right">
-               <i title="Добавить в избранное" data-izb-add="{{ product.id }}" class="izb-icon js-izb-add fa-heart-o fa"></i>
-               <i title="Удалить из избранного" style="display: none;" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-heart fa"></i>
-             </div>
-       {%comment%}конец избранное{%endcomment%}
-  			</code>
+        <pre>
+
+{%comment%} избранное {%endcomment%}
+&lt;div class="text-right">
+&lt;i title="Добавить в избранное" data-izb-add="{{ product.id }}" class="izb-icon js-izb-add fa-heart-o fa">&lt;/i&gt;
+&lt;i title="Удалить из избранного" style="display: none;" data-favorites-trigger="{{ product.id }}"
+data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-heart fa"&gt;&lt;/i&gt;
+&lt;/div>
+{%comment%} конец избранное {%endcomment%}
+        </pre>
   			</li>
   		 </ul>
   	   </li>
