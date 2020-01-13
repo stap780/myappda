@@ -98,7 +98,7 @@ def self.add_snippet(insint_id, theme_id)
 
       }).fail(function( jqxhr, textStatus, error ) {
         var err = textStatus + ", " + error;
-        console.log( "Request Failed: " + err );
+      //  console.log( "Request Failed: " + err );
       }).error(function(data ) {
           alert(data.message);
         });
@@ -124,7 +124,7 @@ def self.add_snippet(insint_id, theme_id)
           "data": { host: host, client_id: clientId },
           "dataType": "json"
         }).done(function( data ) {
-          console.log("что такое",data)
+        //  console.log("что такое",data)
           products = data.products;
           var products_url = "/products_by_id/"+products+".json";
           $.getJSON(products_url).done(function (product) {
@@ -151,7 +151,7 @@ def self.add_snippet(insint_id, theme_id)
         }
         }).fail(function( jqxhr, textStatus, error ) {
           var err = textStatus + ", " + error;
-          console.log( "Request Failed: " + err );
+        // console.log( "Request Failed: " + err );
         });
 
      $("body").on("click",".deleteizb", function(e) {
@@ -164,7 +164,6 @@ def self.add_snippet(insint_id, theme_id)
           "data": { host: host, client_id: clientId, product_id: prodId },
           "dataType": "json"
         }).done(function( data ) {
-
 
           $(".products-favorite form[data-product-id="+prodId+"]").parent().remove();
 		   _this.prev().show();
@@ -186,6 +185,15 @@ def self.add_snippet(insint_id, theme_id)
        });
 
   });
+</script>
+{% else %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".js-izb-add").click(function(e){
+       alert("Пожалуйста, зарегистрируйтесь, чтобы добавить товар в избранное!");
+       return false;
+      });
+    });
 </script>
 {% endif %}
 

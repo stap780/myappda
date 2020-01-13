@@ -16,51 +16,348 @@
   <div class="container">
 
     <!-- About Section Heading -->
-    <h1 class="display-4 text-center text-uppercase pb-4">Настройка</h1>
+    <h1 class="display-4 text-center text-uppercase pb-4 h2">Настройка</h1>
 
     <div class="container">
-	  <h1>Инструкция по установке и настройке приложения</h1>
-	  <h2>Установка приложения</h2>
+	  <h1 class="h2 text-center">Инструкция по установке и настройке приложения</h1>
+	  <ul class="nav nav-pills mb-3 mt-5" id="pills-tab" role="tablist">
+		  <li class="nav-item">
+			<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Установка из магазина приложений InSales</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Установка без магазина приложений InSales</a>
+		  </li>
+	 </ul>
+	 <div class="tab-content" id="pills-tabContent">
+	 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+	  <h2 class="h3">Установка приложения</h2>
 	  <ol>
-		<li>Авторизуйтесь в бэк-офисе своего магазина, перейдите в раздел Приложения, затем – Центр приложений, найдите приложение "K-comment" и нажмите кнопку Установить.</li>
+		<li>
+			Авторизуйтесь в бэк-офисе своего магазина, перейдите в раздел Приложения, затем – Центр приложений, найдите приложение "K-comment" и нажмите кнопку Установить.
+			<br/>
+      <a class="thumbnail" href="#"  data-toggle="modal" data-target="#img1">
+            <img class=" img-thumbnail" src="1.jpg"/>
+      </a>
+      <div class="modal fade" id="img1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                Авторизуйтесь в бэк-офисе своего магазина, перейдите в раздел Приложения, затем – Центр приложений, найдите приложение "K-comment" и нажмите кнопку Установить.
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <img class="img-fluid img-thumbnail"
+                   src="1.jpg"/>
+              </div>
+
+            </div>
+          </div>
+        </div>
+		</li>
+
 	  </ol>
-	  <h2>Настройка приложения</h2>
+	  <h2 class="h3">Настройка приложения на примере темы "Стиль"</h2>
 	  <ol>
 	  <li>
 		Настройка кнопки в карточке товара
-		<ul>
-			<li>Перейдите в раздел <b>Дизайн</b>.</li>
-			<li>Перейдите в редактирование установленной темы <b>(Редактор HTML/CSS/JS)</b> и выберите сниппет <b>product_form.liquid</b>.</li>
-			<li>В коде найдите строчку  <code>{% unless settings.product_compare_hide %}</code>.</li>
-			<li>Перед это строчкой, выше вставьте следующий коде
+		<ul class="mt-3 mb-3 list-group">
+			<li class="list-group-item">
+        Перейдите в раздел <b>Дизайн</b>.
+				<br/>
+				<img src="2.jpg" />
+			</li>
+			<li class="list-group-item">
+        Перейдите в редактирование установленной темы <b>(Редактор HTML/CSS/JS)</b> и выберите сниппет <b>product_form.liquid</b>.
+				<br/>
+				<img src="3.jpg" />
+				<br/>
+				<img src="4.jpg" />
+
+			</li>
+			<li class="list-group-item">
+        В коде найдите строчку  <pre><code>{% unless settings.product_compare_hide %}</code></pre>.
+				<br/>
+				<img src="5.jpg" />
+			</li>
+			<li class="list-group-item">После {% endunless %},  вставьте следующий код:
+        <pre>
 			<code>
 			{%comment%}избранное{%endcomment%}
 				<div style="margin-top: 20px" class="izb-control">
-					<div class="js-izb-add" data-izb-add="{{ product.id }}" >Добавить в избранное</div>
-					<div class="deleteizb js-izb-delete" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" style="display: none;">Удалить из избранного</div>
+					<button class="js-izb-add" data-izb-add="{{ product.id }}" >Добавить в избранное</button>
+					<button class="deleteizb js-izb-delete" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" style="display: none;">Удалить из избранного</button>
 				</div>
 			{%comment%}конец избранное{%endcomment%}
 			</code>
+      </pre>
 			</li>
 		</ul>
 
 	  </li>
+	   <li >
+		Настройка кнопки в каталоге для товаров.
+		 <ul class="mt-3 mb-3 list-group">
+			<li class="list-group-item">Перейдите в раздел <b>Дизайн</b>.
+				<br/>
+				<img src="2.jpg" />
+			</li>
+			<li class="list-group-item">Перейдите в редактирование установленной темы <b>(Редактор HTML/CSS/JS)</b> и выберите сниппет <b>product_card.liquid</b>.
+				<br/>
+				<img src="3.jpg" />
+				<br/>
+				<img src="11.jpg" />
+
+			</li>
+			<li class="list-group-item">В коде найдите строчку <pre> <code>{% if bundle_component and bundle_component.product.variants.size > 1 %}</code></pre>.
+				<br/>
+				<img src="12_1.jpg" />
+			</li>
+			<li class="list-group-item">После   <pre><code>{% endif %}</code></pre> вставьте следующий код:
+
+			<code>
+        {%comment%}избранное{%endcomment%}
+        <pre>
+           <div class="text-right">
+             <i title="Добавить в избранное" data-izb-add="{{ product.id }}" class="izb-icon js-izb-add fa-heart-o fa"></i>
+             <i title="Удалить из избранного" style="display: none;" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-heart fa"></i>
+           </div>
+        </pre>
+     {%comment%}конец избранное{%endcomment%}
+			</code>
+
+			</li>
+		 </ul>
+	   </li>
 	  <li>Настройка страницы для вывода избранных товаров
-		<ul>
-			<li>Перейдите в раздел <b>Контент</b>, <b>Меню и страницы</b>.</li>
-			<li>Создайте новую страницу в разделе <b>"Нет навигации"</b></li>
-			<li>Выберете шаблон <code>page.izb.liquid</code> </li>
-			<li>Сохраните страницу</li>
-			<li>Проверьте, что страница появилась, попробуйте добавить товар в "Избранное".</li>
-			<li>Перейдите на страницу избранного, если там отображаются товары, то все работает правильно.</li>
-			<li>Добавьте ссылку на страницу Избранного в нужное меню.</li>
+		<ul class="mt-3 mb-3 list-group"">
+			<li class="list-group-item">Перейдите в раздел <b>Контент</b>, <b>Меню и страницы</b>.
+				<br/>
+				<img src="6.jpg" />
+			</li>
+			<li class="list-group-item">Создайте новую страницу в разделе <b>"Нет навигации"</b>
+				<br/>
+				<img src="7.jpg" />
+			</li>
+			<li class="list-group-item">Выберете шаблон <pre><code>page.izb.liquid</code></pre>
+				<br/>
+				<img src="8.jpg" />
+			</li>
+			<li class="list-group-item">Сохраните страницу</li>
+			<li class="list-group-item">Проверьте, что страница появилась, попробуйте добавить товар в "Избранное". Не забудьте залогинеться, как пользователь на сайте.
+				<br/>
+				<img src="9.jpg" />
+			</li>
+			<li class="list-group-item">Перейдите на страницу избранного, если там отображаются товары, то все работает правильно.
+				<br/>
+				<img src="10.jpg" />
+			</li>
+			<li class="list-group-item">Добавьте ссылку на страницу Избранного в меню (сверху или снизу).</li>
 		</ul>
 	  </li>
 
 	  <li>При установке другой темы или копии текущей, в нее нужно скопирвать следующие файлы: <code>k-comment-product.liquid, page.izb.liquid </code></li>
 	  </ol>
+    <h2 class="h3">Настройка приложения на примере темы "Fleur"</h2>
+	  <ol class="mt-5">
+	  <li>
+		Настройка кнопки в карточке товара
+		<ul class="mt-3 mb-3 list-group">
+			<li class="list-group-item">
+        Перейдите в раздел <b>Дизайн</b>.
+				<br/>
+				<img src="18.jpg" />
+			</li>
+			<li class="list-group-item">
+        Перейдите в редактирование установленной темы <b>(Редактор HTML/CSS/JS)</b> и выберите сниппет <b>product_info.liquid</b>.
+				<br/>
+				<img src="19.jpg" />
+        <br/>
+        <img src="20.jpg" />
+			</li>
+			<li class="list-group-item">
+        В коде найдите строчку  <code> {% if account.quick_checkout.enabled %}</code> и перед этой строчкой вставьте следующий код:
+        <code>
+          {%comment%}избранное{%endcomment%}
+            <div style="margin-top: 10px;" class="cell- izb-control">
+              <button class="bttn-reg c_button js-izb-add" data-izb-add="{{ product.id }}">Добавить в избранное</button>
+              <button class="deleteizb bttn-reg c_button js-izb-delete" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" style="display: none;">Удалить из избранного</button>
+            </div>
+      			{%comment%}конец избранное{%endcomment%}
+  			</code>
+				<br/>
+				<img src="20.jpg" />
+			</li>
+		</ul>
+	  </li>
+	   <li>
+		Настройка кнопки в каталоге для товаров.
+		 <ul class="mt-3 mb-3 list-group">
+			<li class="list-group-item">Перейдите в раздел <b>Дизайн</b>.
+				<br/>
+					<img src="18.jpg" />
+			</li>
+			<li class="list-group-item">Перейдите в редактирование установленной темы <b>(Редактор HTML/CSS/JS)</b> и выберите сниппет <b>product-item.liquid</b>.
+				<br/>
+				<img src="19.jpg" />
+        <br/>
+				<img src="21.jpg" />
+			</li>
+			<li class="list-group-item">В коде найдите строчку  № 75, нажмите ENTER.
+				<br/>
+				<img src="22.jpg" />
+			</li>
+			<li class="list-group-item">Вставьте следующий код:
+			<code>
+			 {%comment%}избранное{%endcomment%}
+					<i title="Добавить в избранное" data-izb-add="{{ product.id }}" class="izb-icon js-izb-add fa-heart-o fa"></i>
+					<i title="Удалить из избранного" style="display: none;" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-heart fa"></i>
+		   {%comment%}конец избранное{%endcomment%}
+			</code>
+			</li>
+		 </ul>
+	   </li>
+     </ol>
+	  </div>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+ 	  <h2 class="h3">Установка приложения</h2>
+    <ol>
+      <li>
+        Создаем api ключи в своем интернет-магазине
+ 	      <img src="13.jpg" />
+      </li>
+      <li>
+        Регистрируемся на сайте приложения: <a href="http://k-comment.ru/users/sign_up">http://k-comment.ru</a>
+      </li>
+      <li>
+          Заходим в ЛК, переходим в "Настройки" - "Общая информация"
+          <br/>
+           <img src="14.jpg" />
+      </li>
+      <li>
+        Нажимаем на кнопку "Добавить интеграцию"
+        <br/>
+         <img src="15.jpg" />
+      </li>
+      <li>
+        Прописываем ранее созданные ключи в личном кабинете приложения и сохраняем.
+        <br/>
+         <img src="16.jpg" />
+      </li>
+      <li>
+        Нажимаем на кнопку "Добавить файлы"
+        <br/>
+         <img src="17.jpg" />
+      </li>
+
+      </ol>
+      <h2 class="h3">Настройка приложения на примере темы "Стиль"</h2>
+  	  <ol>
+  	  <li>
+  		Настройка кнопки в карточке товара
+  		<ul class="mt-3 mb-3 list-group">
+  			<li class="list-group-item">Перейдите в раздел <b>Дизайн</b>.
+  				<br/>
+  				<img src="2.jpg" />
+  			</li>
+  			<li class="list-group-item">Перейдите в редактирование установленной темы <b>(Редактор HTML/CSS/JS)</b> и выберите сниппет <b>product_form.liquid</b>.
+  				<br/>
+  				<img src="3.jpg" />
+  				<br/>
+  				<img src="4.jpg" />
+
+  			</li>
+  			<li class="list-group-item">В коде найдите строчку  <code>{% unless settings.product_compare_hide %}</code>.
+  				<br/>
+  				<img src="5.jpg" />
+  			</li>
+  			<li class="list-group-item">После {% endunless %},  вставьте следующий код:
+  			<code>
+  			{%comment%}избранное{%endcomment%}
+  				<div style="margin-top: 20px" class="izb-control">
+  					<button class="js-izb-add" data-izb-add="{{ product.id }}" >Добавить в избранное</button>
+  					<button class="deleteizb js-izb-delete" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" style="display: none;">Удалить из избранного</button>
+  				</div>
+  			{%comment%}конец избранное{%endcomment%}
+  			</code>
+  			</li>
+  		</ul>
+
+  	  </li>
+  	   <li >
+  		Настройка кнопки в каталоге для товаров.
+  		 <ul class="mt-3 mb-3 list-group">
+  			<li class="list-group-item">Перейдите в раздел <b>Дизайн</b>.
+  				<br/>
+  				<img src="2.jpg" />
+  			</li>
+  			<li class="list-group-item">Перейдите в редактирование установленной темы <b>(Редактор HTML/CSS/JS)</b> и выберите сниппет <b>product_card.liquid</b>.
+  				<br/>
+  				<img src="3.jpg" />
+  				<br/>
+  				<img src="11.jpg" />
+
+  			</li>
+        <li class="list-group-item">В коде найдите строчку  <code>{% if bundle_component and bundle_component.product.variants.size > 1 %}</code>.
+  				<br/>
+  				<img src="12_1.jpg" />
+  			</li>
+  			<li class="list-group-item">После   <code>{% endif %}</code> вставьте следующий код:
+  			<code>
+          {%comment%}избранное{%endcomment%}
+             <div class="text-right">
+               <i title="Добавить в избранное" data-izb-add="{{ product.id }}" class="izb-icon js-izb-add fa-heart-o fa"></i>
+               <i title="Удалить из избранного" style="display: none;" data-favorites-trigger="{{ product.id }}" data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-heart fa"></i>
+             </div>
+       {%comment%}конец избранное{%endcomment%}
+  			</code>
+  			</li>
+  		 </ul>
+  	   </li>
+  	  <li>Настройка страницы для вывода избранных товаров
+  		<ul class="mt-3 mb-3 list-group">
+  			<li class="list-group-item">Перейдите в раздел <b>Контент</b>, <b>Меню и страницы</b>.
+  				<br/>
+  				<img src="6.jpg" />
+  			</li>
+  			<li class="list-group-item">Создайте новую страницу в разделе <b>"Нет навигации"</b>
+  				<br/>
+  				<img src="7.jpg" />
+  			</li>
+  			<li class="list-group-item">Выберете шаблон <code>page.izb.liquid</code>
+  				<br/>
+  				<img src="8.jpg" />
+  			</li>
+  			<li class="list-group-item">Сохраните страницу</li>
+  			<li class="list-group-item">Проверьте, что страница появилась, попробуйте добавить товар в "Избранное". Не забудьте залогинеться, как пользователь на сайте.
+  				<br/>
+  				<img src="9.jpg" />
+  			</li>
+  			<li class="list-group-item">Перейдите на страницу избранного, если там отображаются товары, то все работает правильно.
+  				<br/>
+  				<img src="10.jpg" />
+  			</li>
+  			<li class="list-group-item">Добавьте ссылку на страницу Избранного в меню (сверху или снизу).</li>
+  		</ul>
+  	  </li>
+
+  	  <li>При установке другой темы или копии текущей, в нее нужно скопирвать следующие файлы: <code>k-comment-product.liquid, page.izb.liquid </code></li>
+  	  </ol>
+ 	 </div>
+	 </div>
 
     </div>
 
     </div>
 </section>
+<style>
+ img {
+   max-width: 100%;
+   display: block;
+    margin: 5px auto;
+ }
+ pre {
+   white-space: pre;
+ }
+</style>
