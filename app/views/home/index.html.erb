@@ -1,6 +1,6 @@
-<div class="index-header d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white box-shadow">
-  <h4 class="my-0 mr-md-auto font-weight-normal">
-    <strong>K-comment</strong><br>
+<div class="index-header d-flex flex-column flex-md-row align-items-center p-2 px-md-4 bg-white box-shadow">
+  <h4 class="my-0 mr-md-auto font-weight-normal text-center text-lg-left">
+    <a class="logo-text" href="http://k-comment.ru"><strong>K-comment</strong></a><br>
     <small>сервис избранных товаров</small>
   </h4>
   <nav class="my-2 my-md-0 mr-md-3">
@@ -9,8 +9,10 @@
     <a class="p-2 text-dark" href="/#price">Стоимость</a>
     <a class="p-2 text-dark" href="/#o-nas">О нас</a>
   </nav>
-  <%= link_to "Log in", new_session_path('user'), class: 'btn btn-primary' %>
-  <%= link_to "Sign up", new_registration_path('user'), class: 'btn btn-outline-primary' %>
+  <div class="clearfix">
+  <%= link_to t('log_in'), new_session_path('user'), class: 'btn btn-primary float-left' %>
+  <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary float-right' %>
+  </div>
 </div>
 
 <section class="page-section bg-primary text-white mb-0" id="service">
@@ -84,7 +86,7 @@
               <a href="#">Самостоятельная настройка</a>
             </li>
           </ul>
-          <a class="btn btn-lg btn-block btn-outline-primary" href="https://auth.insales.ru/login">Установить</a>
+          <%= link_to "Установить", new_registration_path('user'), class: 'btn btn-lg btn-block btn-primary' %>
         </div>
       </div>
       <div class="card mb-4 box-shadow">
@@ -92,7 +94,7 @@
           <h4 class="my-0 font-weight-normal">Ежемесячный</h4>
         </div>
         <div class="card-body">
-          <h1 class="card-title pricing-card-title">600 р<small class="text-muted"></small>
+          <h1 class="card-title pricing-card-title">500 р<small class="text-muted"></small>
           </h1>
           <ul class="text-left mt-3 mb-4">
             <li>Поддержка</li>
@@ -100,7 +102,7 @@
               <a href="#">Самостоятельная настройка</a>
             </li>
           </ul>
-          <a class="btn btn-lg btn-block btn-primary" href="https://auth.insales.ru/login">Установить</a>
+          <%= link_to "Установить", new_registration_path('user'), class: 'btn btn-lg btn-block btn-primary' %>
         </div>
       </div>
     </div>
@@ -110,7 +112,7 @@
           <h4 class="my-0 font-weight-normal">Пакет 1</h4>
         </div>
         <div class="card-body">
-          <h1 class="card-title pricing-card-title">1800 р
+          <h1 class="card-title pricing-card-title">1500 р
             <small class="text-muted">/ 3 месяца</small>
           </h1>
           <ul class="text-left mt-3 mb-4">
@@ -118,23 +120,23 @@
             <li>Добавление стандартной страницы "Избранное"</li>
             <li>Поддержка</li>
           </ul>
-          <a class="btn btn-lg btn-block btn-primary" href="https://auth.insales.ru/login">Установить</a>
+          <%= link_to "Установить", new_registration_path('user'), class: 'btn btn-lg btn-block btn-primary' %>
         </div>
       </div>
       <div class="card mb-4 box-shadow">
         <div class="card-header">
-          <h4 class="my-0 font-weight-normal">Пакет 2</h4>
+          <h4 class="my-0 font-weight-normal">Пакет 2 <span style="color:red;">(экономия 10%)</span></h4>
         </div>
         <div class="card-body">
-          <h1 class="card-title pricing-card-title">3600 р
+          <h1 class="card-title pricing-card-title">2700 р
             <small class="text-muted">/ 6 месяцев</small>
           </h1>
           <ul class="text-left mt-3 mb-4">
-            <li>Добавление кнопки и настройка стиля "Добавить в Избранное"</li>
-            <li>Добавление страницы и настройка стиля страницы "Избранное"</li>
+            <li>Пакет 1 + настройка стиля "Добавить в Избранное"</li>
+            <li>Пакет 1 + настройка стиля страницы "Избранное"</li>
             <li>Поддержка</li>
           </ul>
-          <a class="btn btn-lg btn-block btn-primary" href="https://auth.insales.ru/login">Установить</a>
+          <%= link_to "Установить", new_registration_path('user'), class: 'btn btn-lg btn-block btn-primary' %>
         </div>
       </div>
     </div>
