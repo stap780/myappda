@@ -4,8 +4,8 @@
     <%= f.input_field :email, autofocus: true , class: 'form-control', placeholder: "Email"  %>
     <%= f.input_field :password, class: 'form-control' , placeholder: "Password - (#{@minimum_password_length} characters minimum)"    %>
     <%= f.input_field :password_confirmation, class: 'form-control' , placeholder: "Password confirmation"     %>
-    <%= f.input_field :name, class: 'form-control' , placeholder: "Имя"   %>
-    <%= f.input_field :subdomain ,  class: 'form-control' , placeholder: "Subdomain"   %>
+    <%= f.input_field :name, class: 'form-control' , placeholder: "Ваше Имя"   %>
+    <%= f.input_field :subdomain ,  class: 'form-control' , placeholder: "Домен (например - 'myshop')"   %>
 
     <%= f.submit t('.sign_up', :default => "Поехали"), class: 'btn btn-success' %>
 <% end %>

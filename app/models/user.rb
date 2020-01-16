@@ -13,7 +13,10 @@ class User < ApplicationRecord
 
 
   validates :name, presence: true
-  validates :subdomain, presence: true
+  validates :subdomain, presence: true, :uniqueness => true
+  validates_format_of :subdomain, with: /\A[a-z0-9_]+\Z/i, message: "- можно использовать только маленькие буквы и цифры (без точек)"
+  validates_length_of :subdomain, maximum: 32, message: "максимальная длина 32 знака"
+  validates_exclusion_of :subdomain, in: ['www', 'mail', 'ftp', 'admin', 'test', 'public', 'private', 'staging', 'app', 'web', 'net'], message: "эти слова использовать нельзя"
 
 
   def create_tenant
