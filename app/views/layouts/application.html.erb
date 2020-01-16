@@ -88,14 +88,14 @@
   <% end %>
 
     <div class="container-fluid <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>p-5<% end %>">
-<div class="alert-devise">
+      <div class="alert-devise">
       <% flash.each do |key, value| %>
          <div class="<%= flash_class(key) %> fade show">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
             <%= value %>
          </div>
       <% end %>
-</div>
+    </div>
       <%= yield %>
     </div>
 

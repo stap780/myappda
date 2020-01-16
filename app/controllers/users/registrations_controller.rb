@@ -1,6 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
+  after_action :set_user_valid_date, only: [:create]
 
 
 
@@ -12,9 +13,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # # POST /resource
   def create
     super
-    current_user.valid_from = current_user.created_at
-    current_user.valid_until = current_user.created_at + 7.days
-    current_user.save
+    # current_user.valid_from = current_user.created_at
+    # current_user.valid_until = current_user.created_at + 7.days
+    # current_user.save
   end
 
   # GET /resource/edit
@@ -61,5 +62,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # The path used after sign up for inactive accounts.
   def after_inactive_sign_up_path_for(resource)
     root_url(subdomain: resource.subdomain)
+  end
+
+  def set_user_valid_date
+    if current_user.present?
+      current_user.valid_from = current_user.created_at
+      current_user.valid_until = current_user.created_at + 7.days
+      current_user.save
+    end
   end
 end
