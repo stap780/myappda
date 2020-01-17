@@ -2,6 +2,9 @@
 
 en:
   devise:
+    attributes:
+      valid_until:
+        must_be_on_or_after: Cannot be before %{field}
     confirmations:
       confirmed: "Your email address has been successfully confirmed."
       send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
@@ -16,6 +19,7 @@ en:
       timeout: "Your session expired. Please sign in again to continue."
       unauthenticated: "You need to sign in or sign up before continuing."
       unconfirmed: "You have to confirm your email address before continuing."
+      account_date_restricted: "Your account is not currently active: please contact an administrator for more information"
     mailer:
       confirmation_instructions:
         subject: "Confirmation instructions"

@@ -9,6 +9,7 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
+    super
       @user = User.find_by_email(params[:user][:email])
       if @user.present?
         if  @user.valid_until.nil? || @user.valid_until <= Date.today
@@ -17,17 +18,19 @@ class Users::SessionsController < Devise::SessionsController
           sign_in(:user, @user)
             if @user.subdomain == 'ketago' || @user.subdomain == 'twog'
               puts "админ вошёл - "+"#{@user.subdomain}"
-              redirect_to after_sign_in_path_for(@user)
+              # redirect_to after_sign_in_path_for(@user)
             else
               # flash[:notice] = "#{ @user.email } время работы истекло."
               redirect_to invoice_path_for(@user), :notice => 'Оплаченный период истёк. Сервис не работает для Ваших клиентов. Пожалуйста оплатите сервис.'
             end
         else
           puts "мы здесь"
-          super
         end
       end
   end
+  # def create
+  #   super
+  # end
 
   # DELETE /resource/sign_out
   def destroy
@@ -39,5 +42,10 @@ class Users::SessionsController < Devise::SessionsController
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_in_params
     devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
+  end
+
+  def check_sign_in_user
+
+
   end
 end

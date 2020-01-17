@@ -17,6 +17,7 @@ ru:
       timeout: "Ваш сеанс закончился. Пожалуйста, войдите в систему снова."
       unauthenticated: "Вам необходимо войти в систему или зарегистрироваться."
       unconfirmed: "Вы должны подтвердить вашу учётную запись."
+      account_date_restricted: "Your account is not currently active: please contact an administrator for more information"
     mailer:
       confirmation_instructions:
         subject: "Инструкции по подтверждению учётной записи."
@@ -47,9 +48,9 @@ ru:
       updated: "Ваша учётная запись успешно изменена."
       updated_but_not_signed_in: "Ваш аккаунт успешно изменен, но так как ваш пароль изменился, нужно войти снова."
     sessions:
-      signed_in: "Вход в систему выполнен."
-      signed_out: "Выход из системы выполнен."
-      already_signed_out: "Выход из системы выполнен."
+      signed_in: "Вход из сервиса выполнен."
+      signed_out: "Выход из сервиса выполнен."
+      already_signed_out: "Выход из сервиса выполнен."
     unlocks:
       send_instructions: "В течение нескольких минут вы получите письмо с инструкциями по разблокировке вашей учётной записи."
       send_paranoid_instructions: "Если ваша учётная запись существует, то в течение нескольких минут вы получите письмо с инструкциями по её разблокировке."
