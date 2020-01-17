@@ -8,7 +8,7 @@
   <% resource.errors.full_messages.each do |message| %>
   <div class="<%= flash_class('error') %> fade show">
      <a href="#" class="close" data-dismiss="alert">&times;</a>
-     <%= message %>
+     <%= message.html_safe %>
   </div>
   <% end %>
 </div>

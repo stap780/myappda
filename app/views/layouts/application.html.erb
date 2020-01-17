@@ -49,6 +49,7 @@
           <a class="nav-link" href="<%= adminindex_insints_path %>">Интеграции</a>
         </li>
         <% end %>
+        <% if !current_admin %>
         <li class="nav-item <%= 'active' if current_page?(clients_path) %>">
           <a class="nav-link" href="<%= clients_path %>">Клиенты и Товары</a>
         </li>
@@ -60,6 +61,7 @@
             <a class="dropdown-item <%= 'active' if current_page?(invoices_path) %>" href="<%= invoices_path %>">Счета</a>
           </div>
         </li>
+        <% end %>
       </ul>
   		<ul class="navbar-nav">
   		<!--  	<li class="nav-item dropdown">
@@ -92,7 +94,7 @@
       <% flash.each do |key, value| %>
          <div class="<%= flash_class(key) %> fade show">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
-            <%= value %>
+            <%= value.html_safe %>
          </div>
       <% end %>
     </div>
