@@ -55,7 +55,7 @@ Rails.application.configure do
   # Make app the standard subdomain
   config.after_initialize do
     #Rails.application.routes.default_url_options[:host] = 'app.lvh.me:3000'
-    Rails.application.routes.default_url_options[:host] = 'k-comment.ru:3000'
+    Rails.application.routes.default_url_options[:host] = 'lvh.me:3000'
   end # after_initialize
 
   config.action_mailer.perform_deliveries = true
@@ -82,7 +82,7 @@ Rails.application.configure do
   #   openssl_verify_mode: "none"
   # }
 
-    config.action_mailer.default_url_options = { host: 'http://k-comment.ru:3000'}
+    config.action_mailer.default_url_options = { host: 'http://lvh.me:3000'}
 
 
 end

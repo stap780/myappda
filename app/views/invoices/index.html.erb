@@ -1,20 +1,11 @@
 <div class="row">
-  <div class="col-12">
-    <% flash.each do |key, value| %>
-     <%= content_tag(:div, class: "alert alert-#{key} alert-dismissable") do %>
-     <%= value %>
-     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-     <% end %>
-   <% end %>
-    </div>
   <div class="col">
     <h1>Счета</h1>
   </div>
   <div class="col">
-    <%= link_to 'Новый счет', new_invoice_path, class: 'btn btn-outline-primary'  %>
+    <%= link_to 'Новый счет', new_invoice_path, class: 'btn btn-outline-primary' %>
   </div>
-  <div class="col">
-  </div>
+  <div class="col"></div>
 </div>
 <table class="table">
   <thead class="thead-light">
@@ -35,8 +26,8 @@
         <td><%= invoice.sum %></td>
         <td><%= invoice.status %></td>
         <% if invoice.status != 'Оплачен' %>
-        <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_invoice_path(invoice) %></td>
-        <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, invoice, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
+          <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_invoice_path(invoice) %></td>
+          <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, invoice, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
         <% end %>
       </tr>
     <% end %>

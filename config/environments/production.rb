@@ -108,6 +108,6 @@ Rails.application.configure do
   #   openssl_verify_mode: "none"
   # }
 
-    config.action_mailer.default_url_options = { host: 'http://k-comment.ru'}
+    config.action_mailer.default_url_options = { host: 'https://k-comment.ru'}
 
 end

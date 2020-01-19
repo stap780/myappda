@@ -3,7 +3,7 @@ pid '/var/www/myappda/current/tmp/pids/unicorn.pid'
 stderr_path '/var/www/myappda/log/unicorn.log'
 stdout_path '/var/www/myappda/log/unicorn.log'
 listen '/tmp/unicorn.myappda.sock'
-worker_processes 4
+worker_processes 12
 timeout 30
 
 before_fork do |server, worker|
