@@ -52,10 +52,10 @@ class ClientsController < ApplicationController
     insint = current_user.insints.first
       @client.izb_productid.split(',').each do |pr|
         if insint.inskey.present?
-          uri = "http://"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
+          uri = "//"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
           auth = 'Basic ' + Base64.encode64( "#{insint.inskey}"+":"+"#{insint.password}" ).chomp
         else
-          uri = "http://"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
+          uri = "//"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
           auth = 'Basic ' + Base64.encode64( 'k-comment:'+"#{insint.password}" ).chomp
         end
         RestClient.get( uri, :Authorization => auth, :content_type => :json, :accept => :json) { |response, request, result, &block|
