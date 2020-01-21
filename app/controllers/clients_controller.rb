@@ -51,14 +51,20 @@ class ClientsController < ApplicationController
     pr_datas = []
     insint = current_user.insints.first
       @client.izb_productid.split(',').each do |pr|
+        # if insint.inskey.present?
+        #   uri = "#{insint.subdomen}"+"/admin/products/"+pr+".json"
+        #   auth = 'Basic ' + Base64.encode64( "#{insint.inskey}"+":"+"#{insint.password}" ).chomp
+        # else
+        #   uri = "#{insint.subdomen}"+"/admin/products/"+pr+".json"
+        #   auth = 'Basic ' + Base64.encode64( 'k-comment:'+"#{insint.password}" ).chomp
+        # end
+        # RestClient.get( uri, :Authorization => auth, :content_type => :json, :accept => :json) { |response, request, result, &block|
         if insint.inskey.present?
-          uri = "#{insint.subdomen}"+"/admin/products/"+pr+".json"
-          auth = 'Basic ' + Base64.encode64( "#{insint.inskey}"+":"+"#{insint.password}" ).chomp
+          uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
         else
-          uri = "#{insint.subdomen}"+"/admin/products/"+pr+".json"
-          auth = 'Basic ' + Base64.encode64( 'k-comment:'+"#{insint.password}" ).chomp
+          uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
         end
-        RestClient.get( uri, :Authorization => auth, :content_type => :json, :accept => :json) { |response, request, result, &block|
+        RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
                 case response.code
                 when 200
                   data = JSON.parse(response)
