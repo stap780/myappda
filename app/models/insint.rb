@@ -49,25 +49,19 @@ def self.add_snippet(insint_id, theme_id)
   if insint.inskey.present?
     saved_subdomain = insint.user.subdomain
     Apartment::Tenant.switch!(saved_subdomain)
-
     uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.xml"
   else
     saved_subdomain = "insales"+insint.insalesid.to_s
     Apartment::Tenant.switch!(saved_subdomain)
-
     uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.xml"
   end
   data = '<?xml version="1.0" encoding="UTF-8"?><asset><name>k-comment-product.liquid</name>
   <content><![CDATA[
     <style>
-  .izb-icon {
-   display: block;
-   position: absolute;
-   top: 0;
-   left:0;
-   z-index:100;
-  }
-</style>
+    .izb-icon {
+       display: inline-block;
+      }
+  </style>
 {% if client %}
 <script type="text/javascript">
   $(document).ready(function(){
@@ -85,7 +79,7 @@ def self.add_snippet(insint_id, theme_id)
           clientId = data.client.id;
         }
       });
-      var url = "http://k-comment.ru/insints/addizb"
+      var url = "https://k-comment.ru/insints/addizb"
       $.ajax({
         "url": url,
         "data": { host: host, client_id: clientId, product_id: productId },
@@ -116,7 +110,7 @@ def self.add_snippet(insint_id, theme_id)
             clientId = data.client.id;
           }
         });
-    	var url = "http://k-comment.ru/insints/getizb"
+    	var url = "https://k-comment.ru/insints/getizb"
         var products;
         $.ajax({
           "url": url,
@@ -127,10 +121,6 @@ def self.add_snippet(insint_id, theme_id)
         //  console.log("что такое",data)
           products = data.products;
           var products_url = "/products_by_id/"+products+".json";
-          $.getJSON(products_url).done(function (product) {
-              $(".js-favorite").html(Template.render(product, "favorite"));
-              Products.getList(_.map(product, "id"));
-          });
 
       if(products && products != " ") {
          var arrProd =  products.split(",");
@@ -159,31 +149,26 @@ def self.add_snippet(insint_id, theme_id)
          e.preventDefault();
          var prodId = $(this).data("favorites-trigger");
           $.ajax({
-          "url": "http://k-comment.ru/insints/deleteizb",
+          "url": "https://k-comment.ru/insints/deleteizb",
           "async": false,
           "data": { host: host, client_id: clientId, product_id: prodId },
           "dataType": "json"
         }).done(function( data ) {
-
           $(".products-favorite form[data-product-id="+prodId+"]").parent().remove();
 		   _this.prev().show();
            _this.hide();
-
             if($(".products-favorite .row").children().length) {
             } else {
                $(".js-favorite").html("<div style=&quot;text-align: center;&quot; class=&quot;notice&quot;>В избранном нет товаров</div>");
             }
-
         }).fail(function( jqxhr, textStatus, error ) {
           var err = textStatus + ", " + error;
         //  console.log( "Request Failed: " + err );
         }).error(function(data ) {
           alert(data.message);
         });
-
        return false;
        });
-
   });
 </script>
 {% else %}
@@ -447,7 +432,7 @@ def self.add_page_izb(insint_id, theme_id)
             clientId = data.client.id;
           }
         });
-        var url = "http://k-comment.ru/insints/getizb"
+        var url = "https://k-comment.ru/insints/getizb"
         var products;
         $.ajax({
           "url": url,
@@ -458,9 +443,30 @@ def self.add_page_izb(insint_id, theme_id)
           products = data.products;
           var products_url = "/products_by_id/"+products+".json";
           $.getJSON(products_url).done(function (product) {
-              //console.log(product);
-              $(".js-favorite").html(Template.render(product, "favorite"));
-              Products.getList(_.map(product, "id"));
+                var productsHtml = "";
+                productsHtml += "<div class="products-favorite"><div class="row is-grid">";
+                $.each(product.products, function(i,product){
+                    productsHtml += "<div class="cell-4 cell-6-sm cell-12-xs">";
+                          productsHtml += "<form class="card cards-col" action="{{ cart_url }}" method="post" data-product-id="'+product.id+'">"
+                          productsHtml += "<div class="card-info"><div class="card-image">";
+                          productsHtml += "<a href="'+product.url+'" class="image-inner"><div class="image-wraps"><span class="image-container"><span class="image-flex-center"><img src="'+product.images[0].medium_url+'"></span></span></div></a></div>";
+                          productsHtml += "<div class="card-title"><a href="'+product.url+'">'+product.title+'</a></div></div>";
+                          productsHtml += "<div class="card-prices"><div class="row flex-center"><div class="cell- card-price">'+InSales.formatMoney(product.variants[0].price)+'</div>";
+                          productsHtml += "<div class="cell-  card-old_price">'+InSales.formatMoney(product.variants[0].old_price)+'</div></div></div>";
+                          productsHtml += "<div class="card-action show-flex"><div class="hide"><input type="hidden" name="variant_id" value="'+product.variants[0].id+'" ><div data-quantity class="hide"><input type="text" name="quantity" value="1" /></div></div></div>";
+                          productsHtml += "<div class="card-action-inner">";
+                          productsHtml += "<button class="bttn-favorite is-added deleteizb" data-favorites-trigger="'+product.id+'">Удалить</button>";
+                          if (product.variants.size > 1){
+                            productsHtml +="<a href="'+product.url+'" class="bttn-prim">Подробнее</a>"
+                           }else{
+                           productsHtml +="<button data-item-add class="bttn-prim" type="button">В корзину</button>"
+                          }
+                          productsHtml += "</div></form></div>";
+                          
+                });
+                productsHtml += "</div></div>";
+
+                $(".js-favorite").html(productsHtml);
           });
       });
         if($(".products-favorite").length) {
@@ -472,72 +478,7 @@ def self.add_page_izb(insint_id, theme_id)
     </script>
 
    <div class="js-favorite"></div>
-    <script type="text/template" data-template-id="favorite">
-    <div class="products-favorite">
-      <div class="row is-grid">
-    	<% _.forEach(products, function (product){  %>
-    	<div class="cell-4 cell-6-sm cell-12-xs">
-    	 <form class="card cards-col" action="{{ cart_url }}" method="post" data-product-id="<%= product.id %>">
-    		<div class="card-info">
-    		  <div class="card-image">
-    			<a href="<%= product.url %>" class="image-inner">
-    			  <div class="image-wraps">
-    				<span class="image-container">
-    				  <span class="image-flex-center">
-    					<img src="<%= product.first_image.medium_url %>">
-    				  </span>
-    				</span>
-    			  </div>
-    			</a>
-    		  </div>
 
-    		  <div class="card-title">
-    			<a href="<%= product.url %>">
-    			  <%= product.title %>
-    			</a>
-    		  </div>
-
-    		</div>
-
-    		<div class="card-prices">
-    		<div class="row flex-center">
-    		  <div class="cell- card-price">
-    			<%= Shop.money.format(product.variants[0].price) %>
-    		  </div>
-    		  <% if (product.variants[0].old_price){ %>
-    			<div class="cell-  card-old_price">
-    			  <%= Shop.money.format(product.variants[0].old_price) %>
-    			</div>
-    			<% } %>
-    		  </div>
-    		</div>
-            <%= getDiscount(product.variants[0].price, product.variants[0].old_price) %>
-    		<div class="card-action show-flex">
-              <div class="hide">
-                <input type="hidden" name="variant_id" value="<%= product.variants[0].id %>" >
-                <div data-quantity class="hide">
-                  <input type="text" name="quantity" value="1" />
-                  <span data-quantity-change="-1">-</span>
-                  <span data-quantity-change="1">+</span>
-                </div>
-              </div>
-    		</div>
-    		<div class="card-action-inner">
-    		<button class="bttn-favorite is-added deleteizb" data-favorites-trigger="<%= product.id %>">Удалить</button>
-    		<% if (product.variants.size > 1){ %>
-    		  <a href="<%= product.url %>" class="bttn-prim">Подробнее</a>
-    		<% }else{ %>
-    		  <button data-item-add class="bttn-prim" type="button">В корзину</button>
-    		<% } %>
-    		</div>
-    </form>
-
-    </div>
-    <% }) %>
-    </div>
-
-    </div>
-    </script>
 {% else %}
  <div class="page-headding-wrapper">
       <h1 class="page-headding">Избранные товары</h1>
