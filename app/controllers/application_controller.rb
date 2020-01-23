@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
+  # protect_from_forgery with: :exception
+  protect_from_forgery with: :null_session
 
   before_action :authenticate_user!
   # Every logged in user should be redirected to their own subdomain
@@ -45,16 +46,6 @@ class ApplicationController < ActionController::Base
 
 
   def app_url
-    # subdomain = 'app'
-    #
-    # if request.subdomain.present?
-    #   host = request.host_with_port.sub! "#{request.subdomain}.", ''
-    # else
-    #   host = request.host_with_port
-    # end # if
-    #
-    # "http://#{subdomain}.#{host}#{request.path}"
-
     subdomain = 'app.'
     # puts request.subdomain.present?
     if request.subdomain.present?
