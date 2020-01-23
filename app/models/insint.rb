@@ -266,6 +266,11 @@ def self.add_page_izb(insint_id, theme_id)
  <style>
    .products-favorite {
      text-align: center;
+     margin-bottom: 60px;
+   }
+
+   .products-favorite .hide{
+      display: none;
    }
    .products-favorite .card-image {
      margin-bottom: 20px;
@@ -431,7 +436,6 @@ def self.add_page_izb(insint_id, theme_id)
           "</span>" +
           "</div>";
       }
-
       return sale;
     }
       $(document).ready(function(){
@@ -456,42 +460,39 @@ def self.add_page_izb(insint_id, theme_id)
           products = data.products;
           var products_url = "/products_by_id/"+products+".json";
           $.getJSON(products_url).done(function (product) {
-              var productsHtml = '';
+              var productsHtml = " ";
               productsHtml += \'<div class="products-favorite"><div class="row is-grid">\';
               $.each(product.products, function(i,product){
-                  productsHtml += \'<div class="cell-4 cell-6-sm cell-12-xs">\';
-                        productsHtml += \'<form class="card cards-col" action="{{ cart_url }}" method="post" data-product-id="\'+product.id+\'">\';
-                        productsHtml += \'<div class="card-info"><div class="card-image">\';
-                        productsHtml += \'<a href="\'+product.url+\'" class="image-inner"><div class="image-wraps"><span class="image-container"><span class="image-flex-center\"><img src="\'+product.images[0].medium_url+\'"></span></span></div></a></div>\';
-                        productsHtml += \'<div class="card-title"><a href=\"\'+product.url+\'\">\'+product.title+\'</a></div></div>\';
-                        productsHtml += \'<div class="card-prices"><div class="row flex-center"><div class="cell- card-price">\'+InSales.formatMoney(product.variants[0].price)+\'</div>\';
-                        productsHtml += \'<div class="cell-  card-old_price">\'+InSales.formatMoney(product.variants[0].old_price)+\'</div></div></div>\';
-                        productsHtml += \'<div class="card-action show-flex"><div class="hide"><input type="hidden" name="variant_id" value="\'+product.variants[0].id+\'" ><div data-quantity class="hide"><input type="text" name="quantity" value="1" /></div></div></div>\';
-                        productsHtml += \'<div class="card-action-inner">\';
-                        productsHtml += \'<button class="bttn-favorite is-added deleteizb" data-favorites-trigger="\'+product.id+\'">Удалить</button>\';
-                        if (product.variants.size > 1){
-                          productsHtml +=\'<a href="\'+product.url+\'" class="bttn-prim">Подробнее</a>\'
-                         } else {
-                         productsHtml +=\'<button data-item-add class="bttn-prim" type="button">В корзину</button>\'
-                        }
-                        productsHtml += \'</div></form></div>\';
-
+                  productsHtml += \'<div class="cell-4 cell-6-sm cell-12-xs">\'; //двойные кавычки оставил стандартно, а экранировал одинарные и так везде дальше
+                  productsHtml += \'<form class="card cards-col" action="{{ cart_url }}" method="post" data-product-id="\'+product.id+\'">\';
+                  productsHtml += \'<div class="card-info"><div class="card-image">\';
+                  productsHtml += \'<a href="\'+product.url+\'" class="image-inner"><div class="image-wraps"><span class="image-container"><span class="image-flex-center\"><img src="\'+product.images[0].medium_url+\'"></span></span></div></a></div>\';
+                  productsHtml += \'<div class="card-title"><a href=\"\'+product.url+\'\">\'+product.title+\'</a></div></div>\';
+                  productsHtml += \'<div class="card-prices"><div class="row flex-center"><div class="cell- card-price">\'+InSales.formatMoney(product.variants[0].price)+\'</div>\';
+                  productsHtml += \'<div class="cell-  card-old_price">\'+InSales.formatMoney(product.variants[0].old_price)+\'</div></div></div>\';
+                  productsHtml += \'<div class="card-action show-flex"><div class="hide"><input type="hidden" name="variant_id" value="\'+product.variants[0].id+\'" ><div data-quantity class="hide"><input type="text" name="quantity" value="1" /></div></div></div>\';
+                  productsHtml += \'<div class="card-action-inner">\';
+                  productsHtml += \'<button class="bttn-favorite is-added deleteizb" data-favorites-trigger="\'+product.id+\'">Удалить</button>\';
+                  if (product.variants.size > 1){
+                    productsHtml +=\'<a href="\'+product.url+\'" class="bttn-prim">Подробнее</a>\'
+                   } else {
+                   productsHtml +=\'<button data-item-add class="bttn-prim" type="button">В корзину</button>\'
+                  }
+                  productsHtml += \'</div></form></div>\';
               });
               productsHtml += \'</div></div>\';
 
-
-                $(".js-favorite").html(productsHtml);
+              $(".js-favorite-wrapper").html(productsHtml);
           });
       });
         if($(".products-favorite").length) {
            } else {
-               $(".js-favorite").html(\'<div style="text-align: center" class="notice">В избранном нет товаров</div>\');
+               $(".js-favorite-wrapper").html(\'<div style="text-align: center" class="notice">В избранном нет товаров</div>\');
            }
-
         });
     </script>
 
-   <div class="js-favorite"></div>
+   <div class="js-favorite-wrapper"></div>
 
 {% else %}
 
