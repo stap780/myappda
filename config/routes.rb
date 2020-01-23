@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get :adminindex
       get :setup_script
       get :delete_script
+      get :checkint
     end
   end
 

@@ -4,159 +4,151 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="yandex-verification" content="c284690800bdd189" />
-    <meta name="google-site-verification" content="A2boZBNCfcqtaHUFrJL26DHYNaKN9efyXijRxZmNVCk" />
+    <meta name="yandex-verification" content="c284690800bdd189"/>
+    <meta name="google-site-verification" content="A2boZBNCfcqtaHUFrJL26DHYNaKN9efyXijRxZmNVCk"/>
     <title>K-comment - сервис избранных товаров insales</title>
     <meta name="description" content="Избранные товары insales. От 600 руб/месяц. K-comment - это сервис для Вашего магазина на insales, который позволит Вашим постоянным клиентам откладывать товары для последующего изучения и покупки."/>
     <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application'%>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.css"/>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-5182062-18"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-5182062-18"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
 
-    gtag('config', 'UA-5182062-18');
+      gtag('config', 'UA-5182062-18');
     </script>
 
   </head>
   <body class="<% if current_page?(root_url) or current_page?(index_setup_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url)%>body-main<%end%>">
     <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>
-  	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="<%= root_path %>">K-comment</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="<%= root_path %>">K-comment</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item <%= 'active' if current_page?(dashboard_index_path) %>">
-          <a class="nav-link" href="<%= dashboard_index_path %>">Главная</a>
-        </li>
-        <% if current_admin %>
-        <li class="nav-item <%= 'active' if current_page?(dashboard_users_path) %>">
-          <a class="nav-link" href="<%= dashboard_users_path %>">Пользователи</a>
-        </li>
-        <li class="nav-item <%= 'active' if current_page?(payments_path) %>">
-          <a class="nav-link" href="<%= payments_path %>">Платежи</a>
-        </li>
-        <li class="nav-item <%= 'active' if current_page?(adminindex_insints_path) %>">
-          <a class="nav-link" href="<%= adminindex_insints_path %>">Интеграции</a>
-        </li>
-        <% end %>
-        <% if !current_admin %>
-        <li class="nav-item <%= 'active' if current_page?(clients_path) %>">
-          <a class="nav-link" href="<%= clients_path %>">Клиенты и Товары</a>
-        </li>
-        <!-- Dropdown -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Настройки</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item <%= 'active' if current_page?(useraccounts_path) %>" href="<%= useraccounts_path %>">Общая информация</a>
-            <a class="dropdown-item <%= 'active' if current_page?(invoices_path) %>" href="<%= invoices_path %>">Счета</a>
-          </div>
-        </li>
-        <% end %>
-      </ul>
-  		<ul class="navbar-nav">
-  		<!--  	<li class="nav-item dropdown">
-  				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></a>
-  				<div class="dropdown-menu header-search" x-placement="bottom-start">
-  				<form class="form-inline my-2 my-lg-0">
-  				  <input class="form-control mr-sm-2" type="text" placeholder="Search">
-  				  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-  				</form>
-  				</div>
-  		</li> -->
-  		<li class="nav-item  dropdown">
-  		<% if current_user %>
-  						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-  								<i class="fa fa-user-circle" aria-hidden="true"></i> <%= current_user.name %> <span class="caret"></span>
-  						</a>
-  						<ul class="dropdown-menu dropdown-user">
-  								<li><%= link_to "Выйти", destroy_user_session_url, method: :delete %></li>
-                <!--   <li><%# link_to 'Back to Homepage', root_url %></li> -->
-  						</ul><!-- /.dropdown-user -->
-  		 <% end %>
-  				</li>
-  		</ul>
-    </div>
-  </nav>
-  <% end %>
+        <div class="collapse navbar-collapse" id="navbarColor02">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item <%= 'active' if current_page?(dashboard_index_path) %>">
+              <a class="nav-link" href="<%= dashboard_index_path %>">Главная</a>
+            </li>
+            <% if current_admin %>
+              <li class="nav-item <%= 'active' if current_page?(dashboard_users_path) %>">
+                <a class="nav-link" href="<%= dashboard_users_path %>">Пользователи</a>
+              </li>
+              <li class="nav-item <%= 'active' if current_page?(payments_path) %>">
+                <a class="nav-link" href="<%= payments_path %>">Платежи</a>
+              </li>
+              <li class="nav-item <%= 'active' if current_page?(adminindex_insints_path) %>">
+                <a class="nav-link" href="<%= adminindex_insints_path %>">Интеграции</a>
+              </li>
+            <% end %>
+            <% if !current_admin %>
+              <li class="nav-item <%= 'active' if current_page?(clients_path) %>">
+                <a class="nav-link" href="<%= clients_path %>">Клиенты и Товары</a>
+              </li>
+              <!-- Dropdown -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Настройки</a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item <%= 'active' if current_page?(useraccounts_path) %>" href="<%= useraccounts_path %>">Общая информация</a>
+                  <a class="dropdown-item <%= 'active' if current_page?(invoices_path) %>" href="<%= invoices_path %>">Счета</a>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+          <ul class="navbar-nav">
+            <!-- <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></a> <div class="dropdown-menu
+            header-search" x-placement="bottom-start"> <form class="form-inline my-2 my-lg-0"> <input class="form-control mr-sm-2" type="text" placeholder="Search"> <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button> </form> </div> </li>
+            -->
+            <li class="nav-item  dropdown">
+              <% if current_user %>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                  <i class="fa fa-user-circle" aria-hidden="true"></i>
+                  <%= current_user.name %>
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                  <li><%= link_to "Выйти", destroy_user_session_url, method: :delete %></li>
+                  <!-- <li><%# link_to 'Back to Homepage', root_url %></li> -->
+                </ul>
+                <!-- /.dropdown-user -->
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    <% end %>
 
     <div class="container-fluid <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>p-5<% end %>">
-      <div class="alert-devise">
-      <% flash.each do |key, value| %>
-         <div class="<%= flash_class(key) %> fade show">
-            <a href="#" class="close" data-dismiss="alert">&times;</a>
-            <%= value.html_safe %>
-         </div>
-      <% end %>
-    </div>
+      <%= render partial: "/layouts/messages"%>
       <%= yield %>
     </div>
 
     <% unless current_page?(user_session_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(new_user_password_url) or current_page?(edit_user_password_url) %>
-    <footer class="pt-4 pt-md-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 col-sm-3 text-center text-lg-left">
-            <h5>K-comment</h5>
-            <h6>сервис избранных товаров</h6>
-            <ul class="list-unstyled text-small">
-              <li>
-                <a class="text-muted" href="+74997042035">84997042035</a>
-              </li>
-              <li>
-                <a class="text-muted" href="mailto:k-comment.ru">info@k-comment.ru</a>
-              </li>
-              <li class="pt-1 d-block d-sm-none"><%= image_tag "/visa-master.png", style:"max-width: 120px;"%></li>
-            </ul>
-            <small class="d-block mb-3 text-muted">&copy; 2019-2020</small>
-          </div>
-          <div class="col-3 col-md d-none d-md-block">
-            <h5>Меню</h5>
-            <ul class="list-unstyled text-small">
-              <li>
-                <a class="text-muted" href="/#service">О сервисе</a>
-              </li>
-              <li>
-                <a class="text-muted" href="/index-setup">Настройка</a>
-              </li>
-              <li>
-                <a class="text-muted" href="/#price">Стоимость</a>
-              </li>
-              <li>
-                <a class="text-muted" href="/#o-nas">О нас</a>
-              </li>
-            </ul>
-          </div>
-          <div class="col-3 col-md d-none d-md-block">
-            <h5>Способы оплаты</h5>
-            <ul class="text-small">
-              <li>Счет для юр лиц</li>
-              <li><%= image_tag "/visa-master.png", style:"max-width: 120px;"%></li>
-            </ul>
-            <p>Прием платежей организован агрегатором
-              <a class="text-muted" rel="nofollow noopener" href="http://www.paymaster.ru/" target="_blank">Paymaster</a>
-            </p>
-          </div>
-          <div class="col-3 col-md d-none d-md-block">
-            <h5>Наши данные</h5>
-            <ul class="list-unstyled text-small">
-              <li>ИП Эмексизов Панаёт Алексеевич</li>
-              <li>Свидетельство о регистрации - 313774610800128</li>
-              <li>ИНН - 772745849012</li>
-            </ul>
+      <footer class="pt-4 pt-md-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-sm-3 text-center text-lg-left">
+              <h5>K-comment</h5>
+              <h6>сервис избранных товаров</h6>
+              <ul class="list-unstyled text-small">
+                <li>
+                  <a class="text-muted" href="+74997042035">84997042035</a>
+                </li>
+                <li>
+                  <a class="text-muted" href="mailto:k-comment.ru">info@k-comment.ru</a>
+                </li>
+                <li class="pt-1 d-block d-sm-none"><%= image_tag "/visa-master.png", style:"max-width: 120px;"%></li>
+              </ul>
+              <small class="d-block mb-3 text-muted">&copy; 2019-2020</small>
+            </div>
+            <div class="col-3 col-md d-none d-md-block">
+              <h5>Меню</h5>
+              <ul class="list-unstyled text-small">
+                <li>
+                  <a class="text-muted" href="/#service">О сервисе</a>
+                </li>
+                <li>
+                  <a class="text-muted" href="/index-setup">Настройка</a>
+                </li>
+                <li>
+                  <a class="text-muted" href="/#price">Стоимость</a>
+                </li>
+                <li>
+                  <a class="text-muted" href="/#o-nas">О нас</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-3 col-md d-none d-md-block">
+              <h5>Способы оплаты</h5>
+              <ul class="text-small">
+                <li>Счет для юр лиц</li>
+                <li><%= image_tag "/visa-master.png", style:"max-width: 120px;"%></li>
+              </ul>
+              <p>Прием платежей организован агрегатором
+                <a class="text-muted" rel="nofollow noopener" href="http://www.paymaster.ru/" target="_blank">Paymaster</a>
+              </p>
+            </div>
+            <div class="col-3 col-md d-none d-md-block">
+              <h5>Наши данные</h5>
+              <ul class="list-unstyled text-small">
+                <li>ИП Эмексизов Панаёт Алексеевич</li>
+                <li>Свидетельство о регистрации - 313774610800128</li>
+                <li>ИНН - 772745849012</li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
     <% end %>
 
   </body>

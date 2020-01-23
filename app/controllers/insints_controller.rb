@@ -237,7 +237,25 @@ class InsintsController < ApplicationController
     end
   end
 
+  def checkint
+    insint = Insint.find(params[:insint_id])
+    if insint.inskey.present?
+      uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
+    else
+      uri = "http://k-comment.ru"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
+    end
+    response = RestClient.get(uri)
 
+    respond_to do |format|
+        format.js do
+          if response.code == 200
+            flash.now[:notice] = "Интеграция работает!"
+          else
+            flash.now[:error] = "Не работает интеграция!"
+          end
+        end
+      end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
