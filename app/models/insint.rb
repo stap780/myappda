@@ -184,8 +184,21 @@ def self.add_snippet(insint_id, theme_id)
 
   ]]></content><type>Asset::Snippet</type></asset>'
 
-  response = RestClient.post uri, data, :accept => :xml, :content_type => "application/xml"
+  # response = RestClient.post uri, data, :accept => :xml, :content_type => "application/xml"
 
+  RestClient.post( uri, data, {:content_type => 'application/xml', accept: :xml}) { |response, request, result, &block|
+					puts response.code
+								case response.code
+								when 200
+									puts 'Файл с именем k-comment-product.liquid - сохранили'
+									puts response
+								when 422
+									puts '422'
+                  puts response
+								else
+									response.return!(&block)
+								end
+								}
 end
 
 def self.add_snippet_to_layout(insint_id, theme_id)
@@ -447,22 +460,22 @@ def self.add_page_izb(insint_id, theme_id)
                 productsHtml += "<div class="products-favorite"><div class="row is-grid">";
                 $.each(product.products, function(i,product){
                     productsHtml += "<div class="cell-4 cell-6-sm cell-12-xs">";
-                          productsHtml += "<form class="card cards-col" action="{{ cart_url }}" method="post" data-product-id="'+product.id+'">"
+                          productsHtml += "<form class="card cards-col" action="{{ cart_url }}" method="post" data-product-id="\'+product.id+\'">"
                           productsHtml += "<div class="card-info"><div class="card-image">";
-                          productsHtml += "<a href="'+product.url+'" class="image-inner"><div class="image-wraps"><span class="image-container"><span class="image-flex-center"><img src="'+product.images[0].medium_url+'"></span></span></div></a></div>";
-                          productsHtml += "<div class="card-title"><a href="'+product.url+'">'+product.title+'</a></div></div>";
-                          productsHtml += "<div class="card-prices"><div class="row flex-center"><div class="cell- card-price">'+InSales.formatMoney(product.variants[0].price)+'</div>";
-                          productsHtml += "<div class="cell-  card-old_price">'+InSales.formatMoney(product.variants[0].old_price)+'</div></div></div>";
-                          productsHtml += "<div class="card-action show-flex"><div class="hide"><input type="hidden" name="variant_id" value="'+product.variants[0].id+'" ><div data-quantity class="hide"><input type="text" name="quantity" value="1" /></div></div></div>";
+                          productsHtml += "<a href="\'+product.url+\'" class="image-inner"><div class="image-wraps"><span class="image-container"><span class="image-flex-center"><img src="\'+product.images[0].medium_url+\'"></span></span></div></a></div>";
+                          productsHtml += "<div class="card-title"><a href="\'+product.url+\'">\'+product.title+\'</a></div></div>";
+                          productsHtml += "<div class="card-prices"><div class="row flex-center"><div class="cell- card-price">\'+InSales.formatMoney(product.variants[0].price)+\'</div>";
+                          productsHtml += "<div class="cell-  card-old_price">\'+InSales.formatMoney(product.variants[0].old_price)+\'</div></div></div>";
+                          productsHtml += "<div class="card-action show-flex"><div class="hide"><input type="hidden" name="variant_id" value="\'+product.variants[0].id+\'" ><div data-quantity class="hide"><input type="text" name="quantity" value="1" /></div></div></div>";
                           productsHtml += "<div class="card-action-inner">";
-                          productsHtml += "<button class="bttn-favorite is-added deleteizb" data-favorites-trigger="'+product.id+'">Удалить</button>";
+                          productsHtml += "<button class="bttn-favorite is-added deleteizb" data-favorites-trigger="\'+product.id+\'">Удалить</button>";
                           if (product.variants.size > 1){
-                            productsHtml +="<a href="'+product.url+'" class="bttn-prim">Подробнее</a>"
+                            productsHtml +="<a href="\'+product.url+\'" class="bttn-prim">Подробнее</a>"
                            }else{
                            productsHtml +="<button data-item-add class="bttn-prim" type="button">В корзину</button>"
                           }
                           productsHtml += "</div></form></div>";
-                          
+
                 });
                 productsHtml += "</div></div>";
 
@@ -492,8 +505,20 @@ def self.add_page_izb(insint_id, theme_id)
 
   ]]></content><type>Asset::Template</type></asset>'
 
-  response = RestClient.post url, data, :accept => :xml, :content_type => "application/xml"
-
+  # response = RestClient.post url, data, :accept => :xml, :content_type => "application/xml"
+  RestClient.post( url, data, {:content_type => 'application/xml', accept: :xml}) { |response, request, result, &block|
+					puts response.code
+								case response.code
+								when 200
+									puts 'Файл с именем page.izb.liquid - сохранили'
+									puts response
+								when 422
+									puts '422'
+                  puts response
+								else
+									response.return!(&block)
+								end
+								}
 end
 
 def self.delete_ins_file(insint_id)
