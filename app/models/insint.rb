@@ -456,28 +456,29 @@ def self.add_page_izb(insint_id, theme_id)
           products = data.products;
           var products_url = "/products_by_id/"+products+".json";
           $.getJSON(products_url).done(function (product) {
-                var productsHtml = "";
-                productsHtml += "<div class=&quot;products-favorite&quot;><div class=&quot;row is-grid&quot;>";
-                $.each(product.products, function(i,product){
-                    productsHtml += "<div class=&quot;cell-4 cell-6-sm cell-12-xs&quot;>";
-                          productsHtml += "<form class=&quot;card cards-col&quot; action=&quot;{{ cart_url }}&quot; method=&quot;post&quot; data-product-id="\'+product.id+\'">"
-                          productsHtml += "<div class=&quot;card-info&quot;><div class=&quot;card-image&quot;>";
-                          productsHtml += "<a href="\'+product.url+\'" class=&quot;image-inner&quot;><div class=&quot;image-wraps&quot;><span class=&quot;image-container&quot;><span class=&quot;image-flex-center&quot;><img src="\'+product.images[0].medium_url+\'"></span></span></div></a></div>";
-                          productsHtml += "<div class=&quot;card-title&quot;><a href="\'+product.url+\'">\'+product.title+\'</a></div></div>";
-                          productsHtml += "<div class=&quot;card-prices&quot;><div class=&quot;row flex-center&quot;><div class=&quot;cell- card-price&quot;>\'+InSales.formatMoney(product.variants[0].price)+\'</div>";
-                          productsHtml += "<div class=&quot;cell-  card-old_price&quot;>\'+InSales.formatMoney(product.variants[0].old_price)+\'</div></div></div>";
-                          productsHtml += "<div class=&quot;card-action show-flex&quot;><div class=&quot;hide&quot;><input type=&quot;hidden&quot; name=&quot;variant_id&quot; value="\'+product.variants[0].id+\'" ><div data-quantity class=&quot;hide&quot;><input type=&quot;text&quot; name=&quot;quantity&quot; value="1" /></div></div></div>";
-                          productsHtml += "<div class=&quot;card-action-inner&quot;>";
-                          productsHtml += "<button class=&quot;bttn-favorite is-added deleteizb&quot; data-favorites-trigger="\'+product.id+\'">Удалить</button>";
-                          if (product.variants.size > 1){
-                            productsHtml +="<a href="\'+product.url+\'" class=&quot;bttn-prim&quot;>Подробнее</a>"
-                           }else{
-                           productsHtml +="<button data-item-add class=&quot;bttn-prim&quot; type=&quot;button&quot;>В корзину</button>"
-                          }
-                          productsHtml += "</div></form></div>";
+              var productsHtml = '';
+              productsHtml += '<div class="products-favorite"><div class="row is-grid">';
+              $.each(product.products, function(i,product){
+                  productsHtml += '<div class="cell-4 cell-6-sm cell-12-xs">';
+                        productsHtml += '<form class="card cards-col" action="{{ cart_url }}" method="post" data-product-id="'+product.id+'">'
+                        productsHtml += '<div class="card-info"><div class="card-image">';
+                        productsHtml += '<a href="'+product.url+'" class="image-inner"><div class="image-wraps"><span class="image-container"><span class="image-flex-center"><img src="'+product.images[0].medium_url+'"></span></span></div></a></div>';
+                        productsHtml += '<div class="card-title"><a href="'+product.url+'">'+product.title+'</a></div></div>';
+                        productsHtml += '<div class="card-prices"><div class="row flex-center"><div class="cell- card-price">'+InSales.formatMoney(product.variants[0].price)+'</div>';
+                        productsHtml += '<div class="cell-  card-old_price">'+InSales.formatMoney(product.variants[0].old_price)+'</div></div></div>';
+                        productsHtml += '<div class="card-action show-flex"><div class="hide"><input type="hidden" name="variant_id" value="'+product.variants[0].id+'" ><div data-quantity class="hide"><input type="text" name="quantity" value="1" /></div></div></div>';
+                        productsHtml += '<div class="card-action-inner">';
+                        productsHtml += '<button class="bttn-favorite is-added deleteizb" data-favorites-trigger="'+product.id+'">Удалить</button>';
+                        if (product.variants.size > 1){
+                          productsHtml +='<a href="'+product.url+'" class="bttn-prim">Подробнее</a>'
+                         }else{
+                         productsHtml +='<button data-item-add class="bttn-prim" type="button">В корзину</button>'
+                        }
+                        productsHtml += '</div></form></div>';
 
-                });
-                productsHtml += "</div></div>";
+              });
+              productsHtml += '</div></div>';
+
 
                 $(".js-favorite").html(productsHtml);
           });
