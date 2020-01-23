@@ -457,7 +457,7 @@ def self.add_page_izb(insint_id, theme_id)
           var products_url = "/products_by_id/"+products+".json";
           $.getJSON(products_url).done(function (product) {
                 var productsHtml = "";
-                productsHtml += "<div class="products-favorite"><div class="row is-grid">";
+                productsHtml += "<div class=&quot;products-favorite&quot;><div class=&quot;row is-grid&quot;>";
                 $.each(product.products, function(i,product){
                     productsHtml += "<div class="cell-4 cell-6-sm cell-12-xs">";
                           productsHtml += "<form class="card cards-col" action="{{ cart_url }}" method="post" data-product-id="\'+product.id+\'">"
