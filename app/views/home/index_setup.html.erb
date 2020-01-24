@@ -1,21 +1,4 @@
-<div class="index-header d-flex flex-column flex-md-row align-items-center p-2 px-md-4 bg-white box-shadow">
-  <h4 class="my-0 mr-md-auto font-weight-normal text-center text-lg-left">
-    <a class="logo-text" href="http://k-comment.ru">
-      <strong>K-comment</strong>
-    </a><br>
-    <small>сервис избранных товаров</small>
-  </h4>
-  <nav class="my-2 my-md-0 mr-md-3">
-    <a class="p-2 text-dark" href="/#service">О сервисе</a>
-    <a class="p-2 text-dark" href="/index-setup">Настройка</a>
-    <a class="p-2 text-dark" href="/#price">Стоимость</a>
-    <a class="p-2 text-dark" href="/#o-nas">О нас</a>
-  </nav>
-  <div class="clearfix">
-    <%= link_to t('log_in'), new_session_path('user'), class: 'btn btn-primary float-left' %>
-    <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary float-right' %>
-  </div>
-</div>
+<%= render partial: "/home/header"%>
 <section class="page-section mb-0" id="setup">
   <div class="container">
 
@@ -34,7 +17,7 @@
       </ul>
       <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-          <h2 class="h3">Установка приложения</h2>
+          <h2 class="h3 mt-2">Установка приложения</h2>
           <ol class="list-group">
             <li class="list-group-item">
               Авторизуйтесь в бэк-офисе своего магазина, перейдите в раздел Приложения, затем – Центр приложений, найдите приложение "K-comment" и нажмите кнопку Установить.
@@ -42,7 +25,7 @@
               <img src="1.jpg"/>
             </li>
           </ol>
-          <h2 class="h3">Настройка приложения на примере темы "Стиль"</h2>
+          <h2 class="h3 mt-2">Настройка приложения на примере темы "Стиль"</h2>
           <ol class="list-group">
             <li class="list-group-item">
               Настройка кнопки в карточке товара
@@ -88,7 +71,7 @@ data-izb-delete="{{ product.id }}" style="display: none;"&gt;удалить из
               </ul>
 
             </li>
-            <li >
+            <li class="list-group-item">
               Настройка кнопки в каталоге для товаров.
               <ul class="mt-3 mb-3 list-group">
                 <li class="list-group-item">Перейдите в раздел
@@ -131,7 +114,7 @@ data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-he
                 </li>
               </ul>
             </li>
-            <li>Настройка страницы для вывода избранных товаров
+            <li class="list-group-item">Настройка страницы для вывода избранных товаров
               <ul class="mt-3 mb-3 list-group" ">
                 <li class="list-group-item">Перейдите в раздел
                   <b>Контент</b>,
@@ -167,9 +150,9 @@ data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-he
               </code>
             </li>
           </ol>
-          <h2 class="h3">Настройка приложения на примере темы "Fleur"</h2>
-          <ol class="mt-5">
-            <li>
+          <h2 class="h3 mt-2">Настройка приложения на примере темы "Fleur"</h2>
+          <ol class="list-group mt-5">
+            <li class="list-group-item">
               Настройка кнопки в карточке товара
               <ul class="mt-3 mb-3 list-group">
                 <li class="list-group-item">
@@ -209,7 +192,7 @@ data-izb-delete="{{ product.id }}" style="display: none;"&gt;удалить из
                   </li>
                 </ul>
               </li>
-              <li>
+              <li class="list-group-item">
                 Настройка кнопки в каталоге для товаров.
                 <ul class="mt-3 mb-3 list-group">
                   <li class="list-group-item">Перейдите в раздел
@@ -245,41 +228,40 @@ data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-he
             </ol>
           </div>
           <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-            <h2 class="h3">Установка приложения</h2>
-            <ol>
-              <li>
+            <h2 class="h3 mt-2">Установка приложения</h2>
+            <ol class="list-group">
+              <li class="list-group-item">
                 Создаем api ключи в своем интернет-магазине
                 <img src="13.jpg"/>
               </li>
-              <li>
+              <li class="list-group-item">
                 Регистрируемся на сайте приложения:
                 <a href="http://k-comment.ru/users/sign_up">http://k-comment.ru</a>
               </li>
-              <li>
+              <li class="list-group-item">
                 Заходим в ЛК, переходим в "Настройки" - "Общая информация"
                 <br/>
                 <img src="14.jpg"/>
               </li>
-              <li>
+              <li class="list-group-item">
                 Нажимаем на кнопку "Добавить интеграцию"
                 <br/>
                 <img src="15.jpg"/>
               </li>
-              <li>
+              <li class="list-group-item">
                 Прописываем ранее созданные ключи в личном кабинете приложения и сохраняем.
                 <br/>
                 <img src="16.jpg"/>
               </li>
-              <li>
+              <li class="list-group-item">
                 Нажимаем на кнопку "Добавить файлы"
                 <br/>
                 <img src="17.jpg"/>
               </li>
-
             </ol>
             <h2 class="h3">Настройка приложения на примере темы "Стиль"</h2>
-            <ol>
-              <li>
+            <ol class="list-group">
+              <li class="list-group-item">
                 Настройка кнопки в карточке товара
                 <ul class="mt-3 mb-3 list-group">
                   <li class="list-group-item">Перейдите в раздел
@@ -295,7 +277,6 @@ data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-he
                     <img src="3.jpg"/>
                     <br/>
                     <img src="4.jpg"/>
-
                   </li>
                   <li class="list-group-item">В коде найдите строчку
                     <code>
@@ -320,7 +301,7 @@ data-izb-delete="{{ product.id }}" style="display: none;"&gt;удалить из
                 </ul>
 
               </li>
-              <li >
+              <li class="list-group-item">
                 Настройка кнопки в каталоге для товаров.
                 <ul class="mt-3 mb-3 list-group">
                   <li class="list-group-item">Перейдите в раздел
@@ -336,7 +317,6 @@ data-izb-delete="{{ product.id }}" style="display: none;"&gt;удалить из
                     <img src="3.jpg"/>
                     <br/>
                     <img src="11.jpg"/>
-
                   </li>
                   <li class="list-group-item">В коде найдите строчку
                     <code>
@@ -363,7 +343,7 @@ data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-he
                   </li>
                 </ul>
               </li>
-              <li>Настройка страницы для вывода избранных товаров
+              <li class="list-group-item">Настройка страницы для вывода избранных товаров
                 <ul class="mt-3 mb-3 list-group">
                   <li class="list-group-item">Перейдите в раздел
                     <b>Контент</b>,
@@ -394,7 +374,7 @@ data-izb-delete="{{ product.id }}" class="izb-icon deleteizb js-izb-delete fa-he
                 </ul>
               </li>
 
-              <li>При установке другой темы или копии текущей, в нее нужно скопирвать следующие файлы:
+              <li class="list-group-item">При установке другой темы или копии текущей, в нее нужно скопирвать следующие файлы:
                 <code>k-comment-product.liquid, page.izb.liquid
                 </code>
               </li>

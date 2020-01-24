@@ -1,19 +1,4 @@
-<div class="index-header d-flex flex-column flex-md-row align-items-center p-2 px-md-4 bg-white box-shadow">
-  <h4 class="my-0 mr-md-auto font-weight-normal text-center text-lg-left">
-    <a class="logo-text" href="http://k-comment.ru"><strong>K-comment</strong></a><br>
-    <small>сервис избранных товаров</small>
-  </h4>
-  <nav class="my-2 my-md-0 mr-md-3">
-    <a class="p-2 text-dark" href="/#service">О сервисе</a>
-    <a class="p-2 text-dark" href="/index-setup">Настройка</a>
-    <a class="p-2 text-dark" href="/#price">Стоимость</a>
-    <a class="p-2 text-dark" href="/#o-nas">О нас</a>
-  </nav>
-  <div class="clearfix">
-  <%= link_to t('log_in'), new_session_path('user'), class: 'btn btn-primary float-left' %>
-  <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary float-right' %>
-  </div>
-</div>
+<%= render partial: "/home/header"%>
 
 <section class="page-section bg-primary text-white mb-0" id="service">
   <div class="container">
@@ -125,7 +110,8 @@
       </div>
       <div class="card mb-4 box-shadow">
         <div class="card-header">
-          <h4 class="my-0 font-weight-normal">Пакет 2 <span style="color:red;">(экономия 10%)</span></h4>
+          <h4 class="my-0 font-weight-normal">Пакет 2
+            <span style="color:red;">(экономия 10%)</span></h4>
         </div>
         <div class="card-body">
           <h1 class="card-title pricing-card-title">2700 р

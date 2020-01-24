@@ -159,7 +159,7 @@ def self.add_snippet(insint_id, theme_id)
            _this.hide();
             if($(".products-favorite .row").children().length) {
             } else {
-               $(".js-favorite").html("<div style=&quot;text-align: center;&quot; class=&quot;notice&quot;>В избранном нет товаров</div>");
+               $(".js-favorite-wrapper").html("<div style=&quot;text-align: center;&quot; class=&quot;notice&quot;>В избранном нет товаров</div>");
             }
         }).fail(function( jqxhr, textStatus, error ) {
           var err = textStatus + ", " + error;
