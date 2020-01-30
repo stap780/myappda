@@ -22,7 +22,7 @@
 /z-help.txt
 
 # Ignore environments development
-/config/environments/development.rb
+/config/initializers/app_env_vars.rb
 
 # Ignore Byebug command history file.
 .byebug_history
