@@ -21,5 +21,8 @@
 !/tmp/.keep
 /z-help.txt
 
+# Ignore environments development
+/config/environments/development.rb
+
 # Ignore Byebug command history file.
 .byebug_history

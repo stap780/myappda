@@ -94,8 +94,8 @@ Rails.application.configure do
     domain: "yandex.ru",
     authentication: "login",
     enable_starttls_auto: true,
-    user_name: 'info@k-comment.ru',
-    password: 'k-comment'
+    user_name: <%= ENV['YANDEX_USER_NAME'] %>,
+    password: <%= ENV['YANDEX_PASSWORD'] %>
   	}
   # config.action_mailer.smtp_settings = {
   #   address: "smtp.gmail.com",
@@ -103,8 +103,8 @@ Rails.application.configure do
   #   domain: "teletri.ru",
   #   authentication: "login",
   #   enable_starttls_auto: true,
-  #   user_name: "advt@teletri.ru",
-  #   password: "advt@teletri.ru",
+  #   user_name: <%= ENV['GMAIL_USER_NAME'] %>,
+  #   password: <%= ENV['GMAIL_PASSWORD'] %>,
   #   openssl_verify_mode: "none"
   # }
 
