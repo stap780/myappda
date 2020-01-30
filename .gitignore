@@ -21,8 +21,8 @@
 !/tmp/.keep
 /z-help.txt
 
-# Ignore environments development
-/config/initializers/app_env_vars.rb
-
 # Ignore Byebug command history file.
 .byebug_history
+
+# Ignore application configuration
+/config/application.yml

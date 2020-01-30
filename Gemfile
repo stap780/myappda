@@ -54,6 +54,7 @@ gem 'roo-xls'
 gem 'whenever', require: false
 gem 'delayed_job_active_record'
 gem 'ru_propisju'
+gem 'figaro'
 
 
 group :development, :test do
