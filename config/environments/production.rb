@@ -87,24 +87,24 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
 
-    config.action_mailer.smtp_settings = {
+  config.action_mailer.smtp_settings = {
     tls: true,
     address: "smtp.yandex.com",
     port: 465,
     domain: "yandex.ru",
     authentication: "login",
-    user_name: <%= ENV["YANDEX_USER_NAME"] %>,
-    password: <%= ENV["YANDEX_PASSWORD"] %>,
+    user_name: ENV["YANDEX_USER_NAME"],
+    password:  ENV["YANDEX_PASSWORD"] ,
     enable_starttls_auto: true
-  	}
+  }
   # config.action_mailer.smtp_settings = {
   #   address: "smtp.gmail.com",
   #   port: 587,
   #   domain: "teletri.ru",
   #   authentication: "login",
   #   enable_starttls_auto: true,
-  #   user_name: <%= ENV["GMAIL_USER_NAME"] %>,
-  #   password: <%= ENV["GMAIL_PASSWORD"] %>,
+  #   user_name: ENV["GMAIL_USER_NAME"],
+  #   password: ENV["GMAIL_PASSWORD"],
   #   openssl_verify_mode: "none"
   # }
 
