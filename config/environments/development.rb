@@ -67,20 +67,20 @@ Rails.application.configure do
   port: 465,
   domain: "yandex.ru",
   authentication: "login",
-  user_name: "<%= ENV['YANDEX_USER_NAME'] %>",
-  password: "<%= ENV['YANDEX_PASSWORD'] %>",
-  enable_starttls_auto: true
+  enable_starttls_auto: true,
+  user_name: 'info@k-comment.ru',
+  password: 'k-comment'
   }
-# config.action_mailer.smtp_settings = {
-#   address: "smtp.gmail.com",
-#   port: 587,
-#   domain: "teletri.ru",
-#   authentication: "login",
-#   enable_starttls_auto: true,
-#   user_name: "<%= ENV['GMAIL_USER_NAME'] %>",
-#   password: "<%= ENV['GMAIL_PASSWORD'] %>",
-#   openssl_verify_mode: "none"
-# }
+  # config.action_mailer.smtp_settings = {
+  #   address: "smtp.gmail.com",
+  #   port: 587,
+  #   domain: "teletri.ru",
+  #   authentication: "login",
+  #   enable_starttls_auto: true,
+  #   user_name: "advt@teletri.ru",
+  #   password: "advt@teletri.ru",
+  #   openssl_verify_mode: "none"
+  # }
 
     config.action_mailer.default_url_options = { host: 'http://lvh.me:3000'}
 
