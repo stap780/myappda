@@ -4,17 +4,13 @@ class DashboardController < ApplicationController
     if insint.present?
       if insint.inskey.present?
         uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/count.json"
-        puts uri
-        response = RestClient.get(uri)
-        data = JSON.parse(response)
-        @product_count = data['count']
       else
         uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/count.json"
+      end
         puts uri
         response = RestClient.get(uri)
         data = JSON.parse(response)
         @product_count = data['count']
-      end
     end
     clients = Client.all
     izb_product_string = clients.map(&:izb_productid).join(',')

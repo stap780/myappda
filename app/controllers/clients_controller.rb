@@ -4,16 +4,17 @@ class ClientsController < ApplicationController
   # GET /clients
   # GET /clients.json
   def index
-    # @clients = Client.all
     @search = Client.ransack(params[:q])
     @search.sorts = 'id desc' if @search.sorts.empty?
     @clients = @search.result.paginate(page: params[:page], per_page: 30)
 
     fio = []
+    email_data = []
     insint = current_user.insints.first
     if insint.present?
       @clients.each do |client|
-        arr = []
+        arr_fio = []
+        arr_email = []
         if insint.inskey.present?
           uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/"+client.clientid+".json"
         else
@@ -25,22 +26,25 @@ class ClientsController < ApplicationController
                   data = JSON.parse(response)
                   name = data['name'] || ''
                   surname = data['surname'] || ''
-                  arr.push(client.id, name+" "+surname)
+                  email = data['email'] || ''
+                  arr_fio.push(client.id, name+" "+surname)
+                  arr_email.push(client.id, email)
                 when 404
-                  arr.push(client.id, "")
+                  arr_fio.push(client.id, "")
+                  arr_email.push(client.id, email)
                 else
                   response.return!(&block)
                 end
                 }
-        fio.push(arr)
+        fio.push(arr_fio)
+        email_data.push(arr_email)
       end
       fioHash = Hash[fio]
-      @full_clients = @clients.map{|client| client.attributes.merge({'fio' => fioHash[client.id]})}
+      emailHash = Hash[email_data]
+      @full_clients = @clients.map{|client| client.attributes.merge({'fio' => fioHash[client.id],'email' => emailHash[client.id]})}
     else
         @full_clients = @clients
     end
-
-# puts @full_clients
 
   end
 
@@ -48,17 +52,10 @@ class ClientsController < ApplicationController
   # GET /clients/1.json
   def show
     @fio = params["fio"]
+    @email = params["email"]
     pr_datas = []
     insint = current_user.insints.first
       @client.izb_productid.split(',').each do |pr|
-        # if insint.inskey.present?
-        #   uri = "#{insint.subdomen}"+"/admin/products/"+pr+".json"
-        #   auth = 'Basic ' + Base64.encode64( "#{insint.inskey}"+":"+"#{insint.password}" ).chomp
-        # else
-        #   uri = "#{insint.subdomen}"+"/admin/products/"+pr+".json"
-        #   auth = 'Basic ' + Base64.encode64( 'k-comment:'+"#{insint.password}" ).chomp
-        # end
-        # RestClient.get( uri, :Authorization => auth, :content_type => :json, :accept => :json) { |response, request, result, &block|
         if insint.inskey.present?
           uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
         else
@@ -87,7 +84,6 @@ class ClientsController < ApplicationController
                 }
       end
       @client_products = pr_datas
-
   end
 
   # GET /clients/new
@@ -99,11 +95,79 @@ class ClientsController < ApplicationController
   def edit
   end
 
+  def otchet
+    izb_arr = Client.all.map(&:izb_productid).join(',').split(',')
+    izbHash = izb_arr.group_by(&:itself).map { |k,v| [k, v.count] }.to_h
+    puts izbHash
+    client_products = []
+    insint = current_user.insints.first
+    if insint.inskey.present?
+      uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"
+    else
+      uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"
+    end
+    izbHash.each do |k,v|
+      RestClient.get( uri+"#{k}"+".json", :content_type => :json, :accept => :json) { |response, request, result, &block|
+              case response.code
+              when 200
+                data = JSON.parse(response)
+                title = data['title'] || ''
+                permalink = data['permalink'] || ''
+                if data['images'].present?
+                  image = data['images'][0]['small_url']
+                else
+                  image = ''
+                end
+                price = data['variants'][0]['price'] || ''
+                save_data = "#{k}"+","+title+","+permalink+","+image+","+price+","+"#{v}"
+                client_products.push(save_data)
+              when 404
+                save_data = "#{k}"+","+","+","+","+","+"#{v}"
+                client_products.push(save_data)
+              else
+                response.return!(&block)
+              end
+              }
+    end
+# puts client_products
+    puts "Создаём отчет"
+    file = "#{Rails.public_path}"+"/"+"#{current_user.id.to_s}"+"_clients_izb.csv"
+    check_file = File.file?(file)
+    if check_file.present?
+      File.delete(file)
+    end
+
+    #создаём файл со статичными данными
+    CSV.open( file, 'w') do |writer|
+      headers = ['id товара','Название товара','Ссылка', 'Картинка', 'Цена','Кол-во упоминаний']
+      writer << headers
+
+      client_products.each do |product|
+          # puts product.split(',')[0]
+          id = product.split(',')[0]
+          title = product.split(',')[1]
+          link = product.split(',')[2]
+          pict = product.split(',')[3]
+          price = product.split(',')[4]
+          qt = product.split(',')[5]
+          writer << [id, title, link, pict, price, qt]
+      end
+    end #CSV.open
+
+    # check_status = true
+    respond_to do |format|
+      format.js do
+        # if check_file.present?
+          flash.now[:notice] = "Файл создан <a href='/"+"#{current_user.id.to_s}"+"_clients_izb.csv'>Скачать</a>"
+        # end
+      end
+    end
+  end
+
   # POST /clients
   # POST /clients.json
   def create
     @client = Client.new(client_params)
-
     respond_to do |format|
       if @client.save
         format.html { redirect_to @client, notice: 'Client was successfully created.' }

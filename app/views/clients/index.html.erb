@@ -1,16 +1,15 @@
 <div class="row">
   <div class="col-2">
-    <h1>Клиенты</h1>
-    <p>Всего - <%= Client.count%></p>
+    <h1>Клиенты</h1><small>Всего - <%= Client.count%></small>
   </div>
-  <div class="col-2">
-
+  <div class="col-2 align-self-center">
+    <%= link_to '<i class="fa fa-list" aria-hidden="true"></i> Сохранить отчет'.html_safe, clients_otchet_path, title: "Отчет", class: "btn btn-light", role:"button", remote: true%>
   </div>
   <%= search_form_for @search, html: {class: 'form-inline col-3'}  do |f|%>
     <div class="form-group">
       <%= f.search_field :clientid_cont_all, placeholder: 'ID', class: "form-control input-sm"%>
-      <%= f.submit 'Поиск', class: 'btn btn-light' %>
-      <%= link_to 'Сбросить',clients_path, class: 'btn btn-outline-secondary' %>
+      <%= f.submit 'Поиск', class: 'btn btn-info' %>
+      <%= link_to 'Сбросить',clients_path, class: 'btn btn-link' %>
     </div>
   <% end %>
 </div>
@@ -21,6 +20,7 @@
     <tr>
       <th>ID клиента</th>
       <th>ФИО</th>
+      <th>Email</th>
       <th>Товары в избранном</th>
       <th colspan="1"></th>
     </tr>
@@ -31,13 +31,15 @@
       <tr>
         <td><%= client['clientid'] %></td>
         <td><%= client['fio'] %></td>
+        <td><%= client['email'] %></td>
         <td><%= client['izb_productid'] %></td>
-        <td><%= link_to '<i class="fa fa-eye" aria-hidden="true"></i>'.html_safe, client_path(:id => client['id'], :fio =>  client['fio']) %></td>
+        <td><%= link_to '<i class="fa fa-eye" aria-hidden="true"></i>'.html_safe, client_path(:id => client['id'], :fio =>  client['fio'], :email => client['email']) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 </div>
-
-	<%= will_paginate @clients %>
+<div class="digg_pagination">
+  <%= will_paginate @clients %>
+</div>

@@ -9,11 +9,9 @@ class InsintsController < ApplicationController
   end
 
   def adminindex
-    # @insints = Insint.order(:id)
     @search = Insint.ransack(params[:q])
     @search.sorts = 'id desc' if @search.sorts.empty?
     @insints = @search.result.paginate(page: params[:page], per_page: 30)
-
   end
 
 
@@ -244,13 +242,23 @@ class InsintsController < ApplicationController
     else
       uri = "http://k-comment.ru"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
     end
-    response = RestClient.get(uri)
 
+    RestClient.get( uri, {:content_type => 'application/json', accept: :json}) { |response, request, result, &block|
+            case response.code
+            when 200
+              @check_status = true
+            when 401
+              @check_status = false
+            else
+              response.return!(&block)
+            end
+            }
     respond_to do |format|
         format.js do
-          if response.code == 200
+          if @check_status == true
             flash.now[:notice] = "Интеграция работает!"
-          else
+          end
+          if @check_status == false
             flash.now[:error] = "Не работает интеграция!"
           end
         end

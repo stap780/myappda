@@ -23,6 +23,10 @@ ru:
   hello: "Привет мир"
   log_in: "Войти"
   sign_up: "Регистрация"
+  will_paginate:
+    previous_label: "Назад"
+    next_label: "Вперёд"
+    page_gap: "…"
   activerecord:
     models:
       user: "Пользователь"

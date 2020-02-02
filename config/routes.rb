@@ -40,6 +40,7 @@ Rails.application.routes.draw do
 
   constraints SubdomainConstraint do
     resources :useraccounts
+    get '/clients/otchet', to: 'clients#otchet'
     resources :clients
     resources :invoices do
       get :print

@@ -8,8 +8,8 @@
       <%= f.search_field :name_or_subdomain_or_email_cont_all, placeholder: 'Имя, домен, email', class: "form-control input-sm"%>
       <%= f.search_field :created_at_datebegin, placeholder: 'создан от', class: "form-control input-sm", autocomplete: "off" %>
       <%= f.search_field :valid_until_dateend, placeholder: 'valid до', class: "form-control input-sm", autocomplete: "off"%>
-      <%= f.submit 'Поиск', class: 'btn btn-light' %>
-      <%= link_to 'Сбросить',dashboard_users_path, class: 'btn btn-outline-secondary' %>
+      <%= f.submit 'Поиск', class: 'btn btn-info' %>
+      <%= link_to 'Сбросить',dashboard_users_path, class: 'btn btn-link' %>
     </div>
   <% end %>
 </div>
@@ -46,5 +46,6 @@
 </table>
 
 </div>
-
+<div class="digg_pagination">
 	<%= will_paginate @users %>
+</div>
