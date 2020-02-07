@@ -28,6 +28,9 @@ class User < ApplicationRecord
     Apartment::Tenant.drop(subdomain)
   end # delete_tenant
 
+  def self.send_user_email
+    UserMailer.test_welcome_email.deliver_now
+  end
 
 
 end # class

@@ -33,4 +33,10 @@ class DashboardController < ApplicationController
     end
   end
 
+  def test_email
+    User.send_user_email
+    flash[:notice] = 'Отправили'
+		redirect_to dashboard_index_path
+  end
+
 end # index

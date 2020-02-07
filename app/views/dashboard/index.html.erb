@@ -13,6 +13,10 @@
       В избранное добавлено товаров в кол-ве <%= @count_izb %> шт
     </p>
 
+    <% if current_admin %>
+    <p><%= link_to "Test email", dashboard_test_email_path %></p>
+    <%else%><%end%>
+    
   </div>
 
 

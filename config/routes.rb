@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     resources :companies
     get '/dashboard/index' , to: 'dashboard#index'
     get '/dashboard/users', to: 'dashboard#users'
+    get '/dashboard/test_email', to: 'dashboard#test_email'
     delete '/dashboard/user_destroy', to: 'dashboard#user_destroy'
   end # constraints
 
