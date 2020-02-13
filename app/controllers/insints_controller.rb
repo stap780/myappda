@@ -1,5 +1,5 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user! , except: [:install, :uninstall, :login, :addizb, :getizb, :deleteizb, :setup_script]
+  before_action :authenticate_user! , except: [:install, :uninstall, :login, :addizb, :getizb, :deleteizb, :setup_script, :emailizb]
   before_action :set_insint, only: [:show, :edit, :update, :destroy]
 
   # GET /insints
@@ -216,6 +216,30 @@ class InsintsController < ApplicationController
           end
         end
 
+    end
+  end
+
+  def emailizb
+    @insint = Insint.find_by_subdomen(params[:host])
+    if @insint.inskey.present?
+      saved_subdomain = @insint.user.subdomain
+    else
+      saved_subdomain = "insales"+@insint.insalesid.to_s
+    end
+    Apartment::Tenant.switch!(saved_subdomain)
+    @user = User.find_by_subdomain(saved_subdomain)
+    if @user.present?
+      # if Date.today < @user.valid_until
+        client = Client.find_by_clientid(params[:client_id])
+        if client.present?
+          Cient.emailizb(saved_subdomain, client.id, @user.id)
+          render :json=> {:success=>true, :message=>"Товары отправленны Вам на почту"}
+        else
+          render :json=> {:error=>false, :message=>"нет такого клиента"}
+        end
+      # else
+      #   render :json=> {:success=>true, :message=>"истёк срок оплаты сервиса"}
+      # end
     end
   end
 

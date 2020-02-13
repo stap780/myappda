@@ -30,8 +30,8 @@ class ClientsController < ApplicationController
                   arr_fio.push(client.id, name+" "+surname)
                   arr_email.push(client.id, email)
                 when 404
-                  arr_fio.push(client.id, "")
-                  arr_email.push(client.id, email)
+                  arr_fio.push(client.id, '')
+                  arr_email.push(client.id, '')
                 else
                   response.return!(&block)
                 end
@@ -43,7 +43,7 @@ class ClientsController < ApplicationController
       emailHash = Hash[email_data]
       @full_clients = @clients.map{|client| client.attributes.merge({'fio' => fioHash[client.id],'email' => emailHash[client.id]})}
     else
-        @full_clients = @clients
+      @full_clients = @clients
     end
 
   end
@@ -55,13 +55,13 @@ class ClientsController < ApplicationController
     @email = params["email"]
     pr_datas = []
     insint = current_user.insints.first
+    if insint.inskey.present?
+      uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"
+    else
+      uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"
+    end
       @client.izb_productid.split(',').each do |pr|
-        if insint.inskey.present?
-          uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
-        else
-          uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"+pr+".json"
-        end
-        RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
+        RestClient.get( uri+"/admin/products/"+pr+".json", :content_type => :json, :accept => :json) { |response, request, result, &block|
                 case response.code
                 when 200
                   data = JSON.parse(response)

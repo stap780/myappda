@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Добрый день, <%= @fio%></h1>
+    <p>Ваши товары из раздела избранное представлены ниже:</p>
+    <table >
+      <thead>
+      <tr>
+        <th>Id товара</th>
+        <th>Название</th>
+        <th>Картинка</th>
+        <th>Цена</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |pr| %>
+        <tr>
+          <td><%=pr.split(',')[0]%></td>
+          <td><%= link_to "#{pr.split(',')[1]}", @shopurl+"/product/"+pr.split(',')[2], target: "_blank" %></td>
+          <td><img src="<%=pr.split(',')[3]%>" alt="<%=pr.split(',')[1]%>"></td>
+          <td><%=pr.split(',')[4]%></td>
+        </tr>
+      <% end %>
+        </tbody>
+    </table>
+    <p>___</p>
+    <p><%= @shoptitle %></p>
+    <p>Спасибо что Вы с нами, хорошего дня!</p>
+  </body>
+</html>

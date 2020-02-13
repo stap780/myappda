@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       get :setup_script
       get :delete_script
       get :checkint
+      get :emailizb
     end
   end
 

@@ -10,14 +10,14 @@ class UseraccountsController < ApplicationController
     if insint.present?
       if insint.inskey.present?
         uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
-        puts uri
+        # puts uri
         response = RestClient.get(uri)
         data = JSON.parse(response)
         @ins_title = data['title']
         @ins_phone = data['phone']
       else
         uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
-        puts uri
+        # puts uri
         response = RestClient.get(uri)
         data = JSON.parse(response)
         @ins_title = data['title']
