@@ -2,6 +2,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
   after_action :set_user_valid_date, only: [:create]
+  after_create :send_admin_email
 
 
 
@@ -67,5 +68,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
       current_user.valid_until = current_user.created_at + 7.days
       current_user.save
     end
+  end
+
+  def send_admin_email
+    UserMailer.test_welcome_email.deliver_now
   end
 end

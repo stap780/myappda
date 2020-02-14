@@ -70,7 +70,7 @@ class InsintsController < ApplicationController
   end
 
   def install
-    puts params[:insales_id]
+    # puts params[:insales_id]
     @insint = Insint.find_by_insalesid(params[:insales_id])
     if @insint.present?
       puts "есть пользователь insint"
@@ -88,6 +88,7 @@ class InsintsController < ApplicationController
       insint_new = Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
       Insint.setup_ins_shop(insint_new.id)
       head :ok
+      UserMailer.test_welcome_email.deliver_now
     end
   end
 
@@ -116,7 +117,7 @@ class InsintsController < ApplicationController
         if user_account.present?
           name = params[:user_id]+params[:shop]
           user_account.update_attributes(:shop => params[:shop], :email => params[:user_email], :insuserid => params[:user_id], :name => name)
-          puts @user.valid_until
+          # puts @user.valid_until
           if @user.valid_until <= Date.today
             puts "время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату"
             @user.valid_until = Date.today

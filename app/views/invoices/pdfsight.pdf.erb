@@ -61,7 +61,7 @@
   </tr>
 </table>
 <center style='margin-top:40px'>
-<h2>СЧЕТ № <%= @invoice.id %> от <%= @invoice.created_at.strftime("%d / %m / %Y")%></h2>
+<h2>СЧЕТ № <%= current_user.id%>-<%= @invoice.id %> от <%= @invoice.created_at.strftime("%d / %m / %Y")%></h2>
 </center>
 <p style='margin-top:30px;'>Плательщик:
 <span style='margin-left: 27px'>
