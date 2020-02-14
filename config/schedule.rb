@@ -30,6 +30,6 @@ env "GEM_HOME", ENV["GEM_HOME"]
 set :output, "#{path}/log/cron.log"
 set :chronic_options, :hours24 => true
 
-every 1.day, :at => '09:25' do #
-  runner "User.send_user_email"
+every 1.day, :at => '08:25' do #
+  runner "User.service_end_email"
 end
