@@ -23,8 +23,47 @@
 <section class="page-section mb-0 pb-0" id="service-images">
   <div class="container">
 
+    <div class="card-deck row">
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="card">
+          <div class="view overlay">
+            <%= image_tag "/benefit1.jpg", data: { src: "/benefit1.jpg"}, class: "card-img-top" %>
+            <div class="mask rgba-white-slight"></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Больше удобств клиенту</h4>
+            <p class="card-text">"Избранные товары" доступны клиенту как в мобильной , так и в полной версии сайта. Ваш клиент всегда может отправить себе на email отобранные товары.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="card">
+          <div class="view overlay">
+            <%= image_tag "/benefit2.jpg", data: { src: "/benefit2.jpg"}, class: "card-img-top" %>
+            <div class="mask rgba-white-slight"></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Полностью изменяемый вид</h4>
+            <p class="card-text">Обладая базовыми знаниями в CSS вы можете полностью изменить дизайн кнопок и страницы "Избранные товары" под Ваш стиль магазина.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="card">
+          <div class="view overlay">
+            <%= image_tag "/benefit3.jpg", data: { src: "/benefit3.jpg"}, class: "card-img-top" %>
+            <div class="mask rgba-white-slight"></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Отчеты об отобранных товарах</h4>
+            <p class="card-text">Вы можете просматривать статистику отобранных товарах по клиентам отдельно или экспортировать весь список в CSV для дальнейшего анализа.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     <!-- About Section Heading -->
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  <!--  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators d-none">
         <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
         <li data-target="#carousel-example-generic" data-slide-to="1"></li>
@@ -46,8 +85,7 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
-
-  </div>
+-->
 </section>
 
 <section class="page-section price pt-3" id="price">
@@ -68,7 +106,7 @@
           <ul class="text-left mt-3 mb-4">
             <li>Поддержка</li>
             <li>
-              <a href="#">Самостоятельная настройка</a>
+              <a href="/index-setup">Самостоятельная настройка</a>
             </li>
           </ul>
           <%= link_to "Установить", new_registration_path('user'), class: 'btn btn-lg btn-block btn-primary' %>
@@ -84,7 +122,7 @@
           <ul class="text-left mt-3 mb-4">
             <li>Поддержка</li>
             <li>
-              <a href="#">Самостоятельная настройка</a>
+              <a href="/index-setup">Самостоятельная настройка</a>
             </li>
           </ul>
           <%= link_to "Установить", new_registration_path('user'), class: 'btn btn-lg btn-block btn-primary' %>
