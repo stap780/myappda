@@ -35,7 +35,8 @@ class DashboardController < ApplicationController
 
   def test_email
     User.service_end_email
-    # Client.emailizb('fishartel', 29250124, 64 )
+    # Client.emailizb('fishartel', 29250124, 64 ) #development test
+    # Client.emailizb('insales22810', 27968659, 20 ) #production test
     flash[:notice] = 'Отправили'
 		redirect_to dashboard_index_path
   end

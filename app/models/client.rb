@@ -13,7 +13,6 @@ class Client < ApplicationRecord
     data = JSON.parse(response)
     shoptitle = data['title']
     shopemail = data['email']
-
     shopurl = "http://"+insint.subdomen
 
     arr_fio = []
@@ -66,7 +65,6 @@ class Client < ApplicationRecord
     products = pr_datas
 
     ClientMailer.emailizb(shoptitle, shopemail,  shopurl, fio, email, products ).deliver_now
-
 
   end
 
