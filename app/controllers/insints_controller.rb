@@ -233,7 +233,7 @@ class InsintsController < ApplicationController
       # if Date.today < @user.valid_until
         client = Client.find_by_clientid(params[:client_id])
         if client.present?
-          Cient.emailizb(saved_subdomain, client.id, @user.id)
+          Client.emailizb(saved_subdomain, client.id, @user.id)
           render :json=> {:success=>true, :message=>"Товары отправленны Вам на почту"}
         else
           render :json=> {:error=>false, :message=>"нет такого клиента"}
