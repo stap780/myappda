@@ -33,6 +33,9 @@ class ClientsController < ApplicationController
                 when 404
                   arr_fio.push(client.id, '')
                   arr_email.push(client.id, '')
+                when 403
+                  arr_fio.push(client.id, '')
+                  arr_email.push(client.id, '')
                 else
                   response.return!(&block)
                 end
