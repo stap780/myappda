@@ -12,13 +12,14 @@ class ClientsController < ApplicationController
     email_data = []
     insint = current_user.insints.first
     if insint.present?
+      puts @clients.count
       @clients.each do |client|
         arr_fio = []
         arr_email = []
         if insint.inskey.present?
-          uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/"+client.clientid+".json"
+          uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/"+"#{client.clientid}"+".json"
         else
-          uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/"+client.clientid+".json"
+          uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/"+"#{client.clientid}"+".json"
         end
         RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
                 case response.code

@@ -1,5 +1,7 @@
 class Client < ApplicationRecord
 
+  validates :clientid, presence: true
+
   def self.emailizb(saved_subdomain,client_id, user_id)
     Apartment::Tenant.switch!(saved_subdomain)
     client = Client.find_by_clientid(client_id)
