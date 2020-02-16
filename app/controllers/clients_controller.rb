@@ -115,7 +115,7 @@ class ClientsController < ApplicationController
               case response.code
               when 200
                 data = JSON.parse(response)
-                title = data['title'] || ''
+                title = data['title'].to_s.gsub(',',' ') || ''
                 permalink = data['permalink'] || ''
                 if data['images'].present?
                   image = data['images'][0]['small_url']
@@ -202,7 +202,7 @@ class ClientsController < ApplicationController
   def destroy
     @client.destroy
     respond_to do |format|
-      format.html { redirect_to clients_url, notice: 'Client was successfully destroyed.' }
+      format.html { redirect_to clients_url, notice: 'Данные по клиенту удалены.' }
       format.json { head :no_content }
     end
   end
