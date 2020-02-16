@@ -69,7 +69,7 @@ class ClientsController < ApplicationController
                 case response.code
                 when 200
                   data = JSON.parse(response)
-                  title = data['title'] || ''
+                  title = data['title'].to_s.gsub(',',' ') || ''
                   permalink = data['permalink'] || ''
                   if data['images'].present?
                     image = data['images'][0]['small_url']
@@ -102,7 +102,7 @@ class ClientsController < ApplicationController
   def otchet
     izb_arr = Client.all.map(&:izb_productid).join(',').split(',')
     izbHash = izb_arr.group_by(&:itself).map { |k,v| [k, v.count] }.to_h
-    puts izbHash
+    # puts izbHash
     client_products = []
     insint = current_user.insints.first
     if insint.inskey.present?
