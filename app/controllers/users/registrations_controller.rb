@@ -71,6 +71,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def send_admin_email
-    UserMailer.test_welcome_email.deliver_now
+    if current_user.present?
+      UserMailer.test_welcome_email.deliver_now
+    end
   end
 end
