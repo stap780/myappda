@@ -155,10 +155,12 @@ class InsintsController < ApplicationController
         if client.present?
           izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
           client.update_attributes(:izb_productid => izb_productid )
-          render :json=> {:success=>true, :message=>"товар добавлен в избранное"}
+          totalcount = client.izb_productid.split(',').count
+          render :json=> {:success=>true, :message=>"товар добавлен в избранное", :totalcount => totalcount}
         else
-          Client.create(:clientid => params[:client_id], :izb_productid => params[:product_id])
-          render :json=> {:success=>true, :message=>"товар добавлен в избранное"}
+          new_client = Client.create(:clientid => params[:client_id], :izb_productid => params[:product_id])
+          totalcount = new_client.izb_productid.split(',').count
+          render :json=> {:success=>true, :message=>"товар добавлен в избранное", :totalcount => totalcount}
         end
       else
         render :json=> {:error=>false, :message=>"истёк срок оплаты сервиса, товары не добавляются"}
@@ -180,7 +182,8 @@ class InsintsController < ApplicationController
       # if Date.today < @user.valid_until
         client = Client.find_by_clientid(params[:client_id])
         if client.present?
-          render :json=> {:success=>true, :products =>client.izb_productid}
+          totalcount = client.izb_productid.split(',').count
+          render :json=> {:success=>true, :products =>client.izb_productid, :totalcount => totalcount}
         else
           render :json=> {:error=>false, :message=>"нет такого клиента"}
         end
@@ -204,14 +207,15 @@ class InsintsController < ApplicationController
         client = Client.find_by_clientid(params[:client_id])
         if client.present?
           products = client.izb_productid
-          puts products
+          # puts products
           if products.include?(params[:product_id])
             ecxlude_string = []
             ecxlude_string.push(params[:product_id])
             products = ( client.izb_productid.split(',') - ecxlude_string ).uniq.join(',')
-            puts products
+            # puts products
             client.update_attributes( :izb_productid => products )
-            render :json=> {:success=>true, :message=>"товар удалён"}
+            totalcount = client.izb_productid.split(',').count
+            render :json=> {:success=>true, :message=>"товар удалён", :totalcount => totalcount}
           else
             render :json=> {:error=>false, :message=>"нет такого товара"}
           end
