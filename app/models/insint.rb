@@ -59,128 +59,173 @@ def self.add_snippet(insint_id, theme_id)
   <content><![CDATA[
     <style>
     .izb-icon {
-       display: inline-block;
-      }
-  </style>
-{% if client %}
-<script type="text/javascript">
-  $(document).ready(function(){
-    $(".js-izb-add").click(function(e){
-      e.preventDefault();
-      var _this = $(this);
-      var clientId;
-      var productId = _this.data("izb-add");
-      var host = "{{account.subdomain}}.myinsales.ru";
-      $.ajax({
-        "async": false,
-        "url": "/client_account/contacts.json",
-        "dataType": "json",
-        "success": function (data) {
-          clientId = data.client.id;
-        }
-      });
-      var url = "https://k-comment.ru/insints/addizb"
-      $.ajax({
-        "url": url,
-        "data": { host: host, client_id: clientId, product_id: productId },
-        "dataType": "json"
-      }).done(function( data ) {
-        console.log("дата", data );
-        alert(data.message);
- 		_this.hide();
-        _this.next().show();
-
-      }).fail(function( jqxhr, textStatus, error ) {
-        var err = textStatus + ", " + error;
-      //  console.log( "Request Failed: " + err );
-      }).error(function(data ) {
-          alert(data.message);
-        });
-    });
-  });
-
-  $(document).ready(function(){
-  		var clientId;
-        var host = "{{account.subdomain}}.myinsales.ru";
-        $.ajax({
-          "async": false,
-          "url": "/client_account/contacts.json",
-          "dataType": "json",
-          "success": function (data) {
-            clientId = data.client.id;
-          }
-        });
-    	var url = "https://k-comment.ru/insints/getizb"
-        var products;
-        $.ajax({
-          "url": url,
-          "async": false,
-          "data": { host: host, client_id: clientId },
-          "dataType": "json"
-        }).done(function( data ) {
-        //  console.log("что такое",data)
-          products = data.products;
-          var products_url = "/products_by_id/"+products+".json";
-
-      if(products && products != " ") {
-         var arrProd =  products.split(",");
-         $.each(arrProd, function(key, value) {
-           console.log("товар", value)
-           $("[data-izb-add="+value+"]").hide();
-           $("[data-izb-delete="+value+"]").show();
-            var products_url = "/product_by_id/"+value+"";
-              $.ajax({
-                  url: products_url,
-                  dataType: "html"
-                }).done(function(_dom) {
-                    var $dom = $(_dom);
-                    $dom.find(".js-izb-add").hide();
-                    $dom.find(".js-izb-delete").show();
-                  });
-          });
-        }
-        }).fail(function( jqxhr, textStatus, error ) {
-          var err = textStatus + ", " + error;
-        // console.log( "Request Failed: " + err );
-        });
-
-     $("body").on("click",".deleteizb", function(e) {
-         var _this = $(this);
-         e.preventDefault();
-         var prodId = $(this).data("favorites-trigger");
+      display: inline-block;
+    }
+    .favorits-icon {
+      position: relative;
+      margin-right: 12px;
+    }
+    .favorits-icon i{
+      font-size: 16px;
+    }
+    .favorits-icon svg {
+      max-width: 21px;
+      height: auto;
+      vertical-align: middle;
+    }
+    .favorits-icon span {
+      display: block;
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      text-align: center;
+      right: -5px;
+      border-radius: 50%;
+      font-size: 8px;
+      background:red;
+      top: -5px;
+      color:#fff;
+      box-sizing: border-box;
+      letter-spacing: 0;
+      line-height: 14px;
+    }
+    </style>
+    {% if client %}
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $(".js-izb-add").click(function(e){
+          e.preventDefault();
+          var _this = $(this);
+          var clientId;
+          var productId = _this.data("izb-add");
+          var host = "{{account.subdomain}}.myinsales.ru";
           $.ajax({
-          "url": "https://k-comment.ru/insints/deleteizb",
-          "async": false,
-          "data": { host: host, client_id: clientId, product_id: prodId },
-          "dataType": "json"
-        }).done(function( data ) {
-          $(".products-favorite form[data-product-id="+prodId+"]").parent().remove();
-		   _this.prev().show();
-           _this.hide();
-            if($(".products-favorite .row").children().length) {
-            } else {
-               $(".js-favorite-wrapper").html("<div style=&quot;text-align: center;&quot; class=&quot;notice&quot;>В избранном нет товаров</div>");
+            "async": false,
+            "url": "/client_account/contacts.json",
+            "dataType": "json",
+            "success": function (data) {
+              clientId = data.client.id;
             }
-        }).fail(function( jqxhr, textStatus, error ) {
-          var err = textStatus + ", " + error;
-        //  console.log( "Request Failed: " + err );
-        }).error(function(data ) {
-          alert(data.message);
+          });
+          var url = "https://k-comment.ru/insints/addizb"
+          $.ajax({
+            "url": url,
+            "data": { host: host, client_id: clientId, product_id: productId },
+            "dataType": "json"
+          }).done(function( data ) {
+            $(".js-favorts-count").text(data.totalcount);
+            alert(data.message);
+     		_this.hide();
+            _this.next().show();
+
+          }).fail(function( jqxhr, textStatus, error ) {
+            var err = textStatus + ", " + error;
+          //  console.log( "Request Failed: " + err );
+          }).error(function(data ) {
+              alert(data.message);
+            });
         });
-       return false;
-       });
-  });
-</script>
-{% else %}
-<script type="text/javascript">
-  $(document).ready(function(){
-    $(".js-izb-add").click(function(e){
-       alert("Пожалуйста, зарегистрируйтесь, чтобы добавить товар в избранное!");
-       return false;
       });
-    });
-</script>
-{% endif %}
+
+      $(document).ready(function(){
+      		var clientId;
+            var host = "{{account.subdomain}}.myinsales.ru";
+            $.ajax({
+              "async": false,
+              "url": "/client_account/contacts.json",
+              "dataType": "json",
+              "success": function (data) {
+                clientId = data.client.id;
+              }
+            });
+        	var url = "https://k-comment.ru/insints/getizb"
+            var products;
+            $.ajax({
+              "url": url,
+              "async": false,
+              "data": { host: host, client_id: clientId },
+              "dataType": "json"
+            }).done(function( data ) {
+            //  console.log("что такое",data)
+              products = data.products;
+              var products_url = "/products_by_id/"+products+".json";
+    		   $(".js-favorts-count").text(data.totalcount);
+          if(products && products != " ") {
+             var arrProd =  products.split(",");
+             $.each(arrProd, function(key, value) {
+               console.log("товар", value)
+               $("[data-izb-add="+value+"]").hide();
+               $("[data-izb-delete="+value+"]").show();
+                var products_url = "/product_by_id/"+value+"";
+                  $.ajax({
+                      url: products_url,
+                      dataType: "html"
+                    }).done(function(_dom) {
+                        var $dom = $(_dom);
+                        $dom.find(".js-izb-add").hide();
+                        $dom.find(".js-izb-delete").show();
+                      });
+              });
+            }
+            }).fail(function( jqxhr, textStatus, error ) {
+              var err = textStatus + ", " + error;
+            // console.log( "Request Failed: " + err );
+            });
+
+         $("body").on("click",".deleteizb", function(e) {
+             var _this = $(this);
+             e.preventDefault();
+             var prodId = $(this).data("favorites-trigger");
+              $.ajax({
+              "url": "https://k-comment.ru/insints/deleteizb",
+              "async": false,
+              "data": { host: host, client_id: clientId, product_id: prodId },
+              "dataType": "json"
+            }).done(function( data ) {
+              $(".products-favorite form[data-product-id="+prodId+"]").parent().remove();
+              $(".js-favorts-count").text(data.totalcount);
+    		   _this.prev().show();
+               _this.hide();
+                if($(".products-favorite .row").children().length) {
+                   $(".izb-send-email-wrapper").show();
+                } else {
+                   $(".izb-send-email-wrapper").hide();
+                   $(".js-favorite-wrapper").html("<div style=&quot;text-align: center;&quot; class=&quot;notice&quot;>В избранном нет товаров</div>");
+                }
+            }).fail(function( jqxhr, textStatus, error ) {
+              var err = textStatus + ", " + error;
+            //  console.log( "Request Failed: " + err );
+            }).error(function(data ) {
+              alert(data.message);
+            });
+           return false;
+           });
+      });
+    </script>
+
+    {% else %}
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $(".js-izb-add").click(function(e){
+           alert("Пожалуйста, зарегистрируйтесь, чтобы добавить товар в избранное!");
+           return false;
+          });
+        });
+    </script>
+
+    {% endif %}
+
+    {% comment %}
+      <div class="favorits-icon">
+         <a href="/page/favorites">
+           <svg version='1.1' xmlns="https://www.w3.org/2000/svg" width="64px" height="60.833px" viewBox="0 0 64 60.833">
+               <path stroke="#000" stroke-width="5" stroke-miterlimit="10" fill-opacity="0" d="M45.684,2.654c-6.057,0-11.27,4.927-13.684,10.073 c-2.417-5.145-7.63-10.073-13.687-10.073c-8.349,0-15.125,6.776-15.125,15.127c0,16.983,17.134,21.438,28.812,38.231 c11.038-16.688,28.811-21.787,28.811-38.231C60.811,9.431,54.033,2.654,45.684,2.654z"/>
+           </svg>
+          <span class="js-favorts-count"></span>
+        </a>
+      </div>
+    {% endcomment %}
 
   ]]></content><type>Asset::Snippet</type></asset>'
 
@@ -262,164 +307,177 @@ def self.add_page_izb(insint_id, theme_id)
   data = '<?xml version="1.0" encoding="UTF-8"?><asset><name>page.izb.liquid</name>
   <content><![CDATA[
 
-    {% if client %}
+{% if client %}
  <style>
-   .products-favorite {
-     text-align: center;
-     margin-bottom: 60px;
-   }
-
-   .products-favorite .hide{
-      display: none;
-   }
-   .products-favorite .card-image {
-     margin-bottom: 20px;
-   }
-   .products-favorite .card-price {
-     margin-bottom: 10px;
-     font-weight: bold;
-   }
-   .products-favorite .card-old_price {
-     text-decoration: line-through;
-   }
-   .products-favorite .card-title {
-     font-weight: bold;
-     margin-bottom: 20px;
-   }
-   .products-favorite .card-action {
-     margin-top: 20px;
-   }
-   .products-favorite .row {
-     display: -webkit-box;
-     display: -webkit-flex;
-     display: -ms-flexbox;
-     display: flex;
-     -webkit-box-flex: 1;
-     -webkit-flex: 1 1 auto;
-     -ms-flex: 1 1 auto;
-     flex: 1 1 auto;
-     -webkit-box-orient: horizontal;
-     -webkit-box-direction: normal;
-     -webkit-flex-direction: row;
-     -ms-flex-direction: row;
-     flex-direction: row;
-     -webkit-flex-wrap: wrap;
-     -ms-flex-wrap: wrap;
-     flex-wrap: wrap;
-     margin-left: 0px;
-     margin-right: 0px;
-   }
-   .products-favorite [class*="cell-"] {
-     padding-left: 0px;
-     padding-right: 0px;
-   }
-   .products-favorite .cell-1 {
-     max-width: 8.33333%;
-     -webkit-flex-basis: 8.33333%;
-     -ms-flex-preferred-size: 8.33333%;
-     flex-basis: 8.33333%;
-   }
-   .products-favorite .cell-2 {
-     max-width: 16.66667%;
-     -webkit-flex-basis: 16.66667%;
-     -ms-flex-preferred-size: 16.66667%;
-     flex-basis: 16.66667%;
-   }
-   .products-favorite .cell-3 {
-     max-width: 25%;
-     -webkit-flex-basis: 25%;
-     -ms-flex-preferred-size: 25%;
-     flex-basis: 25%;
-   }
-   .products-favorite .cell-4 {
-     max-width: 33.33333%;
-     -webkit-flex-basis: 33.33333%;
-     -ms-flex-preferred-size: 33.33333%;
-     flex-basis: 33.33333%;
-   }
-   .products-favorite .cell-5 {
-     max-width: 41.66667%;
-     -webkit-flex-basis: 41.66667%;
-     -ms-flex-preferred-size: 41.66667%;
-     flex-basis: 41.66667%;
-   }
-   .products-favorite .cell-6 {
+ .products-favorite {
+   text-align: center;
+   margin-bottom: 60px;
+ }
+ .products-favorite .hide{
+    display: none;
+ }
+ .products-favorite .card-image {
+   margin-bottom: 20px;
+ }
+ .products-favorite .card-price {
+   margin-bottom: 10px;
+   font-weight: bold;
+ }
+ .products-favorite .card-old_price {
+   text-decoration: line-through;
+ }
+ .products-favorite .card-title {
+   font-weight: bold;
+   margin-bottom: 20px;
+ }
+ .products-favorite .card-action {
+   margin-top: 20px;
+ }
+ .izb-send-email-title {
+  margin: 10px 0;
+  font-weight: bold;
+ }
+ .izb-send-notice {
+  margin: 10px 0;
+  font-weight: bold;
+ }
+ .products-favorite .row {
+   display: -webkit-box;
+   display: -webkit-flex;
+   display: -ms-flexbox;
+   display: flex;
+   -webkit-box-flex: 1;
+   -webkit-flex: 1 1 auto;
+   -ms-flex: 1 1 auto;
+   flex: 1 1 auto;
+   -webkit-box-orient: horizontal;
+   -webkit-box-direction: normal;
+   -webkit-flex-direction: row;
+   -ms-flex-direction: row;
+   flex-direction: row;
+   -webkit-flex-wrap: wrap;
+   -ms-flex-wrap: wrap;
+   flex-wrap: wrap;
+   margin-left: 0px;
+   margin-right: 0px;
+ }
+ .products-favorite [class*="cell-"] {
+   padding-left: 0px;
+   padding-right: 0px;
+ }
+ .products-favorite .cell-1 {
+   max-width: 8.33333%;
+   -webkit-flex-basis: 8.33333%;
+   -ms-flex-preferred-size: 8.33333%;
+   flex-basis: 8.33333%;
+ }
+ .products-favorite .cell-2 {
+   max-width: 16.66667%;
+   -webkit-flex-basis: 16.66667%;
+   -ms-flex-preferred-size: 16.66667%;
+   flex-basis: 16.66667%;
+ }
+ .products-favorite .cell-3 {
+   max-width: 25%;
+   -webkit-flex-basis: 25%;
+   -ms-flex-preferred-size: 25%;
+   flex-basis: 25%;
+ }
+ .products-favorite .cell-4 {
+   max-width: 33.33333%;
+   -webkit-flex-basis: 33.33333%;
+   -ms-flex-preferred-size: 33.33333%;
+   flex-basis: 33.33333%;
+ }
+ .products-favorite .cell-5 {
+   max-width: 41.66667%;
+   -webkit-flex-basis: 41.66667%;
+   -ms-flex-preferred-size: 41.66667%;
+   flex-basis: 41.66667%;
+ }
+ .products-favorite .cell-6 {
+   max-width: 50%;
+   -webkit-flex-basis: 50%;
+   -ms-flex-preferred-size: 50%;
+   flex-basis: 50%;
+ }
+ .products-favorite .cell-7 {
+   max-width: 58.33333%;
+   -webkit-flex-basis: 58.33333%;
+   -ms-flex-preferred-size: 58.33333%;
+   flex-basis: 58.33333%;
+ }
+ .products-favorite .cell-8 {
+   max-width: 66.66667%;
+   -webkit-flex-basis: 66.66667%;
+   -ms-flex-preferred-size: 66.66667%;
+   flex-basis: 66.66667%;
+ }
+ .products-favorite .cell-9 {
+   max-width: 75%;
+   -webkit-flex-basis: 75%;
+   -ms-flex-preferred-size: 75%;
+   flex-basis: 75%;
+ }
+ .products-favorite .cell-10 {
+   max-width: 83.33333%;
+   -webkit-flex-basis: 83.33333%;
+   -ms-flex-preferred-size: 83.33333%;
+   flex-basis: 83.33333%;
+ }
+ .products-favorite .cell-11 {
+   max-width: 91.66667%;
+   -webkit-flex-basis: 91.66667%;
+   -ms-flex-preferred-size: 91.66667%;
+   flex-basis: 91.66667%;
+ }
+ .products-favorite .cell-12 {
+   max-width: 100%;
+   -webkit-flex-basis: 100%;
+   -ms-flex-preferred-size: 100%;
+   flex-basis: 100%;
+ }
+ .products-favorite .cell-fifth {
+   max-width: 20%;
+   -webkit-flex-basis: 20%;
+   -ms-flex-preferred-size: 20%;
+   flex-basis: 20%;
+ }
+ .products-favorite .flex-center {
+   -webkit-box-pack: center;
+   -webkit-justify-content: center;
+   -ms-flex-pack: center;
+   justify-content: center;
+   text-align: center;
+ }
+ @media screen and (max-width: 768px) {
+   .products-favorite .cell-6-sm {
      max-width: 50%;
      -webkit-flex-basis: 50%;
      -ms-flex-preferred-size: 50%;
      flex-basis: 50%;
    }
-   .products-favorite .cell-7 {
-     max-width: 58.33333%;
-     -webkit-flex-basis: 58.33333%;
-     -ms-flex-preferred-size: 58.33333%;
-     flex-basis: 58.33333%;
-   }
-   .products-favorite .cell-8 {
-     max-width: 66.66667%;
-     -webkit-flex-basis: 66.66667%;
-     -ms-flex-preferred-size: 66.66667%;
-     flex-basis: 66.66667%;
-   }
-   .products-favorite .cell-9 {
-     max-width: 75%;
-     -webkit-flex-basis: 75%;
-     -ms-flex-preferred-size: 75%;
-     flex-basis: 75%;
-   }
-   .products-favorite .cell-10 {
-     max-width: 83.33333%;
-     -webkit-flex-basis: 83.33333%;
-     -ms-flex-preferred-size: 83.33333%;
-     flex-basis: 83.33333%;
-   }
-   .products-favorite .cell-11 {
-     max-width: 91.66667%;
-     -webkit-flex-basis: 91.66667%;
-     -ms-flex-preferred-size: 91.66667%;
-     flex-basis: 91.66667%;
-   }
-   .products-favorite .cell-12 {
+ }
+ @media screen and (max-width: 480px) {
+   .products-favorite .cell-12-xs {
      max-width: 100%;
      -webkit-flex-basis: 100%;
      -ms-flex-preferred-size: 100%;
      flex-basis: 100%;
    }
-   .products-favorite .cell-fifth {
-     max-width: 20%;
-     -webkit-flex-basis: 20%;
-     -ms-flex-preferred-size: 20%;
-     flex-basis: 20%;
-   }
-   .products-favorite .flex-center {
-     -webkit-box-pack: center;
-     -webkit-justify-content: center;
-     -ms-flex-pack: center;
-     justify-content: center;
-     text-align: center;
-   }
-
-   @media screen and (max-width: 768px) {
-     .products-favorite .cell-6-sm {
-       max-width: 50%;
-       -webkit-flex-basis: 50%;
-       -ms-flex-preferred-size: 50%;
-       flex-basis: 50%;
-     }
-   }
-   @media screen and (max-width: 480px) {
-     .products-favorite .cell-12-xs {
-       max-width: 100%;
-       -webkit-flex-basis: 100%;
-       -ms-flex-preferred-size: 100%;
-       flex-basis: 100%;
-     }
-   }
+ }
 </style>
-    <div class="container page-headding-wrapper">
-      <h1 class="page-headding">Избранные товары</h1>
-      </div>
-    <script type="text/javascript">
+<div class="container page-headding-wrapper">
+  <h1 class="page-headding">Избранные товары</h1>
+
+  <div class="izb-send-email-wrapper">
+    <div class="izb-send-email-title">Вы можете отправить избранные товары себе на почту:</div>
+    <div class="izb-send-email"><button class="js-emailizb">Отправить</button></div>
+
+ </div>
+   <div class="izb-send-notice"></div>
+  </div>
+<script type="text/javascript">
       function getDiscount(price, old_price) {
       var sale = "";
       var _merge = Math.round(
@@ -461,12 +519,18 @@ def self.add_page_izb(insint_id, theme_id)
           var products_url = "/products_by_id/"+products+".json";
           $.getJSON(products_url).done(function (product) {
               var productsHtml = " ";
+              var image;
+              if (typeof product.images !== "undefined"){
+                image = product.images[0].medium_url;
+              } else {
+                image = '';
+              }
               productsHtml += \'<div class="products-favorite"><div class="row is-grid">\';
               $.each(product.products, function(i,product){
                   productsHtml += \'<div class="cell-4 cell-6-sm cell-12-xs">\'; //двойные кавычки оставил стандартно, а экранировал одинарные и так везде дальше
                   productsHtml += \'<form class="card cards-col" action="{{ cart_url }}" method="post" data-product-id="\'+product.id+\'">\';
                   productsHtml += \'<div class="card-info"><div class="card-image">\';
-                  productsHtml += \'<a href="\'+product.url+\'" class="image-inner"><div class="image-wraps"><span class="image-container"><span class="image-flex-center\"><img src="\'+product.images[0].medium_url+\'"></span></span></div></a></div>\';
+                  productsHtml += \'<a href="\'+product.url+\'" class="image-inner"><div class="image-wraps"><span class="image-container"><span class="image-flex-center\"><img src="\'+image+\'"></span></span></div></a></div>\';
                   productsHtml += \'<div class="card-title"><a href=\"\'+product.url+\'\">\'+product.title+\'</a></div></div>\';
                   productsHtml += \'<div class="card-prices"><div class="row flex-center"><div class="cell- card-price">\'+InSales.formatMoney(product.variants[0].price)+\'</div>\';
                   productsHtml += \'<div class="cell-  card-old_price">\'+InSales.formatMoney(product.variants[0].old_price)+\'</div></div></div>\';
@@ -481,14 +545,27 @@ def self.add_page_izb(insint_id, theme_id)
                   productsHtml += \'</div></form></div>\';
               });
               productsHtml += \'</div></div>\';
-
               $(".js-favorite-wrapper").html(productsHtml);
           });
       });
-        if($(".products-favorite").length) {
+        if($(".products-favorite .row").children().length) {
            } else {
                $(".js-favorite-wrapper").html(\'<div style="text-align: center" class="notice">В избранном нет товаров</div>\');
            }
+
+           $(".js-emailizb").click(function() {
+               $.ajax({
+               "url": "https://k-comment.ru/insints/emailizb",
+               "async": false,
+               "data": { host: host, client_id: clientId },
+               "dataType": "json"
+             }).done(function( data ) {
+                 console.log(data)
+                 $("".izb-send-notice").text(data.message).show();
+                  $("".izb-send-email-wrapper").hide();
+               });
+          });
+
         });
     </script>
 
@@ -503,8 +580,6 @@ def self.add_page_izb(insint_id, theme_id)
  	   </div>
 </div>
 {% endif %}
-
-
 
   ]]></content><type>Asset::Template</type></asset>'
 
