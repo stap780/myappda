@@ -561,8 +561,8 @@ def self.add_page_izb(insint_id, theme_id)
                "dataType": "json"
              }).done(function( data ) {
                  console.log(data)
-                 $("".izb-send-notice").text(data.message).show();
-                  $("".izb-send-email-wrapper").hide();
+                 $(".izb-send-notice").text(data.message).show();
+                  $(".izb-send-email-wrapper").hide();
                });
           });
 

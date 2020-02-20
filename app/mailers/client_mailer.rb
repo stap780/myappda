@@ -9,7 +9,7 @@ class ClientMailer < ApplicationMailer
       @fio =  fio
       @client_email = email
       @products = products
-      puts @products
+      # puts @products
       # mail(to: @user.email, subject: 'Welcome to My Awesome Site')
       mail(to: @client_email, subject: 'Ваши добавленные в избранное товары', reply_to: @shopemail )
     end

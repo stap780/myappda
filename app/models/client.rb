@@ -46,7 +46,7 @@ class Client < ApplicationRecord
               case response.code
               when 200
                 data = JSON.parse(response)
-                title = data['title'] || ''
+                title = data['title'].to_s.gsub(',',' ')  || ''
                 permalink = data['permalink'] || ''
                 if data['images'].present?
                   image = data['images'][0]['small_url']
