@@ -58,16 +58,9 @@ def self.add_snippet(insint_id, theme_id)
   data = '<?xml version="1.0" encoding="UTF-8"?><asset><name>k-comment-product.liquid</name>
   <content><![CDATA[
     <style>
-    .izb-icon {
-      display: inline-block;
-    }
-    .favorits-icon {
-      position: relative;
-      margin-right: 12px;
-    }
-    .favorits-icon i{
-      font-size: 16px;
-    }
+    .izb-icon { display: inline-block; }
+    .favorits-icon { position: relative;margin-right: 12px; }
+    .favorits-icon i { font-size: 16px; }
     .favorits-icon svg {
       max-width: 21px;
       height: auto;
@@ -309,38 +302,15 @@ def self.add_page_izb(insint_id, theme_id)
 
 {% if client %}
  <style>
- .products-favorite {
-   text-align: center;
-   margin-bottom: 60px;
- }
- .products-favorite .hide{
-    display: none;
- }
- .products-favorite .card-image {
-   margin-bottom: 20px;
- }
- .products-favorite .card-price {
-   margin-bottom: 10px;
-   font-weight: bold;
- }
- .products-favorite .card-old_price {
-   text-decoration: line-through;
- }
- .products-favorite .card-title {
-   font-weight: bold;
-   margin-bottom: 20px;
- }
- .products-favorite .card-action {
-   margin-top: 20px;
- }
- .izb-send-email-title {
-  margin: 10px 0;
-  font-weight: bold;
- }
- .izb-send-notice {
-  margin: 10px 0;
-  font-weight: bold;
- }
+ .products-favorite {text-align: center; margin-bottom: 60px;}
+ .products-favorite .hide{ display: none; }
+ .products-favorite .card-image { margin-bottom: 20px;}
+ .products-favorite .card-price {margin-bottom: 10px; font-weight: bold;}
+ .products-favorite .card-old_price {text-decoration: line-through;}
+ .products-favorite .card-title {font-weight: bold; margin-bottom: 20px;}
+ .products-favorite .card-action { margin-top: 20px; }
+ .izb-send-email-title {margin: 10px 0;font-weight: bold;}
+ .izb-send-notice { margin: 10px 0;font-weight: bold;}
  .products-favorite .row {
    display: -webkit-box;
    display: -webkit-flex;
@@ -361,10 +331,7 @@ def self.add_page_izb(insint_id, theme_id)
    margin-left: 0px;
    margin-right: 0px;
  }
- .products-favorite [class*="cell-"] {
-   padding-left: 0px;
-   padding-right: 0px;
- }
+ .products-favorite [class*="cell-"] {padding-left: 0px;padding-right: 0px;}
  .products-favorite .cell-1 {
    max-width: 8.33333%;
    -webkit-flex-basis: 8.33333%;
@@ -469,43 +436,34 @@ def self.add_page_izb(insint_id, theme_id)
 </style>
 <div class="container page-headding-wrapper">
   <h1 class="page-headding">Избранные товары</h1>
-
   <div class="izb-send-email-wrapper">
     <div class="izb-send-email-title">Вы можете отправить избранные товары себе на почту:</div>
     <div class="izb-send-email"><button class="js-emailizb">Отправить</button></div>
-
  </div>
    <div class="izb-send-notice"></div>
-  </div>
+</div>
 <script type="text/javascript">
-      function getDiscount(price, old_price) {
+    function getDiscount(price, old_price) {
       var sale = "";
       var _merge = Math.round(
         ((parseInt(old_price) - parseInt(price)) / parseInt(old_price)) * 100,
         0
       );
       if (_merge < 100) {
-        sale =
-          "<div class=&quot;stiker stiker-sale&quot;>" +
-          "<span>" +
-          "скидка " +
+        sale ="<div class=&quot;stiker stiker-sale&quot;>" +"<span>" +"скидка " +
           _merge +
-          "%" +
-          "</span>" +
-          "</div>";
+          "%" + "</span>" +"</div>";
       }
       return sale;
     }
-      $(document).ready(function(){
+    $(document).ready(function(){
         var clientId;
         var host = "{{account.subdomain}}.myinsales.ru";
         $.ajax({
           "async": false,
           "url": "/client_account/contacts.json",
           "dataType": "json",
-          "success": function (data) {
-            clientId = data.client.id;
-          }
+          "success": function (data) { clientId = data.client.id;}
         });
         var url = "https://k-comment.ru/insints/getizb"
         var products;
@@ -517,17 +475,15 @@ def self.add_page_izb(insint_id, theme_id)
         }).done(function( data ) {
           products = data.products;
           var products_url = "/products_by_id/"+products+".json";
-          $.getJSON(products_url).done(function (product) {
+          $.getJSON(products_url).done(function (data) {
               var productsHtml = " ";
               var image;
-              if (typeof product.images !== "undefined"){
-                image = product.images[0].medium_url;
-              } else {
-                image = '';
-              }
+              if (typeof data.images !== "undefined"){
+                image = data.images[0].medium_url;
+              } else { image = ''; }
               productsHtml += \'<div class="products-favorite"><div class="row is-grid">\';
               $.each(product.products, function(i,product){
-                  productsHtml += \'<div class="cell-4 cell-6-sm cell-12-xs">\'; //двойные кавычки оставил стандартно, а экранировал одинарные и так везде дальше
+                  productsHtml += \'<div class="cell-4 cell-6-sm cell-12-xs">\'; //двойные кавычки оставил стандартно, а экранировал одинарные и так в каждой строке дальше
                   productsHtml += \'<form class="card cards-col" action="{{ cart_url }}" method="post" data-product-id="\'+product.id+\'">\';
                   productsHtml += \'<div class="card-info"><div class="card-image">\';
                   productsHtml += \'<a href="\'+product.url+\'" class="image-inner"><div class="image-wraps"><span class="image-container"><span class="image-flex-center\"><img src="\'+image+\'"></span></span></div></a></div>\';
@@ -548,10 +504,8 @@ def self.add_page_izb(insint_id, theme_id)
               $(".js-favorite-wrapper").html(productsHtml);
           });
       });
-        if($(".products-favorite .row").children().length) {
-           } else {
-               $(".js-favorite-wrapper").html(\'<div style="text-align: center" class="notice">В избранном нет товаров</div>\');
-           }
+        if ( $(".products-favorite .row").children().length ) {
+           } else { $(".js-favorite-wrapper").html(\'<div style="text-align: center" class="notice">В избранном нет товаров</div>\'); }
 
            $(".js-emailizb").click(function() {
                $.ajax({
@@ -565,8 +519,7 @@ def self.add_page_izb(insint_id, theme_id)
                   $(".izb-send-email-wrapper").hide();
                });
           });
-
-        });
+      });
     </script>
 
    <div class="js-favorite-wrapper"></div>
@@ -575,8 +528,7 @@ def self.add_page_izb(insint_id, theme_id)
 
  <div class="container page-headding-wrapper">
       <h1 class="page-headding">Избранные товары</h1>
-   	   <div class="editor">
-         <div class="notice">Чтобы просматривать избранные товары необходима регистрация на сайте.</div>
+   	   <div class="editor"><div class="notice">Чтобы просматривать избранные товары необходима регистрация на сайте.</div>
  	   </div>
 </div>
 {% endif %}
@@ -672,103 +624,5 @@ def self.delete_ins_file_next(insint_id, theme_id)
 
   insint.update_attributes(:status => false)
 end
-
-# def self.delete_ins_file(insint_id)
-#   insint = Insint.find(insint_id)
-#   if insint.inskey.present?
-#     saved_subdomain = insint.user.subdomain
-#     Apartment::Tenant.switch!(saved_subdomain)
-#     puts "удаляем файлы из магазина"
-#     uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes.json"
-#     response_theme_id = RestClient.get(uri)
-#     data_theme_id = JSON.parse(response_theme_id)
-#     data_theme_id.each do |d|
-#       if d['is_published'] == true
-#         @theme_id = d['id']
-#       end
-#     end
-#
-#     theme_id = @theme_id
-#     uri_delete = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.json"
-#     response_delete = RestClient.get(uri_delete)
-#     data_delete = JSON.parse(response_delete)
-#     data_delete.each do |d|
-#       if d['inner_file_name'] == "page.izb.liquid"
-#         page_izb_id = d['id']
-#         puts "page_izb_id - "+page_izb_id.to_s
-#         url_page = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{page_izb_id}"+".json"
-#         resp_get_footer_content = RestClient.delete(url_page)
-#       end
-#       if d['inner_file_name'] == "k-comment-product.liquid"
-#         snippet_product_id = d['id']
-#         puts "snippet_product_id - "+snippet_product_id.to_s
-#         url_snip = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{snippet_product_id}"+".json"
-#         resp_get_footer_content = RestClient.delete(url_snip)
-#       end
-#       #ниже отключил так как в doc.inner_html меняются символы на код html что трудно искать и заменять. проще руками строчку в файле удалить
-#       if d['inner_file_name'] == "footer.liquid"
-#         footer_id = d['id']
-#         puts "footer_id - "+footer_id.to_s
-#         url_footer = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".json"
-#         resp = RestClient.get(url_footer)
-#         data = JSON.parse(resp)
-#         doc = Nokogiri::HTML(data['content'])
-#         doc.css('.k-comment-product').remove
-#
-#         new_footer_content = doc.css('body').inner_html#inner_html.gsub("<html><body>","").gsub("</body></html>","").gsub("%7B%7B%20","{{").gsub("%20%7D%7D","}}")
-#         new_data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
-#         url_footer_xml = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".xml"
-#         remove_our_include = RestClient.put url_footer_xml, new_data, :accept => :xml, :content_type => "application/xml"
-#       end
-#     end
-#   else
-#     saved_subdomain = "insales"+insint.insalesid.to_s
-#     Apartment::Tenant.switch!(saved_subdomain)
-#     puts "удаляем файлы из магазина"
-#     uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes.json"
-#     response_theme_id = RestClient.get(uri)
-#     data_theme_id = JSON.parse(response_theme_id)
-#     data_theme_id.each do |d|
-#       if d['is_published'] == true
-#         @theme_id = d['id']
-#       end
-#     end
-#
-#     theme_id = @theme_id
-#     uri_delete = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.json"
-#     response_delete = RestClient.get(uri_delete)
-#     data_delete = JSON.parse(response_delete)
-#     data_delete.each do |d|
-#       if d['inner_file_name'] == "page.izb.liquid"
-#         page_izb_id = d['id']
-#         puts "page_izb_id - "+page_izb_id.to_s
-#         url_page = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{page_izb_id}"+".json"
-#         resp_get_footer_content = RestClient.delete(url_page)
-#       end
-#       if d['inner_file_name'] == "k-comment-product.liquid"
-#         snippet_product_id = d['id']
-#         puts "snippet_product_id - "+snippet_product_id.to_s
-#         url_snip = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{snippet_product_id}"+".json"
-#         resp_get_footer_content = RestClient.delete(url_snip)
-#       end
-#       #ниже отключил так как в doc.inner_html меняются символы на код html что трудно искать и заменять. проще руками строчку в файле удалить
-#       if d['inner_file_name'] == "footer.liquid"
-#         footer_id = d['id']
-#         puts "footer_id - "+footer_id.to_s
-#         url_footer = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".json"
-#         resp = RestClient.get(url_footer)
-#         data = JSON.parse(resp)
-#         doc = Nokogiri::HTML(data['content'])
-#         doc.css('.k-comment-product').remove
-#
-#         new_footer_content = doc.css('body').inner_html#inner_html.gsub("<html><body>","").gsub("</body></html>","").gsub("%7B%7B%20","{{").gsub("%20%7D%7D","}}")
-#         new_data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
-#         url_footer_xml = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{footer_id}"+".xml"
-#         remove_our_include = RestClient.put url_footer_xml, new_data, :accept => :xml, :content_type => "application/xml"
-#       end
-#     end
-#   end
-#   insint.update_attributes(:status => false)
-# end
 
 end
