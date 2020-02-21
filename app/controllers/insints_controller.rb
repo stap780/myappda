@@ -88,21 +88,19 @@ class InsintsController < ApplicationController
       insint_new = Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
       Insint.setup_ins_shop(insint_new.id)
       #обновляем адрес электронной почты по User
-      uri = "http://k-comment.ru"+":"+"#{insint_new.password}"+"@"+"#{insint_new.subdomen}"+"/admin/account.json"
-      RestClient.get( uri, {:content_type => 'application/json', accept: :json}) { |response, request, result, &block|
-              case response.code
-              when 200
-                data = JSON.parse(response)
-                shopemail = data['email']
-                if shopemail.present?
-                  user.update_attributes(:email => shopemail)
-                end
-              when 401
-                break
-              else
-                response.return!(&block)
-              end
-              }
+      # uri = "http://k-comment.ru"+":"+"#{insint_new.password}"+"@"+"#{insint_new.subdomen}"+"/admin/account.json"
+      # RestClient.get( uri, {:content_type => 'application/json', accept: :json}) { |response, request, result, &block|
+      #         case response.code
+      #         when 200
+      #           data = JSON.parse(response)
+      #           shopemail = data['email']
+      #           if shopemail.present?
+      #             user.update_attributes(:email => shopemail)
+      #           end
+      #         else
+      #           response.return!(&block)
+      #         end
+      #         }
       head :ok
       ## ниже письмо нам о том что зарегился клиент
       UserMailer.test_welcome_email.deliver_now
@@ -284,16 +282,23 @@ class InsintsController < ApplicationController
 
   def checkint
     insint = Insint.find(params[:insint_id])
+    puts insint
     if insint.inskey.present?
       uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
     else
       uri = "http://k-comment.ru"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
     end
-
+    user = User.find_by_id(insint.user_id)
     RestClient.get( uri, {:content_type => 'application/json', accept: :json}) { |response, request, result, &block|
             case response.code
             when 200
               @check_status = true
+              data = JSON.parse(response)
+              shopemail = data['email']
+              shopemail = 'advt@teletri.ru'
+              if shopemail.present?
+                user.update_attributes(:email => shopemail)
+              end
             when 401
               @check_status = false
             else

@@ -9,7 +9,7 @@
     <%= f.input :subdomen, label: 'Домен из настроек'  %>
     <%= f.input :insalesid, :as => :hidden %>
     <% if current_admin %>
-    <%= f.association :user, label: 'Домен (пользователь)'  %>
+    <%= f.association :user, label: 'Имя пользователя'  %>
     <% else %>
     <%= f.input :user_id, :as => :hidden, :input_html => { :value => current_user.id } %>
     <% end %>
