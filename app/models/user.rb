@@ -33,9 +33,9 @@ class User < ApplicationRecord
   end
 
   def self.service_end_email
-    puts 'service_end_email'
+    # puts 'service_end_email'
     users = User.where(:valid_until => Date.today+2.day)
-    puts users.count
+    # puts users.count
     users.each do |user|
       UserMailer.service_end_email(user.email).deliver_now
     end

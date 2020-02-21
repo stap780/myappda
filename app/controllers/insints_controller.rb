@@ -77,7 +77,7 @@ class InsintsController < ApplicationController
     else
       save_subdomain = "insales"+params[:insales_id]
       email = save_subdomain+"@mail.ru"
-      puts save_subdomain
+      # puts save_subdomain
       user = User.create(:name => params[:insales_id], :subdomain => save_subdomain, :password => save_subdomain, :password_confirmation => save_subdomain, :email => email)
       user.valid_from = user.created_at
       user.valid_until = user.created_at + 7.days
@@ -88,6 +88,7 @@ class InsintsController < ApplicationController
       insint_new = Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
       Insint.setup_ins_shop(insint_new.id)
       head :ok
+      ## ниже письмо нам о том что зарегился клиент
       UserMailer.test_welcome_email.deliver_now
     end
   end
@@ -112,6 +113,7 @@ class InsintsController < ApplicationController
     Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
     if @user.present?
+      puts @user.present?
       if @insint.present?
         user_account = Useraccount.find_by_insuserid(params[:user_id])
         if user_account.present?

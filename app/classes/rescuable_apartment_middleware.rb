@@ -7,7 +7,8 @@ module RescuableApartmentMiddleware
     begin
       super
     rescue Apartment::TenantNotFound
-      redirect_url = Rails.application.routes.url_helpers.url_for(controller: 'website', action: :index)
+      # redirect_url = Rails.application.routes.url_helpers.url_for(controller: 'website', action: :index)
+      redirect_url = Rails.application.routes.url_helpers.url_for(controller: 'home', action: :index)
       return [ 301, { 'Location' => redirect_url }, [ 'redirect' ] ]
     end
   end # call
