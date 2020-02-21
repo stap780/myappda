@@ -97,6 +97,8 @@ class InsintsController < ApplicationController
       #           if shopemail.present?
       #             user.update_attributes(:email => shopemail)
       #           end
+      #         when 401
+      #           break
       #         else
       #           response.return!(&block)
       #         end
@@ -282,23 +284,27 @@ class InsintsController < ApplicationController
 
   def checkint
     insint = Insint.find(params[:insint_id])
-    puts insint
     if insint.inskey.present?
       uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
     else
       uri = "http://k-comment.ru"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
     end
-    user = User.find_by_id(insint.user_id)
+    puts uri
+    if !insint.inskey.present?
+      user = User.find_by_id(insint.user_id)
+      resp = RestClient.get( uri )
+      data = JSON.parse(resp)
+      shopemail = data['email']
+      shopemail = 'advt@teletri.ru'
+        if shopemail.present?
+          user.update_attributes(:email => shopemail)
+        end
+    end
     RestClient.get( uri, {:content_type => 'application/json', accept: :json}) { |response, request, result, &block|
+            # puts response.code
             case response.code
             when 200
               @check_status = true
-              data = JSON.parse(response)
-              shopemail = data['email']
-              shopemail = 'advt@teletri.ru'
-              if shopemail.present?
-                user.update_attributes(:email => shopemail)
-              end
             when 401
               @check_status = false
             else

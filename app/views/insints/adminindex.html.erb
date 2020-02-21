@@ -33,8 +33,13 @@
         <td><%= insint.subdomen %></td>
         <td><%= insint.insalesid %></td>
         <td><%= insint.user.name %></td>
-        <td><% if insint.status == true %>добавлены (Р)<% else %> не добавлены<% end %></td>
-        <td><%= link_to "Проверить", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get , class: "btn btn-outline-info btn-sm" %></td>
+        <td><% if insint.status == true %>добавлены<% else %> не добавлены<% end %></td>
+        <td><% if insint.inskey.present? %>
+          <%= link_to "Проверить", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get , class: "btn btn-outline-info btn-sm" %>
+          <% else %>
+          <%= link_to "ОбновПочтуПольз", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get , class: "btn btn-outline-info btn-sm" %>
+          <% end %>
+        </td>
         <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_insint_path(insint) %></td>
         <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
       </tr>
