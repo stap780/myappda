@@ -87,6 +87,21 @@ class InsintsController < ApplicationController
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
       insint_new = Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
       Insint.setup_ins_shop(insint_new.id)
+      #обновляем адрес электронной почты по User
+      uri = "http://k-comment.ru"+":"+"#{insint_new.password}"+"@"+"#{insint_new.subdomen}"+"/admin/account.json"
+      RestClient.get( uri, {:content_type => 'application/json', accept: :json}) { |response, request, result, &block|
+              case response.code
+              when 200
+                shopemail = data['email']
+                if shopemail.present?
+                  user.update_attributes(:email => shopemail)
+                end
+              when 401
+                break
+              else
+                response.return!(&block)
+              end
+              }
       head :ok
       ## ниже письмо нам о том что зарегился клиент
       UserMailer.test_welcome_email.deliver_now
@@ -138,21 +153,6 @@ class InsintsController < ApplicationController
           sign_in(:user, @user)
           redirect_to after_sign_in_path_for(@user)
         end
-      #обновляем адрес электронной почты по User
-      uri = "http://k-comment.ru"+":"+"#{@insint.password}"+"@"+"#{@insint.subdomen}"+"/admin/account.json"
-      RestClient.get( uri, {:content_type => 'application/json', accept: :json}) { |response, request, result, &block|
-              case response.code
-              when 200
-                shopemail = data['email']
-                if shopemail.present?
-                  @user.update_attributes(:email => shopemail)
-                end
-              when 401
-                break
-              else
-                response.return!(&block)
-              end
-              }
       end
     end
   end
