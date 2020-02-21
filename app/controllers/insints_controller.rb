@@ -92,6 +92,7 @@ class InsintsController < ApplicationController
       RestClient.get( uri, {:content_type => 'application/json', accept: :json}) { |response, request, result, &block|
               case response.code
               when 200
+                data = JSON.parse(response)
                 shopemail = data['email']
                 if shopemail.present?
                   user.update_attributes(:email => shopemail)
