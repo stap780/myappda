@@ -11,7 +11,7 @@
   </div>
   <div class="col">
     <h3>Интеграция insales</h3>
-    <% integracia = current_user.insints.first if current_user.insints.first.present? %>
+      <% integracia = current_user.insints.first if current_user.insints.first.present? %>
       <p>Состояние:
         <% if integracia %>настроена<% else %>не настроена<% end %>
         <% if integracia && integracia.status %>и файлы добавлены в магазин<%else%>и файлы не добавлены в магазин<%end%>

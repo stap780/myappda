@@ -113,7 +113,7 @@ class InsintsController < ApplicationController
     Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
     if @user.present?
-      puts @user.present?
+      # puts @user.present?
       if @insint.present?
         user_account = Useraccount.find_by_insuserid(params[:user_id])
         if user_account.present?
@@ -138,6 +138,21 @@ class InsintsController < ApplicationController
           sign_in(:user, @user)
           redirect_to after_sign_in_path_for(@user)
         end
+      #обновляем адрес электронной почты по User
+      uri = "http://k-comment.ru"+":"+"#{@insint.password}"+"@"+"#{@insint.subdomen}"+"/admin/account.json"
+      RestClient.get( uri, {:content_type => 'application/json', accept: :json}) { |response, request, result, &block|
+              case response.code
+              when 200
+                shopemail = data['email']
+                if shopemail.present?
+                  @user.update_attributes(:email => shopemail)
+                end
+              when 401
+                break
+              else
+                response.return!(&block)
+              end
+              }
       end
     end
   end
