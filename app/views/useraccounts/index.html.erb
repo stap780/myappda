@@ -6,8 +6,9 @@
     <h3>Регистрация <small><%= current_user.name%> (<%= current_user.subdomain%>)</small></h3>
     <p>Оплачен до  <% if !@pay_period.nil?%><%= @pay_period %><%else%>Бесплатно<%end%></p>
     <p>Работает до  <%= current_user.valid_until %></p>
-    <p><b>Название магазина:</b><%= @ins_title %></p>
-    <p><b>Телефон:</b><%= @ins_phone %></p>
+    <p><b>Название магазина: </b><%= @ins_title %></p>
+    <p><b>Телефон:</b> <%= @ins_phone %></p>
+    <p><b>Email:</b> <%= current_user.email %></p>
   </div>
   <div class="col">
     <h3>Интеграция insales</h3>
