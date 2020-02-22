@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
         uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/count.json"
       else
         uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/count.json"
-        url = "http://k-comment:"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
+        url = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
       end
         puts uri
         response = RestClient.get(uri)
