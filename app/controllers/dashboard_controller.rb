@@ -6,6 +6,7 @@ class DashboardController < ApplicationController
         uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/count.json"
       else
         uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/count.json"
+        url = "http://k-comment:"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
       end
         puts uri
         response = RestClient.get(uri)
@@ -14,9 +15,6 @@ class DashboardController < ApplicationController
 
       # ниже обновляем адрес почты пользователя
       if !insint.inskey.present?
-        # user = User.find_by_id(insint.user_id)
-        url = "http://k-comment.ru"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
-        saved_subdomain = "insales"+insint.insalesid.to_s
         resp = RestClient.get( url )
         data = JSON.parse(resp)
         shopemail = data['email']
