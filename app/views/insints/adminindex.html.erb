@@ -37,7 +37,7 @@
         <td><% if insint.inskey.present? %>
           <%= link_to "Проверить", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get , class: "btn btn-outline-info btn-sm" %>
           <% else %>
-          <%= link_to "ОбновПочтуПольз", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get , class: "btn btn-outline-info btn-sm" %>
+          автоматом
           <% end %>
         </td>
         <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_insint_path(insint) %></td>

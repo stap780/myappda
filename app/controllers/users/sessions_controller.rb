@@ -15,12 +15,14 @@ class Users::SessionsController < Devise::SessionsController
           puts "время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату"
           @user.update_attributes("valid_until" => Date.today)
           #sign_in(:user, @user)
+          # sign_in_and_redirect(:user, @user)
           super #это проверяет логин и пароль и валидирует вход стандартными средствами и переадресовывает пользователя если надо
             if @user.subdomain == 'ketago' || @user.subdomain == 'twog'
               puts "админ вошёл - "+"#{@user.subdomain}"
              #не используем redirect_to after_sign_in_path_for(@user)
             else
               # flash[:notice] = "#{ @user.email } время работы истекло."
+              puts "не админ"
               flash[:notice] = 'Оплаченный период истёк. Сервис не работает для Ваших клиентов. Пожалуйста <a href='+"#{invoice_path_for(@user)}"+'>оплатите сервис.</a>'
               #не используем redirect_to invoice_path_for(@user), :notice => 'Оплаченный период истёк. Сервис не работает для Ваших клиентов. Пожалуйста оплатите сервис.'
             end
@@ -44,7 +46,5 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def check_sign_in_user
-
-
   end
 end

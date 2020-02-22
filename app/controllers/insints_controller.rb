@@ -87,22 +87,6 @@ class InsintsController < ApplicationController
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
       insint_new = Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
       Insint.setup_ins_shop(insint_new.id)
-      #обновляем адрес электронной почты по User
-      # uri = "http://k-comment.ru"+":"+"#{insint_new.password}"+"@"+"#{insint_new.subdomen}"+"/admin/account.json"
-      # RestClient.get( uri, {:content_type => 'application/json', accept: :json}) { |response, request, result, &block|
-      #         case response.code
-      #         when 200
-      #           data = JSON.parse(response)
-      #           shopemail = data['email']
-      #           if shopemail.present?
-      #             user.update_attributes(:email => shopemail)
-      #           end
-      #         when 401
-      #           break
-      #         else
-      #           response.return!(&block)
-      #         end
-      #         }
       head :ok
       ## ниже письмо нам о том что зарегился клиент
       UserMailer.test_welcome_email.deliver_now
@@ -146,7 +130,7 @@ class InsintsController < ApplicationController
           else
             sign_in(:user, @user)
             redirect_to after_sign_in_path_for(@user)
-            # sign_in_and_redirect(:user, @user)
+            # sign_in_and_redirect(:user, @user) 
           end
         else
           name = params[:user_id]+params[:shop]
@@ -289,17 +273,7 @@ class InsintsController < ApplicationController
     else
       uri = "http://k-comment.ru"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
     end
-    puts uri
-    if !insint.inskey.present?
-      user = User.find_by_id(insint.user_id)
-      resp = RestClient.get( uri )
-      data = JSON.parse(resp)
-      shopemail = data['email']
-      shopemail = 'advt@teletri.ru'
-        if shopemail.present?
-          user.update_attributes(:email => shopemail)
-        end
-    end
+    # puts uri
     RestClient.get( uri, {:content_type => 'application/json', accept: :json}) { |response, request, result, &block|
             # puts response.code
             case response.code
