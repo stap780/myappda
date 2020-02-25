@@ -11,8 +11,9 @@
     <%= f.select :payplan_id, Payplan.all.map { |r| [ r.period, r.id ] }, {include_blank: false}, { class: "form-control select optional" }%>
     <% end %>
     <%= f.input :status, collection: ['Не оплачен', 'Оплачен'], wrapper_html: { class: 'col-3'}  %>
+    <%= f.input :paymenttype, collection: [['invoice', 'Счёт для юр лиц'],['creditcard', 'Кредитные карты'], ['paypal', 'Paypal']], wrapper_html: { class: 'col-3'}  %>
     <%= f.input :paymentdate, as: :string, wrapper_html: { class: 'col-3'} %>
-    <%= f.input :paymentid, wrapper_html: { class: 'col-3'}  %>
+    <%# f.input :paymentid, wrapper_html: { class: 'col-3'}  %>
   </div>
 
   <div class="btn-group mt-5">
