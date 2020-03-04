@@ -10,7 +10,7 @@
 </p>
 
 <p>
-  <strong>Payplan:</strong>
+  <strong>Тариф:</strong>
   <%= @payment.payplan_id %>
 </p>
 
@@ -19,14 +19,19 @@
   <%= @payment.status %>
 </p>
 <p>
-  <strong>Paymentdate:</strong>
+  <strong>Дата оплаты:</strong>
   <%= @payment.paymentdate %>
+</p>
+<p>
+<strong>Способ оплаты:</strong>
+  <%= @payment.paymenttype %>
 </p>
 <p>
   <strong>Paymentid:</strong>
   <%= @payment.paymentid %>
 </p>
 
-
-<%= link_to 'Edit', edit_payment_path(@payment) %> |
-<%= link_to 'Back', payments_path %>
+<div class="col-2 btn-group mt-5">
+<%= link_to 'Редактировать',  edit_payment_path(@payment) , class: 'btn btn-success'%>
+<%= link_to 'Назад', payments_path , class: "btn btn-outline-secondary" %>
+</div>

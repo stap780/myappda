@@ -5,8 +5,8 @@
   <%= search_form_for @search, html: {class: 'form-inline col-3'}  do |f|%>
     <div class="form-group">
       <%= f.search_field :invoice_id_eq, placeholder: 'Счет', class: "form-control input-sm"%>
-      <%= f.submit 'Поиск', class: 'btn btn-light' %>
-      <%= link_to 'Сбросить',payments_path, class: 'btn btn-outline-secondary' %>
+      <%= f.submit 'Поиск', class: 'btn btn-info' %>
+      <%= link_to 'Сбросить',payments_path, class: 'btn btn-link' %>
     </div>
   <% end %>
 </div>
