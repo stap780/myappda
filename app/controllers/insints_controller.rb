@@ -83,13 +83,13 @@ class InsintsController < ApplicationController
       user.valid_until = user.created_at + 7.days
       user.save
       #puts user.id
-      secret_key = 'my_test_secret_key'
+      secret_key = ENV["INS_APP_SECRET_KEY"]
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
       insint_new = Insint.create(:subdomen => params[:shop],  password: password, insalesid: params[:insales_id], :user_id => user.id)
       Insint.setup_ins_shop(insint_new.id)
       head :ok
-      ## ниже письмо нам о том что зарегился клиент
-      UserMailer.test_welcome_email.deliver_now
+      ## ниже обновляем почту клиента из инсалес и письмо нам о том что зарегился клиент
+      Insint.update_and_email(insint_new.id)
     end
   end
 
@@ -130,7 +130,7 @@ class InsintsController < ApplicationController
           else
             sign_in(:user, @user)
             redirect_to after_sign_in_path_for(@user)
-            # sign_in_and_redirect(:user, @user) 
+            # sign_in_and_redirect(:user, @user)
           end
         else
           name = params[:user_id]+params[:shop]

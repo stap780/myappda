@@ -33,10 +33,11 @@ class User < ApplicationRecord
   end
 
   def self.service_end_email
-    # puts 'service_end_email'
+    puts "работает процесс service_end_email - "+Time.now.to_s
     users = User.where(:valid_until => Date.today+2.day)
     # puts users.count
     users.each do |user|
+      puts "почта пользователя - "+user.email.to_s
       UserMailer.service_end_email(user.email).deliver_now
     end
   end

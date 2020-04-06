@@ -625,4 +625,21 @@ def self.delete_ins_file_next(insint_id, theme_id)
   insint.update_attributes(:status => false)
 end
 
+def self.update_and_email(insint_id)
+  insint = Insint.find(insint_id)
+  if !insint.inskey.present?
+    url = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
+  # ниже обновляем адрес почты пользователя
+    resp = RestClient.get( url )
+    data = JSON.parse(resp)
+    shopemail = data['email']
+      if shopemail.present?
+        insint.user.update_attributes(:email => shopemail)
+      end
+  end
+
+  UserMailer.test_welcome_email(insint.user.email).deliver_now
+
+end
+
 end

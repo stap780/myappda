@@ -23,8 +23,8 @@
       <th>Email</th>
       <th>Создан</th>
       <th>Обновлён</th>
-      <th>Действует до</th>
       <th>Последний вход</th>
+      <th>Действует до</th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -37,8 +37,8 @@
         <td><%= user.email %></td>
         <td><%= user.created_at %></td>
         <td><%= user.updated_at %></td>
-        <td><%= user.valid_until %></td>
         <td><%= user.last_sign_in_at %></td>
+        <td><%= user.valid_until %></td>
         <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, dashboard_user_destroy_path(:user_id => user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

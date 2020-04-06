@@ -14,11 +14,11 @@
 <table class="table table-hover table-condensed table-sm">
   <thead class="thead-light">
     <tr>
+      <th>Insales id</th>
+      <th>Имя</th>
+      <th>ДоменИнтегр</th>
       <th>Ключ</th>
       <th>Пароль</th>
-      <th>ДоменИнтегр</th>
-      <th>Insales id</th>
-      <th>Имя пользователя</th>
       <th>ФайлыИнтегр</th>
       <th>Проверить интегр</th>
       <th colspan="2"></th>
@@ -28,11 +28,11 @@
   <tbody>
     <% @insints.each do |insint| %>
       <tr>
-        <td><%= insint.inskey %></td>
-        <td><%= insint.password %></td>
-        <td><%= insint.subdomen %></td>
         <td><%= insint.insalesid %></td>
         <td><%= insint.user.name %></td>
+        <td><%= insint.subdomen %></td>
+        <td><%= insint.inskey %></td>
+        <td><%= insint.password %></td>
         <td><% if insint.status == true %>добавлены<% else %> не добавлены<% end %></td>
         <td><% if insint.inskey.present? %>
           <%= link_to "Проверить", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get , class: "btn btn-outline-info btn-sm" %>
