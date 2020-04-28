@@ -66,7 +66,9 @@ class ApplicationController < ActionController::Base
 
   def current_admin
     if current_user.present?
-      current_user.subdomain == "ketago" || current_user.subdomain == "twog"
+      admin1 = ENV["ADMIN1"]
+      admin2 = ENV["ADMIN2"]
+      current_user.subdomain == admin1 || current_user.subdomain == admin2
     end
   end
 
