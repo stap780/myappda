@@ -551,7 +551,7 @@ def self.add_page_izb(insint_id, theme_id)
 								}
 end
 
-def self.delete_ins_file(insint_id)
+def self.delete_ins_file(insint_id) # два этапа. это первый этап
   insint = Insint.find(insint_id)
   if insint.inskey.present?
     saved_subdomain = insint.user.subdomain
@@ -581,7 +581,7 @@ def self.delete_ins_file(insint_id)
     Insint.delete_ins_file_next(insint.id, @theme_id)
 end
 
-def self.delete_ins_file_next(insint_id, theme_id)
+def self.delete_ins_file_next(insint_id, theme_id) # два этапа. это второй этап
   insint = Insint.find(insint_id)
   if insint.inskey.present?
     @uri_delete = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets.json"
@@ -606,7 +606,7 @@ def self.delete_ins_file_next(insint_id, theme_id)
       url_snip = @url+"/assets/"+"#{snippet_product_id}"+".json"
       resp_get_footer_content = RestClient.delete(url_snip)
     end
-    #ниже отключил так как в doc.inner_html меняются символы на код html что трудно искать и заменять. проще руками строчку в файле удалить
+    #ниже удаляем запись в футере
     if d['inner_file_name'] == "footer.liquid"
       footer_id = d['id']
       puts "footer_id - "+footer_id.to_s

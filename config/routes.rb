@@ -28,17 +28,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # get '/insints/install' , to: 'insints#install'
-  # get '/insints/uninstall' , to: 'insints#uninstall'
-  # get '/insints/login' , to: 'insints#login'
-  # get '/insints/addizb' , to: 'insints#addizb'
-  # get '/insints/getizb' , to: 'insints#getizb'
-  # get '/insints/deleteizb' , to: 'insints#deleteizb'
-  # get '/insints' , to: 'home#index'
-  # get '/insints/new' , to: 'insints#new'
-  # get '/insints/:id/edit' , to: 'insints#edit'
-  # get '/insints/adminindex' , to: 'insints#adminindex'
-
   constraints SubdomainConstraint do
     resources :useraccounts
     get '/clients/otchet', to: 'clients#otchet'

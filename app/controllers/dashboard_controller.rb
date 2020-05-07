@@ -12,16 +12,6 @@ class DashboardController < ApplicationController
         response = RestClient.get(uri)
         data = JSON.parse(response)
         @product_count = data['count']
-
-      # ниже обновляем адрес почты пользователя
-      if !insint.inskey.present?
-        resp = RestClient.get( url )
-        data = JSON.parse(resp)
-        shopemail = data['email']
-          if shopemail.present?
-            current_user.update_attributes(:email => shopemail)
-          end
-      end
     end
     clients = Client.all
     izb_product_string = clients.map(&:izb_productid).join(',')
