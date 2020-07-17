@@ -40,20 +40,6 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/59170429" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-<!-- Chatra {literal} -->
-<script>
-    (function(d, w, c) {
-        w.ChatraID = 'PYE5YneQ7Ayept6cB';
-        var s = d.createElement('script');
-        w[c] = w[c] || function() {
-            (w[c].q = w[c].q || []).push(arguments);
-        };
-        s.async = true;
-        s.src = 'https://call.chatra.io/chatra.js';
-        if (d.head) d.head.appendChild(s);
-    })(document, window, 'Chatra');
-</script>
-<!-- /Chatra {/literal} -->
   </head>
   <body class="<% if current_page?(root_url) or current_page?(index_setup_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url)%>body-main<%end%>">
     <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>
@@ -122,6 +108,6 @@
     </div>
 
     <%= render partial: "/layouts/footer"%>
-
+    <%= render partial: "/layouts/zammad"%>
   </body>
 </html>

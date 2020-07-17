@@ -60,7 +60,6 @@ class ApplicationController < ActionController::Base
     # "http://#{subdomain}.#{host}#{request.path}"
     "http://"+"#{subdomain}"+"#{host}"+"#{request.path}"
 
-
   end # app_url
 
 
