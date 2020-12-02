@@ -1,34 +1,36 @@
 Rails.application.routes.draw do
-
-  resources :payments do
-    collection do
-      post :success
-      post :fail
-      post :result
-    end
-  end
-  resources :payplans
-
   root to: 'home#index'
   get "/index-setup", to: "home#index_setup"
-  get '/insints' , to: 'home#index'
-  resources :insints do
-    collection do
-      get :install
-      get :uninstall
-      get :login
-      get :addizb
-      get :getizb
-      get :deleteizb
-      get :adminindex
-      get :setup_script
-      get :delete_script
-      get :checkint
-      get :emailizb
-    end
+
+  namespace :admin do
+    get '/account/index' , to: 'account#index'
+    get '/account/switch_to_tenant' , to: 'account#switch_to_tenant'
   end
 
   constraints SubdomainConstraint do
+    resources :payments do
+      collection do
+        post :success
+        post :fail
+        post :result
+      end
+    end
+    resources :payplans
+    resources :insints do
+      collection do
+        get :install
+        get :uninstall
+        get :login
+        get :addizb
+        get :getizb
+        get :deleteizb
+        get :adminindex
+        get :setup_script
+        get :delete_script
+        get :checkint
+        get :emailizb
+      end
+    end
     resources :useraccounts
     get '/clients/otchet', to: 'clients#otchet'
     resources :clients

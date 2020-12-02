@@ -28,18 +28,20 @@
   </thead>
   <tbody>
     <% @payments.each do |payment| %>
-      <tr>
-        <td><%= link_to payment.user.subdomain , payment %></td>
-        <td><%= payment.user.valid_until %></td>
-        <td><%= payment.invoice_id %></td>
-        <td><%= payment.payplan.period %></td>
-        <td><%= payment.paymenttype %></td>
-        <td><%= payment.paymentdate %></td>
-        <td><%= payment.paymentid%></td>
-        <td><%= payment.status %></td>
-        <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_payment_path(payment) %></td>
-        <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, payment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <% if can? :read, payment %>
+        <tr>
+          <td><%= link_to payment.user.subdomain , payment %></td>
+          <td><%= payment.user.valid_until %></td>
+          <td><%= payment.invoice_id %></td>
+          <td><%= payment.payplan.period %></td>
+          <td><%= payment.paymenttype %></td>
+          <td><%= payment.paymentdate %></td>
+          <td><%= payment.paymentid%></td>
+          <td><%= payment.status %></td>
+          <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_payment_path(payment) %></td>
+          <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, payment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>

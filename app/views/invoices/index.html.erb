@@ -20,16 +20,18 @@
 
   <tbody>
     <% @invoices.each do |invoice| %>
-      <tr>
-        <td><%= link_to invoice.id , invoice %></td>
-        <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
-        <td><%= invoice.sum %></td>
-        <td><%= invoice.status %></td>
-        <% if invoice.status != 'Оплачен' %>
-          <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_invoice_path(invoice) %></td>
-          <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, invoice, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
-        <% end %>
-      </tr>
+      <% if can? :read, invoice %>
+        <tr>
+          <td><%= link_to invoice.id , invoice %></td>
+          <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
+          <td><%= invoice.sum %></td>
+          <td><%= invoice.status %></td>
+          <% if invoice.status != 'Оплачен' %>
+            <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_invoice_path(invoice) %></td>
+            <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, invoice, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
+          <% end %>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>

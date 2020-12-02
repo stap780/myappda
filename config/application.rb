@@ -8,6 +8,16 @@ Bundler.require(*Rails.groups)
 
 module MyApp
   class Application < Rails::Application
+
+    # # Initialize configuration defaults for originally generated Rails version.
+    # config.load_defaults 5.2
+    #
+    # # Settings in config/environments/* take precedence over those specified here.
+    # # Application configuration can go into files in config/initializers
+    # # -- all .rb files in that directory are automatically loaded after loading
+    # # the framework and any gems in your application.
+
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -21,7 +31,7 @@ module MyApp
     config.i18n.default_locale = :ru
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    # config.active_record.raise_in_transactional_callbacks = true
     config.action_controller.allow_forgery_protection = false
     config.active_job.queue_adapter = :delayed_job
   end

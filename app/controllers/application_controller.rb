@@ -8,6 +8,14 @@ class ApplicationController < ActionController::Base
   before_action :allow_cross_domain_ajax
   helper_method :current_admin
 
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html {redirect_to root_path, notice: 'Access Denied'}
+      format.json {head :forbidden, message: 'Access Denied'}
+      format.js {head :forbidden, message: 'Access Denied'}
+    end
+  end
+
   def allow_cross_domain_ajax
       headers['Access-Control-Allow-Origin'] = '*'
       headers['Access-Control-Request-Method'] = 'GET, POST, OPTIONS'
@@ -18,6 +26,13 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource_or_scope)
     puts resource_or_scope.subdomain + " - это из ApplicationController - after_sign_in_path_for"
     dashboard_index_url(subdomain: resource_or_scope.subdomain)
+  end # after_sign_in_path_for
+
+  def after_sign_out_path_for(resource_or_scope)
+    string_host = request.host_with_port
+    old_subdomain = "#{request.subdomain}."
+    host = string_host.gsub(old_subdomain, '')
+    "http://"+"#{host}"
   end # after_sign_in_path_for
 
 
@@ -31,7 +46,7 @@ class ApplicationController < ActionController::Base
     if request.subdomain.present?
       if current_user.present? && request.subdomain != current_user.subdomain
         subdomain = current_user.subdomain
-        host = request.host_with_port.sub!("#{request.subdomain}", subdomain)
+        host = request.host_with_port.gsub("#{request.subdomain}", subdomain)
         redirect_to "http://#{host}#{request.path}"
       end
     end
@@ -51,7 +66,9 @@ class ApplicationController < ActionController::Base
     subdomain = 'app.'
     # puts request.subdomain.present?
     if request.subdomain.present?
-      host = request.host_with_port.sub! "#{request.subdomain}.", ''
+      string_host = request.host_with_port
+      old_subdomain = "#{request.subdomain}."
+      host = string_host.sub!(old_subdomain, '')
     else
       host = request.host_with_port
       # puts host

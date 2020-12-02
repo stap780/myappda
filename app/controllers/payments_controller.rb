@@ -4,6 +4,8 @@ class PaymentsController < ApplicationController
   protect_from_forgery with: :null_session
   skip_before_action :redirect_to_subdomain
 
+  authorize_resource
+
   # GET /payments
   # GET /payments.json
   def index

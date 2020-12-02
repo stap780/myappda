@@ -1,0 +1,22 @@
+h1 Payplans
+
+table
+  thead
+    tr
+      th Period
+      th Price
+      th (colspan="2")
+  tbody
+    - @payplans.each do |payplan|
+      tr
+        td
+          = link_to payplan.period, payplan
+        td
+          = payplan.price
+        td
+          = link_to 'Edit', edit_payplan_path(payplan) if can? :edit, payplan
+        td
+          = link_to 'Destroy', payplan, method: :delete, data: { confirm: 'Are you sure?' } if can? :destroy, payplan
+br
+
+= link_to 'New Payplan', new_payplan_path if can? :create, Payplan.new

@@ -1,0 +1,13 @@
+h1 NEW INVOICE
+
+= form_with model: @invoice, local: true do |f|
+
+  .input-group
+    .input-group-btn*{data: {toggle: "buttons"}}
+      f.label class: btn btn-primary active"
+        <input type="radio" name="options" id="option1" autocomplete="off" checked>Radio 1
+      <label class="btn btn-primary">
+        <input type="radio" name="options" id="option2" autocomplete="off">Radio 2
+      <label class="btn btn-primary">
+        <input type="radio" name="options" id="option3" autocomplete="off">Radio 3
+

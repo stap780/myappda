@@ -5,3 +5,13 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+#
+[
+  {price: 0, period: '7 дней'},
+  {price: 500, period: '1 месяц'},
+  {price: 1500, period: '3 месяца'},
+  {price: 2700, period: '6 месяцев'},
+  {price: 4800, period: '12 месяцев'},
+].each do |payplan|
+  Payplan.create(price: payplan[:price], period: payplan[:period])
+end

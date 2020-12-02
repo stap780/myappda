@@ -20,6 +20,7 @@ class User < ApplicationRecord
 
 
   def create_tenant
+    p '+++++++++++++++++++++++'
     Apartment::Tenant.create(subdomain)
   end # create_tenant
 
@@ -42,5 +43,7 @@ class User < ApplicationRecord
     end
   end
 
-
+  def admin?
+    type == "Admin"
+  end
 end # class

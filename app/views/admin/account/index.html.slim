@@ -1,0 +1,28 @@
+h1 ADMIN PANEL
+.container-fluid
+  .row
+    .col-md-6.col-lg-4
+      h3.mt-4 Users (stores)
+      ul.user_items.list-group
+      - @users.each do |user|
+        li.user_item.d-flex.list-group-item.list-group-item-action
+          = link_to user.subdomain,
+                    admin_account_switch_to_tenant_path(tenant: user.subdomain),
+                    class: ''
+
+    .col-md-6.col-lg-4
+      h3.mt-4 Payplan
+      ul.payplan_items.list-group
+      - @payplans.each do |payplan|
+        li.payplan_item.d-flex.list-group-item.list-group-item-action
+          = link_to payplan.period,
+                    payplan,
+                    class: ''
+          span.ml-auto
+            = link_to 'Edit',
+                      edit_payplan_path(payplan),
+                    class: 'btn btn-primary btn-sm ml-2'
+            = link_to 'Delete',
+                    payplan_path(payplan),
+                    method: :delete,
+                    class: 'btn btn-danger btn-sm ml-2'

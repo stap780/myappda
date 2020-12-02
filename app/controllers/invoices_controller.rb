@@ -2,6 +2,8 @@ class InvoicesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_invoice, only: [:show, :edit, :update, :destroy]
 
+  authorize_resource
+
   # GET /invoices
   # GET /invoices.json
   def index

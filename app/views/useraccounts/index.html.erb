@@ -98,13 +98,15 @@
 
         <tbody>
           <% Invoice.all.order(:id).limit(5).each do |invoice| %>
-            <tr>
-              <td><%= link_to invoice.id , invoice %></td>
-              <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
-              <td><%= invoice.sum %></td>
-              <td><%= invoice.status %></td>
-              <td><%= invoice.payments[0].paymentdate %></td>
-            </tr>
+            <% if can? :read, invoice %>
+              <tr>
+                <td><%= link_to invoice.id , invoice %></td>
+                <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
+                <td><%= invoice.sum %></td>
+                <td><%= invoice.status %></td>
+                <td><%= invoice.payments[0].paymentdate %></td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>

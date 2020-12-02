@@ -2,6 +2,8 @@ class PayplansController < ApplicationController
   before_action :authenticate_user!
   before_action :set_payplan, only: [:show, :edit, :update, :destroy]
 
+  authorize_resource
+
   # GET /payplans
   # GET /payplans.json
   def index
