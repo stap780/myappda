@@ -21,7 +21,7 @@ module MyApp
     config.i18n.default_locale = :ru
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    # config.active_record.raise_in_transactional_callbacks = true
     config.action_controller.allow_forgery_protection = false
     config.active_job.queue_adapter = :delayed_job
   end
