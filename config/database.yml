@@ -25,7 +25,6 @@ default: &default
 development:
   <<: *default
   database: myappda_development
-  username: administrator
   password:
 
   # The specified database role being used to connect to postgres.
