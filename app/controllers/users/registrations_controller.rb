@@ -65,7 +65,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def set_user_valid_date
     if current_user.present?
       current_user.valid_from = current_user.created_at
-      current_user.valid_until = current_user.created_at + 7.days
+      current_user.valid_until = current_user.created_at + 30.days
       current_user.save
     end
   end

@@ -81,7 +81,7 @@ class InsintsController < ApplicationController
       # puts save_subdomain
       user = User.create(:name => params[:insales_id], :subdomain => save_subdomain, :password => save_subdomain, :password_confirmation => save_subdomain, :email => email)
       user.valid_from = user.created_at
-      user.valid_until = user.created_at + 7.days
+      user.valid_until = user.created_at + 30.days
       user.save
       #puts user.id
       secret_key = ENV["INS_APP_SECRET_KEY"]
