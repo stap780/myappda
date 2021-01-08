@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
   get "/index-setup", to: "home#index_setup"
-  get '/insints' , to: 'home#index'
+  # get '/insints' , to: 'home#index'
   resources :insints do
     collection do
       get :install

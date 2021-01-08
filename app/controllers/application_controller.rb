@@ -71,5 +71,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def autenticate_admin!
+    redirect_to useraccount_path unless current_admin
+  end
+
 
 end # class

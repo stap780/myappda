@@ -1,5 +1,6 @@
 class InsintsController < ApplicationController
   before_action :authenticate_user! , except: [:install, :uninstall, :login, :addizb, :getizb, :deleteizb, :setup_script, :emailizb]
+  before_action :authenticate_admin!, only: [:index, :adminindex]
   before_action :set_insint, only: [:show, :edit, :update, :destroy]
 
   # GET /insints
