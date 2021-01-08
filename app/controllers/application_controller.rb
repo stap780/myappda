@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def autenticate_admin!
+  def authenticate_admin!
     redirect_to_subdomain unless current_admin
   end
 
