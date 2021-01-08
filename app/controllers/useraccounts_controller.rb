@@ -1,5 +1,4 @@
 class UseraccountsController < ApplicationController
-  before_action :authenticate_admin!, only: [:index]
   before_action :set_useraccount, only: [:show, :edit, :update, :destroy]
 
   # GET /useraccounts
