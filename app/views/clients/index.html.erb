@@ -32,7 +32,7 @@
         <td><%= client['clientid'] %></td>
         <td><%= client['fio'] %></td>
         <td><%= client['email'] %></td>
-        <td><%= client['izb_productid'].split(', ').size %> шт.</td>
+        <td><%= client['izb_productid'].split(',').size %> шт.</td>
 <!--        <td><%#= truncate(client['izb_productid'], :length => 30, :omission => '... (и др.)') %></td>-->
         <td><%= link_to '<i class="fa fa-eye" aria-hidden="true"></i>'.html_safe, client_path(:id => client['id'], :fio =>  client['fio'], :email => client['email']) %></td>
         <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, client_path(:id => client['id']), method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
