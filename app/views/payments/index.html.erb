@@ -31,10 +31,11 @@
       <tr>
         <% if payment.user.present? %>
           <td><%= link_to payment.user.subdomain , payment %></td>
+          <td><%= payment.user.valid_until %></td>
         <% else %>
           <td><%= payment.subdomain %></td>
+          <td>Юзера нет</td>
         <% end %>
-        <td><%= payment.user.valid_until %></td>
         <td><%= payment.invoice_id %></td>
         <td><%= payment.payplan.period %></td>
         <td><%= payment.paymenttype %></td>
