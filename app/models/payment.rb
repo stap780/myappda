@@ -5,7 +5,7 @@ class Payment < ApplicationRecord
 
   validates :subdomain, presence: true
 
-  before_save :add_subdomain
+  before_create :add_subdomain
 
   private
 
