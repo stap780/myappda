@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :redirect_to_subdomain
   before_action :allow_cross_domain_ajax
   helper_method :current_admin
+  helper_method :authenticate_admin!
 
   def allow_cross_domain_ajax
       headers['Access-Control-Allow-Origin'] = '*'
@@ -67,12 +68,12 @@ class ApplicationController < ActionController::Base
     if current_user.present?
       admin1 = ENV["ADMIN1"]
       admin2 = ENV["ADMIN2"]
-      current_user.subdomain == admin1 || current_user.subdomain == admin2
+      current_user.subdomain == admin1 || current_user.subdomain == admin2 || current_user.admin?
     end
   end
 
   def authenticate_admin!
-    unless current_admin || current_user.admin?
+    unless current_admin
       redirect_to useraccounts_path, alert: "У вас нет прав админа"
     end
   end
