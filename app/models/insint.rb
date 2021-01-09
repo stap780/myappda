@@ -478,11 +478,11 @@ def self.add_page_izb(insint_id, theme_id)
           $.getJSON(products_url).done(function (data) {
               var productsHtml = " ";
               var image;
-              if (typeof data.images !== "undefined"){
-                image = data.images[0].medium_url;
-              } else { image = ''; }
               productsHtml += \'<div class="products-favorite"><div class="row is-grid">\';
-              $.each(product.products, function(i,product){
+              $.each(data.products, function(i,product){
+                  if (typeof product.images !== "undefined"){
+                    image = product.images[0].medium_url;
+                  } else { image = ""; }
                   productsHtml += \'<div class="cell-4 cell-6-sm cell-12-xs">\'; //двойные кавычки оставил стандартно, а экранировал одинарные и так в каждой строке дальше
                   productsHtml += \'<form class="card cards-col" action="{{ cart_url }}" method="post" data-product-id="\'+product.id+\'">\';
                   productsHtml += \'<div class="card-info"><div class="card-image">\';
