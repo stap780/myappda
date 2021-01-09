@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_09_104135) do
+ActiveRecord::Schema.define(version: 2021_01_09_160944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2021_01_09_104135) do
     t.string "paymenttype"
     t.datetime "paymentdate"
     t.string "paymentid"
+    t.string "subdomain"
   end
 
   create_table "payplans", force: :cascade do |t|

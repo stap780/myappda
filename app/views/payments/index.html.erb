@@ -29,7 +29,11 @@
   <tbody>
     <% @payments.each do |payment| %>
       <tr>
-        <td><%= link_to payment.user.subdomain , payment %></td>
+        <% if payment.user.present? %>
+          <td><%= link_to payment.user.subdomain , payment %></td>
+        <% else %>
+          <td><%= payment.subdomain %></td>
+        <% end %>
         <td><%= payment.user.valid_until %></td>
         <td><%= payment.invoice_id %></td>
         <td><%= payment.payplan.period %></td>
