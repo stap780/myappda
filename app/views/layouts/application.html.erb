@@ -4,7 +4,6 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="yandex-verification" content="c284690800bdd189"/>
     <meta name="google-site-verification" content="A2boZBNCfcqtaHUFrJL26DHYNaKN9efyXijRxZmNVCk"/>
     <meta name="yandex-verification" content="c284690800bdd189" />
     <title>K-comment - сервис избранных товаров insales</title>
@@ -41,10 +40,16 @@
 <noscript><div><img src="https://mc.yandex.ru/watch/59170429" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
   </head>
-  <body class="<% if current_page?(root_url) or current_page?(index_setup_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url)%>body-main<%end%>">
+  <body class="
+    <% if current_page?(root_url) or current_page?(index_setup_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url)%>
+      body-main
+    <%end%>
+  ">
     <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="<%= root_path %>">K-comment</a>
+        <a class="navbar-brand" href="<%= root_path %>">
+          <%= image_tag "logo_white.png", data: {src: "logo_white.png", title: 'K-comment избранные товары'}, class: 'logo logo_white' %>
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
