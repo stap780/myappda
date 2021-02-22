@@ -39,7 +39,7 @@
         <td><%= payment.invoice_id %></td>
         <td><%= payment.payplan.period %></td>
         <td><%= payment.paymenttype %></td>
-        <td><%= payment.paymentdate.in_time_zone.strftime("%d/%m/%Y %H:%M" ) %></td>
+        <td><%= payment.paymentdate.in_time_zone.strftime("%d/%m/%Y %H:%M" ) if payment.paymentdate != nil%></td>
         <td><%= payment.paymentid%></td>
         <td><%= payment.status %></td>
         <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_payment_path(payment) %></td>

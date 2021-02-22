@@ -127,7 +127,7 @@
       </nav>
     <% end %>
 
-    <div class="container-fluid <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>p-5<% end %>">
+    <div class="container-fluid <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>p-4<% end %>">
       <%= render partial: "/layouts/messages"%>
       <%= yield %>
     </div>
