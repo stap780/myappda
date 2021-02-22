@@ -25,6 +25,8 @@
       <th>Обновлён</th>
       <th>Последний вход</th>
       <th>Действует до</th>
+      <th>Всего клиентов</th>
+      <th>Всего в избр товаров</th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -39,6 +41,8 @@
         <td><%= user.updated_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) if user.updated_at != nil%></td>
         <td><%= user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) if user.last_sign_in_at != nil%></td>
         <td><%= user.valid_until %></td>
+        <td><%= client_count(user.id)%></td>
+        <td><%= izb_count(user.id)%></td>
         <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, dashboard_user_destroy_path(:user_id => user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
