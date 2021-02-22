@@ -8,7 +8,6 @@
       <%= f.search_field :name_or_subdomain_or_email_cont_all, placeholder: 'Имя, домен, email', class: "form-control input-sm"%>
       <%= f.search_field :created_at_datebegin, placeholder: 'создан от', class: "form-control input-sm", autocomplete: "off" %>
       <%= f.search_field :valid_until_dateend, placeholder: 'valid до', class: "form-control input-sm", autocomplete: "off"%>
-      <%# f.submit 'Поиск', class: 'btn btn-info' %>
       <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
       <%= link_to '<span class="oi oi-reload"></span>'.html_safe, dashboard_users_path, class: 'btn btn-outline-dark' %>
     </div>

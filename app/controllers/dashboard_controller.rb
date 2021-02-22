@@ -23,7 +23,7 @@ class DashboardController < ApplicationController
     if current_admin
       @q = User.ransack(params[:q])
       @q.sorts = 'id desc' if @q.sorts.empty?
-      @users = @q.result.paginate(page: params[:page], per_page: 30)
+      @users = @q.result.paginate(page: params[:page], per_page: 50)
     else
       redirect_to dashboard_index_path
     end
