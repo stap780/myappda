@@ -249,18 +249,18 @@ def self.add_snippet_to_layout(insint_id, theme_id)
     response = RestClient.get(url)
     data = JSON.parse(response)
     data.each do |d|
-      if d['inner_file_name'] == "footer.liquid"
-        @footer_id = d['id']
+      if d['inner_file_name'] == "layouts.layout.liquid"
+        @asset_id = d['id']
       end
     end
 
-    uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@footer_id}"+".json"
+    uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@asset_id}"+".json"
     resp_get_footer_content = RestClient.get(uri)
     data = JSON.parse(resp_get_footer_content)
     footer_content = data['content']
-    new_footer_content = footer_content+' <span class="k-comment-product">{% include "k-comment-product" %}</span>'
+    new_footer_content = footer_content.gsub('</html>',' <span class="k-comment-product">{% include "k-comment-product" %}</span></html>')
     data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
-    uri_new_footer = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@footer_id}"+".xml"
+    uri_new_footer = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@asset_id}"+".xml"
     resp_change_footer_content = RestClient.put uri_new_footer, data, :accept => :xml, :content_type => "application/xml"
   else
     saved_subdomain = "insales"+insint.insalesid.to_s
@@ -270,18 +270,18 @@ def self.add_snippet_to_layout(insint_id, theme_id)
     response = RestClient.get(url)
     data = JSON.parse(response)
     data.each do |d|
-      if d['inner_file_name'] == "footer.liquid"
-        @footer_id = d['id']
+      if d['inner_file_name'] == "layouts.layout.liquid"
+        @asset_id = d['id']
       end
     end
 
-    uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@footer_id}"+".json"
+    uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@asset_id}"+".json"
     resp_get_footer_content = RestClient.get(uri)
     data = JSON.parse(resp_get_footer_content)
     footer_content = data['content']
-    new_footer_content = footer_content+' <span class="k-comment-product">{% include "k-comment-product" %}</span>'
+    new_footer_content = footer_content.gsub('</html>',' <span class="k-comment-product">{% include "k-comment-product" %}</span></html>')
     data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
-    uri_new_footer = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@footer_id}"+".xml"
+    uri_new_footer = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/themes/"+"#{theme_id}"+"/assets/"+"#{@asset_id}"+".xml"
     resp_change_footer_content = RestClient.put uri_new_footer, data, :accept => :xml, :content_type => "application/xml"
   end
 end
@@ -596,7 +596,7 @@ def self.delete_ins_file_next(insint_id, theme_id) # два этапа. это �
   data_delete.each do |d|
     if d['inner_file_name'] == "page.izb.liquid"
       page_izb_id = d['id']
-      puts "page_izb_id - "+page_izb_id.to_s
+      # puts "page_izb_id - "+page_izb_id.to_s
       url_page = @url+"/assets/"+"#{page_izb_id}"+".json"
       resp_get_footer_content = RestClient.delete(url_page)
     end
@@ -607,17 +607,17 @@ def self.delete_ins_file_next(insint_id, theme_id) # два этапа. это �
       resp_get_footer_content = RestClient.delete(url_snip)
     end
     #ниже удаляем запись в футере
-    if d['inner_file_name'] == "footer.liquid"
-      footer_id = d['id']
-      puts "footer_id - "+footer_id.to_s
-      url_footer = @url+"/assets/"+"#{footer_id}"+".json"
+    if d['inner_file_name'] == "layouts.layout.liquid"
+      asset_id = d['id']
+      # puts "asset_id - "+asset_id.to_s
+      url_footer = @url+"/assets/"+"#{asset_id}"+".json"
       # puts url_footer
       resp = RestClient.get(url_footer)
       data = JSON.parse(resp)
       # puts data['content']
       new_footer_content = data['content'].gsub('<span class="k-comment-product">{% include "k-comment-product" %}</span>','')
       new_data = '<asset><content><![CDATA[ '+new_footer_content+' ]]></content></asset>'
-      url_footer_xml = @url+"/assets/"+"#{footer_id}"+".xml"
+      url_footer_xml = @url+"/assets/"+"#{asset_id}"+".xml"
       remove_our_include = RestClient.put url_footer_xml, new_data, :accept => :xml, :content_type => "application/xml"
     end
   end

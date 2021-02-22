@@ -5,8 +5,8 @@
   <%= search_form_for @search, html: {class: 'form-inline col-3'}  do |f|%>
     <div class="form-group">
       <%= f.search_field :invoice_id_eq, placeholder: 'Счет', class: "form-control input-sm"%>
-      <%= f.submit 'Поиск', class: 'btn btn-info' %>
-      <%= link_to 'Сбросить',payments_path, class: 'btn btn-link' %>
+      <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
+      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, payments_path, class: 'btn btn-outline-dark' %>
     </div>
   <% end %>
 </div>
@@ -39,7 +39,7 @@
         <td><%= payment.invoice_id %></td>
         <td><%= payment.payplan.period %></td>
         <td><%= payment.paymenttype %></td>
-        <td><%= payment.paymentdate %></td>
+        <td><%= payment.paymentdate.in_time_zone.strftime("%d/%m/%Y %H:%M" ) %></td>
         <td><%= payment.paymentid%></td>
         <td><%= payment.status %></td>
         <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_payment_path(payment) %></td>

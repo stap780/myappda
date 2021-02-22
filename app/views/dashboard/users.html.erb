@@ -8,8 +8,9 @@
       <%= f.search_field :name_or_subdomain_or_email_cont_all, placeholder: 'Имя, домен, email', class: "form-control input-sm"%>
       <%= f.search_field :created_at_datebegin, placeholder: 'создан от', class: "form-control input-sm", autocomplete: "off" %>
       <%= f.search_field :valid_until_dateend, placeholder: 'valid до', class: "form-control input-sm", autocomplete: "off"%>
-      <%= f.submit 'Поиск', class: 'btn btn-info' %>
-      <%= link_to 'Сбросить',dashboard_users_path, class: 'btn btn-link' %>
+      <%# f.submit 'Поиск', class: 'btn btn-info' %>
+      <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
+      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, dashboard_users_path, class: 'btn btn-outline-dark' %>
     </div>
   <% end %>
 </div>
@@ -35,9 +36,9 @@
         <td><%= user.name %></td>
         <td><%= user.subdomain %></td>
         <td><%= user.email %></td>
-        <td><%= user.created_at %></td>
-        <td><%= user.updated_at %></td>
-        <td><%= user.last_sign_in_at %></td>
+        <td><%= user.created_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) %></td>
+        <td><%= user.updated_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) %></td>
+        <td><%= user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) %></td>
         <td><%= user.valid_until %></td>
         <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, dashboard_user_destroy_path(:user_id => user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
