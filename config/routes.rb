@@ -36,10 +36,22 @@ Rails.application.routes.draw do
       get :print
     end
     resources :companies
-    get '/dashboard/index' , to: 'dashboard#index'
-    get '/dashboard/users', to: 'dashboard#users'
-    get '/dashboard/test_email', to: 'dashboard#test_email'
-    delete '/dashboard/user_destroy', to: 'dashboard#user_destroy'
+    resources :dashboard do
+      collection do
+          get :index
+          get :users
+          get :test_email
+          get :client_count
+          get :izb_count
+          delete :user_destroy
+      end
+    end
+    # get '/dashboard/index' , to: 'dashboard#index'
+    # get '/dashboard/users', to: 'dashboard#users'
+    # get '/dashboard/test_email', to: 'dashboard#test_email'
+    # get '/dashboard/client_count', to: 'dashboard#client_count'
+    # get '/dashboard/izb_count', to: 'dashboard#izb_count'
+    # delete '/dashboard/user_destroy', to: 'dashboard#user_destroy'
   end # constraints
 
   devise_for :users, controllers: {

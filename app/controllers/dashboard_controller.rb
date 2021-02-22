@@ -46,4 +46,13 @@ class DashboardController < ApplicationController
 		redirect_to dashboard_index_path
   end
 
+  def client_count
+    Client.client_count(params[:user_id])
+  end
+
+  def izb_count
+    Client.izb_count(params[:user_id])
+  end
+
+
 end # index
