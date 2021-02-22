@@ -4,8 +4,8 @@
   <%= search_form_for @search, html: {class: 'form-inline col-3'} do |f|%>
   <div class="form-group">
     <%= f.search_field :subdomen_cont, placeholder: 'Домен', class: "form-control input-sm"%>
-    <%= f.submit 'Поиск', class: 'btn btn-info' %>
-    <%= link_to 'Сбросить',adminindex_insints_path, class: 'btn btn-link' %>
+    <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
+    <%= link_to '<span class="oi oi-reload"></span>'.html_safe, adminindex_insints_path, class: 'btn btn-outline-dark' %>
   </div>
 <% end %>
 </div>
