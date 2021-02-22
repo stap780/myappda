@@ -75,14 +75,14 @@ class Client < ApplicationRecord
     saved_subdomain = user.subdomain
     Apartment::Tenant.switch!(saved_subdomain)
     client_count = Client.order(:id).count
-    return client_count
+    client_count ||= ''
   end
   def self.izb_count(user_id)
     user = User.find(user_id)
     saved_subdomain = user.subdomain
     Apartment::Tenant.switch!(saved_subdomain)
     izb_count = Client.order(:id).map{|cl| cl.izb_productid.split(',').count}.sum
-    return izb_count
+    izb_count ||= ''
   end
 
 

@@ -49,8 +49,8 @@ Rails.application.routes.draw do
     get '/dashboard/index' , to: 'dashboard#index'
     get '/dashboard/users', to: 'dashboard#users'
     get '/dashboard/test_email', to: 'dashboard#test_email'
-    get '/dashboard/client_count', to: 'dashboard#client_count'
-    get '/dashboard/izb_count', to: 'dashboard#izb_count'
+    # get '/dashboard/client_count', to: 'dashboard#client_count'
+    # get '/dashboard/izb_count', to: 'dashboard#izb_count'
     delete '/dashboard/user_destroy', to: 'dashboard#user_destroy'
   end # constraints
 

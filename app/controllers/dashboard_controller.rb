@@ -9,9 +9,9 @@ class DashboardController < ApplicationController
         url = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
       end
         puts uri
-        response = RestClient.get(uri)
-        data = JSON.parse(response)
-        @product_count = data['count']
+        # response = RestClient.get(uri)
+        # data = JSON.parse(response)
+        # @product_count = data['count']
     end
     clients = Client.all
     izb_product_string = clients.map(&:izb_productid).join(',')
@@ -44,14 +44,6 @@ class DashboardController < ApplicationController
     # Client.emailizb('insales22810', 27968659, 20 ) #production test
     flash[:notice] = 'Отправили'
 		redirect_to dashboard_index_path
-  end
-
-  def client_count
-    Client.client_count(params[:user_id])
-  end
-
-  def izb_count
-    Client.izb_count(params[:user_id])
   end
 
 

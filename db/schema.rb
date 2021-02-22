@@ -15,14 +15,14 @@ ActiveRecord::Schema.define(version: 2021_01_09_160944) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "clients", force: :cascade do |t|
+  create_table "clients", id: :serial, force: :cascade do |t|
     t.string "clientid"
     t.string "izb_productid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "companies", force: :cascade do |t|
+  create_table "companies", id: :serial, force: :cascade do |t|
     t.string "inn"
     t.string "kpp"
     t.string "title"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2021_01_09_160944) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "insints", force: :cascade do |t|
+  create_table "insints", id: :serial, force: :cascade do |t|
     t.string "subdomen"
     t.string "password"
     t.integer "insalesid"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2021_01_09_160944) do
     t.boolean "status"
   end
 
-  create_table "invoices", force: :cascade do |t|
+  create_table "invoices", id: :serial, force: :cascade do |t|
     t.integer "payplan_id"
     t.string "sum"
     t.string "status"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 2021_01_09_160944) do
     t.string "paymenttype"
   end
 
-  create_table "payments", force: :cascade do |t|
+  create_table "payments", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "invoice_id"
     t.integer "payplan_id"
@@ -71,14 +71,14 @@ ActiveRecord::Schema.define(version: 2021_01_09_160944) do
     t.string "subdomain"
   end
 
-  create_table "payplans", force: :cascade do |t|
+  create_table "payplans", id: :serial, force: :cascade do |t|
     t.string "period"
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "useraccounts", force: :cascade do |t|
+  create_table "useraccounts", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "shop"
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 2021_01_09_160944) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -104,7 +104,6 @@ ActiveRecord::Schema.define(version: 2021_01_09_160944) do
     t.datetime "updated_at", null: false
     t.date "valid_from"
     t.date "valid_until"
-    t.string "type", default: "User"
     t.boolean "admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
