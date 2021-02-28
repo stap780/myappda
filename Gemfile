@@ -34,7 +34,6 @@ gem 'ed25519', '~> 1.2', '>= 1.2.4'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary', '~> 0.12.3.1'
 gem 'combine_pdf'
-# gem 'haml-rails', '~> 0.9'
 # User and Tenant management
 gem 'apartment'
 gem 'devise'
@@ -74,7 +73,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  # gem 'thin'
 end
 
 group :development do
