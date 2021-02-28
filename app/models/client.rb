@@ -72,7 +72,9 @@ class Client < ApplicationRecord
 
   def self.client_count(user_id)
     user = User.find(user_id)
+    puts user.id
     saved_subdomain = user.subdomain
+    puts saved_subdomain
     Apartment::Tenant.switch!(saved_subdomain)
     client_count = Client.order(:id).count
     client_count ||= ''

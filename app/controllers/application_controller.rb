@@ -21,6 +21,10 @@ class ApplicationController < ActionController::Base
     dashboard_index_url(subdomain: resource_or_scope.subdomain)
   end # after_sign_in_path_for
 
+  def after_sign_out_path_for(resource_or_scope)
+    url = request.host_with_port.gsub("#{request.subdomain}","app")
+    "http://"+url
+  end
 
   def invoice_path_for(resource_or_scope)
     invoices_url(subdomain: resource_or_scope.subdomain)

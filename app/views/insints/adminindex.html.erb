@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-2"><h1>Интеграции</h1></div>
   <div class="col-2"></div>
-  <%= search_form_for @search, html: {class: 'form-inline col-3'} do |f|%>
+  <%= search_form_for @search, url: adminindex_insints_path, html: {class: 'form-inline col-3'} do |f|%>
   <div class="form-group">
     <%= f.search_field :subdomen_cont, placeholder: 'Домен', class: "form-control input-sm"%>
     <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
@@ -36,9 +36,7 @@
         <td><% if insint.status == true %>добавлены<% else %> не добавлены<% end %></td>
         <td><% if insint.inskey.present? %>
           <%= link_to "Проверить", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get , class: "btn btn-outline-info btn-sm" %>
-          <% else %>
-          автоматом
-          <% end %>
+          <% else %> автоматом<% end %>
         </td>
         <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_insint_path(insint) %></td>
         <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
