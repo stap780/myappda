@@ -3,9 +3,9 @@ class Payment < ApplicationRecord
   belongs_to :invoice
   belongs_to :payplan
 
-  validates :subdomain, presence: true
+  #validates :subdomain, presence: true #не понял зачем это
 
-  before_create :add_subdomain
+  before_create :add_subdomain #не понял зачем это
 
   private
 

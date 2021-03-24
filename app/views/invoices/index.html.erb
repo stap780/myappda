@@ -28,6 +28,9 @@
         <% if invoice.status != 'Оплачен' %>
           <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_invoice_path(invoice) %></td>
           <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, invoice, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
+          <% else %>
+          <td></td>
+          <td></td>
         <% end %>
       </tr>
     <% end %>

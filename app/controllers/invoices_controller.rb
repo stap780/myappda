@@ -30,7 +30,7 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       if @invoice.save
         @invoice.update_attributes(:sum => @invoice.payplan.price, :status => 'Не оплачен')
-        @payment = Payment.create(:user_id => current_user.id, :invoice_id => @invoice.id, :payplan_id => @invoice.payplan.id, :status => 'Не оплачен', :paymenttype => @invoice.paymenttype)
+        Payment.create(:user_id => current_user.id, :invoice_id => @invoice.id, :payplan_id => @invoice.payplan.id, :status => 'Не оплачен', :paymenttype => @invoice.paymenttype)
         format.html { redirect_to @invoice, notice: 'Счет создан' }
         format.json { render :show, status: :created, location: @invoice }
       else
