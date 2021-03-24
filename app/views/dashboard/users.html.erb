@@ -33,7 +33,7 @@
 
   <tbody>
     <% @users.each do |user| %>
-      <tr>
+      <tr id="id_<%= user.id %>">
         <td><%= user.name %></td>
         <td><%= user.subdomain %></td>
         <td><%= user.email %></td>

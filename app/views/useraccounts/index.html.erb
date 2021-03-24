@@ -103,7 +103,7 @@
               <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
               <td><%= invoice.sum %></td>
               <td><%= invoice.status %></td>
-              <td><%= invoice.payments[0].paymentdate %></td>
+              <td><%= invoice.payments.present? ? invoice.payments[0].paymentdate : 'не оплачен' %></td>
             </tr>
           <% end %>
         </tbody>
