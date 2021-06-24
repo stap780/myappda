@@ -141,7 +141,7 @@ def self.add_snippet(insint_id, theme_id)
             }).done(function( data ) {
             //  console.log("что такое",data)
               products = data.products;
-              var products_url = "/products_by_id/"+products+".json";
+            //  var products_url = "/products_by_id/"+products+".json";
     		   $(".js-favorts-count").text(data.totalcount);
           if(products && products != " ") {
              var arrProd =  products.split(",");
@@ -149,15 +149,15 @@ def self.add_snippet(insint_id, theme_id)
                console.log("товар", value)
                $("[data-izb-add="+value+"]").hide();
                $("[data-izb-delete="+value+"]").show();
-                var products_url = "/product_by_id/"+value+"";
-                  $.ajax({
-                      url: products_url,
-                      dataType: "html"
-                    }).done(function(_dom) {
-                        var $dom = $(_dom);
-                        $dom.find(".js-izb-add").hide();
-                        $dom.find(".js-izb-delete").show();
-                      });
+              //  var products_url = "/product_by_id/"+value+"";
+              //    $.ajax({
+              //        url: products_url,
+              //        dataType: "html"
+              //      }).done(function(_dom) {
+              //          var $dom = $(_dom);
+              //          $dom.find(".js-izb-add").hide();
+              //          $dom.find(".js-izb-delete").show();
+              //        });
               });
             }
             }).fail(function( jqxhr, textStatus, error ) {
