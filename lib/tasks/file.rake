@@ -9,14 +9,19 @@ namespace :file do
     # 		if check.present?
     # 			File.delete("#{Rails.root}/log/image_log_change_old_new.log")
     # 		end
-
+    get_data = []
     file = "#{Rails.root}/log/production.log"
     File.open(file) do |file|
-    arr = file.readlines
+      arr = file.readlines
       arr.each do |a|
         if a.include?('2021-06-29')
-          puts a
+          get_data.push(a)
         end
+      end
+    end
+    File.open("#{Rails.root}/log/cut_file.log", "w") do |f|
+      get_data.each do |line|
+        f.write(line)
       end
     end
     puts "finish cut_file - время москва - #{Time.zone.now}"
