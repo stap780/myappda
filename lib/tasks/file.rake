@@ -10,16 +10,15 @@ namespace :file do
     # 			File.delete("#{Rails.root}/log/image_log_change_old_new.log")
     # 		end
     get_data = []
-    file = "#{Rails.root}/log/production.log"
+    file = "/var/www/myappda/shared/log/production.log"
     File.open(file) do |file|
-      arr = file.readlines
-      arr.each do |a|
+      file.readlines.each do |a|
         if a.include?('2021-06-29')
           get_data.push(a)
         end
       end
     end
-    File.open("#{Rails.root}/log/cut_file.log", "w") do |f|
+    File.open("/var/www/myappda/shared/log/cut_file.log", "w") do |f|
       get_data.each do |line|
         f.write(line)
       end
