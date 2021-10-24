@@ -1,8 +1,26 @@
-<% unless current_page?(user_session_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(new_user_password_url) or current_page?(edit_user_password_url) %>
-  <footer class="pt-4 pt-md-5">
+
+  <footer class="footer mt-auto py-3 bg-light border-top">
+    <% if user_signed_in? %>
+    <div class="container-fluid">
+      <div class="row">
+        <ul class="list-unstyled text-small list-group list-group-horizontal justify-content-end">
+          <li class="list-group-item border-0 bg-transparent">
+            <a class="text-muted" href="+74997042035">84997052117</a>
+          </li>
+          <li class="list-group-item border-0 bg-transparent">
+            <a class="text-muted" href="+74997042035">88123392235</a>
+          </li>
+          <li class="list-group-item border-0 bg-transparent">
+            <a class="text-muted" href="mailto:k-comment.ru">info@k-comment.ru</a>
+          </li>
+          <li class="list-group-item text-muted border-0 bg-transparent">K-comment<small> сервис избранных товаров &copy; 2019-<%= Time.now.strftime("%Y" )%></small></li>
+        </ul>
+        </div>
+        </div>
+    <% else %>
     <div class="container">
       <div class="row">
-        <div class="col-12 col-sm-3 text-center text-lg-left">
+        <div class="col-12 col-sm-3 text-center text-md-start">
           <h5>K-comment</h5>
           <h6>сервис избранных товаров</h6>
           <ul class="list-unstyled text-small">
@@ -58,5 +76,5 @@
         </div>
       </div>
     </div>
+    <% end %>
   </footer>
-<% end %>

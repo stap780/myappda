@@ -1,10 +1,10 @@
 
-<div class="row">
-  <div class="col-2"><h1>Платежи</h1></div>
+<div class="row align-items-center">
+  <div class="col-2"><h2>Платежи</h2></div>
   <div class="col-2"></div>
-  <%= search_form_for @search, html: {class: 'form-inline col-3'}  do |f|%>
-    <div class="form-group">
-      <%= f.search_field :invoice_id_eq, placeholder: 'Счет', class: "form-control input-sm"%>
+  <%= search_form_for @search, html: {class: 'form-inline col-3 pl-0 pr-0'}  do |f|%>
+    <div class="input-group input-group-sm">
+      <%= f.search_field :invoice_id_eq, placeholder: 'Счет', class: "form-control"%>
       <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
       <%= link_to '<span class="oi oi-reload"></span>'.html_safe, payments_path, class: 'btn btn-outline-dark' %>
     </div>
@@ -42,8 +42,8 @@
         <td><%= payment.paymentdate.in_time_zone.strftime("%d/%m/%Y %H:%M" ) if payment.paymentdate != nil%></td>
         <td><%= payment.paymentid%></td>
         <td><%= payment.status %></td>
-        <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_payment_path(payment) %></td>
-        <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, payment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_payment_path(payment) %></td>
+        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, payment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

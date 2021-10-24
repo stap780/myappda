@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" href="<%= root_path %>">
+    <%= image_tag "logo_white.png", data: {src: "logo_white.png", title: 'K-comment избранные товары'}, class: 'logo logo_white' %>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item <%= 'active' if current_page?(dashboard_index_path) %>">
+        <a class="nav-link" href="<%= dashboard_index_path %>">Главная</a>
+      </li>
+      <% if current_admin %>
+        <li class="nav-item <%= 'active' if current_page?(dashboard_users_path) %>">
+          <a class="nav-link" href="<%= dashboard_users_path %>">Пользователи</a>
+        </li>
+        <li class="nav-item <%= 'active' if current_page?(payments_path) %>">
+          <a class="nav-link" href="<%= payments_path %>">Платежи</a>
+        </li>
+        <li class="nav-item <%= 'active' if current_page?(adminindex_insints_path) %>">
+          <a class="nav-link" href="<%= adminindex_insints_path %>">Интеграции</a>
+        </li>
+        <li class="nav-item <%= 'active' if current_page?(payplans_path) %>">
+          <a class="nav-link" href="<%= payplans_path %>">Планы</a>
+        </li>
+      <% end %>
+      <% unless current_admin %>
+        <li class="nav-item <%= 'active' if current_page?(clients_path) %>">
+          <a class="nav-link" href="<%= clients_path %>">Клиенты и Товары</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-bs-toggle="dropdown">Настройки</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item <%= 'active' if current_page?(useraccounts_path) %>" href="<%= useraccounts_path %>">Общая информация</a>
+            <a class="dropdown-item <%= 'active' if current_page?(invoices_path) %>" href="<%= invoices_path %>">Счета</a>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+    <ul class="navbar-nav">
+      <!-- <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></a> <div class="dropdown-menu
+      header-search" x-placement="bottom-start"> <form class="form-inline my-2 my-lg-0"> <input class="form-control mr-sm-2" type="text" placeholder="Search"> <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button> </form> </div> </li>
+      -->
+      <li class="nav-item  dropdown">
+        <% if current_user %>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+            <i class="fa fa-user-circle" aria-hidden="true"></i>
+            <%= current_user.name %>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><%= link_to "Выйти", destroy_user_session_url, method: :delete %></li>
+            <!-- <li><%# link_to 'Back to Homepage', root_url %></li> -->
+          </ul>
+          <!-- /.dropdown-user -->
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -78,10 +78,10 @@ class InsintsController < ApplicationController
       email = save_subdomain + '@mail.ru'
       # puts save_subdomain
       user = User.create(name: params[:insales_id], subdomain: save_subdomain, password: save_subdomain,
-                         password_confirmation: save_subdomain, email: email)
-      user.valid_from = user.created_at
-      user.valid_until = user.created_at + 30.days
-      user.save
+                         password_confirmation: save_subdomain, email: email, valid_from: Date.today, valid_until: 'Sat, 30 Dec 2023')
+      # user.valid_from = user.created_at
+      # user.valid_until = user.created_at + 30.days
+      # user.save
       # puts user.id
       secret_key = ENV['INS_APP_SECRET_KEY']
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
@@ -122,8 +122,7 @@ class InsintsController < ApplicationController
         # puts @user.valid_until
         if @user.valid_until <= Date.today
           puts 'время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату'
-          @user.valid_until = Date.today
-          @user.save
+          #@user.update_attributes("valid_until" => Date.today) #убрал так как поменяли модель работы сервиса
           sign_in(:user, @user)
           # redirect_to after_sign_in_path_for(@user)
           redirect_to invoice_path_for(@user),

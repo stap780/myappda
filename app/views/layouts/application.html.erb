@@ -1,141 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html class="h-100">
   <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="google-site-verification" content="A2boZBNCfcqtaHUFrJL26DHYNaKN9efyXijRxZmNVCk"/>
-    <meta name="yandex-verification" content="c284690800bdd189" />
-    <title>K-comment - сервис избранных товаров insales</title>
-    <meta name="description" content="Избранные товары insales. От 300 руб/месяц. K-comment - это сервис для Вашего магазина на insales, который позволит Вашим постоянным клиентам откладывать товары для последующего изучения и покупки."/>
-    <%= favicon_link_tag asset_path("favicon.png") %>
-    <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag "application", media: "all" %>
-    <%= javascript_include_tag "application"%>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.css"/>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-5182062-18"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "UA-5182062-18");
-    </script>
-    <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-   ym(59170429, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/59170429" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-    <!-- Facebook Pixel Code -->
-    <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window,document,"script",
-        "https://connect.facebook.net/en_US/fbevents.js");
-      fbq("init", "3804678336291509");
-      fbq("track", "PageView");
-    </script>
-    <noscript>
-      <img height="1" width="1" src="https://www.facebook.com/tr?id=3804678336291509&ev=PageView&noscript=1"/>
-    </noscript>
-    <!-- End Facebook Pixel Code -->
+    <%= render partial: 'layouts/head' %>
+    <%= render partial: 'layouts/metrics' %>
   </head>
-  <body class="
-    <% if current_page?(root_url) or current_page?(index_setup_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url)%>
-      body-main
-    <%end%>
-  ">
-    <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="<%= root_path %>">
-          <%= image_tag "logo_white.png", data: {src: "logo_white.png", title: 'K-comment избранные товары'}, class: 'logo logo_white' %>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarColor02">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item <%= 'active' if current_page?(dashboard_index_path) %>">
-              <a class="nav-link" href="<%= dashboard_index_path %>">Главная</a>
-            </li>
-            <% if current_admin %>
-              <li class="nav-item <%= 'active' if current_page?(dashboard_users_path) %>">
-                <a class="nav-link" href="<%= dashboard_users_path %>">Пользователи</a>
-              </li>
-              <li class="nav-item <%= 'active' if current_page?(payments_path) %>">
-                <a class="nav-link" href="<%= payments_path %>">Платежи</a>
-              </li>
-              <li class="nav-item <%= 'active' if current_page?(adminindex_insints_path) %>">
-                <a class="nav-link" href="<%= adminindex_insints_path %>">Интеграции</a>
-              </li>
-              <li class="nav-item <%= 'active' if current_page?(payplans_path) %>">
-                <a class="nav-link" href="<%= payplans_path %>">Планы</a>
-              </li>
-            <% end %>
-            <% unless current_admin %>
-              <li class="nav-item <%= 'active' if current_page?(clients_path) %>">
-                <a class="nav-link" href="<%= clients_path %>">Клиенты и Товары</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Настройки</a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item <%= 'active' if current_page?(useraccounts_path) %>" href="<%= useraccounts_path %>">Общая информация</a>
-                  <a class="dropdown-item <%= 'active' if current_page?(invoices_path) %>" href="<%= invoices_path %>">Счета</a>
-                </div>
-              </li>
-            <% end %>
-          </ul>
-          <ul class="navbar-nav">
-            <!-- <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></a> <div class="dropdown-menu
-            header-search" x-placement="bottom-start"> <form class="form-inline my-2 my-lg-0"> <input class="form-control mr-sm-2" type="text" placeholder="Search"> <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button> </form> </div> </li>
-            -->
-            <li class="nav-item  dropdown">
-              <% if current_user %>
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                  <i class="fa fa-user-circle" aria-hidden="true"></i>
-                  <%= current_user.name %>
-                  <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                  <li><%= link_to "Выйти", destroy_user_session_url, method: :delete %></li>
-                  <!-- <li><%# link_to 'Back to Homepage', root_url %></li> -->
-                </ul>
-                <!-- /.dropdown-user -->
-              <% end %>
-            </li>
-          </ul>
-        </div>
-      </nav>
+  <body class="<%=current_page_path_as_class%> d-flex flex-column h-100">
+    <% if user_signed_in? %>
+      <header>
+        <%= render 'layouts/navigation' %>
+      </header>
     <% end %>
-
-    <div class="container-fluid <% unless current_page?(root_url) or current_page?(new_user_session_url) or current_page?(new_user_registration_url) or current_page?(insints_url) or current_page?(index_setup_url)%>p-4<% end %>">
-      <%= render partial: "/layouts/messages"%>
-      <%= yield %>
-    </div>
-
-    <%= render partial: "/layouts/footer"%>
+    <main class="flex-shrink-0">
+      <div class="container-fluid">
+        <%= render partial: "/layouts/messages"%>
+        <%= yield %>
+      </div>
+    </main>
+    <% if check_current_page_show_this_part?%>
+      <%= render partial: "/layouts/footer"%>
+    <% end %>
     <%# render partial: "/layouts/zammad"%>
-    <%= render partial: "/layouts/messengers"%>
-    <%= render partial: "/layouts/rocket"%>
-  </body>
-</html>
+      <%= render partial: "/layouts/messengers"%>
+      <%= render partial: "/layouts/rocket"%>
+    </body>
+  </html>

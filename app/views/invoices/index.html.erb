@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row align-items-center">
   <div class="col">
-    <h1>Счета</h1>
+    <h2>Счета</h2>
   </div>
   <div class="col">
     <%= link_to 'Новый счет', new_invoice_path, class: 'btn btn-outline-primary' %>
@@ -26,8 +26,8 @@
         <td><%= invoice.sum %></td>
         <td><%= invoice.status %></td>
         <% if invoice.status != 'Оплачен' %>
-          <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_invoice_path(invoice) %></td>
-          <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, invoice, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
+          <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_invoice_path(invoice) %></td>
+          <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, invoice, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
           <% else %>
           <td></td>
           <td></td>

@@ -1,9 +1,9 @@
-<div class="row">
-  <div class="col-2"><h1>Интеграции</h1></div>
+<div class="row align-items-center">
+  <div class="col-2"><h2>Интеграции</h2></div>
   <div class="col-2"></div>
-  <%= search_form_for @search, url: adminindex_insints_path, html: {class: 'form-inline col-3'} do |f|%>
-  <div class="form-group">
-    <%= f.search_field :subdomen_cont, placeholder: 'Домен', class: "form-control input-sm"%>
+  <%= search_form_for @search, url: adminindex_insints_path, html: {class: 'form-inline col-3 pl-0 pr-0'} do |f|%>
+  <div class="input-group input-group-sm">
+    <%= f.search_field :subdomen_cont, placeholder: 'Домен', class: "form-control"%>
     <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
     <%= link_to '<span class="oi oi-reload"></span>'.html_safe, adminindex_insints_path, class: 'btn btn-outline-dark' %>
   </div>
@@ -38,8 +38,8 @@
           <%= link_to "Проверить", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get , class: "btn btn-outline-info btn-sm" %>
           <% else %> автоматом<% end %>
         </td>
-        <td><%= link_to '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe, edit_insint_path(insint) %></td>
-        <td><%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+        <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_insint_path(insint) %></td>
+        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

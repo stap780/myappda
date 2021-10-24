@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   end # after_sign_in_path_for
 
   def after_sign_out_path_for(resource_or_scope)
-    url = request.host_with_port.gsub("#{request.subdomain}","app")
+    url = request.host_with_port.gsub("#{request.subdomain}.","")
     "http://"+url
   end
 
@@ -53,25 +53,30 @@ class ApplicationController < ActionController::Base
 
 
   def app_url
-    subdomain = 'app.'
+    # subdomain = 'app.'
     # puts request.subdomain.present?
+    # puts 'request.domain - '+request.domain.to_s
+    # puts 'request.subdomain - '+request.subdomain.to_s
+    # puts 'request.host_with_port '+request.host_with_port.to_s
+    # puts 'request.path '+request.path.to_s
     if request.subdomain.present?
-      host = request.host_with_port.sub! "#{request.subdomain}.", ''
+      host = request.host_with_port.sub!("#{request.subdomain.gsub('www','')}.", '')
     else
+      subdomain = 'app'
       host = request.host_with_port
-      # puts host
+      puts host
     end # if
 
-    # "http://#{subdomain}.#{host}#{request.path}"
-    "http://"+"#{subdomain}"+"#{host}"+"#{request.path}"
+
+    "http://#{subdomain}.#{host}#{request.path}"    # "http://"+"#{subdomain}"+"#{host}"+"#{request.path}"
 
   end # app_url
 
 
   def current_admin
     if current_user.present?
-      admin1 = ENV["ADMIN1"]
-      admin2 = ENV["ADMIN2"]
+      admin1 = Rails.application.secrets.admin1
+      admin2 = Rails.application.secrets.admin2
       current_user.subdomain == admin1 || current_user.subdomain == admin2 || current_user.admin?
     end
   end

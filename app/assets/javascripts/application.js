@@ -22,7 +22,9 @@ $(document).ready(function() {
   if ($('#new_user').length > 0) {
     $('.navbar').css('display', 'none');
   }
-
+  $(".alert").delay(4000).slideUp(200, function() {
+    $(this).alert('close');
+  });
 
   $('#q_created_at_datebegin').datepicker({
     format: 'yyyy-mm-dd',

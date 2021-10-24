@@ -141,7 +141,6 @@ def self.add_snippet(insint_id, theme_id)
             }).done(function( data ) {
             //  console.log("что такое",data)
               products = data.products;
-            //  var products_url = "/products_by_id/"+products+".json";
     		   $(".js-favorts-count").text(data.totalcount);
           if(products && products != " ") {
              var arrProd =  products.split(",");
@@ -149,16 +148,6 @@ def self.add_snippet(insint_id, theme_id)
                console.log("товар", value)
                $("[data-izb-add="+value+"]").hide();
                $("[data-izb-delete="+value+"]").show();
-              //  var products_url = "/product_by_id/"+value+"";
-              //    $.ajax({
-              //        url: products_url,
-              //        dataType: "html"
-              //      }).done(function(_dom) {
-              //          var $dom = $(_dom);
-              //          $dom.find(".js-izb-add").hide();
-              //          $dom.find(".js-izb-delete").show();
-              //        });
-              });
             }
             }).fail(function( jqxhr, textStatus, error ) {
               var err = textStatus + ", " + error;
@@ -488,8 +477,8 @@ def self.add_page_izb(insint_id, theme_id)
                   productsHtml += \'<div class="card-info"><div class="card-image">\';
                   productsHtml += \'<a href="\'+product.url+\'" class="image-inner"><div class="image-wraps"><span class="image-container"><span class="image-flex-center\"><img src="\'+image+\'"></span></span></div></a></div>\';
                   productsHtml += \'<div class="card-title"><a href=\"\'+product.url+\'\">\'+product.title+\'</a></div></div>\';
-                  productsHtml += \'<div class="card-prices"><div class="row flex-center"><div class="cell- card-price">\'+InSales.formatMoney(product.variants[0].price)+\'</div>\';
-                  productsHtml += \'<div class="cell-  card-old_price">\'+InSales.formatMoney(product.variants[0].old_price)+\'</div></div></div>\';
+                  productsHtml += \'<div class="card-prices"><div class="row flex-center"><div class="cell- card-price">\'+Shop.money.format(product.variants[0].price)+\'</div>\';
+                  productsHtml += \'<div class="cell-  card-old_price">\'+Shop.money.format(product.variants[0].old_price)+\'</div></div></div>\';
                   productsHtml += \'<div class="card-action show-flex"><div class="hide"><input type="hidden" name="variant_id" value="\'+product.variants[0].id+\'" ><div data-quantity class="hide"><input type="text" name="quantity" value="1" /></div></div></div>\';
                   productsHtml += \'<div class="card-action-inner">\';
                   productsHtml += \'<button class="bttn-favorite is-added deleteizb" data-favorites-trigger="\'+product.id+\'">Удалить</button>\';

@@ -15,8 +15,8 @@
 @import "styles";
 @import "logo";
 
-
-.js-whatsapp { 
+body {    overflow-x: hidden;}
+.js-whatsapp {
     padding: 0;
     z-index: 999;
     position: fixed;

@@ -12,12 +12,12 @@ class Users::SessionsController < Devise::SessionsController
       @user = User.find_by_email(params[:user][:email])
       if @user.present?
         if  @user.valid_until.nil? || @user.valid_until <= Date.today
-          puts "время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату"
-          @user.update_attributes("valid_until" => Date.today)
-          #sign_in(:user, @user)
-          # sign_in_and_redirect(:user, @user)
+          # puts "время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату"
+          # @user.update_attributes("valid_until" => Date.today) #убрал так как поменяли модель работы сервиса
+          ##sign_in(:user, @user)
+          ## sign_in_and_redirect(:user, @user)
           super #это проверяет логин и пароль и валидирует вход стандартными средствами и переадресовывает пользователя если надо
-            if @user.subdomain == 'ketago' || @user.subdomain == 'twog'
+            if @user.subdomain ==  Rails.application.secrets.admin1 || @user.subdomain ==  Rails.application.secrets.admin2
               puts "админ вошёл - "+"#{@user.subdomain}"
              #не используем redirect_to after_sign_in_path_for(@user)
             else
