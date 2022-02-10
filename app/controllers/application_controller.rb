@@ -53,22 +53,34 @@ class ApplicationController < ActionController::Base
 
 
   def app_url
+    subdomain = 'app'
+
+    if request.subdomain.present?
+      host = request.host_with_port.sub! "#{request.subdomain}.", ''
+    else
+      host = request.host_with_port
+    end # if
+
+    "http://#{subdomain}.#{host}#{request.path}"
+        
     # subdomain = 'app.'
     # puts request.subdomain.present?
     # puts 'request.domain - '+request.domain.to_s
     # puts 'request.subdomain - '+request.subdomain.to_s
     # puts 'request.host_with_port '+request.host_with_port.to_s
     # puts 'request.path '+request.path.to_s
-    if request.subdomain.present?
-      host = request.host_with_port.sub!("#{request.subdomain.gsub('www','')}.", '')
-    else
-      subdomain = 'app'
-      host = request.host_with_port
-      puts host
-    end # if
-
-
-    "http://#{subdomain}.#{host}#{request.path}"    # "http://"+"#{subdomain}"+"#{host}"+"#{request.path}"
+    # мой вариант
+    # if request.subdomain.present?
+    #   host = request.host_with_port.sub!("#{request.subdomain.gsub('www','')}.", '')
+    # else
+    #   subdomain = 'app'
+    #   host = request.host_with_port
+    #   puts host
+    # end # if
+    #
+    #
+    # "http://#{subdomain}.#{host}#{request.path}"    # "http://"+"#{subdomain}"+"#{host}"+"#{request.path}"
+    # конец мой вариант
 
   end # app_url
 

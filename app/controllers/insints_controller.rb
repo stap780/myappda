@@ -224,7 +224,7 @@ class InsintsController < ApplicationController
       client = Client.find_by_clientid(params[:client_id])
       if client.present?
         Client.emailizb(saved_subdomain, client.clientid, @user.id)
-        render json: { success: true, message: 'Товары отправленны Вам на почту' }
+        render json: { success: true, message: 'Товары отправлены Вам на почту' }
       else
         render json: { error: false, message: 'нет такого клиента' }
       end

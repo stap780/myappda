@@ -1,9 +1,15 @@
-<div class="row align-items-center">
-  <div class="col-3">
-<h2><%= plural_table_name.titleize %></h2>
-<small>Всего - <%%= <%= singular_table_name.titleize %>.count %></small>
-<%%= link_to 'New <%= singular_table_name.titleize %>', new_<%= singular_route_name %>_path, class: 'btn btn-outline-dark ' %>
+<div class="row justify-content-center align-items-center mb-2">
+<div class="col-3 row">
+  <div class="h3 col-md-12 p-0"><%= plural_table_name.titleize %><small>Всего - <%%= <%= singular_table_name.titleize %>.count %></small></div
+    <div class="btn-group p-0" role="group" aria-label="Button group with nested dropdown">
+    <div class="btn-group" role="group">
+      <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown">Действия</button>
+      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+        <%%= link_to 'New <%= singular_table_name.titleize %>', new_<%= singular_route_name %>_path, class: 'dropdown-item' %>
+      </div>
+    </div>
   </div>
+</div>
   <%%= search_form_for @search, {class: 'form-inline col-9 pl-0 pr-0'} do |f| %>
     <div class="input-group input-group-sm">
       <%%= f.search_field :id_eq , placeholder: 'id', class: "form-control", style: "max-width: 180px;" %>
