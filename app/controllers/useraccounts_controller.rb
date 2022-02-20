@@ -17,7 +17,6 @@ class UseraccountsController < ApplicationController
         data = JSON.parse(response)
         @ins_title = data['title']
         @ins_phone = data['phone']
-
     end
 
     invoice = Invoice.where(:status => "Оплачен").last
@@ -79,12 +78,10 @@ class UseraccountsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_useraccount
       @useraccount = Useraccount.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def useraccount_params
       params.require(:useraccount).permit(:name, :email, :shop, :insuserid, :user_id)
     end

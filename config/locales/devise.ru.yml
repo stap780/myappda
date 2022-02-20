@@ -17,7 +17,7 @@ ru:
       timeout: "Ваш сеанс закончился. Пожалуйста, войдите в систему снова."
       unauthenticated: "Вам необходимо войти в систему или зарегистрироваться."
       unconfirmed: "Вы должны подтвердить вашу учётную запись."
-      account_date_restricted: "Your account is not currently active: please contact an administrator for more information"
+      account_date_restricted: "(valid_until) Аккаунт не активен. Обратитесь к администратору."
     mailer:
       confirmation_instructions:
         subject: "Инструкции по подтверждению учётной записи."

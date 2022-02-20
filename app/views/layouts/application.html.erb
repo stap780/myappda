@@ -4,23 +4,20 @@
     <%= render partial: 'layouts/head' %>
     <%= render partial: 'layouts/metrics' %>
   </head>
-  <body class="<%=current_page_path_as_class%> d-flex flex-column h-100">
+  <body class="<%= current_page_path_as_class %> d-flex flex-column h-100">
     <% if user_signed_in? %>
       <header>
         <%= render 'layouts/navigation' %>
       </header>
     <% end %>
     <main class="flex-shrink-0">
-      <div class="container-fluid">
+      <div id="main-content" class="container-fluid">
         <%= render partial: "/layouts/messages"%>
         <%= yield %>
       </div>
     </main>
-    <% if check_current_page_show_this_part?%>
-      <%= render partial: "/layouts/footer"%>
-    <% end %>
+      <%= render partial: "/layouts/footer" if check_current_page_show_this_part? %>
     <%# render partial: "/layouts/zammad"%>
       <%= render partial: "/layouts/messengers"%>
-      <%= render partial: "/layouts/rocket"%>
     </body>
   </html>

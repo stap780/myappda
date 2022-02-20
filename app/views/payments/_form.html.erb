@@ -3,16 +3,17 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="mt-5 row">
-    <%# f.input :user_id , wrapper_html: { class: 'col-3'} %>
+  <div class="row">
+    <div class="col-12 h3"><%= page_title %>(Пользователь - <%= @payment.user.subdomain %>, счет номер - <%= @payment.invoice_id %>)</div>
+    <%# f.association :user, input_html: { class: "form-select" }, wrapper_html: { class: 'col-3'} if current_admin %>
     <%# f.input :invoice_id , wrapper_html: { class: 'col-3'} %>
-    <%# f.association :payplan, label_method: :payplan_period, value_method: :id, prompt: "Choose a Payplan" , wrapper_html: { class: 'col-3'} %>
-    <%= f.input :payplan_id, label: 'Тариф', wrapper_html: { class: 'col-3'} do %>
-    <%= f.select :payplan_id, Payplan.all.map { |r| [ r.period, r.id ] }, {include_blank: false}, { class: "form-control select optional" }%>
+    <%= f.input :payplan_od, label: 'Тариф', input_html: { class: "form-select" }, wrapper_html: { class: 'col-3'} do %>
+      <%= f.select :payplan_id, Payplan.all.map { |r| [ r.period, r.id ] }, {include_blank: false}, { class: "form-select optional" }%>
     <% end %>
-    <%= f.input :status, collection: ['Не оплачен', 'Оплачен'], wrapper_html: { class: 'col-3'}  %>
-    <%= f.input :paymenttype, collection: [['Счёт для юр лиц', 'invoice'],['Кредитные карты', 'creditcard'], ['Paypal', 'paypal']], label: 'Способ оплаты', wrapper_html: { class: 'col-3'}  %>
-    <%= f.input :paymentdate, as: :string, wrapper_html: { class: 'col-3'} %>
+    <%= f.input :status, collection: ['Не оплачен', 'Оплачен'], input_html: { class: "form-select" }, wrapper_html: { class: 'col-3'}  %>
+    <%= f.input :paymenttype, collection: [['Счёт для юр лиц', 'invoice'],['Кредитные карты', 'creditcard'], ['Paypal', 'paypal']], label: 'Способ оплаты', input_html: { class: "form-select" }, wrapper_html: { class: 'col-3'}  %>
+    <%# f.input :paymentdate, as: :string, wrapper_html: { class: 'col-3'} %>
+    <%= f.input :paymentdate, as: :date, html5: true, wrapper_html: { class: 'col-3'} %>
     <%# f.input :paymentid, wrapper_html: { class: 'col-3'}  %>
   </div>
 

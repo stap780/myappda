@@ -1,22 +1,14 @@
 <div class="row">
   <div class="col-12">
-    <div class="clearfix">
-      <h1 class="float-left">Главная</h1>
-    </div>
-    <p>
-      Добро пожаловать <strong><% if current_admin %> администратор - <%else%><%end%></strong><%=current_user.name %>!
-    </p>
-    <p>
-      В вашем магазине товаров <%= @product_count %> шт
-    </p>
-    <p>
-      В избранное добавлено товаров в кол-ве <%= @count_izb %> шт
-    </p>
+    <div class="h2">Главная</div>
+    <p>Добро пожаловать <strong><% if current_admin %> администратор - <%else%><%end%></strong><%=current_user.name %>!</p>
+    <p>Избранным воспользовалось <%= @clients_count %> </p>
+    <p>В избранное добавлено товаров в кол-ве <%= @count_izb %> шт</p>
 
     <% if current_admin %>
     <p><%= link_to "Test email", dashboard_test_email_path %></p>
     <%else%><%end%>
-    
+
   </div>
 
 

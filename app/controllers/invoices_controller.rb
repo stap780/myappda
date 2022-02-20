@@ -79,12 +79,10 @@ class InvoicesController < ApplicationController
 	end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_invoice
       @invoice = Invoice.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
       params.require(:invoice).permit(:payplan_id, :sum, :status, :payertype, :paymenttype)
     end

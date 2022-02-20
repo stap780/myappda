@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
   before_action :set_client, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_admin!, only: [:new, :create, :update, :destroy]
   # GET /clients
   # GET /clients.json
   def index
@@ -12,7 +12,7 @@ class ClientsController < ApplicationController
     email_data = []
     insint = current_user.insints.first
     if insint.present?
-      puts @clients.count
+      # puts @clients.count
       @clients.each do |client|
         arr_fio = []
         arr_email = []

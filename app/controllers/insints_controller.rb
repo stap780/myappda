@@ -49,7 +49,7 @@ class InsintsController < ApplicationController
   def update
     respond_to do |format|
       if @insint.update(insint_params)
-        format.html { redirect_to @insint, notice: 'Insint was successfully updated.' }
+        format.html { redirect_to adminindex_insints_url, notice: 'Insint was successfully updated.' }
         format.json { render :show, status: :ok, location: @insint }
       else
         format.html { render :edit }
@@ -252,6 +252,7 @@ class InsintsController < ApplicationController
 
   def checkint
     insint = Insint.find(params[:insint_id])
+
     uri = if insint.inskey.present?
             'http://' + insint.inskey.to_s + ':' + insint.password.to_s + '@' + insint.subdomen.to_s + '/admin/account.json'
           else
@@ -265,16 +266,20 @@ class InsintsController < ApplicationController
         @check_status = true
       when 401
         @check_status = false
+      when 404
+        @check_status = false
       else
         response.return!(&block)
       end
     end
+    # puts @check_status
+    notice = @check_status == true ? 'Интеграция работает!' : 'Не работает интеграция!'
     respond_to do |format|
       format.js do
-        flash.now[:notice] = 'Интеграция работает!' if @check_status == true
-        flash.now[:error] = 'Не работает интеграция!' if @check_status == false
+        flash.now[:notice] = notice
       end
     end
+
   end
 
   private

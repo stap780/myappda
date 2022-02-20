@@ -1,49 +1,47 @@
-<h2>Cчёт № <%=@invoice.id %> на продление сервиса</h2>
-<p>
-  <strong>Период продления:</strong>
-  <%= @invoice.payplan.period %>
-</p>
+<div class="h2">Cчёт № <%=@invoice.id %> на продление сервиса</div>
 
-<p>
-  <strong>Сумма счета:</strong>
-  <%= @invoice.sum %>
-</p>
-
-<p>
-  <strong>Статус счета:</strong>
-  <%= @invoice.status %>
-</p>
-
-<strong>Cпособ оплаты:</strong>
-<div class="card-columns">
+<div class="card-columns mt-3">
   <% if @invoice.paymenttype == 'invoice' %>
-  <div class="card bg-light text-center" id="invoice">
-    <img class="card-img-top" src="/pdf.png" alt="Card image" style="width:12%;">
+  <div class="card bg-light text-center mt-3" id="invoice" style="width: 18rem;">
+    <img class="card-img-top mt-3" src="/pdf.png" alt="Card image" style="max-height:100px;object-fit: contain;">
     <div class="card-body text-center">
       <p class="card-text">Счёт для юр лиц (pdf)</p>
+      <p><strong>Период продления:</strong><%= @invoice.payplan.period %></p>
+      <p><strong>Сумма счета:</strong><%= @invoice.sum %></p>
+      <p><strong>Статус счета:</strong><%= @invoice.status %></p>
       <%= link_to "Распечатать счет", invoice_print_path(@invoice, :format => :pdf), {class: 'btn btn-primary stretched-link', target: '_blank'} %>
     </div>
   </div>
   <% end %>
   <% if @invoice.paymenttype == 'paypal' %>
-  <div class="card bg-light text-center"  id="paypal">
-    <img class="card-img-top" src="/paypal.png" alt="Card image" style="width:50%;">
+  <div class="card bg-light text-center mt-3" id="paypal" style="width: 18rem;">
+    <img class="card-img-top mt-3" src="/paypal.png" alt="Card image" style="max-height:100px;object-fit: contain;">
     <div class="card-body text-center">
-      <% if @invoice.status == "Не оплачен" %><a href="#" class="btn btn-primary stretched-link">Перейти к оплате</a><% end %>
+      <p><strong>Период продления:</strong><%= @invoice.payplan.period %></p>
+      <p><strong>Сумма счета:</strong><%= @invoice.sum %></p>
+      <p><strong>Статус счета:</strong><%= @invoice.status %></p>
+      <% if @invoice.status == "Не оплачен" %>
+      <a href="#" class="btn btn-primary stretched-link">Перейти к оплате</a>
+      <% end %>
     </div>
   </div>
   <% end %>
 
 <% if @invoice.paymenttype == 'creditcard' %>
-<div class="card bg-light text-center"  id="creditcard">
-  <img class="card-img-top" src="/visa-master.png" alt="Card image" style="width:56%;">
+<div class="card bg-light text-center mt-3" id="creditcard" style="width: 18rem;">
+  <img class="card-img-top mt-3" src="/visa-master.png" alt="Card image" style="max-height:100px;object-fit: contain;">
   <div class="card-body text-center">
-    <% if @invoice.status == "Не оплачен" %><a href="https://paymaster.ru/ru-RU/Payment/Init?LMI_MERCHANT_ID=52d455b2-cf83-49eb-9096-d5590cac2a7c&LMI_CURRENCY=RUB&LMI_PAYMENT_AMOUNT=<%=@invoice.sum%>&LMI_PAYMENT_DESC=<%=@invoice.payplan.period%>&LMI_PAYMENT_NO=<%=@invoice.id%>&CURRENT_USER=<%=current_user.id%>&LMI_OPEN_INVOICE=0&LMI_SIM_MODE=0" class="btn btn-primary stretched-link">Перейти к оплате</a><% end %>
+    <p><strong>Период продления:</strong><%= @invoice.payplan.period %></p>
+    <p><strong>Сумма счета:</strong><%= @invoice.sum %></p>
+    <p><strong>Статус счета:</strong><%= @invoice.status %></p>
+    <% if @invoice.status == "Не оплачен" %>
+    <a href="https://paymaster.ru/ru-RU/Payment/Init?LMI_MERCHANT_ID=52d455b2-cf83-49eb-9096-d5590cac2a7c&LMI_CURRENCY=RUB&LMI_PAYMENT_AMOUNT=<%=@invoice.sum%>&LMI_PAYMENT_DESC=<%=@invoice.payplan.period%>&LMI_PAYMENT_NO=<%=@invoice.id%>&CURRENT_USER=<%=current_user.id%>&LMI_OPEN_INVOICE=0&LMI_SIM_MODE=0" class="btn btn-primary stretched-link">Перейти к оплате</a>
+    <% end %>
   </div>
 </div>
 <% end %>
 </div>
 <div class="btn-group mt-5">
-<% if @invoice.status != 'Оплачен' %><%= link_to 'Редактировать', edit_invoice_path(@invoice) , class: 'btn btn-success'  %><% end %>
+<%= link_to 'Редактировать', edit_invoice_path(@invoice) , class: 'btn btn-success'  if @invoice.status != 'Оплачен' %>
 <%= link_to 'Закрыть', invoices_path , class: 'btn btn-outline-primary' %>
 </div>
