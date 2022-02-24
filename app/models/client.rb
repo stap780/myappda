@@ -188,6 +188,7 @@ class Client < ApplicationRecord
     user = User.find_by_subdomain(current_subdomain)
     puts "user.id - "+user.id.to_s
     insint = user.insints.first
+    if insint.present?
     ins_client_id = self.clientid.to_s
     if insint.inskey.present?
       uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/#{ins_client_id}.json"
@@ -217,6 +218,8 @@ class Client < ApplicationRecord
               response.return!(&block)
             end
             }
+
+    end
   end
 
 end

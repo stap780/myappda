@@ -43,6 +43,7 @@ end
     user = User.find_by_subdomain(current_subdomain)
     puts "user.id - "+user.id.to_s
     insint = user.insints.first
+    if insint.present?
     ins_product_id = self.insid.to_s
     if insint.inskey.present?
       uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"+"#{ins_product_id}"+".json"
@@ -67,6 +68,7 @@ end
               response.return!(&block)
             end
             }
+    end
   end
 
 end
