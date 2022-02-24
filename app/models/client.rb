@@ -180,14 +180,13 @@ class Client < ApplicationRecord
   end
 
   def get_ins_client_data
-    # puts "get_ins_client_data"
+    puts "get_ins_client_data"
     # puts self.id.to_s
     # puts Apartment::Tenant.current
     current_subdomain = Apartment::Tenant.current
     Apartment::Tenant.switch!(current_subdomain)
     user = User.find_by_subdomain(current_subdomain)
-    # puts "user.id"
-    # puts user.id
+    puts "user.id - "+user.id.to_s
     insint = user.insints.first
     ins_client_id = self.clientid.to_s
     if insint.inskey.present?
