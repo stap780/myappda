@@ -49,6 +49,7 @@ end
     else
       uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"+"#{ins_product_id}"+".json"
     end
+    puts "uri get_ins_product_data - "+uri.to_s
     RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
             case response.code
             when 200

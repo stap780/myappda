@@ -194,7 +194,7 @@ class Client < ApplicationRecord
     else
       uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/#{ins_client_id}.json"
     end
-    # puts uri
+    puts "uri get_ins_client_data - "+uri.to_s
     RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
             case response.code
             when 200
