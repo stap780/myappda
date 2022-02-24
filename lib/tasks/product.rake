@@ -11,7 +11,7 @@ namespace :product do
         Client.order(:id).each do |client|
           izb_products = client.izb_productid.split(',')
           izb_products.each do |izb, i|
-            sleep 1 if i == 200 || i == 400 || i == 600 || i == 800
+            sleep 60 if i == 200 || i == 400 || i == 600 || i == 800
             product = Product.find_or_create_by(insid: izb)
             client.client_products.create(product_id: product.id)
           end

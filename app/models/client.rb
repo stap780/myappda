@@ -212,8 +212,8 @@ class Client < ApplicationRecord
             when 403
               puts "error 403 get_ins_client_data"
             when 503
-              puts "error 503 Service Unavailable - sleep 1 - get_ins_client_data"
-              sleep 1
+              puts "error 503 Service Unavailable - sleep 60 - get_ins_client_data"
+              sleep 60
             else
               response.return!(&block)
             end
