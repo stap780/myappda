@@ -1,0 +1,34 @@
+
+<%= simple_form_for(@user) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+<div class="row">
+  <div class="col-6">
+    <%= f.input :name %>
+    <%= f.input :subdomain, disabled: true %>
+    <%= f.input :email %>
+    <%= f.input :phone %>
+  </div>
+  <div class="col-6">
+    <div class="col-12 mt-3 mb-3 h3">Картинка</div>
+    <%= f.input :avatar, as: :file, label: false, direct_upload: true%>
+    <div class="image-table row justify-content-between mt-3">
+      <% if @user.avatar.attached?%>
+      <div class="col-6 row align-items-center mt-1 image-item">
+        <div class="col-9" data-image="<%= @user.avatar.metadata %>">
+        <%= image_tag @user.avatar_thumbnail %>
+        </div>
+        <div class="col-3">
+        <%= link_to "Delete", delete_image_users_path(@user.id, @user.avatar.id), method: :delete, class: "btn btn-success delete-image", data: {confirm: "Are you sure?"}, remote: true if @user.avatar.attached? %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+  <div class="col-3 btn-group mt-5">
+    <%= f.button :submit, class: 'btn btn-success'%>
+    <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+  </div>
+<% end %>

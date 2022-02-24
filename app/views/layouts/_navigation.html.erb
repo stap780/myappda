@@ -12,8 +12,8 @@
         <a class="nav-link" href="<%= dashboard_index_path %>">Главная</a>
       </li>
       <% if current_admin %>
-        <li class="nav-item <%= 'active' if current_page?(dashboard_users_path) %>">
-          <a class="nav-link" href="<%= dashboard_users_path %>">Пользователи</a>
+        <li class="nav-item <%= 'active' if current_page?(users_path) %>">
+          <a class="nav-link" href="<%= users_path %>">Пользователи</a>
         </li>
         <li class="nav-item <%= 'active' if current_page?(payments_path) %>">
           <a class="nav-link" href="<%= payments_path %>">Платежи</a>
@@ -32,7 +32,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-bs-toggle="dropdown">Настройки</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item <%= 'active' if current_page?(useraccounts_path) %>" href="<%= useraccounts_path %>">Общая информация</a>
+            <a class="dropdown-item <%= 'active' if current_page?(dashboard_user_path) %>" href="<%= dashboard_user_path %>">Общая информация</a>
             <a class="dropdown-item <%= 'active' if current_page?(invoices_path) %>" href="<%= invoices_path %>">Счета</a>
           </div>
         </li>

@@ -1,6 +1,12 @@
 <div class="row justify-content-center align-items-center mb-2">
-<div class="col-3 row">
-  <div class="h3 col-md-12 p-0"><%= plural_table_name.titleize %><small>Всего - <%%= <%= singular_table_name.titleize %>.count %></small></div
+  <div class="col-2 row">
+  <div class="col-md-12 p-0">
+    <div class="h3"><%= plural_table_name.titleize %>  </div>
+    <div class="h6">Всего - <%%= <%= singular_table_name.titleize %>.count %></div>
+  </div>
+  </div>
+  <div class="col-10 pl-0 pr-0 row">
+  <div class="col-12 mb-3">
     <div class="btn-group p-0" role="group" aria-label="Button group with nested dropdown">
     <div class="btn-group" role="group">
       <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown">Действия</button>
@@ -8,18 +14,21 @@
         <%%= link_to 'New <%= singular_table_name.titleize %>', new_<%= singular_route_name %>_path, class: 'dropdown-item' %>
       </div>
     </div>
+    </div>
   </div>
-</div>
-  <%%= search_form_for @search, {class: 'form-inline col-9 pl-0 pr-0'} do |f| %>
+  <%%= search_form_for @search, {class: 'form-inline col-12 pl-0 pr-0'} do |f| %>
     <div class="input-group input-group-sm">
-      <%%= f.search_field :id_eq , placeholder: 'id', class: "form-control", style: "max-width: 180px;" %>
+      <% attributes.reject(&:password_digest?).each do |attribute| -%>
+      <%%= f.search_field :<%= attribute.name %>_eq , placeholder: '<%= attribute.name %>', class: "form-control", style: "max-width: 180px;" %>
+      <% end -%>
       <%%= button_tag(type: 'submit', :class => "btn btn-info") do %>
         <span class="oi oi-magnifying-glass"></span>
       <%% end %>
       <%%= link_to '<span class="oi oi-reload"></span>'.html_safe, <%= plural_table_name %>_path, class: 'btn btn-outline-dark ' %>
-      <%%= link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_<%= plural_table_name %>_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
+      <%%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_<%= plural_table_name %>_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
     </div>
   <%% end %>
+  </div>
 </div>
 
 <div class="table-responsive">
@@ -34,11 +43,11 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody id="items_table">
     <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
-      <tr id="items_table">
-<% attributes.reject(&:password_digest?).each do |attribute| -%>
+    <tr>
         <td><%%= check_box_tag "<%= singular_table_name %>_ids[]", <%= singular_table_name %>.id %></td>
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
         <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
 <% end -%>
         <td><%%= link_to '<span class="oi oi-eye"></span>'.html_safe, <%= model_resource_name %> %></td>

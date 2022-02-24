@@ -148,6 +148,7 @@ def self.add_snippet(insint_id, theme_id)
                console.log("товар", value)
                $("[data-izb-add="+value+"]").hide();
                $("[data-izb-delete="+value+"]").show();
+               });
             }
             }).fail(function( jqxhr, textStatus, error ) {
               var err = textStatus + ", " + error;
@@ -190,7 +191,7 @@ def self.add_snippet(insint_id, theme_id)
     <script type="text/javascript">
       $(document).ready(function(){
         $(".js-izb-add").click(function(e){
-           alert("Пожалуйста, зарегистрируйтесь, чтобы добавить товар в избранное!");
+           alert("Пожалуйста, зарегистрируйтесь, чтобы добавить товар в избранное! А также сможете сохранить свой список избранного для просмотра на любом устройстве или отправить себе на почту");
            return false;
           });
         });

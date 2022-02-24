@@ -1,4 +1,5 @@
 class DashboardController < ApplicationController
+
   def index
     insint = current_user.insints.first
     # if insint.present?
@@ -20,24 +21,17 @@ class DashboardController < ApplicationController
 
   end # index
 
-  def users
-    if current_admin
-      @q = User.ransack(params[:q])
-      @q.sorts = 'id desc' if @q.sorts.empty?
-      @users = @q.result.paginate(page: params[:page], per_page: 50)
+  def user; end
+
+  def user_edit
+    puts current_user.id
+    if current_user.id == params[:user_id].to_i
+      @user = User.find(params[:user_id])
     else
-      redirect_to dashboard_index_path
+      redirect_to dashboard_user_path
     end
   end
 
-  def user_destroy
-    @user = User.find(params[:user_id])
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to dashboard_users_url, notice: 'User was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
 
   def test_email
     User.service_end_email

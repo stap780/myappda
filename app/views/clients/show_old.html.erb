@@ -14,19 +14,19 @@
       <th>Картинка</th>
       <th>Цена</th>
     </tr>
-    </thead>
-    <tbody>
-    <% @client.products.each do |pr| %>
+  </thead>
+  <tbody>
+    <% @client_products.each do |pr| %>
       <tr>
-        <td><%=pr.insid%></td>
-        <td><%= link_to "#{pr.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
-        <td><%= render '/products/one_image', :image_link => Product.get_image(pr.insid), image_style: "" %></td>
-        <td><%=pr.price%></td>
+        <td><%=pr.split(',')[0]%></td>
+        <td><%= link_to "#{pr.split(',')[1]}", "http://"+current_user.insints.first.subdomen+"/product/"+pr.split(',')[2], target: "_blank" %></td>
+        <td><img src="<%=pr.split(',')[3]%>" alt="<%=pr.split(',')[1]%>"></td>
+        <td><%=pr.split(',')[4]%></td>
       </tr>
-      <% end %>
-    </tbody>
+    <% end %>
+      </tbody>
   </table>
-  </div>
+</div>
 </p>
 
 

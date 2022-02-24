@@ -1,0 +1,8 @@
+<% img_class = image_style.present? ? image_style : "col-lg-3 col-md-4 col-6" %>
+<div class="row px-2">
+<% images.each do |image| %>
+ <div class="<%= img_class %> d-flex p-0">
+  <%= image_tag image, class: "img-fluid img-thumbnail"%>
+ </div>
+ <% end %>
+</div>

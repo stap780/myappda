@@ -1,0 +1,25 @@
+
+<div class="row">
+<div class="col-6">
+  <strong>Insid:</strong>
+  <%= @product.insid %>
+</div>
+
+<div class="col-6">
+  <strong>Title:</strong>
+  <%= @product.title %>
+</div>
+
+<div class="col-6">
+  <strong>Price:</strong>
+  <%= @product.price %>
+</div>
+
+</div>
+
+<div class="row">
+<div class="col-3 btn-group mt-5">
+<%= link_to 'Edit', edit_product_path(@product) , class: 'btn btn-success' %> |
+<%= link_to 'Back', products_path, class: 'btn btn-outline-primary' %>
+</div>
+</div>

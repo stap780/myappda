@@ -154,6 +154,35 @@ class InsintsController < ApplicationController
           izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
           client.update_attributes(izb_productid: izb_productid)
           totalcount = client.izb_productid.split(',').count
+          product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
+          client.client_products.create(product_id: product.id) #добавка после расширения функционала
+          render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
+        else
+          new_client = Client.create(clientid: params[:client_id], izb_productid: params[:product_id])
+          totalcount = new_client.izb_productid.split(',').count
+          product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
+          new_client.client_products.create(product_id: product.id) #добавка после расширения функционала
+          render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
+        end
+      else
+        render json: { error: false, message: 'истёк срок оплаты сервиса, товары не добавляются' }
+      end
+    end
+    # head :ok
+  end
+
+  def addizb_old
+    @insint = Insint.find_by_subdomen(params[:host])
+    saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
+    Apartment::Tenant.switch!(saved_subdomain)
+    @user = User.find_by_subdomain(saved_subdomain)
+    if @user.present?
+      if Date.today < @user.valid_until
+        client = Client.find_by_clientid(params[:client_id])
+        if client.present?
+          izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
+          client.update_attributes(izb_productid: izb_productid)
+          totalcount = client.izb_productid.split(',').count
           render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
         else
           new_client = Client.create(clientid: params[:client_id], izb_productid: params[:product_id])
@@ -205,6 +234,8 @@ class InsintsController < ApplicationController
           # puts products
           client.update_attributes(izb_productid: products)
           totalcount = client.izb_productid.split(',').count
+          product = Product.find_by_insid(params[:product_id])
+          client.client_products.find_by_product_id(product).destroy #добавка после расширения функционала
           render json: { success: true, message: 'товар удалён', totalcount: totalcount }
         else
           render json: { error: false, message: 'нет такого товара' }

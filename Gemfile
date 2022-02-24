@@ -42,6 +42,10 @@ gem 'whenever', require: false
 gem 'delayed_job_active_record'
 gem 'ru_propisju'
 gem 'figaro'
+gem 'phonelib'
+gem 'mini_magick'
+gem 'image_processing'
+gem 'active_storage_validations'
 
 gem 'jquery-rails'
 

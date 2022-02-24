@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many	 :payments, :dependent => :destroy
   accepts_nested_attributes_for :payments, allow_destroy: true
 
+  has_one_attached :avatar, dependent: :destroy
+  before_save :normalize_phone
 
   validates :name, presence: true
   validates :subdomain, presence: true, :uniqueness => true
@@ -42,5 +44,18 @@ class User < ApplicationRecord
     end
   end
 
+  def avatar_thumbnail
+    if avatar.attached?
+      avatar.variant(combine_options: {auto_orient: true, thumbnail: '160x160', gravity: 'center', extent: '160x160' })
+    else
+      # "/default_avatar.png"
+    end
+  end
+
+  private
+
+  def normalize_phone
+    self.phone = Phonelib.valid_for_country?(phone, 'RU') ? Phonelib.parse(phone).full_e164.presence : Phonelib.parse(phone, "KZ").full_e164.presence
+  end
 
 end # class

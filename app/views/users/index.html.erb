@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-3">
+    <h2>Users</h2>
+      <small>Всего - <%= User.count %></small>
+    <%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_citilinks_path, class: 'btn btn-secondary btn-sm', id: 'deleteAll', remote: true, data: { delete_url: delete_selected_citilinks_path } %>
+  </div>
+
+  <%= search_form_for @search, {class: 'form-inline col-6 pl-0 pr-0'} do |f| %>
+    <div class="input-group input-group-sm">
+      <%= f.search_field :name_cont_all , placeholder: 'name', class: "form-control", style: "max-width: 180px;" %>
+      <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
+        <span class="oi oi-magnifying-glass"></span>
+      <% end %>
+      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, users_path, class: 'btn btn-outline-dark ' %>
+    </div>
+  <% end %>
+</div>
+
+
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+    <thead class="thead-light">
+      <tr>
+        <th>ID</th>
+        <th>Данные</th>
+        <th>Создан</th>
+        <th>Домен Интегр</th>
+        <th>Последний вход</th>
+        <th>Действует до</th>
+        <th>Всего клиентов</th>
+        <th>Всего в избр товаров</th>
+        <th colspan="1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr id="id_<%= user.id %>">
+          <%= render user %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="apple_pagination">
+<%= will_paginate @users %>
+</div>
