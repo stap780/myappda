@@ -44,30 +44,31 @@ end
     puts "user.id - "+user.id.to_s
     insint = user.insints.first
     if insint.present?
-    ins_product_id = self.insid.to_s
-    if insint.inskey.present?
-      uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"+"#{ins_product_id}"+".json"
-    else
-      uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"+"#{ins_product_id}"+".json"
-    end
-    puts "uri get_ins_product_data - "+uri.to_s
-    RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
-            case response.code
-            when 200
-              data = JSON.parse(response)
-              product_data = {
-                title: data['title'] || '',
-                price: data['variants'][0]['base_price'] || ''
+      ins_product_id = self.insid.to_s
+      if insint.inskey.present?
+        uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"+"#{ins_product_id}"+".json"
+      else
+        uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"+"#{ins_product_id}"+".json"
+      end
+      puts "uri get_ins_product_data - "+uri.to_s
+      RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
+              case response.code
+              when 200
+                data = JSON.parse(response)
+                product_data = {
+                  title: data['title'] || '',
+                  price: data['variants'][0]['base_price'] || ''
+                }
+                self.update_attributes(product_data)
+              when 404
+                puts "error 404 get_ins_client_data"
+              when 403
+                puts "error 403 get_ins_client_data"
+              else
+                response.return!(&block)
+              end
               }
-              self.update_attributes(product_data)
-            when 404
-              puts "error 404 get_ins_client_data"
-            when 403
-              puts "error 403 get_ins_client_data"
-            else
-              response.return!(&block)
-            end
-            }
+      sleep 1
     end
   end
 
