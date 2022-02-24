@@ -4,6 +4,8 @@ class Client < ApplicationRecord
   has_many :products, through: :client_products
   validates :clientid, presence: true
   validates :clientid, uniqueness: true
+  validates :phone, phone: { possible: true, allow_blank: true }
+  before_save :normalize_phone
   after_create :get_ins_client_data
 
   def self.otchet
@@ -218,8 +220,14 @@ class Client < ApplicationRecord
                 response.return!(&block)
               end
               }
-      sleep 1
+      sleep 0.5
     end
+  end
+
+  private
+
+  def normalize_phone
+    self.phone = Phonelib.valid_for_country?(phone, 'RU') ? Phonelib.parse(phone).full_e164.presence : Phonelib.parse(phone, "KZ").full_e164.presence
   end
 
 end
