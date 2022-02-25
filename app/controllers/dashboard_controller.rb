@@ -15,10 +15,14 @@ class DashboardController < ApplicationController
         # @product_count = data['count']
     # end
     clients = Client.all
-    izb_product_string = clients.map(&:izb_productid).join(',')
-    @count_izb = izb_product_string.split(',').count
+    # izb_product_string = clients.map(&:izb_productid).join(',')
+    # @count_izb = izb_product_string.split(',').count
+    # @clients_count = clients.count
     @clients_count = clients.count
-
+    @count_izb = clients.map{|client| client.products.count}.sum
+    respond_to do |format|
+		  format.html
+		end        
   end # index
 
   def user; end
