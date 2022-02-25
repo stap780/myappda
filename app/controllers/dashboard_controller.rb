@@ -21,7 +21,7 @@ class DashboardController < ApplicationController
     @clients_count = clients.count
     @count_izb = clients.map{|client| client.products.count}.sum
     respond_to do |format|
-		  format.html
+		  format.html{ render :index }
 		end
   end # index
 
