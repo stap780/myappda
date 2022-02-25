@@ -22,10 +22,14 @@ class DashboardController < ApplicationController
     @count_izb = clients.map{|client| client.products.count}.sum
     respond_to do |format|
 		  format.html
-		end        
+		end
   end # index
 
-  def user; end
+  def user
+    respond_to do |format|
+		  format.html
+		end
+  end
 
   def user_edit
     puts current_user.id
