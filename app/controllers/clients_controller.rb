@@ -7,7 +7,7 @@ class ClientsController < ApplicationController
   def index
     @search = Client.ransack(params[:q])
     @search.sorts = 'id desc' if @search.sorts.empty?
-    @clients = @search.result.paginate(page: params[:page], per_page: 30)
+    @clients = @search.result.paginate(page: params[:page], per_page: 50)
   end
 
   def index_old

@@ -27,7 +27,7 @@ class Client < ApplicationRecord
           insid = product.insid
           title = product.title
           link = "http://#{insint.subdomen}/product_by_id/#{product.insid}"
-          pict = Product.get_image(product.insid)
+          pict = '' #Product.get_image(product.insid)
           price = product.price
           qt = product.clients.count
           writer << [insid, title, link, pict, price, qt]
