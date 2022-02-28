@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
 
   has_many :client_products, dependent: :destroy
-  has_many :clients, through: :client_products
+  has_many :clients, -> { distinct }, through: :client_products
   validates :insid, presence: true
   validates :insid, uniqueness: true
   after_create :get_ins_product_data
