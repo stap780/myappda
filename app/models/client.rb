@@ -1,7 +1,7 @@
 class Client < ApplicationRecord
 
   has_many :client_products, dependent: :destroy
-  has_many :products, through: :client_products
+  has_many :products, -> { distinct }, through: :client_products
   validates :clientid, presence: true
   validates :clientid, uniqueness: true
   validates :phone, phone: { possible: true, allow_blank: true }
