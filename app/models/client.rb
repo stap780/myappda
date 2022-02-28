@@ -163,23 +163,23 @@ class Client < ApplicationRecord
 
   end
 
-  def self.client_count(user_id)
-    user = User.find(user_id)
-    # puts user.id
-    saved_subdomain = user.subdomain
-    # puts saved_subdomain
-    Apartment::Tenant.switch!(saved_subdomain)
-    client_count = Client.order(:id).count
-    client_count ||= ''
-  end
+  # def self.client_count(user_id)
+  #   user = User.find(user_id)
+  #   # puts user.id
+  #   saved_subdomain = user.subdomain
+  #   # puts saved_subdomain
+  #   Apartment::Tenant.switch!(saved_subdomain)
+  #   client_count = Client.order(:id).count
+  #   client_count ||= ''
+  # end
 
-  def self.izb_count(user_id)
-    user = User.find(user_id)
-    saved_subdomain = user.subdomain
-    Apartment::Tenant.switch!(saved_subdomain)
-    izb_count = Client.order(:id).map{|cl| cl.izb_productid.split(',').count}.sum
-    izb_count ||= ''
-  end
+  # def self.izb_count(user_id)
+  #   user = User.find(user_id)
+  #   saved_subdomain = user.subdomain
+  #   Apartment::Tenant.switch!(saved_subdomain)
+  #   izb_count = Client.order(:id).map{|cl| cl.izb_productid.split(',').count}.sum
+  #   izb_count ||= ''
+  # end
 
   def get_ins_client_data
     puts "get_ins_client_data"

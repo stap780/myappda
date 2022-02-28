@@ -4,6 +4,6 @@
 <td><%= link_to user.insints.first.subdomen, "http://"+user.insints.first.subdomen.to_s, target: "_blank" if user.insints.present? %></td>
 <td><%= user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) if user.last_sign_in_at != nil%></td>
 <td><%= user.valid_until.present? ? user.valid_until.strftime("%d-%m-%Y") : ''%></td>
-<td><%= Client.client_count(user.id) %></td>
-<td><%= Client.izb_count(user.id) %></td>
+<td><%= user.client_count %><%# Client.client_count(user.id) %></td>
+<td><%= user.izb_count %><%# Client.izb_count(user.id) %></td>
 <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, user, method: :delete, data: { confirm: 'Are you sure?' }  if current_admin %></td>

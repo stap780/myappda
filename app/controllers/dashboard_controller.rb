@@ -21,18 +21,15 @@ class DashboardController < ApplicationController
     @clients_count = clients.count
     @count_izb = clients.map{|client| client.products.count}.sum
     respond_to do |format|
-		  format.html{ render :index }
+		  format.html
 		end
   end # index
 
   def user
-    respond_to do |format|
-		  format.html
-		end
   end
 
   def user_edit
-    puts current_user.id
+    # puts current_user.id
     if current_user.id == params[:user_id].to_i
       @user = User.find(params[:user_id])
     else

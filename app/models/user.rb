@@ -52,6 +52,16 @@ class User < ApplicationRecord
     end
   end
 
+  def client_count
+    Apartment::Tenant.switch!(self.subdomain)
+    client_count = Client.count.to_s
+  end
+  
+  def izb_count
+    Apartment::Tenant.switch!(self.subdomain)
+    izb_count = Client.order(:id).map{|cl| cl.izb_productid.split(',').count}.sum.to_s
+  end
+
   private
 
   def normalize_phone
