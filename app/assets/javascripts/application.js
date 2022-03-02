@@ -81,6 +81,13 @@ $(document).ready(function() {
       xhr = detail[2];
   })
 
+  $.each($('.preloaded-picture'), function(index, obj){
+    var img = new Image();
+    img.src = $(obj).attr('data-source');
 
+    $(img).ready(function(){
+      $(obj).attr('src', img.src);
+    })
+  })
 
 });
