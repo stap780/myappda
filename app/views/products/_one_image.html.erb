@@ -1,7 +1,7 @@
 <% img_class = image_style.present? ? image_style : "col-lg-3 col-md-4 col-6" %>
 <div class="row px-2">
  <div class="<%= img_class %> d-flex p-0">
-   <%= image_tag('/spinner.gif', class: 'preloaded-picture img-fluid img-thumbnail', data: {source: image_link}) %>
-  <%# image_tag image_link, class: "img-fluid img-thumbnail"%>
+   <%# image_tag('/spinner.gif', class: 'preloaded-picture img-fluid img-thumbnail', data: {source: image_link}) %>
+  <%= image_tag image_link, class: "img-fluid img-thumbnail"%>
  </div>
 </div>

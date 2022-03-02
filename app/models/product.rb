@@ -34,6 +34,20 @@ class Product < ApplicationRecord
             }
   end
 
+  def self.get_image_api(insid)
+    puts "get_image"
+    current_subdomain = Apartment::Tenant.current
+    Apartment::Tenant.switch!(current_subdomain)
+    user = User.find_by_subdomain(current_subdomain)
+    insint = user.insints.first
+    if insint.inskey.present?
+      uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/#{insid}/images.json"
+    else
+      uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/#{insid}/images.json"
+    end
+    uri
+  end
+
   def get_ins_product_data
     puts "get_ins_product_data"
     # puts self.id.to_s

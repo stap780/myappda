@@ -89,5 +89,23 @@ $(document).ready(function() {
       $(obj).attr('src', img.src);
     })
   })
+//   $.each($('.preloaded-picture'), function(index, obj){
+//     var url = $(obj).attr('data-api');
+//     $.ajax({
+//         type: "GET",
+//         url: url,
+//         dataType: 'json',
+//         crossDomain: true,
+//         success: function(resp) {
+//           var data = JSON.parse(resp);
+//           link = data[0]['compact_url']
+//             $(obj).prop("src", link);
+//         },
+//         error: function() {
+//     link = ''
+// }
+//     });
+//   })
+
 
 });

@@ -20,7 +20,7 @@
       <tr>
         <td><%=pr.insid%></td>
         <td><%= link_to "#{pr.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
-        <td><%= render '/products/one_image', :image_link => Product.get_image(pr.insid), image_style: "" %></td>
+        <td><%# render '/products/one_image', :image_link => Product.get_image(pr.insid), image_style: "" %></td>
         <td><%=pr.price%></td>
       </tr>
       <% end %>
