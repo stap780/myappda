@@ -13,7 +13,7 @@ class Invoice < ApplicationRecord
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
     payment = Payment.where(user_id: user.id, payplan_id: self.payplan.id, invoice_id: self.id).first
-    data = payment.present? ? payment.paymentdate : ''
+    data = payment.present? ? payment.paymentdate.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : ''
     data
   end
 

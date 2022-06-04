@@ -98,7 +98,7 @@
               <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
               <td><%= invoice.sum %></td>
               <td><%= invoice.status %></td>
-              <td><%= invoice.payments[0].present? ? invoice.payments[0].paymentdate.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : ''  %></td>
+              <td><%= invoice.payment_date %></td>
             </tr>
           <% end %>
         </tbody>
