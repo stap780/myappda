@@ -1,0 +1,14 @@
+<li class="nav-item <%= 'active' if current_page?(clients_path) %>">
+  <a class="nav-link" href="<%= clients_path %>">Клиенты</a>
+</li>
+<li class="nav-item <%= 'active' if current_page?(products_path) %>">
+  <a class="nav-link" href="<%= products_path %>">Товары</a>
+</li>
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-bs-toggle="dropdown">Настройки</a>
+  <div class="dropdown-menu">
+    <a class="dropdown-item <%= 'active' if current_page?(dashboard_services_path) %>" href="<%= dashboard_services_path %>">Сервисы</a>
+    <a class="dropdown-item <%= 'active' if current_page?(invoices_path) %>" href="<%= invoices_path %>">Счета</a>
+    <a class="dropdown-item <%= 'active' if current_page?(insints_path) %>" href="<%= insints_path %>">Интеграция insales</a>
+  </div>
+</li>

@@ -5,6 +5,7 @@
 module RescuableApartmentMiddleware
   def call(*args)
     begin
+      # puts *args.to_s
       super
     rescue Apartment::TenantNotFound
       # redirect_url = Rails.application.routes.url_helpers.url_for(controller: 'website', action: :index)

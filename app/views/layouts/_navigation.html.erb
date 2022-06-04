@@ -9,34 +9,10 @@
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav me-auto">
       <li class="nav-item <%= 'active' if current_page?(dashboard_index_path) %>">
-        <a class="nav-link" href="<%= dashboard_index_path %>">Главная</a>
+        <a class="nav-link" href="<%= dashboard_user_path %>">Главная</a>
       </li>
-      <% if current_admin %>
-        <li class="nav-item <%= 'active' if current_page?(users_path) %>">
-          <a class="nav-link" href="<%= users_path %>">Пользователи</a>
-        </li>
-        <li class="nav-item <%= 'active' if current_page?(payments_path) %>">
-          <a class="nav-link" href="<%= payments_path %>">Платежи</a>
-        </li>
-        <li class="nav-item <%= 'active' if current_page?(adminindex_insints_path) %>">
-          <a class="nav-link" href="<%= adminindex_insints_path %>">Интеграции</a>
-        </li>
-        <li class="nav-item <%= 'active' if current_page?(payplans_path) %>">
-          <a class="nav-link" href="<%= payplans_path %>">Планы</a>
-        </li>
-      <% end %>
-      <% unless current_admin %>
-        <li class="nav-item <%= 'active' if current_page?(clients_path) %>">
-          <a class="nav-link" href="<%= clients_path %>">Клиенты и Товары</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-bs-toggle="dropdown">Настройки</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item <%= 'active' if current_page?(dashboard_user_path) %>" href="<%= dashboard_user_path %>">Общая информация</a>
-            <a class="dropdown-item <%= 'active' if current_page?(invoices_path) %>" href="<%= invoices_path %>">Счета</a>
-          </div>
-        </li>
-      <% end %>
+      <%= render "/layouts/admin_navigation" if current_admin %>
+      <%= render "/layouts/user_navigation" unless current_admin %>
     </ul>
     <ul class="navbar-nav">
       <!-- <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></a> <div class="dropdown-menu

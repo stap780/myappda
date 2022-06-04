@@ -1,0 +1,81 @@
+<div class="row justify-content-center align-favorite_setups-center mb-2">
+  <div class="col-2 row">
+  <div class="col-md-12 p-0">
+    <div class="h3">favorite_setup</div>
+  </div>
+  </div>
+  <div class="col-10 pl-0 pr-0 row">
+    <% if current_admin %>
+  <div class="col-12 mb-3">
+    <div class="btn-group p-0" role="group" aria-label="Button group with nested dropdown">
+    <div class="btn-group" role="group">
+      <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown">Действия</button>
+      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+        <%= link_to 'New favorite_setup', new_favorite_setup_path, class: 'dropdown-favorite_setup' %>
+      </div>
+    </div>
+    </div>
+  </div>
+  <%= search_form_for @search, {class: 'form-inline col-12 pl-0 pr-0'} do |f| %>
+    <div class="input-group input-group-sm">
+            <%= f.search_field :title_eq , placeholder: 'title', class: "form-control", style: "max-width: 180px;" %>
+            <%= f.search_field :handle_eq , placeholder: 'handle', class: "form-control", style: "max-width: 180px;" %>
+            <%= f.search_field :description_eq , placeholder: 'description', class: "form-control", style: "max-width: 180px;" %>
+            <%= f.search_field :status_eq , placeholder: 'status', class: "form-control", style: "max-width: 180px;" %>
+            <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
+        <span class="oi oi-magnifying-glass"></span>
+      <% end %>
+      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, favorite_setups_path, class: 'btn btn-outline-dark ' %>
+      <%= link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_favorite_setups_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
+    </div>
+  <% end %>
+  <% end %>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+  <thead>
+    <tr class="bg-success">
+      <% if current_admin %>
+      <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
+      <th>Handle</th>
+      <% end %>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Status</th>
+      <td></td>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody id="favorite_setups_table">
+    <% @favorite_setups.each do |favorite_setup| %>
+    <tr>
+        <% if current_admin %>
+        <td><%= check_box_tag "favorite_setup_ids[]", favorite_setup.id %></td>
+        <td><%= favorite_setup.handle %></td>
+        <% end %>
+        <td><%= favorite_setup.title %></td>
+        <td><%= favorite_setup.description %></td>
+        <td>
+          <%= link_to 'Включить', favorite_setup_path(favorite_setup, favorite_setup: {status: true}), method: :put, class: 'btn btn-dark ' if !favorite_setup.status %>
+          <%= link_to 'Выключить', favorite_setup_path(favorite_setup, favorite_setup: {status: false}), method: :put, class: 'btn btn-outline-dark ' if favorite_setup.status %>
+        </td>
+        <td>
+          <% service_path = "new_#{favorite_setup.handle}_setup_path" %>
+          <%= link_to 'Настройка', service_path, class: 'btn btn-light' if favorite_setup.status %>
+        </td>
+        <td><%= link_to '<span class="oi oi-eye"></span>'.html_safe, favorite_setup %></td>
+        <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_favorite_setup_path(favorite_setup) %></td>
+        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, favorite_setup, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+
+<div class="apple_pagination">
+<%= will_paginate @favorite_setups %>
+</div>

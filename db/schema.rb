@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_22_141021) do
+ActiveRecord::Schema.define(version: 2022_05_18_131334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,13 +34,6 @@ ActiveRecord::Schema.define(version: 2022_02_22_141021) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
-  end
-
-  create_table "client_products", force: :cascade do |t|
-    t.bigint "client_id"
-    t.bigint "product_id"
-    t.index ["client_id"], name: "index_client_products_on_client_id"
-    t.index ["product_id"], name: "index_client_products_on_product_id"
   end
 
   create_table "clients", id: :serial, force: :cascade do |t|
@@ -69,6 +62,24 @@ ActiveRecord::Schema.define(version: 2022_02_22_141021) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "favorite_setups", force: :cascade do |t|
+    t.string "title"
+    t.string "handle"
+    t.string "description"
+    t.boolean "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "payplan_id"
+    t.date "valid_until"
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "client_id"
+    t.bigint "product_id"
+    t.index ["client_id"], name: "index_favorites_on_client_id"
+    t.index ["product_id"], name: "index_favorites_on_product_id"
+  end
+
   create_table "insints", id: :serial, force: :cascade do |t|
     t.string "subdomen"
     t.string "password"
@@ -88,6 +99,7 @@ ActiveRecord::Schema.define(version: 2022_02_22_141021) do
     t.datetime "updated_at", null: false
     t.string "payertype"
     t.string "paymenttype"
+    t.string "service_handle"
   end
 
   create_table "payments", id: :serial, force: :cascade do |t|
@@ -108,12 +120,25 @@ ActiveRecord::Schema.define(version: 2022_02_22_141021) do
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "description"
+    t.string "service_handle"
+    t.string "handle"
   end
 
   create_table "products", force: :cascade do |t|
     t.integer "insid"
     t.string "title"
     t.decimal "price", precision: 8, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "restock_setups", force: :cascade do |t|
+    t.string "title"
+    t.string "handle"
+    t.string "description"
+    t.boolean "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -151,6 +176,6 @@ ActiveRecord::Schema.define(version: 2022_02_22_141021) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "client_products", "clients"
-  add_foreign_key "client_products", "products"
+  add_foreign_key "favorites", "clients"
+  add_foreign_key "favorites", "products"
 end

@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-12">
+    <div class="h2">Наши сервисы</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Название</th>
+      <th>Описание</th>
+      <th>Состояние</th>
+      <th>Настройка</th>
+      <th>Тариф</th>
+      <th>Работа</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr classs="favorite_setup">
+      <td><%= FavoriteSetup::TITLE %></td>
+      <td><%= FavoriteSetup::DESCRIPTION %></td>
+      <td>
+        <%= link_to 'Добавить', new_favorite_setup_path, class: 'btn btn-dark' if !@favorite_setup %>
+        <%= link_to 'Добавлен', edit_favorite_setup_path(@favorite_setup.id), class: 'btn btn-outline-dark disabled', disabled: true if @favorite_setup %>
+        <%= link_to '<span class="oi oi-trash"></span>'.html_safe, @favorite_setup, method: :delete, data: { confirm: 'Are you sure?' } if @favorite_setup %>
+      </td>
+      <td>
+        <%= link_to 'Настроить', edit_favorite_setup_path(@favorite_setup.id), class: 'btn btn-dark' if @favorite_setup && !@favorite_setup.status %>
+        <%= link_to 'Настроено', edit_favorite_setup_path(@favorite_setup.id), class: 'btn btn-outline-dark' if @favorite_setup && @favorite_setup.status %>
+      </td>
+      <td><%= @favorite_setup.payplan.title if @favorite_setup && @favorite_setup.payplan %></td>
+      <td><%= !@favorite_setup.valid_until.present? ? "бесплатно" : @favorite_setup.valid_until if @favorite_setup.present? %></td>
+    </tr>
+
+    <tr classs="restock_setup">
+      <td>Оповещение о наличии</td>
+      <td>Описание сервиса</td>
+      <td>
+        <%= link_to 'Включить', new_restock_setup_path, class: 'btn btn-dark disabled', disabled: true if !@restock_setup %>
+        <%= link_to 'Выключить', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-outline-dark ' if @restock_setup %>
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+
+
+</div>

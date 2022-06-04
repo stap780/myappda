@@ -71,6 +71,6 @@ class PayplansController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def payplan_params
-      params.require(:payplan).permit(:period, :price)
+      params.require(:payplan).permit(:handle, :period, :price, :title, :description, :service_handle)
     end
 end

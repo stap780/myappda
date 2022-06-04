@@ -1,0 +1,5 @@
+<% if f.status == "Оплачен" %>
+  <%= f.status %><br>Дата: <%= f.payment_date.in_time_zone.strftime("%d/%m/%Y" ) %>
+<% else %>
+  <%= f.status %>
+<% end %>

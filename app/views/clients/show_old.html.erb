@@ -16,7 +16,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @client_products.each do |pr| %>
+    <% @favorites.each do |pr| %>
       <tr>
         <td><%=pr.split(',')[0]%></td>
         <td><%= link_to "#{pr.split(',')[1]}", "http://"+current_user.insints.first.subdomen+"/product/"+pr.split(',')[2], target: "_blank" %></td>

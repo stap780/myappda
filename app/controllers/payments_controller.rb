@@ -32,7 +32,6 @@ class PaymentsController < ApplicationController
   # POST /payments.json
   def create
     @payment = Payment.new(payment_params)
-
     respond_to do |format|
       if @payment.save
         format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
@@ -49,20 +48,7 @@ class PaymentsController < ApplicationController
   def update
     respond_to do |format|
       if @payment.update(payment_params)
-        if @payment.status == 'Оплачен'
-          old_valid_until = @payment.user.valid_until # || Date.today
-          add_period = @payment.payplan.period.split(' ')[0]
-          new_valid_until = old_valid_until + "#{add_period}".to_i.months
-          @payment.user.update_attributes(valid_until: new_valid_until)
-          Apartment::Tenant.switch!(@payment.user.subdomain)
-          invoice = Invoice.find(@payment.invoice_id)
-          invoice.update_attributes(:status => 'Оплачен', :payplan_id => @payment.payplan_id, :sum => @payment.payplan.price)
-        else
-          Apartment::Tenant.switch!(@payment.user.subdomain)
-          invoice = Invoice.find(@payment.invoice_id)
-          invoice.update_attributes(:status => 'Не оплачен', :payplan_id => @payment.payplan_id, :sum => @payment.payplan.price)
-        end
-        format.html { redirect_to @payment, notice: 'Payment was successfully updated.' }
+        format.html { redirect_to payments_url, notice: 'Payment was successfully updated.' }
         format.json { render :show, status: :ok, location: @payment }
       else
         format.html { render :edit }
@@ -82,16 +68,9 @@ class PaymentsController < ApplicationController
   end
 
   def result
-    puts 'result here'
-    @payments = Payment.where(:user_id => params['CURRENT_USER'], :invoice_id => params['LMI_PAYMENT_NO'] )
-    @payments.each do |payment|
-      payment.update_attributes(:status => 'Оплачен', :paymentdate => params['LMI_SYS_PAYMENT_DATE'], :paymentid => params['LMI_SYS_PAYMENT_ID'] )
-      user = User.find(params['CURRENT_USER'])
-      old_valid_until = user.valid_until
-      add_period = payment.payplan.period.split(' ')[0]
-      new_valid_until = old_valid_until + "#{add_period}".to_i.months
-      user.update_attributes(valid_until: new_valid_until)
-    end
+    puts 'payment result here'
+    payment = Payment.where(:user_id => params['CURRENT_USER'], :invoice_id => params['LMI_PAYMENT_NO'] ).take
+    payment.update(:status => 'Оплачен', :paymentdate => params['LMI_SYS_PAYMENT_DATE'], :paymentid => params['LMI_SYS_PAYMENT_ID'] ) if payment.present?
     head :ok
   end
 

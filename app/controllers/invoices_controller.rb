@@ -5,7 +5,9 @@ class InvoicesController < ApplicationController
   # GET /invoices
   # GET /invoices.json
   def index
-    @invoices = Invoice.all
+    @search = Invoice.ransack(params[:q])
+    @search.sorts = 'id desc' if @search.sorts.empty?
+    @invoices = @search.result.paginate(page: params[:page], per_page: 100)
   end
 
   # GET /invoices/1
@@ -26,11 +28,8 @@ class InvoicesController < ApplicationController
   # POST /invoices.json
   def create
     @invoice = Invoice.new(invoice_params)
-
     respond_to do |format|
       if @invoice.save
-        @invoice.update_attributes(:sum => @invoice.payplan.price, :status => 'Не оплачен')
-        Payment.create(:user_id => current_user.id, :invoice_id => @invoice.id, :payplan_id => @invoice.payplan.id, :status => 'Не оплачен', :paymenttype => @invoice.paymenttype)
         format.html { redirect_to @invoice, notice: 'Счет создан' }
         format.json { render :show, status: :created, location: @invoice }
       else
@@ -45,7 +44,6 @@ class InvoicesController < ApplicationController
   def update
     respond_to do |format|
       if @invoice.update(invoice_params)
-          @invoice.update_attributes(:sum => @invoice.payplan.price)
         format.html { redirect_to @invoice, notice: 'Счет обновлен.' }
         format.json { render :show, status: :ok, location: @invoice }
       else
@@ -84,6 +82,6 @@ class InvoicesController < ApplicationController
     end
 
     def invoice_params
-      params.require(:invoice).permit(:payplan_id, :sum, :status, :payertype, :paymenttype)
+      params.require(:invoice).permit(:payplan_id, :sum, :status, :payertype, :paymenttype, :service_handle)
     end
 end

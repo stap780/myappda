@@ -95,7 +95,7 @@ class ClientsController < ApplicationController
                 end
                 }
       end
-      @client_products = pr_datas
+      @favorites = pr_datas
   end
 
   # GET /clients/new

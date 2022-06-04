@@ -42,6 +42,6 @@
 <% end %>
 </div>
 <div class="btn-group mt-5">
-<%= link_to 'Редактировать', edit_invoice_path(@invoice) , class: 'btn btn-success'  if @invoice.status != 'Оплачен' %>
+<%= link_to 'Редактировать', edit_invoice_path(@invoice) , class: 'btn btn-success'  if current_admin %>
 <%= link_to 'Закрыть', invoices_path , class: 'btn btn-outline-primary' %>
 </div>

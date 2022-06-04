@@ -24,5 +24,6 @@ module MyApp
     # config.active_record.raise_in_transactional_callbacks = true
     config.action_controller.allow_forgery_protection = false
     config.active_job.queue_adapter = :delayed_job
+    config.autoload_paths += %W(#{config.root}/app)
   end
 end

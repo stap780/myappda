@@ -3,19 +3,30 @@
 
     <div class="payplan-wrapper mt-5">
       <p>Выберите тип плательщика:</p>
-      <%= f.input :payertype, as: :radio_buttons, collection: [['fiz', 'Физ лицо'], ['ur', 'Юр лицо']], label_method: :second, value_method: :first, label: false, :checked => 'fiz' %>
+      <%= f.input :payertype, as: :radio_buttons, collection: [['fiz', 'Физ лицо'], ['ur', 'Юр лицо']],
+                  label_method: :second, value_method: :first, label: false, :checked => 'fiz'
+      %>
       <p>Выберите услугу:</p>
-      <%= f.association :payplan, as: :radio_buttons, label_method: lambda { |plan| "Период продления #{plan.period}. Стоимость -  #{plan.price} руб" }, value_method: :id, :checked => 2, label: false, input_html: { class: 'payplan-item-wrapper' }, wrapper_html: { class: 'text-center mt-3 mb-3'} %>
+      <%# f.association :payplan, as: :radio_buttons, label_method: lambda { |plan| "Период продления #{plan.period}. Стоимость -  #{plan.price} руб" }, value_method: :id,
+       #checked: 2,
+      label: false, input_html: { class: 'payplan-item-wrapper' }, wrapper_html: { class: 'text-center mt-3 mb-3'} %>
+      <% collection = @invoice.payplan_id.present? ? Payplan.where(id: @invoice.payplan_id) : Payplan.where("handle ILIKE ?", "%extra%")%>
+      <%= f.association :payplan, collection: collection,
+                                  as: :radio_buttons,
+                                  #label_method: lambda { |plan| "Период продления #{plan.period}. Стоимость -  #{plan.price} руб" },
+                                  value_method: :id,
+                                  #checked: 6,
+                                  label: false,
+                                  input_html: { class: 'form-check-input' },
+                                  wrapper_html: { class: 'form-check'}
+                                  %>
       <p>Выберите способ оплаты:</p>
       <% credit_text = '<img style="max-width: 120px;" src="/visa-master.png" alt="Visa master"></br>(Webmoney, Сбербанк Онлайн, Apple Pay, Яндекс.Деньги, Альфа-Клик)' %>
-      <%= f.input :paymenttype, as: :radio_buttons, collection: [['invoice', 'Счёт для юр лиц'],['creditcard', 'Кредитные карты'], ['paypal', 'Paypal']], label_method:
-      lambda { |paymenttype|
-        if paymenttype[0] != 'creditcard'
-        "#{paymenttype[1]}"
-        else
-        "#{credit_text}".html_safe
-        end
-      }, value_method: :first, disabled: 'paypal', label: false, :checked => 'creditcard' %>
+      <%= f.input :paymenttype, as: :radio_buttons, collection: [['invoice', 'Счёт для юр лиц'],['creditcard', 'Кредитные карты'], ['paypal', 'Paypal']],
+      label_method: lambda { |paymenttype|
+        paymenttype[0] != 'creditcard' ? "#{paymenttype[1]}" : "#{credit_text}".html_safe
+      },
+      value_method: :first, disabled: 'paypal', label: false, checked: 'creditcard' %>
     </div>
 
 

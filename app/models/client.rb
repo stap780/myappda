@@ -1,12 +1,12 @@
 class Client < ApplicationRecord
 
-  has_many :client_products, dependent: :destroy
-  has_many :products, -> { distinct }, through: :client_products
+  has_many :favorites, dependent: :destroy
+  has_many :products, -> { distinct }, through: :favorites
   validates :clientid, presence: true
   validates :clientid, uniqueness: true
   validates :phone, phone: { possible: true, allow_blank: true }
   before_save :normalize_phone
-  after_create :get_ins_client_data
+  before_save :get_ins_client_data
 
   def self.otchet
     puts "Создаём отчет"
@@ -40,7 +40,7 @@ class Client < ApplicationRecord
     izb_arr = Client.all.map(&:izb_productid).join(',').split(',')
     izbHash = izb_arr.group_by(&:itself).map { |k,v| [k, v.count] }.to_h
     # puts izbHash
-    client_products = []
+    favorites = []
     insint = current_user.insints.first
     if insint.inskey.present?
       uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"
@@ -61,16 +61,16 @@ class Client < ApplicationRecord
                 end
                 price = data['variants'][0]['price'] || ''
                 save_data = "#{k}"+","+title+","+permalink+","+image+","+price+","+"#{v}"
-                client_products.push(save_data)
+                favorites.push(save_data)
               when 404
                 save_data = "#{k}"+","+","+","+","+","+"#{v}"
-                client_products.push(save_data)
+                favorites.push(save_data)
               else
                 response.return!(&block)
               end
               }
     end
-  # puts client_products
+  # puts favorites
     puts "Создаём отчет"
     file = "#{Rails.public_path}"+"/"+"#{current_user.id.to_s}"+"_clients_izb.csv"
     check_file = File.file?(file)
@@ -81,7 +81,7 @@ class Client < ApplicationRecord
       headers = ['id товара','Название товара','Ссылка', 'Картинка', 'Цена','Кол-во упоминаний']
       writer << headers
 
-      client_products.each do |product|
+      favorites.each do |product|
           # puts product.split(',')[0]
           id = product.split(',')[0]
           title = product.split(',')[1]
@@ -95,7 +95,7 @@ class Client < ApplicationRecord
 
   end
 
-  def self.emailizb( saved_subdomain,client_id, user_id )
+  def self.emailizb( saved_subdomain, client_id, user_id )
     Apartment::Tenant.switch!(saved_subdomain)
     client = Client.find_by_clientid(client_id)
     insint = User.find_by_id(user_id).insints.first
@@ -181,50 +181,47 @@ class Client < ApplicationRecord
   #   izb_count ||= ''
   # end
 
-  def get_ins_client_data
-    puts "get_ins_client_data"
-    # puts self.id.to_s
-    # puts Apartment::Tenant.current
-    current_subdomain = Apartment::Tenant.current
-    Apartment::Tenant.switch!(current_subdomain)
-    user = User.find_by_subdomain(current_subdomain)
-    puts "user.id - "+user.id.to_s
-    insint = user.insints.first
-    if insint.present?
-      ins_client_id = self.clientid.to_s
-      if insint.inskey.present?
-        uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/#{ins_client_id}.json"
-      else
-        uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/clients/#{ins_client_id}.json"
-      end
-      puts "uri get_ins_client_data - "+uri.to_s
-      RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
-              case response.code
-              when 200
-                data = JSON.parse(response)
-                client_data = {
-                  name: data['name'] || '',
-                  surname: data['surname'] || '',
-                  email: data['email'] || '',
-                  phone: data['phone'] || ''
-                }
-                self.update_attributes(client_data)
-              when 404
-                puts "error 404 get_ins_client_data"
-              when 403
-                puts "error 403 get_ins_client_data"
-              when 503
-                puts "error 503 Service Unavailable - sleep 60 - get_ins_client_data"
-                sleep 60
-              else
-                response.return!(&block)
-              end
-              }
-      sleep 0.5
-    end
-  end
 
   private
+
+  def get_ins_client_data
+    if new_record?
+      puts "get_ins_client_data"
+      # puts self.id.to_s
+      # puts Apartment::Tenant.current
+      current_subdomain = Apartment::Tenant.current
+      # Apartment::Tenant.switch!(current_subdomain)
+      user = User.find_by_subdomain(current_subdomain)
+      puts "user.id - "+user.id.to_s
+      insint = user.insints.first
+      if insint.present? && insint.status
+        ins_client_id = self.clientid.to_s
+        insint_inskey = insint.inskey.present? ? insint.inskey : "k-comment"
+        uri = "http://#{insint_inskey}:#{insint.password}@#{insint.subdomen}/admin/clients/#{ins_client_id}.json"
+        puts "uri get_ins_client_data - "+uri.to_s
+        RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
+                case response.code
+                when 200
+                  data = JSON.parse(response)
+                  self.name = data["name"] || ''
+                  self.surname = data["surname"] || ''
+                  self.email = data["email"] || ''
+                  self.phone = data["phone"] || ''
+                when 404
+                  puts "error 404 get_ins_client_data"
+                when 403
+                  puts "error 403 get_ins_client_data"
+                when 503
+                  puts "error 503 Service Unavailable - sleep 60 - get_ins_client_data"
+                  sleep 60
+                else
+                  response.return!(&block)
+                end
+                }
+        sleep 0.5
+      end
+    end
+  end
 
   def normalize_phone
     self.phone = Phonelib.valid_for_country?(phone, 'RU') ? Phonelib.parse(phone).full_e164.presence : Phonelib.parse(phone, "KZ").full_e164.presence

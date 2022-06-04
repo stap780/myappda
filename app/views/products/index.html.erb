@@ -19,12 +19,12 @@
   </div> -->
   <%= search_form_for @search, {class: 'form-inline col-12 pl-0 pr-0'} do |f| %>
     <div class="input-group input-group-sm">
-      <%= f.search_field :id_eq , placeholder: 'id', class: "form-control", style: "max-width: 180px;" %>
+      <%= f.search_field :title_cont , placeholder: 'title', class: "form-control", style: "max-width: 180px;" %>
       <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
         <span class="oi oi-magnifying-glass"></span>
       <% end %>
       <%= link_to '<span class="oi oi-reload"></span>'.html_safe, products_path, class: 'btn btn-outline-dark ' %>
-      <%= link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_products_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
+      <%= link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_products_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true if current_admin%>
     </div>
   <% end %>
 </div>
@@ -38,7 +38,7 @@
       <th>Img</th>
       <th>Title</th>
       <th>Price</th>
-      <!-- <th colspan="3"></th> -->
+      <th colspan="1"></th>
     </tr>
   </thead>
   <tbody id="items_table">

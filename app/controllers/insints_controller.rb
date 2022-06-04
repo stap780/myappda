@@ -1,13 +1,12 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user!,
-                except: %i[install uninstall login addizb getizb deleteizb setup_script emailizb]
-  before_action :authenticate_admin!, only: %i[index adminindex]
+  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb setup_script emailizb]
+  before_action :authenticate_admin!, only: %i[adminindex]
   before_action :set_insint, only: %i[show edit update destroy]
 
   # GET /insints
   # GET /insints.json
   def index
-    @insints = current_user.insints
+    @insints = current_user.insints if !current_admin
   end
 
   def adminindex
@@ -17,25 +16,31 @@ class InsintsController < ApplicationController
   end
 
   # GET /insints/1
-  # GET /insints/1.json
-  def show; end
+  def show
+    redirect_to useraccounts_url, notice: 'У Вас нет доступа к этой интеграции' if @insint.user_id != current_user.id
+  end
 
   # GET /insints/new
   def new
-    @insint = Insint.new
+    if current_user.insints.count == 0
+      @insint = Insint.new
+    else
+      redirect_to useraccounts_url, notice: 'У Вас уже есть интеграция'
+    end
   end
 
   # GET /insints/1/edit
-  def edit; end
+  def edit
+    redirect_to useraccounts_url, notice: 'У Вас нет доступа к этой интеграции' if @insint.user_id != current_user.id
+  end
 
   # POST /insints
-  # POST /insints.json
   def create
     @insint = Insint.new(insint_params)
 
     respond_to do |format|
       if @insint.save
-        format.html { redirect_to @insint, notice: 'Insint was successfully created.' }
+        format.html { redirect_to useraccounts_url, notice: 'Интеграция insales создана' }
         format.json { render :show, status: :created, location: @insint }
       else
         format.html { render :new }
@@ -45,11 +50,11 @@ class InsintsController < ApplicationController
   end
 
   # PATCH/PUT /insints/1
-  # PATCH/PUT /insints/1.json
   def update
     respond_to do |format|
       if @insint.update(insint_params)
-        format.html { redirect_to adminindex_insints_url, notice: 'Insint was successfully updated.' }
+        redirect_path = current_admin ? adminindex_insints_url : useraccounts_url
+        format.html { redirect_to redirect_path, notice: 'Интеграция обновлена' }
         format.json { render :show, status: :ok, location: @insint }
       else
         format.html { render :edit }
@@ -59,7 +64,6 @@ class InsintsController < ApplicationController
   end
 
   # DELETE /insints/1
-  # DELETE /insints/1.json
   def destroy
     @insint.destroy
     respond_to do |format|
@@ -85,9 +89,8 @@ class InsintsController < ApplicationController
       # puts user.id
       secret_key = ENV['INS_APP_SECRET_KEY']
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
-      insint_new = Insint.create(subdomen: params[:shop], password: password, insalesid: params[:insales_id],
-                                 user_id: user.id)
-      Insint.setup_ins_shop(insint_new.id)
+      insint_new = Insint.create(subdomen: params[:shop], password: password, insalesid: params[:insales_id], user_id: user.id, status: true)
+      # Insint.setup_ins_shop(insint_new.id) - убираем это и делаем установку скриптов под каждый сервис
       head :ok
       ## ниже обновляем почту клиента из инсалес и письмо нам о том что зарегился клиент
       Insint.update_and_email(insint_new.id)
@@ -117,16 +120,14 @@ class InsintsController < ApplicationController
       user_account = Useraccount.find_by_insuserid(params[:user_id])
       if user_account.present?
         name = params[:user_id] + params[:shop]
-        user_account.update_attributes(shop: params[:shop], email: params[:user_email],
-                                       insuserid: params[:user_id], name: name)
+        user_account.update_attributes(shop: params[:shop], email: params[:user_email], insuserid: params[:user_id], name: name)
         # puts @user.valid_until
         if @user.valid_until <= Date.today
           puts 'время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату'
           #@user.update_attributes("valid_until" => Date.today) #убрал так как поменяли модель работы сервиса
           sign_in(:user, @user)
           # redirect_to after_sign_in_path_for(@user)
-          redirect_to invoice_path_for(@user),
-                      notice: 'Оплаченный период истёк. Сервис не работает для Ваших клиентов. Пожалуйста оплатите сервис.'
+          redirect_to invoice_path_for(@user), notice: 'Оплаченный период истёк. Сервис не работает для Ваших клиентов. Пожалуйста оплатите сервис.'
         else
           sign_in(:user, @user)
           redirect_to after_sign_in_path_for(@user)
@@ -134,8 +135,7 @@ class InsintsController < ApplicationController
         end
       else
         name = params[:user_id] + params[:shop]
-        user_account = Useraccount.create(shop: params[:shop], email: params[:user_email], insuserid: params[:user_id],
-                                          name: name)
+        user_account = Useraccount.create(shop: params[:shop], email: params[:user_email], insuserid: params[:user_id], name: name)
         sign_in(:user, @user)
         redirect_to after_sign_in_path_for(@user)
       end
@@ -145,123 +145,91 @@ class InsintsController < ApplicationController
   def addizb
     @insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
-    Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
-    if @user.present?
-      if Date.today < @user.valid_until
+    Apartment::Tenant.switch(saved_subdomain) do
+      if FavoriteSetup.check_ability
         client = Client.find_by_clientid(params[:client_id])
         if client.present?
           izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
           client.update_attributes(izb_productid: izb_productid)
           totalcount = client.izb_productid.split(',').count
           product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
-          client.client_products.create(product_id: product.id) #добавка после расширения функционала
+          client.favorites.create(product_id: product.id) #добавка после расширения функционала
           render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
         else
           new_client = Client.create(clientid: params[:client_id], izb_productid: params[:product_id])
           totalcount = new_client.izb_productid.split(',').count
           product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
-          new_client.client_products.create(product_id: product.id) #добавка после расширения функционала
+          new_client.favorites.create(product_id: product.id) #добавка после расширения функционала
           render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
         end
       else
-        render json: { error: false, message: 'истёк срок оплаты сервиса, товары не добавляются' }
+        render json: { error: false, message: 'Кол-во клиентов больше допустимого, товары не добавляются' }
       end
     end
-    # head :ok
-  end
-
-  def addizb_old
-    @insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
-    Apartment::Tenant.switch!(saved_subdomain)
-    @user = User.find_by_subdomain(saved_subdomain)
-    if @user.present?
-      if Date.today < @user.valid_until
-        client = Client.find_by_clientid(params[:client_id])
-        if client.present?
-          izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
-          client.update_attributes(izb_productid: izb_productid)
-          totalcount = client.izb_productid.split(',').count
-          render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
-        else
-          new_client = Client.create(clientid: params[:client_id], izb_productid: params[:product_id])
-          totalcount = new_client.izb_productid.split(',').count
-          render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
-        end
-      else
-        render json: { error: false, message: 'истёк срок оплаты сервиса, товары не добавляются' }
-      end
-    end
-    # head :ok
   end
 
   def getizb
     @insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
-    Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
-    if @user.present?
-      # if Date.today < @user.valid_until
-      client = Client.find_by_clientid(params[:client_id])
-      if client.present?
-        totalcount = client.izb_productid.split(',').count
-        render json: { success: true, products: client.izb_productid, totalcount: totalcount }
-      else
-        render json: { error: false, message: 'нет такого клиента' }
-      end
-      # else
-      #   render :json=> {:success=>true, :message=>"истёк срок оплаты сервиса"}
-      # end
+    Apartment::Tenant.switch(saved_subdomain) do
+        client = Client.find_by_clientid(params[:client_id])
+        if client.present?
+          totalcount = client.izb_productid.split(',').count
+          render json: { success: true, products: client.izb_productid, totalcount: totalcount }
+        else
+          render json: { error: false, message: 'нет такого клиента' }
+        end
     end
   end
 
   def deleteizb
     @insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
-    Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
-    if @user.present?
-
-      client = Client.find_by_clientid(params[:client_id])
-      if client.present?
-        products = client.izb_productid
-        # puts products
-        if products.include?(params[:product_id])
-          ecxlude_string = []
-          ecxlude_string.push(params[:product_id])
-          products = (client.izb_productid.split(',') - ecxlude_string).uniq.join(',')
+    Apartment::Tenant.switch(saved_subdomain) do
+      if FavoriteSetup.check_ability
+        client = Client.find_by_clientid(params[:client_id])
+        if client.present?
+          products = client.izb_productid
           # puts products
-          client.update_attributes(izb_productid: products)
-          totalcount = client.izb_productid.split(',').count
-          product = Product.find_by_insid(params[:product_id])
-          client.client_products.find_by_product_id(product).destroy #добавка после расширения функционала
-          render json: { success: true, message: 'товар удалён', totalcount: totalcount }
-        else
-          render json: { error: false, message: 'нет такого товара' }
+          if products.include?(params[:product_id])
+            ecxlude_string = []
+            ecxlude_string.push(params[:product_id])
+            products = (client.izb_productid.split(',') - ecxlude_string).uniq.join(',')
+            # puts products
+            client.update_attributes(izb_productid: products)
+            totalcount = client.izb_productid.split(',').count
+            product = Product.find_by_insid(params[:product_id])
+            client.favorites.find_by_product_id(product).destroy #добавка после расширения функционала
+            render json: { success: true, message: 'товар удалён', totalcount: totalcount }
+          else
+            render json: { error: false, message: 'нет такого товара' }
+          end
         end
+      else
+        render :json=> {:success=>true, :message=>"Кол-во клиентов больше допустимого, товары не удаляются"}
       end
-
     end
   end
 
   def emailizb
     @insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
-    Apartment::Tenant.switch!(saved_subdomain)
     @user = User.find_by_subdomain(saved_subdomain)
-    if @user.present?
-      # if Date.today < @user.valid_until
-      client = Client.find_by_clientid(params[:client_id])
-      if client.present?
-        Client.emailizb(saved_subdomain, client.clientid, @user.id)
-        render json: { success: true, message: 'Товары отправлены Вам на почту' }
+    Apartment::Tenant.switch(saved_subdomain) do
+      if FavoriteSetup.check_ability
+        client = Client.find_by_clientid(params[:client_id])
+        if client.present?
+          Client.emailizb(saved_subdomain, client.clientid, @user.id)
+          render json: { success: true, message: 'Товары отправлены Вам на почту' }
+        else
+          render json: { error: false, message: 'нет такого клиента' }
+        end
       else
-        render json: { error: false, message: 'нет такого клиента' }
+        render :json=> {:success=>true, :message=>"Кол-во клиентов больше допустимого, письма не отправляются"}
       end
-      # else
-      #   render :json=> {:success=>true, :message=>"истёк срок оплаты сервиса"}
-      # end
     end
   end
 
@@ -282,29 +250,8 @@ class InsintsController < ApplicationController
   end
 
   def checkint
-    insint = Insint.find(params[:insint_id])
-
-    uri = if insint.inskey.present?
-            'http://' + insint.inskey.to_s + ':' + insint.password.to_s + '@' + insint.subdomen.to_s + '/admin/account.json'
-          else
-            'http://k-comment.ru' + ':' + insint.password.to_s + '@' + insint.subdomen.to_s + '/admin/account.json'
-          end
-    # puts uri
-    RestClient.get(uri, { content_type: 'application/json', accept: :json }) do |response, _request, _result, &block|
-      # puts response.code
-      case response.code
-      when 200
-        @check_status = true
-      when 401
-        @check_status = false
-      when 404
-        @check_status = false
-      else
-        response.return!(&block)
-      end
-    end
-    # puts @check_status
-    notice = @check_status == true ? 'Интеграция работает!' : 'Не работает интеграция!'
+    check_insales_int = Insint.check_insales_int(params[:insint_id])
+    notice = check_insales_int == true ? 'Интеграция работает!' : 'Не работает интеграция!'
     respond_to do |format|
       format.js do
         flash.now[:notice] = notice

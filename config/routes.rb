@@ -11,7 +11,6 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
   get "/index-setup", to: "home#index_setup"
-  # get '/insints' , to: 'home#index'
   resources :insints do
     collection do
       get :install
@@ -29,6 +28,8 @@ Rails.application.routes.draw do
   end
 
   constraints SubdomainConstraint do
+    resources :favorite_setups
+    resources :restock_setups
     resources :useraccounts
     get '/clients/otchet', to: 'clients#otchet'
     resources :clients
@@ -46,7 +47,7 @@ Rails.application.routes.draw do
     get '/dashboard/user', to: 'dashboard#user'
     get '/dashboard/user_edit', to: 'dashboard#user_edit'
     get '/dashboard/test_email', to: 'dashboard#test_email'
-
+    get '/dashboard/services', to: 'dashboard#services'
   end # constraints
 
   devise_for :users, controllers: {

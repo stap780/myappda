@@ -4,6 +4,7 @@
   <div class="col-2"></div>
   <%= search_form_for @search, html: {class: 'form-inline col-3 pl-0 pr-0'}  do |f|%>
     <div class="input-group input-group-sm">
+      <%= f.search_field :user_subdomain_cont, placeholder: 'User', class: "form-control"%>
       <%= f.search_field :invoice_id_eq, placeholder: 'Счет', class: "form-control"%>
       <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
       <%= link_to '<span class="oi oi-reload"></span>'.html_safe, payments_path, class: 'btn btn-outline-dark' %>
@@ -19,6 +20,7 @@
       <th>User активен до</th>
       <th>Invoice</th>
       <th>Тариф</th>
+      <th>Период</th>
       <th>Способ оплаты</th>
       <th>Дата оплаты</th>
       <th>Id оплаты</th>
@@ -37,6 +39,7 @@
           <td>Юзера нет</td>
         <% end %>
         <td><%= payment.invoice_id %></td>
+        <td><%= payment.payplan.title %></td>
         <td><%= payment.payplan.period %></td>
         <td><%= payment.paymenttype %></td>
         <td><%= payment.paymentdate.in_time_zone.strftime("%d/%m/%Y %H:%M" ) if payment.paymentdate != nil%></td>

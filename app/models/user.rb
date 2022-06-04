@@ -56,10 +56,16 @@ class User < ApplicationRecord
     Apartment::Tenant.switch!(self.subdomain)
     client_count = Client.count.to_s
   end
-  
+
   def izb_count
     Apartment::Tenant.switch!(self.subdomain)
     izb_count = Client.order(:id).map{|cl| cl.izb_productid.split(',').count}.sum.to_s
+  end
+
+  def admin?
+    admin1 = Rails.application.secrets.admin1
+    admin2 = Rails.application.secrets.admin2
+    self.subdomain == admin1 || self.subdomain == admin2
   end
 
   private

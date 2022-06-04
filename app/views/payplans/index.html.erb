@@ -3,6 +3,9 @@
 <table>
   <thead>
     <tr>
+      <th>title</th>
+      <th>Description</th>
+      <th>Service</th>
       <th>Period</th>
       <th>Price</th>
       <th colspan="3"></th>
@@ -12,6 +15,10 @@
   <tbody>
     <% @payplans.each do |payplan| %>
       <tr>
+        <td><%= payplan.handle %></td>
+        <td><%= payplan.title %></td>
+        <td><%= payplan.description %></td>
+        <td><%= payplan.service_handle %></td>
         <td><%= payplan.period %></td>
         <td><%= payplan.price %></td>
         <td><%= link_to 'Show', payplan %></td>

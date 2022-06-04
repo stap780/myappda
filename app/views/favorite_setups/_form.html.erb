@@ -1,0 +1,40 @@
+
+<%= simple_form_for(@favorite_setup) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="row">
+    <div class="col-12 h4"><%= page_title %></div>
+    <div class="col-12 h6">Cервис: <%= FavoriteSetup::TITLE %></div>
+    <div class="col-12 h6">Описание: <%= FavoriteSetup::DESCRIPTION %></div>
+    <div class="col-12 h4 mt-2 mb-2">Статус</div>
+    <div class="col-6">
+    <% if current_user.insints.present? && current_user.insints.first.status == true %>
+      <%= f.input :status, label: "Вкл/Выкл" %>
+      <%= f.input :title, as: :hidden, input_html: { value: FavoriteSetup::TITLE } %>
+      <%= f.input :handle, as: :hidden, input_html: { value: FavoriteSetup::HANDLE }  %>
+      <%= f.input :description, as: :hidden, input_html: { value: FavoriteSetup::DESCRIPTION }  %>
+    <% else %>
+    Внимание!!! Интеграция не настроена. Настройте <%= link_to "интеграцию", useraccounts_path %>
+  <% end %>
+  </div>
+</div>
+<div class="row mt-1">
+  <div class="col-12 h4 mt-2 mb-2">Тарифы</div>
+    <div class="col-12 row">
+      <% free_payplan = Payplan.where(service_handle: "favorite", price: 0).order(:id).first %>
+      <% disabled = @favorite_setup.payplan && @favorite_setup.payplan.handle.include?("free") ? false : free_payplan.id %>
+      <% checked = @favorite_setup.payplan ? @favorite_setup.payplan.id : free_payplan.id %>
+
+      <%= f.association :payplan, label: false, collection: Payplan.where(service_handle: "favorite").order(:id), as: :radio_buttons,
+                              label_method: lambda { |plan| "#{plan.title} Период продления #{plan.period} месяц. Стоимость -  #{plan.price} руб".html_safe },
+                              value_method: :id, disabled: disabled, checked: checked %>
+  </div>
+</div>
+  <div class="row">
+  <div class="col-3 btn-group mt-5">
+    <%= f.button :submit, "Сохранить", class: 'btn btn-success' %>
+    <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+  </div>
+  </div>
+<% end %>

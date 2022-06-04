@@ -106,6 +106,49 @@ $(document).ready(function() {
 // }
 //     });
 //   })
+// SELECT ALL //
+$('#selectAll').click(function() {
+  if (this.checked) {
+    $(':checkbox').each(function() {
+      this.checked = true;
+    });
+    $('#deleteAll').show();
+  } else {
+    $(':checkbox').each(function() {
+      this.checked = false;
+    });
+    $('#deleteAll').hide();
+  }
+});
+// SELECT ALL //
+// DELETE ALL //
+$('#deleteAll').click(function() {
+  // event.preventDefault();
+  var array = [];
+  $('#items_table :checked').each(function() {
+    array.push($(this).val());
+  });
+  $.ajax({
+    type: "POST",
+    url: $(this).attr('href') + '.json',
+    data: {
+      ids: array
+    },
+    beforeSend: function() {
+      return confirm("Вы уверенны?");
+    },
+    success: function(data, textStatus, jqXHR) {
+      if (data.status === 'ok') {
+        //alert(data.message);
+        location.reload();
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+    }
+  })
+});
+// DELETE ALL //
 
 
 });

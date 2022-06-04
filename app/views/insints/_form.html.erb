@@ -4,8 +4,8 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.input :inskey, label: 'Ключ из настроек' , required: true%>
-    <%= f.input :password, label: 'Пароль из настроек' , required: true , input_html: { value: @insint.password , type: 'text'}%>
+    <%= f.input :inskey, label: 'Ключ из настроек'%>
+    <%= f.input :password, label: 'Пароль из настроек', input_html: { value: @insint.password , type: 'text'}%>
     <%= f.input :subdomen, label: 'Домен из настроек'  %>
     <%= f.input :insalesid, :as => :hidden %>
     <% if current_admin %>

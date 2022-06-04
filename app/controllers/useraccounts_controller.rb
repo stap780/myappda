@@ -6,12 +6,8 @@ class UseraccountsController < ApplicationController
   def index
     @useraccounts = Useraccount.all
     insint = current_user.insints.first
-    if insint.present?
-      if insint.inskey.present?
-        uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
-      else
-        uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
-      end
+    if insint.present? && insint.status == true
+        uri = insint.inskey.present? ? "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json" : "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
         # puts uri
         response = RestClient.get(uri)
         data = JSON.parse(response)

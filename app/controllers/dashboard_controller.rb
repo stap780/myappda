@@ -46,5 +46,11 @@ class DashboardController < ApplicationController
 		redirect_to dashboard_index_path
   end
 
+  def services
+    @favorite_setup = FavoriteSetup.first
+    puts @favorite_setup.present?
+    @restock_setup = RestockSetup.first
+  end
+
 
 end # index
