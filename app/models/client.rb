@@ -2,8 +2,12 @@ class Client < ApplicationRecord
 
   has_many :favorites, dependent: :destroy
   has_many :products, -> { distinct }, through: :favorites
-  validates :clientid, presence: true
-  validates :clientid, uniqueness: true
+  has_many :restocks, dependent: :destroy
+  has_many :variants, -> { distinct }, through: :restocks
+  # validates :clientid, presence: true
+  # validates :clientid, uniqueness: true
+  validates :email, presence: true
+  validates :email, uniqueness: true
   validates :phone, phone: { possible: true, allow_blank: true }
   before_save :normalize_phone
   before_save :get_ins_client_data
@@ -110,57 +114,89 @@ class Client < ApplicationRecord
     shopemail = data['email']
     shopurl = "http://"+insint.subdomen
 
-    arr_fio = []
-    arr_email = []
+    # arr_fio = []
+    # arr_email = []
+    #
+    # RestClient.get( uri+"/admin/clients/"+client_id.to_s+".json", :content_type => :json, :accept => :json) { |response, request, result, &block|
+    #         case response.code
+    #         when 200
+    #           data = JSON.parse(response)
+    #           name = data['name'] || ''
+    #           surname = data['surname'] || ''
+    #           email = data['email'] || ''
+    #           arr_fio.push(name+" "+surname)
+    #           arr_email.push(email)
+    #         when 404
+    #           arr_fio.push('')
+    #           arr_email.push('')
+    #         else
+    #           response.return!(&block)
+    #         end
+    #         }
+    fio = client.name+" "+client.surname #arr_fio.join
+    email = client.email #arr_email.join
 
-    RestClient.get( uri+"/admin/clients/"+client_id.to_s+".json", :content_type => :json, :accept => :json) { |response, request, result, &block|
-            case response.code
-            when 200
-              data = JSON.parse(response)
-              name = data['name'] || ''
-              surname = data['surname'] || ''
-              email = data['email'] || ''
-              arr_fio.push(name+" "+surname)
-              arr_email.push(email)
-            when 404
-              arr_fio.push('')
-              arr_email.push('')
-            else
-              response.return!(&block)
-            end
-            }
-
-    fio = arr_fio.join
-    email = arr_email.join
-
-    pr_datas = []
-    client.izb_productid.split(',').each do |pr|
-      RestClient.get( uri+"/admin/products/"+pr+".json", :content_type => :json, :accept => :json) { |response, request, result, &block|
-              case response.code
-              when 200
-                data = JSON.parse(response)
-                title = data['title'].to_s.gsub(',',' ')  || ''
-                permalink = data['permalink'] || ''
-                if data['images'].present?
-                  image = data['images'][0]['small_url']
-                else
-                  image = ''
-                end
-                price = data['variants'][0]['price'] || ''
-                save_data = pr+","+title+","+permalink+","+image+","+price
-                pr_datas.push(save_data)
-              when 404
-                save_data = pr+","+","+","+","
-                pr_datas.push(save_data)
-              else
-                response.return!(&block)
-              end
-              }
-    end
-    products = pr_datas
+    # pr_datas = []
+    # client.izb_productid.split(',').each do |pr|
+    #   RestClient.get( uri+"/admin/products/"+pr+".json", :content_type => :json, :accept => :json) { |response, request, result, &block|
+    #           case response.code
+    #           when 200
+    #             data = JSON.parse(response)
+    #             title = data['title'].to_s.gsub(',',' ')  || ''
+    #             permalink = data['permalink'] || ''
+    #             image = data['images'].present? ? data['images'][0]['small_url'] : ''
+    #             price = data['variants'][0]['price'] || ''
+    #             save_data = pr+","+title+","+permalink+","+image+","+price
+    #             pr_datas.push(save_data)
+    #           when 404
+    #             save_data = pr+","+","+","+","
+    #             pr_datas.push(save_data)
+    #           else
+    #             response.return!(&block)
+    #           end
+    #           }
+    # end
+    # products = pr_datas
+    products = client.favorites.pluck(:id)
 
     ClientMailer.emailizb(shoptitle, shopemail,  shopurl, fio, email, products ).deliver_now
 
+  end
+
+  def self.restock_send_email
+    if RestockSetup.check_ability
+      Restock.check_quantity_and_change_status
+      clients = Client.joins(:restocks).where("restocks.status = ?","Отправляется")
+      puts clients.count
+      clients.each do |client|
+        current_subdomain = Apartment::Tenant.current
+        user = User.find_by_subdomain(current_subdomain)
+        insint = user.insints.first
+        insint_inskey = insint.inskey.present? ? insint.inskey : "k-comment"
+        uri = "http://#{insint_inskey}:#{insint.password}@#{insint.subdomen}/admin/account.json"
+        response = RestClient.get(uri)
+        data = JSON.parse(response)
+        shoptitle = data['title']
+        shopemail = data['email']
+        shopurl = "http://"+insint.subdomen
+        fio = client.name+" "+client.surname #arr_fio.join
+        email = client.email #arr_email.join
+
+        variants = client.restocks.where(status: "Отправляется").pluck(:variant_id)
+        ClientMailer.emailrestock(shoptitle, shopemail,  shopurl, fio, email, variants ).deliver_now
+        client.restocks.where(status: "Отправляется").update_all(status: "Сообщение отправлено")
+
+      end
+    end
+  end
+
+
+  def self.favorite_count
+    Client.joins(:favorites).distinct.count
+  end
+
+  def self.restock_count
+    Client.joins(:restocks).distinct.count
   end
 
   # def self.client_count(user_id)
@@ -185,7 +221,7 @@ class Client < ApplicationRecord
   private
 
   def get_ins_client_data
-    if new_record?
+    if new_record? && self.clientid.present?
       puts "get_ins_client_data"
       # puts self.id.to_s
       # puts Apartment::Tenant.current

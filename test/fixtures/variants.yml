@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  insid: 1
+  sku: MyString
+  quantity: 1
+  price: 9.99
+  product: one
+
+two:
+  insid: 1
+  sku: MyString
+  quantity: 1
+  price: 9.99
+  product: two

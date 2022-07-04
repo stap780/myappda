@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
   get "/index-setup", to: "home#index_setup"
+  get "/oferta", to: "home#oferta"
   resources :insints do
     collection do
       get :install
@@ -24,10 +25,12 @@ Rails.application.routes.draw do
       get :delete_script
       get :checkint
       get :emailizb
+      get :addrestock
     end
   end
 
   constraints SubdomainConstraint do
+
     resources :favorite_setups
     resources :restock_setups
     resources :useraccounts
@@ -42,6 +45,7 @@ Rails.application.routes.draw do
         post :delete_selected
       end
     end
+    resources :variants
 
     get '/dashboard/index' , to: 'dashboard#index'
     get '/dashboard/user', to: 'dashboard#user'

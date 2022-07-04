@@ -48,7 +48,6 @@ class DashboardController < ApplicationController
 
   def services
     @favorite_setup = FavoriteSetup.first
-    puts @favorite_setup.present?
     @restock_setup = RestockSetup.first
   end
 

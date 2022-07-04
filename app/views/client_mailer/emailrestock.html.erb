@@ -5,21 +5,21 @@
   </head>
   <body>
     <h1>Добрый день, <%= @fio%></h1>
-    <p>Ваши товары из раздела избранное представлены ниже:</p>
+    <p>В наш магазин поступили товары которые вас интересовали:</p>
     <table >
       <thead>
       <tr>
         <th>Название товара</th>
-        <th>Изображение</th>
+        <th>Sku</th>
         <th>Цена</th>
       </tr>
     </thead>
     <tbody>
-      <% @products.each do |pr| %>
+      <% @variants.each do |var| %>
         <tr>
-          <td><%= link_to "#{pr.title}", @shopurl+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
-          <td></td>
-          <td><%=pr.price %></td>
+          <td><%= link_to "#{var.product.title}", @shopurl+"/product_by_id/"+var.product.insid.to_s+"?variant_id="+var.insid.to_s, target: "_blank" %></td>
+          <td><%= var.sku %></td>
+          <td><%= var.price %></td>
         </tr>
       <% end %>
         </tbody>

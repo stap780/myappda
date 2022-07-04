@@ -62,6 +62,8 @@ class ClientsController < ApplicationController
   # GET /clients/1
   # GET /clients/1.json
   def show
+    @favorite_products = Product.where(id: @client.favorites.pluck(:product_id))
+    @restock_products = Variant.where(id: @client.restocks.pluck(:variant_id))
   end
 
   def show_old

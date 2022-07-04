@@ -1,10 +1,12 @@
-
+<p>
+<%= link_to 'Назад', clients_path , class: "btn btn-outline-secondary" %>
+</p>
 <p>
   <strong>Client id:</strong> <%= @client.clientid %> <strong>ФИО:</strong> <%= @client.name %> <%= @client.surname %> <strong>Email:</strong> <%= @client.email %> <strong>Phone:</strong> <%= @client.phone %>
 </p>
 
 <p>
-  <strong>Отобранные товары:</strong>
+  <strong>Товары Избранное:</strong>
   <div class="table-responsive">
   <table class="table table-hover table-condensed table-sm">
     <thead class="thead-light">
@@ -16,7 +18,7 @@
     </tr>
     </thead>
     <tbody>
-    <% @client.products.each do |pr| %>
+    <% @favorite_products.each do |pr| %>
       <tr>
         <td><%=pr.insid%></td>
         <td><%= link_to "#{pr.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
@@ -28,6 +30,34 @@
   </table>
   </div>
 </p>
-
-
-<%= link_to 'Назад', clients_path , class: "btn btn-outline-secondary" %>
+<p>
+  <strong>Товары Restock:</strong>
+  <div class="table-responsive">
+  <table class="table table-hover table-condensed table-sm">
+    <thead class="thead-light">
+    <tr>
+      <th>Id товара</th>
+      <th>Id варианта</th>
+      <th>Название</th>
+      <th>Sku</th>
+      <th>Остаток</th>
+      <th>Цена</th>
+      <th>Статус</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @restock_products.each do |var| %>
+      <tr>
+        <td><%= var.product.insid %></td>
+        <td><%= var.insid %></td>
+        <td><%= link_to "#{var.product.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+var.product.insid.to_s+"?variant_id="+var.insid.to_s, target: "_blank" %></td>
+        <td><%= var.sku %></td>
+        <td><%= var.quantity %></td>
+        <td><%= var.price %></td>
+        <td><%= var.restocks.first.status %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+</p>

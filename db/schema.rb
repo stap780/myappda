@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_18_131334) do
+ActiveRecord::Schema.define(version: 2022_06_12_123336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,18 @@ ActiveRecord::Schema.define(version: 2022_05_18_131334) do
     t.boolean "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "valid_until"
+    t.integer "payplan_id"
+  end
+
+  create_table "restocks", force: :cascade do |t|
+    t.bigint "variant_id"
+    t.bigint "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.index ["client_id"], name: "index_restocks_on_client_id"
+    t.index ["variant_id"], name: "index_restocks_on_variant_id"
   end
 
   create_table "useraccounts", id: :serial, force: :cascade do |t|
@@ -175,7 +187,21 @@ ActiveRecord::Schema.define(version: 2022_05_18_131334) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "variants", force: :cascade do |t|
+    t.integer "insid"
+    t.string "sku"
+    t.integer "quantity"
+    t.decimal "price"
+    t.bigint "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_variants_on_product_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "favorites", "clients"
   add_foreign_key "favorites", "products"
+  add_foreign_key "restocks", "clients"
+  add_foreign_key "restocks", "variants"
+  add_foreign_key "variants", "products"
 end

@@ -1,5 +1,5 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb setup_script emailizb]
+  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb setup_script emailizb addrestock]
   before_action :authenticate_admin!, only: %i[adminindex]
   before_action :set_insint, only: %i[show edit update destroy]
 
@@ -233,21 +233,21 @@ class InsintsController < ApplicationController
     end
   end
 
-  def setup_script
-    Insint.setup_ins_shop(params[:insint_id])
-    respond_to do |format|
-      # format.html { :controller => 'useraccount', :action => 'index', notice: 'Скрипты добавлены в магазин' }
-      format.html { redirect_to useraccounts_url, notice: 'Скрипты добавлены в магазин' }
-    end
-  end
-
-  def delete_script
-    Insint.delete_ins_file(params[:insint_id])
-    respond_to do |format|
-      # format.html { :controller => 'useraccount', :action => 'index', notice: 'Скрипты добавлены в магазин' }
-      format.html { redirect_to useraccounts_url, notice: 'Скрипты удалены из магазин' }
-    end
-  end
+  # def setup_script # не работает так как теперь при создании пользователя из инсалес скрипты автоматом не создаются, а создаются при включении соответствующего сервиса
+  #   Insint.setup_ins_shop(params[:insint_id])
+  #   respond_to do |format|
+  #     # format.html { :controller => 'useraccount', :action => 'index', notice: 'Скрипты добавлены в магазин' }
+  #     format.html { redirect_to useraccounts_url, notice: 'Скрипты добавлены в магазин' }
+  #   end
+  # end
+  #
+  # def delete_script # не работает так как теперь при создании пользователя из инсалес скрипты автоматом не создаются, а создаются при включении соответствующего сервиса
+  #   Insint.delete_ins_file(params[:insint_id])
+  #   respond_to do |format|
+  #     # format.html { :controller => 'useraccount', :action => 'index', notice: 'Скрипты добавлены в магазин' }
+  #     format.html { redirect_to useraccounts_url, notice: 'Скрипты удалены из магазин' }
+  #   end
+  # end
 
   def checkint
     check_insales_int = Insint.check_insales_int(params[:insint_id])
@@ -258,6 +258,31 @@ class InsintsController < ApplicationController
       end
     end
 
+  end
+
+  def addrestock
+    @insint = Insint.find_by_subdomen(params[:host])
+    saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
+    @user = User.find_by_subdomain(saved_subdomain)
+    Apartment::Tenant.switch(saved_subdomain) do
+      if RestockSetup.check_ability
+        client = Client.find_by_email(params[:client_email])
+        if client.present?
+          product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
+          variant = product.variants.find_or_create_by(insid: params[:variant_id])
+          client.restocks.create(variant_id: variant.id) #добавка после расширения функционала
+          render json: { success: true, message: 'Информация сохранена. Мы известим вас о поступлении'}
+        else
+          new_client = Client.create(email: params[:client_email])
+          product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
+          variant = product.variants.find_or_create_by(insid: params[:variant_id])
+          new_client.restocks.create(variant_id: variant.id) #добавка после расширения функционала
+          render json: { success: true, message: 'Информация сохранена. Мы известим вас о поступлении' }
+        end
+      else
+        render json: { error: false, message: 'Кол-во клиентов больше допустимого, товары не добавляются' }
+      end
+    end
   end
 
   private

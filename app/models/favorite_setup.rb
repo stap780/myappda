@@ -32,10 +32,10 @@ DESCRIPTION = "Добавление и удаление товаров в/из �
 #   end
 # end
 
-def self.check_ability
+def self.check_ability #проверяем тариф и определяем как будет обрабатываться запрос
   payplan_ability = false
 
-  client_favorite = Client.where.not(izb_productid: [nil, '']).count
+  client_favorite = Client.favorite_count #Client.where.not(izb_productid: [nil, '']).count
 
   fs = FavoriteSetup.all.first
   fs_status = fs.status == true ? true : false
@@ -51,9 +51,9 @@ def self.check_ability
   check_work
 end
 
-def self.check_valid_until
+def self.check_valid_until #проверяем срок и переводим на бесплатный тариф
   fs = FavoriteSetup.all.first
-  Date.today > fs.valid_until ? fs.update(payplan_id: Payplan.favorite_free_id) : nil
+  Date.today > fs.valid_until ? fs.update(payplan_id: Payplan.favorite_free_id, valid_until: nil) : nil
 end
 
 

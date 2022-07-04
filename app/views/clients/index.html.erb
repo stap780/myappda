@@ -37,8 +37,8 @@
         <td><%= client.name %><%= client.surname%></td>
         <td><%= client.email %></td>
         <td><%= client.phone %></td>
-        <td><%= client.izb_productid.split(',').size %> шт.</td>
-        <td></td>
+        <td><%= client.favorites.count %><%# client.izb_productid.split(',').size if client.izb_productid %> шт.</td>
+        <td><%= client.restocks.count %> шт.</td>
         <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, client, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
       </tr>
     <% end %>

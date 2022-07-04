@@ -1,9 +1,9 @@
 class Invoice < ApplicationRecord
 
-  belongs_to :payplan
+  belongs_to :payplan # не  задействовано так как поменяли логику работы
   has_many :payments, :dependent => :destroy
 
-  before_create :update_invoices_status
+  # before_create :update_invoices_status
   before_create :set_data_if_new_record
   after_update :create_payment_record_after_invoice_update
   after_update :set_service_valid_after_update_invoice
@@ -20,9 +20,9 @@ class Invoice < ApplicationRecord
 
 private
 
-  def update_invoices_status
-    Invoice.where(status: "Не оплачен").update_all(status: "Отменён") if Invoice.all.present?
-  end
+  # def update_invoices_status # отключил так как убрали статус Отменён
+  #   Invoice.where(status: "Не оплачен").update_all(status: "Отменён") if Invoice.all.present?
+  # end
 
   def set_data_if_new_record
     self.sum = self.payplan.price if new_record?
@@ -39,11 +39,14 @@ private
   def update_service_before_destroy_invoice
     if self.status != "Отменён"
       if self.service_handle == "favorite"
-        favorite_service = FavoriteSetup.all.first
+        fs = FavoriteSetup.all.first
         favorite_free_payplan_id = Payplan.favorite_free_id
-        favorite_service.update_attributes(payplan_id: favorite_free_payplan_id, valid_until: nil) if favorite_service
+        fs.update_attributes(payplan_id: favorite_free_payplan_id, valid_until: nil) if fs
       end
       if self.service_handle == "restock"
+        rs = RestockSetup.all.first
+        restock_free_payplan_id = Payplan.restock_free_id
+        rs.update_attributes(payplan_id: restock_free_payplan_id, valid_until: nil) if rs
       end
     end
   end
@@ -54,12 +57,17 @@ private
       payplan = Payplan.find_by_id(self.payplan_id)
       add_period = payplan.period
       if payplan.price != 0 && self.status == 'Оплачен'
-        # Invoice.where.not(id: self.id).update_all(status: "Отменён")
         if service_handle == "favorite"
           fs = FavoriteSetup.all.first
           old_valid_until = fs.valid_until.nil? ? Date.today : fs.valid_until
           new_valid_until = old_valid_until + "#{add_period}".to_i.months
           fs.update_attributes(valid_until: new_valid_until)
+        end
+        if service_handle == "restock"
+          rs = RestockSetup.all.first
+          old_valid_until = rs.valid_until.nil? ? Date.today : rs.valid_until
+          new_valid_until = old_valid_until + "#{add_period}".to_i.months
+          rs.update_attributes(valid_until: new_valid_until)
         end
       end
     end

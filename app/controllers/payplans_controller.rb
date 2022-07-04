@@ -6,7 +6,10 @@ class PayplansController < ApplicationController
   # GET /payplans
   # GET /payplans.json
   def index
-    @payplans = Payplan.all
+    # @payplans = Payplan.all
+    @search = Payplan.ransack(params[:q])
+    @search.sorts = 'id asc' if @search.sorts.empty?
+    @payplans = @search.result.paginate(page: params[:page], per_page: 30)
   end
 
   # GET /payplans/1
@@ -30,7 +33,7 @@ class PayplansController < ApplicationController
 
     respond_to do |format|
       if @payplan.save
-        format.html { redirect_to @payplan, notice: 'Payplan was successfully created.' }
+        format.html { redirect_to payplans_url, notice: 'Payplan was successfully created.' }
         format.json { render :show, status: :created, location: @payplan }
       else
         format.html { render :new }
@@ -44,7 +47,7 @@ class PayplansController < ApplicationController
   def update
     respond_to do |format|
       if @payplan.update(payplan_params)
-        format.html { redirect_to @payplan, notice: 'Payplan was successfully updated.' }
+        format.html { redirect_to payplans_url, notice: 'Payplan was successfully updated.' }
         format.json { render :show, status: :ok, location: @payplan }
       else
         format.html { render :edit }

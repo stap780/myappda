@@ -37,6 +37,7 @@
       <th>Insid</th>
       <th>Img</th>
       <th>Title</th>
+      <th>Variants</th>
       <th>Price</th>
       <th colspan="1"></th>
     </tr>
@@ -48,9 +49,8 @@
         <td><%= product.insid %></td>
         <td><%# render 'one_image', :image_link => Product.get_image(product.insid), image_style: "" %></td>
         <td><%= product.title %></td>
+        <td><%= link_to '<span class="oi oi-eye"></span>'.html_safe, product if product.variants.present? %></td>
         <td><%= product.price %></td>
-        <!-- <td><%# link_to '<span class="oi oi-eye"></span>'.html_safe, product %></td>
-        <td><%# link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_product_path(product) %></td>-->
         <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -61,4 +61,5 @@
 
 <div class="apple_pagination">
 <%= will_paginate @products %>
+</div>
 </div>

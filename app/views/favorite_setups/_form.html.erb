@@ -22,9 +22,8 @@
 <div class="row mt-1">
   <div class="col-12 h4 mt-2 mb-2">Тарифы</div>
     <div class="col-12 row">
-      <% free_payplan = Payplan.where(service_handle: "favorite", price: 0).order(:id).first %>
-      <% disabled = @favorite_setup.payplan && @favorite_setup.payplan.handle.include?("free") ? false : free_payplan.id %>
-      <% checked = @favorite_setup.payplan ? @favorite_setup.payplan.id : free_payplan.id %>
+      <% disabled = @favorite_setup.payplan && @favorite_setup.payplan.handle.include?("free") ? false : Payplan.favorite_free_id %>
+      <% checked = @favorite_setup.payplan ? @favorite_setup.payplan.id : Payplan.favorite_free_id %>
 
       <%= f.association :payplan, label: false, collection: Payplan.where(service_handle: "favorite").order(:id), as: :radio_buttons,
                               label_method: lambda { |plan| "#{plan.title} Период продления #{plan.period} месяц. Стоимость -  #{plan.price} руб".html_safe },

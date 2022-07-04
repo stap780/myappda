@@ -15,7 +15,7 @@ class FavoriteSetupsController < ApplicationController
 
   # GET /favorite_setups/new
   def new
-    if !current_user.insints.present? && current_user.insints.last.status
+    if current_user.insints.present? && current_user.insints.last.status
       @favorite_setup = FavoriteSetup.new
     else
       redirect_to dashboard_services_url, notice: "Настройте интеграцию с insales"

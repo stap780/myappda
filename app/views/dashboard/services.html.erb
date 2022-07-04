@@ -30,15 +30,19 @@
     </tr>
 
     <tr classs="restock_setup">
-      <td>Оповещение о наличии</td>
-      <td>Описание сервиса</td>
+      <td><%= RestockSetup::TITLE %></td>
+      <td><%= RestockSetup::DESCRIPTION %></td>
       <td>
-        <%= link_to 'Включить', new_restock_setup_path, class: 'btn btn-dark disabled', disabled: true if !@restock_setup %>
-        <%= link_to 'Выключить', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-outline-dark ' if @restock_setup %>
+        <%= link_to 'Добавить', new_restock_setup_path, class: 'btn btn-dark' if !@restock_setup %>
+        <%= link_to 'Добавлен', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-outline-dark disabled', disabled: true if @restock_setup %>
+        <%= link_to '<span class="oi oi-trash"></span>'.html_safe, @restock_setup, method: :delete, data: { confirm: 'Are you sure?' } if @restock_setup %>
       </td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>
+        <%= link_to 'Настроить', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-dark' if @restock_setup && !@restock_setup.status %>
+        <%= link_to 'Настроено', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-outline-dark' if @restock_setup && @restock_setup.status %>
+      </td>
+      <td><%= @restock_setup.payplan.title if @restock_setup && @restock_setup.payplan %></td>
+      <td><%= !@restock_setup.valid_until.present? ? "бесплатно" : @restock_setup.valid_until if @restock_setup.present? %></td>
     </tr>
   </tbody>
 </table>

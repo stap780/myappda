@@ -9,7 +9,11 @@ class Payplan < ApplicationRecord
   Period = ["1", "3", "6","12","no limit"]
 
   def self.favorite_free_id
-     Payplan.where(service_handle: "favorite", price: 0 ).first.id 
+     Payplan.where(service_handle: "favorite", price: 0 ).first.id
+  end
+
+  def self.restock_free_id
+     Payplan.where(service_handle: "restock", price: 0 ).first.id 
   end
 
 

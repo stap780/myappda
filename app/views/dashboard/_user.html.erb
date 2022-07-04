@@ -98,7 +98,7 @@
               <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
               <td><%= invoice.sum %></td>
               <td><%= invoice.status %></td>
-              <td><%= invoice.payment_date %></td>
+              <td><%= render 'invoices/invoice_status', f: invoice%></td>
             </tr>
           <% end %>
         </tbody>

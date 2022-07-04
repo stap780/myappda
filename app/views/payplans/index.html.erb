@@ -1,8 +1,39 @@
-<h1>Payplans</h1>
+<div class="row justify-content-center align-items-center mb-2">
+<div class="col-2 row">
+  <div class="col-md-12 p-0">
+    <div class="h3">Payplans</div>
+  </div>
+</div>
+<div class="col-10 pl-0 pr-0 row">
+  <div class="col-2 mb-3">
+    <div class="btn-group p-0" role="group" aria-label="Button group with nested dropdown">
+      <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown">Действия</button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+          <%= link_to 'New Payplan', new_payplan_path, class: 'dropdown-item'  %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
+    <div class="input-group input-group-sm">
+      <%= f.search_field :title_cont , placeholder: 'title', class: "form-control", style: "max-width: 180px;" %>
+      <%= f.select :service_handle_eq, Payplan::Services, { :prompt => 'Сервис'}, class: "form-select", style: "max-width: 180px;" %>
+      <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
+        <span class="oi oi-magnifying-glass"></span>
+      <% end %>
+      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, payplans_path, class: 'btn btn-outline-dark ' %>
+    </div>
+  <% end %>
+</div>
 
-<table>
+
+
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
   <thead>
-    <tr>
+    <tr class="bg-success">
+      <th>handle</th>
       <th>title</th>
       <th>Description</th>
       <th>Service</th>
@@ -21,14 +52,16 @@
         <td><%= payplan.service_handle %></td>
         <td><%= payplan.period %></td>
         <td><%= payplan.price %></td>
-        <td><%= link_to 'Show', payplan %></td>
-        <td><%= link_to 'Edit', edit_payplan_path(payplan) %></td>
-        <td><%= link_to 'Destroy', payplan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to '<span class="oi oi-eye"></span>'.html_safe, payplan %></td>
+        <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_payplan_path(payplan) %></td>
+        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, payplan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+</div>
 
-<br>
-
-<%= link_to 'New Payplan', new_payplan_path %>
+<div class="apple_pagination">
+<%= will_paginate @products %>
+</div>
+</div>
