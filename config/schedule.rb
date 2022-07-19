@@ -31,7 +31,7 @@ set :output, "#{path}/log/cron.log"
 set :chronic_options, :hours24 => true
 
 every 1.day, :at => '20:25' do #
-  runner "FavoriteSetup.check_valid_until"
+  rake "favorite_setup:check_valid_until"
 end
 
 

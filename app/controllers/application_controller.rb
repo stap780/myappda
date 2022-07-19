@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   before_action :authenticate_user!
-  # Every logged in user should be redirected to their own subdomain
-  before_action :redirect_to_subdomain
+
+  before_action :redirect_to_subdomain  # Every logged in user should be redirected to their own subdomain
   before_action :allow_cross_domain_ajax
   helper_method :current_admin
   helper_method :authenticate_admin!
