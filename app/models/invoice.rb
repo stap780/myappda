@@ -32,7 +32,7 @@ private
   def create_payment_record_after_invoice_update
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
-    payment = Payment.where(user_id: user.id, payplan_id: self.payplan.id)
+    payment = Payment.where(user_id: user.id, payplan_id: self.payplan.id, invoice_id: self.id)
     self.payments.create(user_id: user.id, payplan_id: self.payplan.id, status: 'Не оплачен', paymenttype: self.paymenttype ) if !payment.present?
   end
 
