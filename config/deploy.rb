@@ -46,13 +46,13 @@ set :format, :pretty
 set :log_level, :info
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
-namespace :task_file do
-  desc "Transfer Figaro's application.yml to shared/config"
-  task :upload do
-    on roles(:all) do
-      upload! "#{RAILS_ROOT}/lib/tasks/file.rake", "#{shared_path}/lib/tasks/file.rake"
-    end
-  end
-end
+# namespace :task_file do
+#   desc "Transfer Figaro's application.yml to shared/config"
+#   task :upload do
+#     on roles(:all) do
+#       upload! "#{RAILS_ROOT}/lib/tasks/file.rake", "#{shared_path}/lib/tasks/file.rake"
+#     end
+#   end
+# end
 
-after 'deploy:publishing', 'unicorn:restart', 'task_file:upload'
+after 'deploy:publishing', 'unicorn:restart'#, 'task_file:upload'
