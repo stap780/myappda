@@ -35,7 +35,7 @@ DESCRIPTION = "Добавление и удаление товаров в/из �
 def self.check_ability #проверяем тариф и определяем как будет обрабатываться запрос
   payplan_ability = false
 
-  client_favorite = Client.favorite_count #Client.where.not(izb_productid: [nil, '']).count
+  client_favorite_count = Client.favorite_count #Client.where.not(izb_productid: [nil, '']).count
 
   fs = FavoriteSetup.all.first
   fs_status = fs.status == true ? true : false
@@ -45,7 +45,7 @@ def self.check_ability #проверяем тариф и определяем к
   client_limit = 1000 if payplan.handle == "favorite_300"
   client_limit = 10000 if payplan.handle == "favorite_1000"
 
-  payplan_ability = true if client_favorite <= client_limit
+  payplan_ability = true if client_favorite_count <= client_limit
 
   check_work = fs_status == true && payplan_ability == true ? true : false
   check_work
@@ -55,7 +55,7 @@ def self.check_valid_until #проверяем срок и переводим н
   fs = FavoriteSetup.all.first
   if !fs.nil?
     valid_until_data = fs.valid_until == nil ? Date.today-5.year : fs.valid_until
-    puts "FavoriteSetup ID check_valid_until - "+fs.id.to_s
+    puts "FavoriteSetup ID: #{fs.id.to_s} => check_valid_until: #{valid_until_data.to_s}"
     Date.today > valid_until_data ? fs.update(payplan_id: Payplan.favorite_free_id, valid_until: nil) : nil
   end
 end

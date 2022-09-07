@@ -48,6 +48,7 @@ gem 'image_processing'
 gem 'active_storage_validations'
 
 gem 'jquery-rails'
+gem 'rubyzip'
 
 
 group :development, :test do
