@@ -34,6 +34,9 @@ every 1.day, :at => '20:25' do #
   rake "favorite_setup:check_valid_until"
 end
 
+every 1.day, :at => '23:45' do #
+  rake "file:copy_production_log_every_day"
+end
 
 every 1.day, :at => '08:25' do #
   runner "User.service_end_email"

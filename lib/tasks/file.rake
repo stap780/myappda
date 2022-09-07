@@ -1,6 +1,6 @@
 #  encoding : utf-8
 namespace :file do
-  desc "cut file"
+  desc "work file"
 
   task cut_file: :environment do
     puts "start cut_file - время москва - #{Time.zone.now}"
@@ -27,16 +27,21 @@ namespace :file do
   end
 
   task copy_production_log_every_day: :environment do
-    require 'zip'
     puts "start copy_production_log_every_day"
-  	production_log_file = "#{Rails.root}/log/production.log"
-    production_copy_log_file = "#{Rails.root}/log/production_#{Time.zone.now}.log"
-  	FileUtils.cp(production_log_file, production_copy_log_file)
-    File.write(production_log_file, '')
-    zfpath = "#{Rails.root}/log/production_#{Time.zone.now}.zip"
-    Zip::File.open(zfpath, Zip::File::CREATE) do |zipfile|
-      zipfile.add(production_copy_log_file, production_copy_log_file)
-    end
+      zipfile_name = "#{Rails.root}/log/production_#{Time.zone.now.strftime("%d_%m_%Y_%I_%M")}.zip"
+      filename = "production.log"
+      folder = "#{Rails.root}/log/"
+      Zip::File.open(zipfile_name, create: true) do |zipfile|
+        zipfile.add(filename, File.join(folder, filename))
+      end
+
+    	production_log_file = "#{Rails.root}/log/production.log"
+      production_copy_log_file = "#{Rails.root}/log/production_#{Time.zone.now.strftime("%d_%m_%Y_%I_%M")}.log"
+    	FileUtils.cp(production_log_file, production_copy_log_file)
+      File.open(production_log_file , 'w+') do |f|
+        f.write("Time - #{Time.zone.now}")
+      end
+
     puts "finish copy_production_log_every_day"
     # check_finish = []
   	# File.open(production_log_file) do |file|
@@ -45,7 +50,6 @@ namespace :file do
     # 	puts lines[4]
     # 	puts "last line - #{lines.last}"
     # 	lines.each do |line|
-    #     line.delete
     # 		# if line.include?('finish')
     # 		# 	check_finish << 'finish'
     # 		# else
