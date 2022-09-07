@@ -40,9 +40,19 @@ lock "~> 3.16.0"
 set :application, 'myappda'
 set :repo_url, 'git@github.com:stap780/myappda.git'
 set :deploy_to, '/var/www/myappda'
-set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'lib/tasks')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public', 'lib/tasks', 'storage')
 set :format, :pretty
 set :log_level, :info
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
-after 'deploy:publishing', 'unicorn:restart'
+
+namespace :task_file do
+  desc "Transfer Figaro's application.yml to shared/config"
+  task :upload do
+    on roles(:all) do
+      upload! "#{RAILS_ROOT}/lib/tasks/file.rake", "#{shared_path}/lib/tasks/file.rake"
+    end
+  end
+end
+
+after 'deploy:publishing', 'unicorn:restart', 'task_file:upload'
