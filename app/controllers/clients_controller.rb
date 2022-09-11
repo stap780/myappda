@@ -110,11 +110,13 @@ class ClientsController < ApplicationController
   end
 
   def otchet
-    Client.otchet
+    current_subdomain = Apartment::Tenant.current
+    current_user_id = current_user.id
+    Client.otchet(current_subdomain, current_user_id)
     # check_status = true
     respond_to do |format|
       format.js do
-          flash.now[:notice] = "Файл создан <a href='/"+"#{current_user.id.to_s}"+"_clients_izb.csv'>Скачать</a>"
+          flash.now[:notice] = "Файл создан <a href='/#{current_user_id.to_s}_clients_izb.csv'>Скачать</a>"
       end
     end
   end

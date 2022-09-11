@@ -2,7 +2,6 @@ class Product < ApplicationRecord
 
   has_many :favorites, dependent: :destroy
   has_many :clients, through: :favorites
-  has_many :clients, through: :restocks
   has_many :variants, :dependent => :destroy
   accepts_nested_attributes_for :variants, allow_destroy: true #,reject_if: proc { |attributes| attributes['weight'].blank? }
 

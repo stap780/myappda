@@ -4,9 +4,15 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.input :inskey, label: 'Ключ из настроек'%>
-    <%= f.input :password, label: 'Пароль из настроек', input_html: { value: @insint.password , type: 'text'}%>
-    <%= f.input :subdomen, label: 'Домен из настроек'  %>
+    <% if insint.inskey.present? %>
+    <%= f.input :inskey, label: 'Ключ из настроек' %>
+    <%= f.input :password, label: 'Пароль из настроек', input_html: { value: @insint.password , type: 'text'} %>
+    <%= f.input :subdomen, label: 'Домен из настроек' %>
+    <% else %>
+    <%= f.input :inskey, label: 'Ключ из настроек', disabled: true %>
+    <%= f.input :password, label: 'Пароль из настроек', input_html: { value: @insint.password , type: 'text'}, disabled: true %>
+    <%= f.input :subdomen, label: 'Домен из настроек' , disabled: true %>
+    <% end %>
     <%= f.input :insalesid, :as => :hidden %>
     <% if current_admin %>
     <%= f.association :user, label: 'Имя пользователя'  %>

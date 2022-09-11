@@ -12,155 +12,50 @@ class Client < ApplicationRecord
   before_save :normalize_phone
   before_save :get_ins_client_data
 
-  def self.otchet
+  def self.otchet(current_subdomain, current_user_id)
     puts "Создаём отчет"
-    current_subdomain = Apartment::Tenant.current
-    Apartment::Tenant.switch!(current_subdomain)
-    user = User.find_by_subdomain(current_subdomain)
-    insint = user.insints.first
-    file = "#{Rails.public_path}"+"/"+"#{user.id.to_s}"+"_clients_izb.csv"
-    check_file = File.file?(file)
-    File.delete(file) if check_file.present?
+    insint = User.find(current_user_id).insints.first
+    Apartment::Tenant.switch(current_subdomain) do
+      file = "#{Rails.public_path}/#{current_user_id.to_s}_clients_izb.csv"
+      check_file = File.file?(file)
+      File.delete(file) if check_file.present?
 
-    #создаём файл со статичными данными
-    CSV.open( file, 'w') do |writer|
-      headers = ['id товара','Название товара','Ссылка', 'Картинка', 'Цена','Кол-во упоминаний']
-      writer << headers
+      #создаём файл со статичными данными
+      CSV.open( file, 'w') do |writer|
+        headers = ['id товара','Название товара','Ссылка', 'Картинка', 'Цена','Кол-во упоминаний']
+        writer << headers
 
-      Product.all.each do |product|
-          insid = product.insid
-          title = product.title
-          link = "http://#{insint.subdomen}/product_by_id/#{product.insid}"
-          pict = '' #Product.get_image(product.insid)
-          price = product.price
-          qt = product.clients.count
-          writer << [insid, title, link, pict, price, qt]
-      end
-    end #CSV.open
-
-  end
-
-  def self.otchet_old
-    izb_arr = Client.all.map(&:izb_productid).join(',').split(',')
-    izbHash = izb_arr.group_by(&:itself).map { |k,v| [k, v.count] }.to_h
-    # puts izbHash
-    favorites = []
-    insint = current_user.insints.first
-    if insint.inskey.present?
-      uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"
-    else
-      uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/"
+        Product.all.each do |product|
+            insid = product.insid
+            title = product.title
+            link = "http://#{insint.subdomen}/product_by_id/#{product.insid}"
+            pict = '' #Product.get_image(product.insid)
+            price = product.price
+            qt = product.clients.count
+            writer << [insid, title, link, pict, price, qt]
+        end
+      end #CSV.open
     end
-    izbHash.each do |k,v|
-      RestClient.get( uri+"#{k}"+".json", :content_type => :json, :accept => :json) { |response, request, result, &block|
-              case response.code
-              when 200
-                data = JSON.parse(response)
-                title = data['title'].to_s.gsub(',',' ') || ''
-                permalink = data['permalink'] || ''
-                if data['images'].present?
-                  image = data['images'][0]['small_url']
-                else
-                  image = ''
-                end
-                price = data['variants'][0]['price'] || ''
-                save_data = "#{k}"+","+title+","+permalink+","+image+","+price+","+"#{v}"
-                favorites.push(save_data)
-              when 404
-                save_data = "#{k}"+","+","+","+","+","+"#{v}"
-                favorites.push(save_data)
-              else
-                response.return!(&block)
-              end
-              }
-    end
-  # puts favorites
-    puts "Создаём отчет"
-    file = "#{Rails.public_path}"+"/"+"#{current_user.id.to_s}"+"_clients_izb.csv"
-    check_file = File.file?(file)
-    File.delete(file) if check_file.present?
-
-    #создаём файл со статичными данными
-    CSV.open( file, 'w') do |writer|
-      headers = ['id товара','Название товара','Ссылка', 'Картинка', 'Цена','Кол-во упоминаний']
-      writer << headers
-
-      favorites.each do |product|
-          # puts product.split(',')[0]
-          id = product.split(',')[0]
-          title = product.split(',')[1]
-          link = product.split(',')[2]
-          pict = product.split(',')[3]
-          price = product.split(',')[4]
-          qt = product.split(',')[5]
-          writer << [id, title, link, pict, price, qt]
-      end
-    end #CSV.open
-
   end
 
   def self.emailizb( saved_subdomain, client_id, user_id )
-    Apartment::Tenant.switch!(saved_subdomain)
-    client = Client.find_by_clientid(client_id)
-    insint = User.find_by_id(user_id).insints.first
-    if insint.inskey.present?
-      uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"
-    else
-      uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"
+    Apartment::Tenant.switch(saved_subdomain) do
+      client = Client.find_by_clientid(client_id)
+      insint = User.find(user_id).insints.first
+      uri = insint.inskey.present? ? "http://#{insint.inskey.to_s}:#{insint.password.to_s}@#{insint.subdomen.to_s}" : "http://k-comment:#{insint.password.to_s}@#{insint.subdomen.to_s}"
+      response = RestClient.get(uri+"/admin/account.json")
+      data = JSON.parse(response)
+      shoptitle = data['title']
+      shopemail = data['email']
+      shopurl = "http://"+insint.subdomen
+
+      fio = client.name+" "+client.surname #arr_fio.join
+      email = client.email #arr_email.join
+
+      products = client.favorites.pluck(:id)
+
+      ClientMailer.emailizb(shoptitle, shopemail,  shopurl, fio, email, products ).deliver_now
     end
-    response = RestClient.get(uri+"/admin/account.json")
-    data = JSON.parse(response)
-    shoptitle = data['title']
-    shopemail = data['email']
-    shopurl = "http://"+insint.subdomen
-
-    # arr_fio = []
-    # arr_email = []
-    #
-    # RestClient.get( uri+"/admin/clients/"+client_id.to_s+".json", :content_type => :json, :accept => :json) { |response, request, result, &block|
-    #         case response.code
-    #         when 200
-    #           data = JSON.parse(response)
-    #           name = data['name'] || ''
-    #           surname = data['surname'] || ''
-    #           email = data['email'] || ''
-    #           arr_fio.push(name+" "+surname)
-    #           arr_email.push(email)
-    #         when 404
-    #           arr_fio.push('')
-    #           arr_email.push('')
-    #         else
-    #           response.return!(&block)
-    #         end
-    #         }
-    fio = client.name+" "+client.surname #arr_fio.join
-    email = client.email #arr_email.join
-
-    # pr_datas = []
-    # client.izb_productid.split(',').each do |pr|
-    #   RestClient.get( uri+"/admin/products/"+pr+".json", :content_type => :json, :accept => :json) { |response, request, result, &block|
-    #           case response.code
-    #           when 200
-    #             data = JSON.parse(response)
-    #             title = data['title'].to_s.gsub(',',' ')  || ''
-    #             permalink = data['permalink'] || ''
-    #             image = data['images'].present? ? data['images'][0]['small_url'] : ''
-    #             price = data['variants'][0]['price'] || ''
-    #             save_data = pr+","+title+","+permalink+","+image+","+price
-    #             pr_datas.push(save_data)
-    #           when 404
-    #             save_data = pr+","+","+","+","
-    #             pr_datas.push(save_data)
-    #           else
-    #             response.return!(&block)
-    #           end
-    #           }
-    # end
-    # products = pr_datas
-    products = client.favorites.pluck(:id)
-
-    ClientMailer.emailizb(shoptitle, shopemail,  shopurl, fio, email, products ).deliver_now
-
   end
 
   def self.restock_send_email
@@ -189,7 +84,6 @@ class Client < ApplicationRecord
       end
     end
   end
-
 
   def self.favorite_count
     Client.joins(:favorites).distinct.count
