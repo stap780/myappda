@@ -11,7 +11,7 @@ class ClientMailer < ApplicationMailer
       @products = Product.where(id: products)
       # puts @products
       # mail(to: @user.email, subject: 'Welcome to My Awesome Site')
-      mail(to: @client_email, subject: 'Ваши добавленные в избранное товары', reply_to: @shopemail )
+      mail(to: @client_email, subject: "#{@shoptitle} Ваше Избранное", reply_to: @shopemail )
     end
 
     def emailrestock(shoptitle, shopemail, shopurl, fio, email, variants )
