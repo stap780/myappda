@@ -234,7 +234,7 @@ class InsintsController < ApplicationController
     Apartment::Tenant.switch(saved_subdomain) do
       if FavoriteSetup.check_ability
         user_client = Client.find_by_clientid(params[:client_id])
-        if client.present?
+        if user_client.present?
           Client.emailizb(saved_subdomain, user_client.id, user.id)
           render json: { success: true, message: 'Товары отправлены Вам на почту' }
         else
