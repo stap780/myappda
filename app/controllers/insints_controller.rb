@@ -112,34 +112,47 @@ class InsintsController < ApplicationController
   end
 
   def login
-    @insint = Insint.find_by_insalesid(params[:insales_id])
     saved_subdomain = 'insales' + params[:insales_id]
-    Apartment::Tenant.switch!(saved_subdomain)
-    @user = User.find_by_subdomain(saved_subdomain)
-    if @user.present? && @insint.present?
-      user_account = Useraccount.find_by_insuserid(params[:user_id])
-      if user_account.present?
-        name = params[:user_id] + params[:shop]
-        user_account.update_attributes(shop: params[:shop], email: params[:user_email], insuserid: params[:user_id], name: name)
-        # puts @user.valid_until
-        if @user.valid_until <= Date.today
-          puts 'время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату'
-          #@user.update_attributes("valid_until" => Date.today) #убрал так как поменяли модель работы сервиса
-          sign_in(:user, @user)
-          # redirect_to after_sign_in_path_for(@user)
-          redirect_to invoice_path_for(@user), notice: 'Оплаченный период истёк. Сервис не работает для Ваших клиентов. Пожалуйста оплатите сервис.'
-        else
-          sign_in(:user, @user)
-          redirect_to after_sign_in_path_for(@user)
-          # sign_in_and_redirect(:user, @user)
-        end
-      else
-        name = params[:user_id] + params[:shop]
-        user_account = Useraccount.create(shop: params[:shop], email: params[:user_email], insuserid: params[:user_id], name: name)
-        sign_in(:user, @user)
-        redirect_to after_sign_in_path_for(@user)
+    user = User.find_by_subdomain(saved_subdomain)
+    insint = user.insints.first
+    if user.present? && insint.present?
+      Apartment::Tenant.switch(saved_subdomain) do
+        user_account = Useraccount.find_by_insuserid(params[:user_id])
+        user_name = params[:user_id] + params[:shop]
+        Useraccount.create(shop: params[:shop], email: params[:user_email], insuserid: params[:user_id], name: user_name) if !user_account.present?
       end
+      sign_in(:user, user)
+      redirect_to after_sign_in_path_for(user)
     end
+
+    # @insint = Insint.find_by_insalesid(params[:insales_id])
+    # saved_subdomain = 'insales' + params[:insales_id]
+    # Apartment::Tenant.switch!(saved_subdomain)
+    # @user = User.find_by_subdomain(saved_subdomain)
+    # if @user.present? && @insint.present?
+    #   user_account = Useraccount.find_by_insuserid(params[:user_id])
+    #   if user_account.present?
+    #     name = params[:user_id] + params[:shop]
+    #     user_account.update_attributes(shop: params[:shop], email: params[:user_email], insuserid: params[:user_id], name: name)
+    #     # puts @user.valid_until
+    #     if @user.valid_until <= Date.today
+    #       puts 'время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату'
+    #       #@user.update_attributes("valid_until" => Date.today) #убрал так как поменяли модель работы сервиса
+    #       sign_in(:user, @user)
+    #       # redirect_to after_sign_in_path_for(@user)
+    #       redirect_to invoice_path_for(@user), notice: 'Оплаченный период истёк. Сервис не работает для Ваших клиентов. Пожалуйста оплатите сервис.'
+    #     else
+    #       sign_in(:user, @user)
+    #       redirect_to after_sign_in_path_for(@user)
+    #       # sign_in_and_redirect(:user, @user)
+    #     end
+    #   else
+    #     name = params[:user_id] + params[:shop]
+    #     user_account = Useraccount.create(shop: params[:shop], email: params[:user_email], insuserid: params[:user_id], name: name)
+    #     sign_in(:user, @user)
+    #     redirect_to after_sign_in_path_for(@user)
+    #   end
+    # end
   end
 
   def addizb
