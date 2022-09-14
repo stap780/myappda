@@ -228,14 +228,14 @@ class InsintsController < ApplicationController
   end
 
   def emailizb
-    @insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
-    @user = User.find_by_subdomain(saved_subdomain)
+    insint = Insint.find_by_subdomen(params[:host])
+    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insalesid.to_s
+    user = User.find_by_subdomain(saved_subdomain)
     Apartment::Tenant.switch(saved_subdomain) do
       if FavoriteSetup.check_ability
-        client = Client.find_by_clientid(params[:client_id])
+        user_client = Client.find_by_clientid(params[:client_id])
         if client.present?
-          Client.emailizb(saved_subdomain, client.clientid, @user.id)
+          Client.emailizb(saved_subdomain, user_client.id, user.id)
           render json: { success: true, message: 'Товары отправлены Вам на почту' }
         else
           render json: { error: false, message: 'нет такого клиента' }

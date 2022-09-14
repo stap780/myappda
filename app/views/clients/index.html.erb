@@ -3,7 +3,7 @@
     <h2>Клиенты</h2><small>Всего - <%= Client.count%></small>
   </div>
   <div class="col-2 align-self-center">
-    <%= link_to '<i class="fa fa-list" aria-hidden="true"></i> Сохранить отчет'.html_safe, clients_otchet_path, title: "Отчет", class: "btn btn-light", role:"button", remote: true%>
+    <%= link_to '<i class="fa fa-list" aria-hidden="true"></i> Сохранить отчет'.html_safe, otchet_clients_path, title: "Отчет", class: "btn btn-light", role:"button", remote: true%>
   </div>
   <%= search_form_for @search, html: {class: 'form-inline col-3 pl-0 pr-0'}  do |f|%>
     <div class="input-group input-group-sm">
@@ -37,7 +37,7 @@
         <td><%= client.name %><%= client.surname%></td>
         <td><%= client.email %></td>
         <td><%= client.phone %></td>
-        <td><%= client.favorites.count %><%# client.izb_productid.split(',').size if client.izb_productid %> шт.</td>
+        <td><%= client.favorites.count %><%# client.izb_productid.split(',').size if client.izb_productid %> шт. <%= link_to 'Email', emailizb_client_path(client), remote: true%></td>
         <td><%= client.restocks.count %> шт.</td>
         <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, client, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
       </tr>

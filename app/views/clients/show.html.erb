@@ -7,6 +7,9 @@
 
 <p>
   <strong>Товары Избранное:</strong>
+  <p>
+    <%= link_to 'Отправить письмо с избранным'.html_safe, emailizb_client_path(@client.id), title: "Отправить письмо с избранным", class: "btn btn-light", role:"button", remote: true%>
+  </p>
   <div class="table-responsive">
   <table class="table table-hover table-condensed table-sm">
     <thead class="thead-light">

@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_client, only: [:show, :edit, :update, :destroy]
+  before_action :set_client, only: [:show, :edit, :update, :emailizb, :destroy]
 
   # GET /clients
   # GET /clients.json
@@ -117,6 +117,18 @@ class ClientsController < ApplicationController
     respond_to do |format|
       format.js do
           flash.now[:notice] = "Файл создан <a href='/#{current_user_id.to_s}_clients_izb.csv'>Скачать</a>"
+      end
+    end
+  end
+
+  def emailizb
+    user_client_id = params[:id]
+    current_subdomain = Apartment::Tenant.current
+    current_user_id = current_user.id
+    Client.emailizb(current_subdomain, user_client_id, current_user_id)
+    respond_to do |format|
+      format.js do
+          flash.now[:notice] = "Письмо с товарами отправлено"
       end
     end
   end

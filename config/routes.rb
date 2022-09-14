@@ -34,8 +34,12 @@ Rails.application.routes.draw do
     resources :favorite_setups
     resources :restock_setups
     resources :useraccounts
-    get '/clients/otchet', to: 'clients#otchet'
-    resources :clients
+    get '/clients/:id/emailizb', to: 'clients#emailizb', as: 'emailizb_client'
+    resources :clients do
+      collection do
+        get :otchet
+      end
+    end
     resources :invoices do
       get :print
     end

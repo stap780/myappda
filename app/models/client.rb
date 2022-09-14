@@ -38,9 +38,9 @@ class Client < ApplicationRecord
     end
   end
 
-  def self.emailizb( saved_subdomain, client_id, user_id )
+  def self.emailizb( saved_subdomain, user_client_id, user_id )
     Apartment::Tenant.switch(saved_subdomain) do
-      client = Client.find_by_clientid(client_id)
+      client = Client.find(user_client_id)
       insint = User.find(user_id).insints.first
       uri = insint.inskey.present? ? "http://#{insint.inskey.to_s}:#{insint.password.to_s}@#{insint.subdomen.to_s}" : "http://k-comment:#{insint.password.to_s}@#{insint.subdomen.to_s}"
       response = RestClient.get(uri+"/admin/account.json")
@@ -49,12 +49,13 @@ class Client < ApplicationRecord
       shopemail = data['email']
       shopurl = "http://"+insint.subdomen
 
-      fio = client.name+" "+client.surname #arr_fio.join
+      fio = client.fio
       email = client.email #arr_email.join
 
-      products = client.favorites.pluck(:id)
+      products = client.favorites.pluck(:product_id)
+      puts "products.count - "+products.count.to_s
 
-      ClientMailer.emailizb(shoptitle, shopemail,  shopurl, fio, email, products ).deliver_now
+      ClientMailer.emailizb(shoptitle, shopemail,  shopurl, fio, email, products, saved_subdomain ).deliver_now
     end
   end
 
@@ -110,7 +111,9 @@ class Client < ApplicationRecord
   #   izb_count = Client.order(:id).map{|cl| cl.izb_productid.split(',').count}.sum
   #   izb_count ||= ''
   # end
-
+  def fio
+    self.name+" "+self.surname
+  end
 
   private
 

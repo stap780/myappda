@@ -1,8 +1,8 @@
 Добрый день, <%= @fio%>
 Ваши товары из раздела избранное представлены ниже:
 Id товара,Название,Цена
-<% @products.each do |pr| %>
-<%= pr.insid %>,<%= pr.title %> - <%= pr.price %>
+<% @product_data.each do |pr| %>
+<%= pr[:insid] %>,<%= pr[:title] %> - <%= pr[:price] %>
 <% end %>
 ___
 <%= @shoptitle %>
