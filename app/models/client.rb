@@ -86,7 +86,11 @@ class Client < ApplicationRecord
     end
   end
 
-  def self.favorite_count
+  def self.have_favorites_count
+    Client.joins(:favorites).distinct.count #даёт только уникальное кол-во товаров в избранном
+  end
+
+  def self.favorite_products_count
     Client.joins(:favorites).count #даёт общее кол-во товаров в избранном
     # Client.joins(:favorites).distinct.count #даёт только уникальное кол-во товаров в избранном
   end

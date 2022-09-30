@@ -61,7 +61,7 @@ class User < ApplicationRecord
   def izb_count
     Apartment::Tenant.switch(self.subdomain) do
       #izb_count = Client.order(:id).map{|cl| cl.izb_productid.split(',').count}.sum.to_s
-      Client.favorite_count
+      Client.favorite_products_count
     end
   end
 
