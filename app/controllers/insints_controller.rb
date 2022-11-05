@@ -241,7 +241,7 @@ class InsintsController < ApplicationController
           render json: { error: false, message: 'нет такого клиента' }
         end
       else
-        render :json=> {:success=>true, :message=>"Кол-во клиентов больше допустимого, письма не отправляются"}
+        render :json=> {error: false, message: "Кол-во клиентов больше допустимого, письма не отправляются"}
       end
     end
   end

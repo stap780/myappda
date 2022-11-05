@@ -60,7 +60,6 @@ def self.check_valid_until #проверяем срок и переводим н
   end
 end
 
-
 private
 
   def set_default_for_new_record

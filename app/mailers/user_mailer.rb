@@ -18,4 +18,11 @@ class UserMailer < ApplicationMailer
       mail(to: @user_email, subject: 'Заканчивается срок оплаты сервиса')
     end
 
+    def favorite_setup_service_email(user_email, client_count)
+      @user_email = user_email
+      @client_count = client_count
+      @url  = 'https://k-comment.ru/users/sign_in'
+      mail(to: @user_email, subject: 'Сервис Избранные товары не работает для ваших клиентов')
+    end
+
 end
