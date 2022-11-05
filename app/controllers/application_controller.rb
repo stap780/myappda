@@ -46,30 +46,33 @@ class ApplicationController < ActionController::Base
 
   def redirect_to_app_url
     return if request.subdomain.present? && request.subdomain == 'app'
-
     url = app_url
     redirect_to url
-
-  end # redirect_to_app_url
+  end
 
 
   def app_url
+    puts request.subdomain.present?
+    puts 'request.domain - '+request.domain.to_s
+    puts 'request.subdomain - '+request.subdomain.to_s
+    puts 'request.host_with_port '+request.host_with_port.to_s
+    puts 'request.path '+request.path.to_s
+
     subdomain = 'app'
 
     if request.subdomain.present?
-      host = request.host_with_port.sub! "#{request.subdomain}.", ''
+      # host = request.host_with_port.sub! "#{request.subdomain}.", ''
+      host = request.host_with_port.remove("#{request.subdomain}.")
     else
       host = request.host_with_port
-    end # if
+    end
 
-    "http://#{subdomain}.#{host}#{request.path}"
+    app_url = "http://#{subdomain}.#{host}#{request.path}"
+    puts app_url
+    app_url
 
     # subdomain = 'app.'
-    # puts request.subdomain.present?
-    # puts 'request.domain - '+request.domain.to_s
-    # puts 'request.subdomain - '+request.subdomain.to_s
-    # puts 'request.host_with_port '+request.host_with_port.to_s
-    # puts 'request.path '+request.path.to_s
+
     # мой вариант
     # if request.subdomain.present?
     #   host = request.host_with_port.sub!("#{request.subdomain.gsub('www','')}.", '')
