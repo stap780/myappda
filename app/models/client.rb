@@ -121,15 +121,12 @@ class Client < ApplicationRecord
     self.name+" "+self.surname
   end
 
-  private
-
   def get_ins_client_data
     if new_record? && self.clientid.present?
       puts "get_ins_client_data"
       # puts self.id.to_s
       # puts Apartment::Tenant.current
       current_subdomain = Apartment::Tenant.current
-      # Apartment::Tenant.switch!(current_subdomain)
       user = User.find_by_subdomain(current_subdomain)
       puts "user.id - "+user.id.to_s
       insint = user.insints.first
@@ -156,11 +153,13 @@ class Client < ApplicationRecord
                 else
                   response.return!(&block)
                 end
-                }
-        sleep 0.5
+              }
       end
     end
   end
+
+  
+  private
 
   def normalize_phone
     self.phone = Phonelib.valid_for_country?(phone, 'RU') ? Phonelib.parse(phone).full_e164.presence : Phonelib.parse(phone, "KZ").full_e164.presence
