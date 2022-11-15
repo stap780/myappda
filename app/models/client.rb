@@ -4,10 +4,10 @@ class Client < ApplicationRecord
   has_many :products, -> { distinct }, through: :favorites
   has_many :restocks, dependent: :destroy
   has_many :variants, -> { distinct }, through: :restocks
-  # validates :clientid, presence: true
+  validates :clientid, presence: true
   # validates :clientid, uniqueness: true
-  validates :email, presence: true
-  validates :email, uniqueness: true
+  # validates :email, presence: true
+  # validates :email, uniqueness: true
   validates :phone, phone: { possible: true, allow_blank: true }
   before_save :normalize_phone
   # before_save :get_ins_client_data
