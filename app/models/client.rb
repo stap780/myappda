@@ -137,10 +137,13 @@ class Client < ApplicationRecord
                 case response.code
                 when 200
                   data = JSON.parse(response)
-                  self.name = data["name"] || ''
-                  self.surname = data["surname"] || ''
-                  self.email = data["email"] || ''
-                  self.phone = data["phone"] || ''
+                  client_data = {
+                    name: data["name"] || '',
+                    surname: data["surname"] || '',
+                    email: data["email"] || '',
+                    phone: data["phone"] || ''
+                  }
+                  self.update_attributes(client_data)
                 when 404
                   puts "error 404 get_ins_client_data"
                 when 403
