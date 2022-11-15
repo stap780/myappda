@@ -7,7 +7,7 @@ class Product < ApplicationRecord
 
   validates :insid, presence: true
   validates :insid, uniqueness: true
-  after_create :get_ins_product_data
+  # after_create :get_ins_product_data
 
   def self.get_image(insid)
     puts "get_image"

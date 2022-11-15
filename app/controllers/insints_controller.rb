@@ -140,6 +140,7 @@ class InsintsController < ApplicationController
           #добавка после расширения функционала
           product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
           client.favorites.create(product_id: product.id)
+          product.get_ins_product_data
           #конец добавка после расширения функционала
           render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
         else
@@ -149,6 +150,7 @@ class InsintsController < ApplicationController
           #добавка после расширения функционала
           product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
           new_client.favorites.create(product_id: product.id)
+          product.get_ins_product_data
           #конец добавка после расширения функционала
           render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
         end
