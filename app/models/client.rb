@@ -10,7 +10,7 @@ class Client < ApplicationRecord
   validates :email, uniqueness: true
   validates :phone, phone: { possible: true, allow_blank: true }
   before_save :normalize_phone
-  before_save :get_ins_client_data
+  # before_save :get_ins_client_data
 
   def self.otchet(current_subdomain, current_user_id)
     puts "Создаём отчет"
