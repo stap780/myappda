@@ -80,7 +80,6 @@ class Product < ApplicationRecord
                 response.return!(&block)
               end
               }
-      sleep 0.5
     end
   end
 
