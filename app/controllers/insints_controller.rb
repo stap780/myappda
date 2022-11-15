@@ -137,15 +137,18 @@ class InsintsController < ApplicationController
           izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
           client.update_attributes(izb_productid: izb_productid)
           totalcount = client.izb_productid.split(',').count
-          product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
-          client.favorites.create(product_id: product.id) #добавка после расширения функционала
+          #добавка после расширения функционала
+          product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
+          client.favorites.create(product_id: product.id)
+          #конец добавка после расширения функционала
           render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
         else
-          new_client = Client.new(clientid: params[:client_id], izb_productid: params[:product_id])
-          new_client.save
+          new_client = Client.create(clientid: params[:client_id], izb_productid: params[:product_id])
           totalcount = new_client.izb_productid.split(',').count
-          product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
-          new_client.favorites.create(product_id: product.id) #добавка после расширения функционала
+          #добавка после расширения функционала
+          product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
+          new_client.favorites.create(product_id: product.id)
+          #конец добавка после расширения функционала
           render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
         end
       else

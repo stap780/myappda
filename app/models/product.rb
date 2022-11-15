@@ -68,8 +68,8 @@ class Product < ApplicationRecord
               when 200
                 data = JSON.parse(response)
                 product_data = {
-                  title: data['title'] || '',
-                  price: data['variants'][0]['base_price'] || ''
+                  title: data['title'],
+                  price: data['variants'][0]['base_price']
                 }
                 self.update_attributes(product_data)
               when 404
