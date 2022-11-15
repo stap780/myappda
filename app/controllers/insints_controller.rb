@@ -143,7 +143,8 @@ class InsintsController < ApplicationController
           #конец добавка после расширения функционала
           render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
         else
-          new_client = Client.create(clientid: params[:client_id], izb_productid: params[:product_id])
+          new_client = Client.new(clientid: params[:client_id], izb_productid: params[:product_id])
+          new_client.save
           totalcount = new_client.izb_productid.split(',').count
           #добавка после расширения функционала
           product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
