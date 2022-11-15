@@ -10,7 +10,6 @@ class Client < ApplicationRecord
   # validates :email, uniqueness: true
   validates :phone, phone: { possible: true, allow_blank: true }
   before_save :normalize_phone
-  # before_save :get_ins_client_data
 
   def self.otchet(current_subdomain, current_user_id)
     puts "Создаём отчет"
@@ -122,7 +121,6 @@ class Client < ApplicationRecord
   end
 
   def get_ins_client_data
-    if new_record? && self.clientid.present?
       puts "get_ins_client_data"
       # puts self.id.to_s
       # puts Apartment::Tenant.current
@@ -155,10 +153,9 @@ class Client < ApplicationRecord
                 end
               }
       end
-    end
   end
 
-  
+
   private
 
   def normalize_phone
