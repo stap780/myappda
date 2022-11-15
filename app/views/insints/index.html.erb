@@ -22,7 +22,7 @@
         <td><%= insint.inskey %></td>
         <td><%= insint.password %></td>
         <td><% if insint.inskey.present? %>
-          <%= link_to "Проверить", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get , class: "btn btn-outline-info btn-sm" %>
+          <%= link_to "Проверить", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get, class: "btn btn-outline-info btn-sm" %>
           <% else %> автоматом<% end %>
         </td>
         <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_insint_path(insint) %></td>

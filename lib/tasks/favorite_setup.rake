@@ -21,18 +21,20 @@ namespace :favorite_setup do
 
   # отправляем письмо клиенту если check_ability не проходит
   task favorite_service_not_work_email: :environment do
-    puts "start check_valid_until - время москва - #{Time.zone.now}"
+    puts "start favorite_service_not_work_email - время москва - #{Time.zone.now}"
 
     User.all.order(:id).each do | user |
       tenant = user.subdomain
-      puts "tenant - "+tenant.to_s
       Apartment::Tenant.switch(tenant) do
         check_ability_result = FavoriteSetup.check_ability
-        UserMailer.favorite_setup_service_email(user.email, user.client_count).deliver_now if check_ability_result == false
+        if check_ability_result == false
+        UserMailer.favorite_setup_service_email(user.email, user.client_count).deliver_now
+        puts "send email to tenant - "+tenant.to_s
+        end
       end
     end
 
-    puts "finish check_valid_until - время москва - #{Time.zone.now}"
+    puts "finish favorite_service_not_work_email - время москва - #{Time.zone.now}"
   end
 
 # задача устанавливает статус и тариф для старых пользователей после смены логики работы . только один раз запускать
