@@ -1,0 +1,45 @@
+
+<div class="row">
+<div class="col-6">
+  <strong>Type:</strong>
+  <%= @event_action.type %>
+</div>
+
+<div class="col-6">
+  <strong>Event:</strong>
+  <%= @event_action.event %>
+</div>
+
+<div class="col-6">
+  <strong>Template:</strong>
+  <%= @event_action.template %>
+</div>
+
+<div class="col-6">
+  <strong>Pause:</strong>
+  <%= @event_action.pause %>
+</div>
+
+<div class="col-6">
+  <strong>Pause time:</strong>
+  <%= @event_action.pause_time %>
+</div>
+
+<div class="col-6">
+  <strong>Timetable:</strong>
+  <%= @event_action.timetable %>
+</div>
+
+<div class="col-6">
+  <strong>Timetable time:</strong>
+  <%= @event_action.timetable_time %>
+</div>
+
+</div>
+
+<div class="row">
+<div class="col-3 btn-group mt-5">
+<%= link_to 'Edit', edit_event_action_path(@event_action) , class: 'btn btn-success' %> |
+<%= link_to 'Back', event_actions_path, class: 'btn btn-outline-primary' %>
+</div>
+</div>

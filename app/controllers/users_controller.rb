@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_admin!
+  before_action :authenticate_admin!, only: [:index]
 
 
   def index
@@ -12,23 +12,22 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    redirect_to dashboard_path, alert: 'Access denied.' unless @user == current_user
   end
 
   def show
     @user = User.find(params[:id])
-    # redirect_to root_path, alert: 'Access denied.' unless @user == current_user
+    redirect_to dashboard_path, alert: 'Access denied.' unless @user == current_user
   end
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
-    # @user = User.find(params[:id])
-    # puts "params - "+params.to_s
-    # puts "params[:user][:avatar] - "+params[:user][:avatar].to_s
     @user.avatar.attach(params[:user][:avatar]) if params[:user][:avatar]
     respond_to do |format|
       #if @user.update(name: params[:user][:name], email: params[:user][:email], role_id: params[:user][:role_id])
       if @user.update(user_params)
-        format.html { redirect_to users_url, notice: "User was successfully updated." }
+        redirect_path = @user == current_user ? dashboard_path : users_url
+        format.html { redirect_to redirect_path, notice: "User was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -68,7 +67,7 @@ class UsersController < ApplicationController
   end
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:name, :email, :subdomain, :avatar, :phone)
+      params.require(:user).permit(:name, :email, :subdomain, :avatar, :phone, :admin)
     end
 
 end

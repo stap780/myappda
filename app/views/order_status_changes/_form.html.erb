@@ -1,0 +1,22 @@
+
+<%= simple_form_for(@order_status_change) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="row">
+    <div class="col-6">
+    <%= f.input :client_id %>
+    <%= f.input :event_id %>
+    <%= f.input :insales_order_id %>
+    <%= f.input :insales_order_number %>
+    <%= f.input :insales_custom_status_title %>
+    <%= f.input :insales_financial_status %>
+</div>
+</div>
+  <div class="row">
+  <div class="col-2 btn-group mt-5">
+    <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
+    <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+  </div>
+  </div>
+<% end %>

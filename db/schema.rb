@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_12_123336) do
+ActiveRecord::Schema.define(version: 2023_01_06_150705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "actions", force: :cascade do |t|
+    t.string "type"
+    t.bigint "event_id"
+    t.bigint "template_id"
+    t.boolean "pause"
+    t.string "pause_time"
+    t.boolean "timetable"
+    t.string "timetable_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_actions_on_event_id"
+    t.index ["template_id"], name: "index_actions_on_template_id"
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -62,6 +76,46 @@ ActiveRecord::Schema.define(version: 2022_06_12_123336) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "email_setups", force: :cascade do |t|
+    t.string "address"
+    t.integer "port"
+    t.string "domain"
+    t.string "authentication"
+    t.string "user_name"
+    t.string "user_password"
+    t.boolean "tls"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "event_actions", force: :cascade do |t|
+    t.string "channel"
+    t.bigint "event_id"
+    t.bigint "template_id"
+    t.boolean "pause"
+    t.string "pause_time"
+    t.boolean "timetable"
+    t.string "timetable_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_actions_on_event_id"
+    t.index ["template_id"], name: "index_event_actions_on_template_id"
+  end
+
+  create_table "event_order_status_changes", force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "order_status_change_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "custom_status"
+    t.string "financial_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "favorite_setups", force: :cascade do |t|
     t.string "title"
     t.string "handle"
@@ -83,7 +137,7 @@ ActiveRecord::Schema.define(version: 2022_06_12_123336) do
   create_table "insints", id: :serial, force: :cascade do |t|
     t.string "subdomen"
     t.string "password"
-    t.integer "insalesid"
+    t.integer "insales_account_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -100,6 +154,28 @@ ActiveRecord::Schema.define(version: 2022_06_12_123336) do
     t.string "payertype"
     t.string "paymenttype"
     t.string "service_handle"
+  end
+
+  create_table "message_setups", force: :cascade do |t|
+    t.string "title"
+    t.string "handle"
+    t.string "description"
+    t.boolean "status"
+    t.integer "payplan_id"
+    t.date "valid_until"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "order_status_changes", force: :cascade do |t|
+    t.integer "client_id"
+    t.integer "event_id"
+    t.integer "insales_order_id"
+    t.integer "insales_order_number"
+    t.string "insales_custom_status_title"
+    t.string "insales_financial_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "payments", id: :serial, force: :cascade do |t|
@@ -155,6 +231,15 @@ ActiveRecord::Schema.define(version: 2022_06_12_123336) do
     t.index ["variant_id"], name: "index_restocks_on_variant_id"
   end
 
+  create_table "templates", force: :cascade do |t|
+    t.string "title"
+    t.string "subject"
+    t.string "receiver"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "useraccounts", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -198,7 +283,11 @@ ActiveRecord::Schema.define(version: 2022_06_12_123336) do
     t.index ["product_id"], name: "index_variants_on_product_id"
   end
 
+  add_foreign_key "actions", "events"
+  add_foreign_key "actions", "templates"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "event_actions", "events"
+  add_foreign_key "event_actions", "templates"
   add_foreign_key "favorites", "clients"
   add_foreign_key "favorites", "products"
   add_foreign_key "restocks", "clients"

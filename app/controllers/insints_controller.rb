@@ -1,5 +1,5 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb setup_script emailizb addrestock]
+  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb setup_script emailizb addrestock order]
   before_action :authenticate_admin!, only: %i[adminindex]
   before_action :set_insint, only: %i[show edit update destroy]
 
@@ -17,7 +17,7 @@ class InsintsController < ApplicationController
 
   # GET /insints/1
   def show
-    redirect_to useraccounts_url, notice: 'У Вас нет доступа к этой интеграции' if @insint.user_id != current_user.id
+    redirect_to useraccounts_url, alert: 'Access denied.' unless @insint.user == current_use
   end
 
   # GET /insints/new
@@ -25,13 +25,13 @@ class InsintsController < ApplicationController
     if current_user.insints.count == 0
       @insint = Insint.new
     else
-      redirect_to useraccounts_url, notice: 'У Вас уже есть интеграция'
+      redirect_to dashboard_url, notice: 'У Вас уже есть интеграция'
     end
   end
 
   # GET /insints/1/edit
   def edit
-    redirect_to useraccounts_url, notice: 'У Вас нет доступа к этой интеграции' if @insint.user_id != current_user.id
+    redirect_to dashboard_url, alert: 'Access denied.' unless @insint.user == current_user
   end
 
   # POST /insints
@@ -40,7 +40,7 @@ class InsintsController < ApplicationController
 
     respond_to do |format|
       if @insint.save
-        format.html { redirect_to useraccounts_url, notice: 'Интеграция insales создана' }
+        format.html { redirect_to dashboard_url, notice: 'Интеграция insales создана' }
         format.json { render :show, status: :created, location: @insint }
       else
         format.html { render :new }
@@ -53,7 +53,7 @@ class InsintsController < ApplicationController
   def update
     respond_to do |format|
       if @insint.update(insint_params)
-        redirect_path = current_admin ? adminindex_insints_url : useraccounts_url
+        redirect_path = current_admin ? adminindex_insints_url : dashboard_url
         format.html { redirect_to redirect_path, notice: 'Интеграция обновлена' }
         format.json { render :show, status: :ok, location: @insint }
       else
@@ -74,7 +74,7 @@ class InsintsController < ApplicationController
 
   def install
     # puts params[:insales_id]
-    @insint = Insint.find_by_insalesid(params[:insales_id])
+    @insint = Insint.find_by_insales_account_id(params[:insales_id])
     if @insint.present?
       puts 'есть пользователь insint'
     else
@@ -89,7 +89,7 @@ class InsintsController < ApplicationController
       # puts user.id
       secret_key = ENV['INS_APP_SECRET_KEY']
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
-      insint_new = Insint.create(subdomen: params[:shop], password: password, insalesid: params[:insales_id], user_id: user.id, status: true)
+      insint_new = Insint.create(subdomen: params[:shop], password: password, insales_account_id: params[:insales_id], user_id: user.id, status: true)
       # Insint.setup_ins_shop(insint_new.id) - убираем это и делаем установку скриптов под каждый сервис
       head :ok
       ## ниже обновляем почту клиента из инсалес и письмо нам о том что зарегился клиент
@@ -98,7 +98,7 @@ class InsintsController < ApplicationController
   end
 
   def uninstall
-    @insint = Insint.find_by_insalesid(params[:insales_id])
+    @insint = Insint.find_by_insales_account_id(params[:insales_id])
     saved_subdomain = 'insales' + params[:insales_id]
     @user = User.find_by_subdomain(saved_subdomain)
     if @insint.present?
@@ -127,9 +127,8 @@ class InsintsController < ApplicationController
   end
 
   def addizb
-    @insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
-    @user = User.find_by_subdomain(saved_subdomain)
+    insint = Insint.find_by_subdomen(params[:host])
+    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
     Apartment::Tenant.switch(saved_subdomain) do
       if FavoriteSetup.check_ability
         client = Client.find_by_clientid(params[:client_id])
@@ -161,9 +160,8 @@ class InsintsController < ApplicationController
   end
 
   def getizb
-    @insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
-    @user = User.find_by_subdomain(saved_subdomain)
+    insint = Insint.find_by_subdomen(params[:host])
+    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
     Apartment::Tenant.switch(saved_subdomain) do
         client = Client.find_by_clientid(params[:client_id])
         if client.present?
@@ -176,9 +174,8 @@ class InsintsController < ApplicationController
   end
 
   def deleteizb
-    @insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
-    @user = User.find_by_subdomain(saved_subdomain)
+    insint = Insint.find_by_subdomen(params[:host])
+    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
     Apartment::Tenant.switch(saved_subdomain) do
       if FavoriteSetup.check_ability
         client = Client.find_by_clientid(params[:client_id])
@@ -207,12 +204,11 @@ class InsintsController < ApplicationController
 
   def emailizb
     insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insalesid.to_s
-    user = User.find_by_subdomain(saved_subdomain)
+    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
     Apartment::Tenant.switch(saved_subdomain) do
       if FavoriteSetup.check_ability
-        user_client = Client.find_by_clientid(params[:client_id])
-        if user_client.present?
+        client = Client.find_by_clientid(params[:client_id])
+        if client.present?
           Client.emailizb(saved_subdomain, user_client.id, user.id)
           render json: { success: true, message: 'Товары отправлены Вам на почту' }
         else
@@ -252,9 +248,8 @@ class InsintsController < ApplicationController
   end
 
   def addrestock
-    @insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = @insint.inskey.present? ? @insint.user.subdomain : 'insales' + @insint.insalesid.to_s
-    @user = User.find_by_subdomain(saved_subdomain)
+    insint = Insint.find_by_subdomen(params[:host])
+    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
     Apartment::Tenant.switch(saved_subdomain) do
       if RestockSetup.check_ability
         client = Client.find_by_email(params[:client_email])
@@ -276,6 +271,30 @@ class InsintsController < ApplicationController
     end
   end
 
+  def order
+    number = params["number"]
+    account_id = params["account_id"]
+    puts "account_id => "+account_id.to_s
+
+    insint = Insint.find_by_insales_account_id(account_id)
+    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
+    Apartment::Tenant.switch(saved_subdomain) do
+      if MessageSetup.check_ability
+        client = Client.find_by_clientid(params["client"]["id"])
+        if client.present?
+          client.order_status_changes.create(client_id: client.id,insales_order_id: params["id"], insales_order_number: params["number"], insales_custom_status_title: params["custom_status"]["title"],insales_financial_status: params["financial_status"])
+          render json: { success: true, message: 'Информация сохранена в order_status_changes'}
+        else
+          new_client = Client.create(clientid: params["client"]["id"], email: params["client"]["email"], name: params["client"]["name"], phone: params["client"]["phone"])
+          client.order_status_changes.create(client_id: new_client.id,insales_order_id: params["id"], insales_order_number: params["number"], insales_custom_status_title: params["custom_status"]["title"],insales_financial_status: params["financial_status"])
+          render json: { success: true, message: 'Информация сохранена в order_status_changes' }
+        end
+      else
+        render json: { error: false, message: 'не смогли добавить запись в order_status_changes' }
+      end
+    end
+  end
+  
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -285,6 +304,6 @@ class InsintsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def insint_params
-    params.require(:insint).permit(:subdomen, :password, :insalesid, :user_id, :inskey, :status)
+    params.require(:insint).permit(:subdomen, :password, :insales_account_id, :user_id, :inskey, :status)
   end
 end

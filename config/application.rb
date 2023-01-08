@@ -23,7 +23,8 @@ module MyApp
     # Do not swallow errors in after_commit/after_rollback callbacks.
     # config.active_record.raise_in_transactional_callbacks = true
     config.action_controller.allow_forgery_protection = false
-    config.active_job.queue_adapter = :delayed_job
-    config.autoload_paths += %W(#{config.root}/app)
+    # config.active_job.queue_adapter = :delayed_job
+    config.active_job.queue_adapter = :sidekiq
+    config.autoload_paths += %W(#{config.root}/app #{config.root}/lib)
   end
 end

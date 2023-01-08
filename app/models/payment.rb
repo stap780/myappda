@@ -1,12 +1,12 @@
 class Payment < ApplicationRecord
   belongs_to :user
-  belongs_to :invoice
+  # belongs_to :invoice
   belongs_to :payplan
 
   #validates :subdomain, presence: true #не понял зачем это
 
   before_create :add_subdomain #не понял зачем это
-  after_update :update_invoice_after_update_payment
+  after_commit :update_invoice_after_update_payment , on: [:update]
 
   Status = ['Не оплачен','Оплачен']
   Paymenttype = [['Счёт для юр лиц', 'invoice'],['Кредитные карты', 'creditcard'], ['Paypal', 'paypal']]
@@ -22,7 +22,7 @@ class Payment < ApplicationRecord
       tenant = self.user.subdomain
       Apartment::Tenant.switch(tenant) do
         invoice = Invoice.find_by_id(self.invoice_id)
-        invoice.update(status: 'Оплачен') if self.status == 'Оплачен'
+        invoice.update_attributes(status: 'Оплачен') if self.status == 'Оплачен'
       end
     end
   end

@@ -1,0 +1,44 @@
+<div class="row align-items-center mb-2">
+  <div class="col-3 h3">Настройка почты</div>
+  <div class="col-8">
+    <%= link_to 'Создать', new_email_setup_path, class: 'btn btn-secondary btn-sm' %>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+  <thead>
+    <tr class="bg-success">
+      <th>Address</th>
+      <th>Port</th>
+      <th>Domain</th>
+      <th>Authentication</th>
+      <th>User name</th>
+      <th>User password</th>
+      <th>Tls</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody id="items_table">
+    <% @email_setups.each do |email_setup| %>
+    <tr>
+        <td><%= email_setup.address %></td>
+        <td><%= email_setup.port %></td>
+        <td><%= email_setup.domain %></td>
+        <td><%= email_setup.authentication %></td>
+        <td><%= email_setup.user_name %></td>
+        <td><%= email_setup.user_password %></td>
+        <td><%= email_setup.tls %></td>
+        <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_email_setup_path(email_setup) %></td>
+        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, email_setup, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+
+<div class="apple_pagination">
+<%= will_paginate @email_setups %>
+</div>

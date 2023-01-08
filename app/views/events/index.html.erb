@@ -1,0 +1,60 @@
+<div class="row justify-content-center align-items-center mb-2">
+  <div class="col-2 row">
+  <div class="col-md-12 p-0">
+    <div class="h3">События</div>
+  </div>
+  </div>
+  <div class="col-10 pl-0 pr-0 row">
+  <div class="col-2 mb-3">
+    <div class="btn-group" role="group">
+      <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown">Действия</button>
+      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+        <%= link_to 'Создать', new_event_path, class: 'dropdown-item' %>
+      </div>
+    </div>
+  </div>
+  <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
+    <div class="input-group input-group-sm">
+            <%= f.search_field :custom_status_eq , placeholder: 'custom_status', class: "form-control", style: "max-width: 180px;" %>
+            <%= f.search_field :financial_status_eq , placeholder: 'financial_status', class: "form-control", style: "max-width: 180px;" %>
+            <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
+        <span class="oi oi-magnifying-glass"></span>
+      <% end %>
+      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, events_path, class: 'btn btn-outline-dark ' %>
+      <%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_events_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
+    </div>
+  <% end %>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+  <thead>
+    <tr class="bg-success">
+      <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
+      <th>Custom status</th>
+      <th>Financial status</th>
+      <th>Действие</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody id="items_table">
+    <% @events.each do |event| %>
+    <tr>
+        <td><%= check_box_tag "event_ids[]", event.id %></td>
+        <td><%= event.custom_status %></td>
+        <td><%= event.financial_status %></td>
+        <td><%= event.action_title %><%if event.event_actions.first.pause%>. Отправка отложена на <%= event.event_actions.first.pause_time%> минут<%end%></td>
+        <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_event_path(event) %></td>
+        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+
+<div class="apple_pagination">
+<%= will_paginate @events %>
+</div>

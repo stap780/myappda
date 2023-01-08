@@ -1,0 +1,18 @@
+
+<%= simple_form_for(@event_action) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="row">
+    <div class="col-6">
+    <%= f.association :event, input_html: { class: "form-select" }  %>
+    <%= render "form_items", f: f %>
+    </div>
+</div>
+  <div class="row">
+  <div class="col-2 btn-group mt-5">
+    <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
+    <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+  </div>
+  </div>
+<% end %>

@@ -1,53 +1,76 @@
 <div class="row">
   <div class="col-12">
-    <div class="h2">Наши сервисы</div>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Название</th>
-      <th>Описание</th>
-      <th>Состояние</th>
-      <th>Настройка</th>
-      <th>Тариф</th>
-      <th>Работа</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr classs="favorite_setup">
-      <td><%= FavoriteSetup::TITLE %></td>
-      <td><%= FavoriteSetup::DESCRIPTION %></td>
-      <td>
-        <%= link_to 'Добавить', new_favorite_setup_path, class: 'btn btn-dark' if !@favorite_setup %>
-        <%= link_to 'Добавлен', edit_favorite_setup_path(@favorite_setup.id), class: 'btn btn-outline-dark disabled', disabled: true if @favorite_setup %>
-        <%= link_to '<span class="oi oi-trash"></span>'.html_safe, @favorite_setup, method: :delete, data: { confirm: 'Are you sure?' } if @favorite_setup %>
-      </td>
-      <td>
-        <%= link_to 'Настроить', edit_favorite_setup_path(@favorite_setup.id), class: 'btn btn-dark' if @favorite_setup && !@favorite_setup.status %>
-        <%= link_to 'Настроено', edit_favorite_setup_path(@favorite_setup.id), class: 'btn btn-outline-dark' if @favorite_setup && @favorite_setup.status %>
-      </td>
-      <td><%= @favorite_setup.payplan.title if @favorite_setup && @favorite_setup.payplan %></td>
-      <td><%= !@favorite_setup.valid_until.present? ? "бесплатно" : @favorite_setup.valid_until if @favorite_setup.present? %></td>
-    </tr>
+      <div class="h2">Наши сервисы</div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Состояние</th>
+            <th>Настройка</th>
+            <th>Тариф</th>
+            <th>Работа</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr classs="favorite_setup">
+            <td><%= FavoriteSetup::TITLE %></td>
+            <td><%= FavoriteSetup::DESCRIPTION %></td>
+            <td>
+              <%= link_to 'Добавить', new_favorite_setup_path, class: 'btn btn-dark' if !@favorite_setup %>
+              <%= link_to 'Добавлен', edit_favorite_setup_path(@favorite_setup.id), class: 'btn btn-outline-dark disabled', disabled: true if @favorite_setup %>
+            </td>
+            <td>
+              <%= link_to 'Настроить', edit_favorite_setup_path(@favorite_setup.id), class: 'btn btn-dark' if @favorite_setup && !@favorite_setup.status %>
+              <%= link_to 'Настроено', edit_favorite_setup_path(@favorite_setup.id), class: 'btn btn-outline-dark' if @favorite_setup && @favorite_setup.status %>
+            </td>
+            <td>
+              <%= @favorite_setup.payplan.title if @favorite_setup && @favorite_setup.payplan %></br>
+              <% if @favorite_setup %><% if @favorite_setup.status %>Состояние: Вкл<% else %>Состояние: Выкл<% end %><% end %>
+            </td>
+            <td><%= @favorite_setup.present? && @favorite_setup.valid_until.present? ? @favorite_setup.valid_until : "бесплатно" %></td>
+            <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @favorite_setup, method: :delete, data: { confirm: 'Are you sure?' } if @favorite_setup %></td>
+          </tr>
 
-    <tr classs="restock_setup">
-      <td><%= RestockSetup::TITLE %></td>
-      <td><%= RestockSetup::DESCRIPTION %></td>
-      <td>
-        <%= link_to 'Добавить', new_restock_setup_path, class: 'btn btn-dark' if !@restock_setup %>
-        <%= link_to 'Добавлен', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-outline-dark disabled', disabled: true if @restock_setup %>
-        <%= link_to '<span class="oi oi-trash"></span>'.html_safe, @restock_setup, method: :delete, data: { confirm: 'Are you sure?' } if @restock_setup %>
-      </td>
-      <td>
-        <%= link_to 'Настроить', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-dark' if @restock_setup && !@restock_setup.status %>
-        <%= link_to 'Настроено', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-outline-dark' if @restock_setup && @restock_setup.status %>
-      </td>
-      <td><%= @restock_setup.payplan.title if @restock_setup && @restock_setup.payplan %></td>
-      <td><%= !@restock_setup.valid_until.present? ? "бесплатно" : @restock_setup.valid_until if @restock_setup.present? %></td>
-    </tr>
-  </tbody>
-</table>
+          <tr classs="restock_setup">
+            <td><%= RestockSetup::TITLE %></td>
+            <td><%= RestockSetup::DESCRIPTION %></td>
+            <td>
+              <%= link_to 'Добавить', new_restock_setup_path, class: 'btn btn-dark' if !@restock_setup %>
+              <%= link_to 'Добавлен', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-outline-dark disabled', disabled: true if @restock_setup %>
+            </td>
+            <td>
+              <%= link_to 'Настроить', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-dark' if @restock_setup && !@restock_setup.status %>
+              <%= link_to 'Настроено', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-outline-dark' if @restock_setup && @restock_setup.status %>
+            </td>
+            <td>
+              <%= @restock_setup.payplan.title if @restock_setup && @restock_setup.payplan %></br>
+              <% if @restock_setup %><% if @restock_setup.status %>Состояние: Вкл<% else %>Состояние: Выкл<% end %><% end %>
+            </td>
+            <td><%= @restock_setup.present? && @restock_setup.valid_until.present? ? @restock_setup.valid_until : "бесплатно" %></td>
+            <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @restock_setup, method: :delete, data: { confirm: 'Are you sure?' } if @restock_setup %></td>
+          </tr>
 
+          <tr classs="message_setup">
+            <td><%= MessageSetup::TITLE %></td>
+            <td><%= MessageSetup::DESCRIPTION %></td>
+            <td>
+              <%= link_to 'Добавить', new_message_setup_path, class: 'btn btn-dark' if !@message_setup %>
+              <%= link_to 'Добавлен', edit_message_setup_path(@message_setup.id), class: 'btn btn-outline-dark disabled', disabled: true if @message_setup %>
+            </td>
+            <td>
+              <%= link_to 'Настроить', edit_message_setup_path(@message_setup.id), class: 'btn btn-dark' if @message_setup && !@message_setup.status %>
+              <%= link_to 'Настроено', edit_message_setup_path(@message_setup.id), class: 'btn btn-outline-dark' if @message_setup && @message_setup.status %>
+            </td>
+            <td>
+              <%= @message_setup.payplan.title if @message_setup && @message_setup.payplan %></br>
+              <% if @message_setup %><% if @message_setup.status %>Состояние: Вкл<% else %>Состояние: Выкл<% end %><% end %>
+            </td>
+            <td><%= @message_setup.present? && @message_setup.valid_until.present? ? @message_setup.valid_until : "бесплатно" %></td>
+            <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @message_setup, method: :delete, data: { confirm: 'Are you sure?' } if @message_setup %></td>
+          </tr>
+        </tbody>
+      </table>
   </div>
-
-
 </div>

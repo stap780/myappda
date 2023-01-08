@@ -1,0 +1,65 @@
+<div class="row justify-content-center align-items-center mb-2">
+  <div class="col-2 row">
+  <div class="col-md-12 p-0">
+    <div class="h3">Шаблоны</div>
+  </div>
+  </div>
+  <div class="col-10 pl-0 pr-0 row">
+  <div class="col-2 mb-3">
+    <div class="btn-group" role="group">
+      <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown">Действия</button>
+      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+        <%= link_to 'Создать', new_template_path, class: 'dropdown-item' %>
+      </div>
+    </div>
+  </div>
+  <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
+    <div class="input-group input-group-sm">
+            <%= f.search_field :title_eq , placeholder: 'title', class: "form-control", style: "max-width: 180px;" %>
+            <%# f.search_field :subject_eq , placeholder: 'subject', class: "form-control", style: "max-width: 180px;" %>
+            <%# f.search_field :receiver_eq , placeholder: 'receiver', class: "form-control", style: "max-width: 180px;" %>
+            <%# f.search_field :content_eq , placeholder: 'content', class: "form-control", style: "max-width: 180px;" %>
+            <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
+        <span class="oi oi-magnifying-glass"></span>
+      <% end %>
+      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, templates_path, class: 'btn btn-outline-dark ' %>
+      <%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_templates_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
+    </div>
+  <% end %>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+  <thead>
+    <tr class="bg-success">
+      <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
+      <th>Title</th>
+      <th>Subject</th>
+      <th>Receiver</th>
+      <th>Content</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody id="items_table">
+    <% @templates.each do |template| %>
+    <tr>
+        <td><%= check_box_tag "template_ids[]", template.id %></td>
+        <td><%= template.title %></td>
+        <td><%= template.subject %></td>
+        <td><%= template.receiver %></td>
+        <td><%= template.content %></td>
+        <%# link_to '<span class="oi oi-eye"></span>'.html_safe, template %>
+        <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_template_path(template) %></td>
+        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, template, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+
+<div class="apple_pagination">
+<%= will_paginate @templates %>
+</div>

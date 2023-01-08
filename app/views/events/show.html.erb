@@ -1,0 +1,20 @@
+
+<div class="row">
+<div class="col-6">
+  <strong>Custom status:</strong>
+  <%= @event.custom_status %>
+</div>
+
+<div class="col-6">
+  <strong>Financial status:</strong>
+  <%= @event.financial_status %>
+</div>
+
+</div>
+
+<div class="row">
+<div class="col-3 btn-group mt-5">
+<%= link_to 'Edit', edit_event_path(@event) , class: 'btn btn-success' %> |
+<%= link_to 'Back', events_path, class: 'btn btn-outline-primary' %>
+</div>
+</div>

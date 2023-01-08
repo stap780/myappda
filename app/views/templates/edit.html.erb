@@ -1,0 +1,15 @@
+<h2>Редактировать</h2>
+
+<%= render 'form', template: @template %>
+
+<div class="row mt-5 col-4">
+<%= form_with url: preview_templates_path, method: :get, class: "input-group", local: false do |form| %>
+  <%= form.select :insales_order_id, @ten_orders, include_blank: "Выберите заказ", class: "form-select" %>
+  <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
+<% end %>
+</div>
+<div class="row mt-3 col-6">
+<div id="order-preview">
+
+</div>
+</div>

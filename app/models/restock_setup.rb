@@ -56,13 +56,22 @@ class RestockSetup < ApplicationRecord
     end
 
     def create_invoice
-      if self.payplan_id == Payplan.restock_free_id
-        Invoice.create(payplan_id: self.payplan.id, payertype: "fiz", paymenttype: "paypal", service_handle: self.payplan.service_handle, status: "Оплачен" )
-      else
-        Invoice.create(payplan_id: self.payplan.id, payertype: "fiz", paymenttype: "creditcard", service_handle: self.payplan.service_handle )
+      invoice_data = {
+        payplan_id: self.payplan.id, 
+        payertype: "fiz", 
+        paymenttype: "creditcard", 
+        service_handle: self.payplan.service_handle 
+      }
+      if self.status
+        if self.payplan_id == Payplan.restock_free_id
+          invoice = Invoice.create(invoice_data.merge!(status: "Оплачен"))
+          payment = invoice.get_payment.update(paymentdate: Date.today, status: "Оплачен")
+        else
+          invoice = Invoice.create(invoice_data)
+        end
       end
     end
-
+  
   # def set_status_false_if_new_record
   #   self.status = false if new_record?
   # end

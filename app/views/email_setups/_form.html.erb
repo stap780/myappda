@@ -1,0 +1,23 @@
+
+<%= simple_form_for(@email_setup) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="row">
+    <div class="col-6">
+    <%= f.input :address %>
+    <%= f.input :port %>
+    <%= f.input :domain %>
+    <%= f.input :authentication,  collection: ['login','plain'],include_blank: false, input_html: { class: "form-select" }%>
+    <%= f.input :user_name %>
+    <%= f.input :user_password, input_html: { type: "text", value: @email_setup.user_password } %>
+    <%= f.input :tls %>
+  </div>
+</div>
+  <div class="row">
+  <div class="col-2 btn-group mt-5">
+    <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
+    <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+  </div>
+  </div>
+<% end %>

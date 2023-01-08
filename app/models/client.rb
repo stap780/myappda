@@ -4,6 +4,7 @@ class Client < ApplicationRecord
   has_many :products, -> { distinct }, through: :favorites
   has_many :restocks, dependent: :destroy
   has_many :variants, -> { distinct }, through: :restocks
+  has_many :order_status_changes
   validates :clientid, presence: true
   # validates :clientid, uniqueness: true
   # validates :email, presence: true
@@ -117,7 +118,7 @@ class Client < ApplicationRecord
   #   izb_count ||= ''
   # end
   def fio
-    self.name+" "+self.surname
+    self.name.to_s+" "+self.surname.to_s
   end
 
   def get_ins_client_data
@@ -166,3 +167,5 @@ class Client < ApplicationRecord
   end
 
 end
+
+#Client.all.includes(:favorites).where(favorites: {product_id: p.id}).count

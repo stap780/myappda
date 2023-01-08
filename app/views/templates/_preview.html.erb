@@ -1,0 +1,14 @@
+<%order_drop = InsalesOrderDrop.new(@order)%>
+<div class="row mx-auto">
+    <pre>
+    <code>
+    <% subject_template = Liquid::Template.parse(@template.subject) %>
+    <div><span class="h6">Тема письма:</span> <%= subject_template.render('order' => order_drop)%></div>
+    
+    <% content_template = Liquid::Template.parse(@template.content) %>
+    <div class="h6">Содержание письма:</div> 
+    <div><%= content_template.render('order' => order_drop).html_safe%></div>
+    </code>
+    </pre>
+</div>
+

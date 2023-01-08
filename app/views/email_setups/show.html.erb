@@ -1,0 +1,45 @@
+
+<div class="row">
+<div class="col-6">
+  <strong>Address:</strong>
+  <%= @email_setup.address %>
+</div>
+
+<div class="col-6">
+  <strong>Port:</strong>
+  <%= @email_setup.port %>
+</div>
+
+<div class="col-6">
+  <strong>Domain:</strong>
+  <%= @email_setup.domain %>
+</div>
+
+<div class="col-6">
+  <strong>Authentication:</strong>
+  <%= @email_setup.authentication %>
+</div>
+
+<div class="col-6">
+  <strong>User name:</strong>
+  <%= @email_setup.user_name %>
+</div>
+
+<div class="col-6">
+  <strong>User password:</strong>
+  <%= @email_setup.user_password %>
+</div>
+
+<div class="col-6">
+  <strong>Tls:</strong>
+  <%= @email_setup.tls %>
+</div>
+
+</div>
+
+<div class="row">
+<div class="col-3 btn-group mt-5">
+<%= link_to 'Edit', edit_email_setup_path(@email_setup) , class: 'btn btn-success' %> |
+<%= link_to 'Back', email_setups_path, class: 'btn btn-outline-primary' %>
+</div>
+</div>

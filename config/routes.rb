@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  require 'sidekiq/web'
+
+  authenticate :user, ->(user) { user.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   resources :payments do
     collection do
       post :success
@@ -26,11 +32,21 @@ Rails.application.routes.draw do
       get :checkint
       get :emailizb
       get :addrestock
+      post :order
     end
   end
 
   constraints SubdomainConstraint do
-
+    resources :order_status_changes
+    resources :message_setups
+    resources :event_actions
+    resources :templates do
+      collection do
+        get '/:id/preview', action: 'preview', as: 'preview'
+      end
+    end
+    resources :events
+    resources :email_setups
     resources :favorite_setups
     resources :restock_setups
     resources :useraccounts
@@ -50,10 +66,7 @@ Rails.application.routes.draw do
       end
     end
     resources :variants
-
-    get '/dashboard/index' , to: 'dashboard#index'
-    get '/dashboard/user', to: 'dashboard#user'
-    get '/dashboard/user_edit', to: 'dashboard#user_edit'
+    get '/dashboard', to: 'dashboard#index'
     get '/dashboard/test_email', to: 'dashboard#test_email'
     get '/dashboard/services', to: 'dashboard#services'
   end # constraints

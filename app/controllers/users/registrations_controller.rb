@@ -49,7 +49,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :subdomain ])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :email, :subdomain, :avatar, :phone, :admin ])
   end
 
   # The path used after sign up.
@@ -72,7 +72,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def send_admin_email
     if current_user.present?
-      UserMailer.test_welcome_email(current_user.email).deliver_now
+      UserMailer.with(user: current_user).test_welcome_email.deliver_now
     end
   end
 end

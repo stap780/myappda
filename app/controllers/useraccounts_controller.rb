@@ -1,19 +1,11 @@
 class UseraccountsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_useraccount, only: [:show, :edit, :update, :destroy]
 
   # GET /useraccounts
   # GET /useraccounts.json
   def index
     @useraccounts = Useraccount.all
-    insint = current_user.insints.first
-    if insint.present? && insint.status == true
-        uri = insint.inskey.present? ? "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json" : "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
-        # puts uri
-        response = RestClient.get(uri)
-        data = JSON.parse(response)
-        @ins_title = data['title']
-        @ins_phone = data['phone']
-    end
 
     invoice = Invoice.where(:status => "Оплачен").last
     @pay_period = invoice.updated_at.to_date + invoice.payplan.period.split(' ')[0].to_i.months || '' if invoice.present?

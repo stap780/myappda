@@ -1,0 +1,2 @@
+class EmailSetup < ApplicationRecord
+end

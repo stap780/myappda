@@ -13,7 +13,7 @@
     <%= f.input :password, label: 'Пароль из настроек', input_html: { value: @insint.password , type: 'text'}, disabled: true %>
     <%= f.input :subdomen, label: 'Домен из настроек' , disabled: true %>
     <% end %>
-    <%= f.input :insalesid, :as => :hidden %>
+    <%= f.input :insales_account_id, :as => :hidden %>
     <% if current_admin %>
     <%= f.association :user, label: 'Имя пользователя'  %>
     <% else %>
@@ -26,7 +26,7 @@
     <% if current_admin %>
     <%= link_to 'Назад', adminindex_insints_path, class: 'btn btn-outline-primary'  %>
       <% else %>
-    <%= link_to 'Назад', useraccounts_path, class: 'btn btn-outline-primary'  %>
+    <%= link_to 'Назад', dashboard_path, class: 'btn btn-outline-primary'  %>
     <% end %>
   </div>
 <% end %>

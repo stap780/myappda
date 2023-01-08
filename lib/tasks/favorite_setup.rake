@@ -28,7 +28,7 @@ namespace :favorite_setup do
       Apartment::Tenant.switch(tenant) do
         check_ability_result = FavoriteSetup.check_ability
         if check_ability_result == false
-        UserMailer.favorite_setup_service_email(user.email, user.client_count).deliver_now
+        UserMailer.with(user: user).favorite_setup_service_email.deliver_now
         puts "send email to tenant - "+tenant.to_s
         end
       end

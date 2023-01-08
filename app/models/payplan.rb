@@ -2,10 +2,11 @@ class Payplan < ApplicationRecord
   has_many :payments
   has_many :invoices
   has_many :favorite_setups
+  has_many :message_setups
   validates :handle, presence: true
 
 
-  Services = ["extra","favorite", "restock"]
+  Services = ["extra","favorite", "restock","message"]
   Period = ["1", "3", "6","12","no limit"]
 
   def self.favorite_free_id
@@ -16,5 +17,8 @@ class Payplan < ApplicationRecord
      Payplan.where(service_handle: "restock", price: 0 ).first.id 
   end
 
+  def self.message_free_id
+     Payplan.where(service_handle: "message", price: 0 ).first.id
+  end
 
 end

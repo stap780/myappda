@@ -5,8 +5,18 @@
   <a class="nav-link" href="<%= products_path %>">Товары</a>
 </li>
 <li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-bs-toggle="dropdown">Сообщения</a>
+  <div class="dropdown-menu">
+    <a class="dropdown-item <%= 'active' if current_page?(events_path) %>" href="<%= events_path %>">События</a>
+    <a class="dropdown-item <%= 'active' if current_page?(templates_path) %>" href="<%= templates_path %>">Шаблоны</a>
+    <a class="dropdown-item <%= 'active' if current_page?(order_status_changes_path) %>" href="<%= order_status_changes_path %>">Изменения статусов заказов</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
   <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-bs-toggle="dropdown">Настройки</a>
   <div class="dropdown-menu">
+    <a class="dropdown-item <%= 'active' if current_page?(edit_user_path( current_user )) %>" href="<%= edit_user_path( current_user ) %>">Аккаунт</a>
+    <a class="dropdown-item <%= 'active' if current_page?(email_setups_path) %>" href="<%= email_setups_path %>">Почта</a>
     <a class="dropdown-item <%= 'active' if current_page?(dashboard_services_path) %>" href="<%= dashboard_services_path %>">Сервисы</a>
     <a class="dropdown-item <%= 'active' if current_page?(invoices_path) %>" href="<%= invoices_path %>">Счета</a>
     <a class="dropdown-item <%= 'active' if current_page?(insints_path) %>" href="<%= insints_path %>">Интеграция insales</a>

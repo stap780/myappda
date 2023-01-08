@@ -1,0 +1,2 @@
+module EmailSetupsHelper
+end

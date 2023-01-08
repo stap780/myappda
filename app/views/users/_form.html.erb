@@ -16,10 +16,10 @@
       <% if @user.avatar.attached?%>
       <div class="col-6 row align-items-center mt-1 image-item">
         <div class="col-9" data-image="<%= @user.avatar.metadata %>">
-        <%= image_tag @user.avatar_thumbnail %>
+          <%= image_tag @user.avatar_thumbnail %>
         </div>
         <div class="col-3">
-        <%= link_to "Delete", delete_image_users_path(@user.id, @user.avatar.id), method: :delete, class: "btn btn-success delete-image", data: {confirm: "Are you sure?"}, remote: true if @user.avatar.attached? %>
+          <%= link_to "Delete", delete_image_users_path(@user.id, @user.avatar.id), method: :delete, class: "btn btn-success delete-image", data: {confirm: "Are you sure?"}, remote: true if @user.avatar.attached? %>
         </div>
       </div>
       <% end %>
@@ -27,8 +27,8 @@
   </div>
 </div>
 
-  <div class="col-3 btn-group mt-5">
-    <%= f.button :submit, class: 'btn btn-success'%>
+  <div class="col-2 btn-group mt-5">
+    <%= f.button :submit, 'Сохранить', class: 'btn btn-success'%>
     <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
   </div>
 <% end %>

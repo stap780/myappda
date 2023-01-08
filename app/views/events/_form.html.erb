@@ -1,0 +1,21 @@
+
+<%= simple_form_for(@event) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="row">
+    <div class="col-6">
+      <%= f.input :custom_status, label: "Статус", collection: Services::InsalesApi.new(current_user.insints.first).statuses, prompt: "Статус", input_html: { class: "form-select" } %>
+      <%= f.input :financial_status, label: "Фин Статус", collection: Event::FIN_STATUS, prompt: "Фин Статус", input_html: { class: "form-select" } %>
+      <%= f.fields_for :event_actions do |ff| %>
+        <%= render "event_actions/form_items", f: ff %>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2 btn-group mt-5">
+      <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
+      <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+    </div>
+  </div>
+<% end %>

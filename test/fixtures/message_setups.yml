@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  handle: MyString
+  description: MyString
+  status: false
+  payplan: one
+  valid_until: 2023-01-03
+
+two:
+  title: MyString
+  handle: MyString
+  description: MyString
+  status: false
+  payplan: two
+  valid_until: 2023-01-03

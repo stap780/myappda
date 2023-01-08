@@ -49,6 +49,10 @@ gem 'active_storage_validations'
 
 gem 'jquery-rails'
 gem 'rubyzip'
+gem 'liquid'
+
+gem 'sidekiq', '~> 5.2', '= 5.2.10'
+gem 'insales_api', git: 'https://github.com/insales/insales_api' 
 
 
 group :development, :test do
@@ -61,6 +65,7 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano3-unicorn'
   gem 'capistrano-rails-console'
+  gem 'capistrano-sidekiq'
 
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'

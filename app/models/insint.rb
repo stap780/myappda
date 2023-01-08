@@ -16,13 +16,10 @@ def self.update_and_email(insint_id)
     resp = RestClient.get( url )
     data = JSON.parse(resp)
     shopemail = data['email']
-      if shopemail.present?
-        insint.user.update_attributes(:email => shopemail)
-      end
+    insint.user.update_attributes(:email => shopemail) if shopemail.present?
   end
 
-  UserMailer.test_welcome_email(insint.user.email).deliver_now
-
+  UserMailer.test_welcome_email(insint.user).deliver_now
 end
 
 def self.check_insales_int(insint_id)

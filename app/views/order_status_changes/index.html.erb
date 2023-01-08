@@ -1,0 +1,62 @@
+<div class="row justify-content-center align-items-center mb-2">
+  <div class="col-3 row">
+  <div class="col-md-12 p-0">
+    <div class="h3">Изменения статусов заказов  </div>
+    <div class="h6">Всего - <%= OrderStatusChange.count %></div>
+  </div>
+  </div>
+  <div class="col-9 pl-0 pr-0 row">
+
+  <%= search_form_for @search, {class: 'form-inline col-12 pl-0 pr-0'} do |f| %>
+    <div class="input-group input-group-sm">
+            <%# f.search_field :client_id_eq , placeholder: 'client_id', class: "form-control", style: "max-width: 180px;" %>
+            <%# f.search_field :event_id_eq , placeholder: 'event_id', class: "form-control", style: "max-width: 180px;" %>
+            <%# f.search_field :insales_order_id_eq , placeholder: 'insales_order_id', class: "form-control", style: "max-width: 180px;" %>
+            <%= f.search_field :insales_order_number_eq , placeholder: 'Номер заказа', class: "form-control", style: "max-width: 180px;" %>
+            <%= f.select :insales_custom_status_title_eq, Services::InsalesApi.new(current_user.insints.first).statuses , placeholder: 'Статус заказа', class: "form-select", style: "max-width: 180px;" %>
+            <%= f.select :insales_financial_status_eq, Event::FIN_STATUS , placeholder: 'Статус оплаты', class: "form-select", style: "max-width: 180px;" %>
+            <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
+        <span class="oi oi-magnifying-glass"></span>
+      <% end %>
+      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, order_status_changes_path, class: 'btn btn-outline-dark ' %>
+      <%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_order_status_changes_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
+    </div>
+  <% end %>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+  <thead>
+    <tr class="bg-success">
+      <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
+      <th>Created</th>
+      <th>Client</th>
+      <th>Event</th>
+      <th>Insales number</th>
+      <th>custom status</th>
+      <th>financial status</th>
+    </tr>
+  </thead>
+
+  <tbody id="items_table">
+    <% @order_status_changes.each do |order_status_change| %>
+    <tr data-insales-order-id="<%= order_status_change.insales_order_id.to_s%>">
+        <td><%= check_box_tag "order_status_change_ids[]", order_status_change.id %></td>
+        <td><%= order_status_change.created_at.strftime('%F %R') %></td>
+        <td><%= order_status_change.client.fio if order_status_change.client%></td>
+        <td><%= order_status_change.events.first.action_title if order_status_change.events %></td>
+        <td><%= order_status_change.insales_order_number %></td>
+        <td><%= order_status_change.insales_custom_status_title %></td>
+        <td><%= order_status_change.insales_financial_status %></td>
+        <%# link_to '<span class="oi oi-trash"></span>'.html_safe, order_status_change, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+
+<div class="apple_pagination">
+<%= will_paginate @order_status_changes %>
+</div>
