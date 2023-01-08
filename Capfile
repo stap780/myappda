@@ -4,10 +4,6 @@ require "capistrano/setup"
 # Include default deployment tasks
 require "capistrano/deploy"
 
-require 'capistrano/sidekiq'
-install_plugin Capistrano::Sidekiq
-install_plugin Capistrano::Sidekiq::Systemd
-
 # Load the SCM plugin appropriate to your project:
 #
 # require "capistrano/scm/hg"
@@ -36,6 +32,7 @@ require "capistrano/rvm"
 require 'capistrano3/unicorn'
 require "whenever/capistrano"
 require 'capistrano/rails/console'
+require 'capistrano/sidekiq'
 
 # require "capistrano/rbenv"
 # require "capistrano/chruby"
