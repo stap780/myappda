@@ -45,7 +45,7 @@
         <td><%= check_box_tag "order_status_change_ids[]", order_status_change.id %></td>
         <td><%= order_status_change.created_at.strftime('%F %R') %></td>
         <td><%= order_status_change.client.fio if order_status_change.client%></td>
-        <td><%= order_status_change.events.first.action_title if order_status_change.events %></td>
+        <td><%= order_status_change.events.first.action_title if order_status_change.events.present? %></td>
         <td><%= order_status_change.insales_order_number %></td>
         <td><%= order_status_change.insales_custom_status_title %></td>
         <td><%= order_status_change.insales_financial_status %></td>
