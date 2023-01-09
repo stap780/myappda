@@ -16,7 +16,10 @@ Rails.application.routes.draw do
   resources :payplans
 
   root to: 'home#index'
-  get "/index-setup", to: "home#index_setup"
+  get "/documents", to: "home#documents"
+  get "/favorite", to: "home#favorite"
+  get "/restock", to: "home#restock"
+  get "/message", to: "home#message"
   get "/oferta", to: "home#oferta"
   resources :insints do
     collection do

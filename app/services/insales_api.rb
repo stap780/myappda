@@ -19,6 +19,8 @@ class Services::InsalesApi
             rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
             #redirect_to :action => 'new'
             puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+            puts "Failed.  Response code = 401.  Response message = Unauthorized"
         else
             account
         end
@@ -33,6 +35,8 @@ class Services::InsalesApi
             rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
             #redirect_to :action => 'new'
             puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+            puts "Failed.  Response code = 401.  Response message = Unauthorized"
         else
             order
         end        

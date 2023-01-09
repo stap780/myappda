@@ -9,7 +9,10 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
+    # puts "create sign_in"
       @user = User.find_by_email(params[:user][:email])
+      super if !@user.present?
+      # puts  @user.present?.to_s
       if @user.present?
         if  @user.valid_until.nil? || @user.valid_until <= Date.today
           # puts "время работы истекло - ставим плюс 1 день чтобы клиент сформировал себе счет на оплату"

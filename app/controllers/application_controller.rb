@@ -18,8 +18,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource_or_scope)
     puts resource_or_scope.subdomain + " - это из ApplicationController - after_sign_in_path_for"
-    # dashboard_index_url(subdomain: resource_or_scope.subdomain)
-    dashboard_user_url(subdomain: resource_or_scope.subdomain)
+    dashboard_url(subdomain: resource_or_scope.subdomain)
   end # after_sign_in_path_for
 
   def after_sign_out_path_for(resource_or_scope)
@@ -70,21 +69,6 @@ class ApplicationController < ActionController::Base
     app_url = "http://#{subdomain}.#{host}#{request.path}"
     puts app_url
     app_url
-
-    # subdomain = 'app.'
-
-    # мой вариант
-    # if request.subdomain.present?
-    #   host = request.host_with_port.sub!("#{request.subdomain.gsub('www','')}.", '')
-    # else
-    #   subdomain = 'app'
-    #   host = request.host_with_port
-    #   puts host
-    # end # if
-    #
-    #
-    # "http://#{subdomain}.#{host}#{request.path}"    # "http://"+"#{subdomain}"+"#{host}"+"#{request.path}"
-    # конец мой вариант
 
   end # app_url
 

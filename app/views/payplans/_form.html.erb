@@ -4,11 +4,11 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="mt-5 row">
-    <%= f.input :handle , wrapper_html: { class: 'col-2'}%>
-    <%= f.input :title , wrapper_html: { class: 'col-3'}%>
-    <%= f.input :description , wrapper_html: { class: 'col-4'}%>
+    <%= f.input :handle , wrapper_html: { class: 'col-3'}%>
+    <%= f.input :title , wrapper_html: { class: 'col-4'}%>
+    <%= f.input :description , wrapper_html: { class: 'col-5'}%>
     <%= f.input :service_handle, collection: Payplan::Services , input_html: { class: "form-select" } , wrapper_html: { class: 'col-2'}%>
-    <%= f.input :period, collection: Payplan::Period , wrapper_html: { class: 'col-1'}%>
+    <%= f.input :period, collection: Payplan::Period, input_html: { class: "form-select" } , wrapper_html: { class: 'col-2'}%>
     <%= f.input :price, wrapper_html: { class: 'col-2'} %>
   </div>
 

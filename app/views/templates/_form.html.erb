@@ -8,13 +8,13 @@
     <%= f.input :title %>
     <%= f.input :subject %>
     <%= f.input :receiver, label: "Получатель", collection: [['Клиент','client'],['Менеджер','manager']], prompt: false, input_html: { class: "form-select" } %>
-    <%= f.input :content %>
-</div>
+    <%= f.input :content, input_html: {rows: "10"} %>
+  </div>
 </div>
   <div class="row">
-  <div class="col-2 btn-group mt-5">
-    <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
-    <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
-  </div>
+    <div class="col-2 btn-group mt-5">
+      <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
+      <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+    </div>
   </div>
 <% end %>

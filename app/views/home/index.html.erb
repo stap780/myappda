@@ -1,159 +1,37 @@
 <div class="container">
 <%= render partial: "/home/header"%>
 </div>
-<section class="page-section bg-primary text-white mt-0" id="service">
+<section class="page-section bg-primary text-white mt-0" id="about-app">
   <div class="container">
 
     <!-- About Section Heading -->
-    <div class="text-white display-5 mx-auto text-center text-uppercase mb-5">О сервисе</div>
+    <div class="text-white display-5 mx-auto text-center text-uppercase mb-5">О приложении</div>
     <!-- About Section Content -->
     <div class="row">
       <div class="col-lg-4 ml-auto">
-        <p class="lead">"K-comment" это дополнительные сервисы для CMS InSales. Они позволяют расширить стандартный функционал магазина. Например сервис "Избранные товары" - делает в магазине раздел с избранными товарами для Ваших зарегистрированных клиентов.</p>
+        <p class="lead">"K-comment" это дополнительное приложение для CMS InSales. Оно позволяют расширить стандартный функционал магазина. В составе приложения есть разные сервисы. Например: сервис 
+        "Избранные товары", сервис "Собщить о поступлении", сервис "Сообщения"</p>
       </div>
       <div class="col-lg-4 mr-auto">
-        <p class="lead">Это позволит Вашим клиентам получить более качественные сервис от Вашего магазина.</p>
+        <p class="lead">Использование приложения позволяет Вашим клиентам получить более качественные сервис от интернет-магазина.</p>
       </div>
       <div class="col-lg-4 mr-auto">
-        <p class="lead">Вы сможете просматривать какие товары клиенты откладывают и тем самым предлагать клиентам дополнительную мотивацию для их приобретения.</p>
+        <p class="lead">Наше приложение развивается и мы его дополняем разными отчетами, что позволяет вам находить новые мотивация для ваших клиентов для совершения покупок.</p>
       </div>
     </div>
-    <div class="text-center"><a class="btn btn-primary btn-lg" href="http://demo-themes.myinsales.ru/" target="_blank">Демо магазин</a></div>
+    <%# <div class="text-center"><a class="btn btn-primary btn-lg" href="http://demo-themes.myinsales.ru/" target="_blank">Демо магазин</a></div> %>
   </div>
 </section>
 <section class="page-section price mt-0" id="price">
-  <div class="display-5 mx-auto text-center text-uppercase mb-5">стоимость использования сервиса</div>
-  <p class="display-4 text-center text-uppercase text-danger fw-bold mb-5">бесплатно</p>
-  <div class="text-center"><%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary btn-lg' %></div>
-</section>
-
-<section class="page-section mt-0 mb-0" id="service-images">
-  <div class="container">
-
-    <div class="row">
-        <div class="display-5 text-center text-uppercase mb-5">Основные возможности</div>
-      <div class="col-xs-12 col-sm-6 col-md-3">
-        <div class="card ml-0 mr-0">
-          <div class="view overlay">
-            <%= image_tag "/benefit1.jpg", data: { src: "/benefit1.jpg"}, class: "card-img-top" %>
-            <div class="mask rgba-white-slight"></div>
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Больше удобств клиенту</h4>
-            <p class="card-text">"Избранные товары" доступны клиенту как в мобильной , так и в полной версии сайта. Ваш клиент всегда может отправить себе на email отобранные товары.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-3">
-        <div class="card ml-0 mr-0">
-          <div class="view overlay">
-            <%= image_tag "/benefit3.jpg", data: { src: "/benefit3.jpg"}, class: "card-img-top" %>
-            <div class="mask rgba-white-slight"></div>
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Отчеты об отобранных товарах</h4>
-            <p class="card-text">Вы можете просматривать список отобранных товаров по клиентам отдельно или экспортировать весь список в CSV для дальнейшего анализа.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-3">
-        <div class="card ml-0 mr-0">
-          <div class="view overlay">
-            <%= image_tag "/benefit2.jpg", data: { src: "/benefit2.jpg"}, class: "card-img-top" %>
-            <div class="mask rgba-white-slight"></div>
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Полностью изменяемый вид</h4>
-            <p class="card-text">Обладая базовыми знаниями в CSS вы можете полностью изменить дизайн кнопок и страницы "Избранные товары" под Ваш стиль магазина.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-3">
-        <div class="card ml-0 mr-0">
-          <div class="view overlay">
-            <%= image_tag "/benefit4.jpg", data: { src: "/benefit4.jpg"}, class: "card-img-top" %>
-            <div class="mask rgba-white-slight"></div>
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Состав избранного на email</h4>
-            <p class="card-text">Ваши клиенты могут отправлять список товаров на свой контактный email со страницы "Избранные товары".</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-    <!-- About Section Heading -->
-  <!--  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators d-none">
-        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-      </ol>
-      <div class="carousel-inner" role="listbox">
-        <div class="carousel-item active">
-          <%# image_tag "/k-comment1.png", data: { src: "/k-comment1.png" } %>
-        </div>
-        <div class="carousel-item">
-          <%# image_tag "/k-comment2.png", data: { src: "/k-comment2.png" } %>
-        </div>
-      </div>
-      <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-        <span class="icon-prev" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-        <span class="icon-next" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
--->
-</section>
-
-<section class="page-section price pt-0" id="work">
-  <div class="container">
-    <div class="display-5 text-center text-uppercase mb-5">Дополнительные услуги</div>
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Наименование услуги</th>
-                <th>Стоимость</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td scope="row" class="text-start">
-                  <span>Стандартная настройка* тем второго поколения</span>
-                  <small class="d-block mt-1">К темам второго поколения относятся все бесплатные темы поддерживающие common v2.<br /> Например темы: Fler, Cross, Аромат 2.0, Фантазия 2.0 и др</small>
-                </td>
-                <td>2500 руб</td>
-                <td><%= link_to "Заказать", new_registration_path('user'), class: 'btn btn-primary' %></td>
-              </tr>
-              <tr>
-                <td scope="row" class="text-start">
-                  <span>Стандартная настройка* тем четвертого поколения</span>
-                  <small class="d-block mt-1">К темам четвертого поколения относятся все бесплатные темы появившиеся в 2021 году.<br />  Например темы: Fine, Mono, Fourth, Gift, Markom, Loft, Stories, Newtone 2.0</small>
-                </td>
-                <td>4000 руб</td>
-                <td><%= link_to "Заказать", new_registration_path('user'), class: 'btn btn-primary' %></td>
-              </tr>
-              <tr>
-                <td scope="row" class="text-start"><span>Стандартная настройка* платных тем второго и четвертого поколения.</span>
-                  <small class="d-block mt-1"> Например темы: Showroom, Furnistore, Flowerstore, E-comm, Revmag, Dotstore</small></td>
-                <td>6000 руб</td>
-                <td><%= link_to "Заказать", new_registration_path('user'), class: 'btn btn-primary' %></td>
-              </tr>
-              <tr>
-                <td scope="row" class="text-start"><span>Настройка индивидуальных тем второго и четвертого поколения</span></td>
-                <td>10000 руб</td>
-                <td><%= link_to "Заказать", new_registration_path('user'), class: 'btn btn-primary' %></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="mt-4"><small>*Стандартная настройка - это кнопка в карточке товара, кнопка в мини-карточке в категории, кнопка в шапке, создание страницы Избранное, кнопка в личном кабинете клиента магазина (Отправить на почту)</small></div>
+  <div class="display-5 mx-auto text-center text-uppercase mb-5">стоимость использования приложения</div>
+  <p class="display-4 text-center text-uppercase text-danger fw-bold mb-4">бесплатно</p>
+  <p class="text-center mb-5">достаточно зарегистрироваться и настроить интеграцию с магазином или установить наше приложения из магазина приложений InSales</p>
+  <div class="d-flex justify-content-center">
+  <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary btn-lg' %>
+  <a href="https://www.insales.ru/collection/dopolneniya-k-shablonam/product/k-comment?aff=8337582b0" target="_blank" class='text-center btn btn-outline-success btn-lg'>Insales</a>
   </div>
 </section>
+
 <!-- About Section -->
 <section class="page-section bg-primary text-white mb-0" id="o-nas">
   <div class="container">
@@ -167,8 +45,7 @@
         <p class="lead">Мы - это команда единомышленников, которая собралась чтобы создавать решения типовых задач наших клиентов.</p>
       </div>
       <div class="col-6 mr-auto">
-        <p class="lead">Мы работаем со следующими технологиями - Ruby on Rils, HTML, CSS, и JavaScript
-        </p>
+        <p class="lead">Мы работаем со следующими технологиями - Ruby on Rils, HTML, CSS, и JavaScript</p>
       </div>
     </div>
 
