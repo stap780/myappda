@@ -1,7 +1,9 @@
 class Template < ApplicationRecord
   has_many :event_actions
   before_save :normalize_data_white_space
-
+  validates :title, presence: true
+  validates :subject, presence: true
+  
   RECEIVER = [['client','Клиент'],['manager','Менеджер']]
 
             
