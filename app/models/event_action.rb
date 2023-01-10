@@ -4,6 +4,8 @@ class EventAction < ApplicationRecord
   belongs_to :event
   belongs_to :template
 
+  validates :template_id, presence: true
+
   CHANNEL = ['email']
             
   def normalize_data_white_space
