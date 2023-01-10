@@ -64,5 +64,21 @@ class Services::InsalesApi
         webhook_order_update.save
     end
 
+    def client(insales_client_id)
+        begin
+            client = InsalesApi::Client.find(insales_client_id)
+            rescue ActiveResource::ResourceNotFound
+            #redirect_to :action => 'not_found'
+            puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+            #redirect_to :action => 'new'
+            puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+            puts "Failed.  Response code = 401.  Response message = Unauthorized"
+        else
+            client
+        end        
+    end
+
 
 end  

@@ -1,6 +1,5 @@
-<h2>Редактировать</h2>
 
-<%= render 'form', template: @template %>
+<%= render 'form', product: @template, page_title: "Редактировать" %>
 
 <div class="row mt-5 col-4">
 <%= form_with url: preview_templates_path, method: :get, class: "input-group", local: false do |form| %>

@@ -4,12 +4,47 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="row">
+    <div class="col-12 h3"><%= page_title %></div>
     <div class="col-6">
     <%= f.input :title %>
     <%= f.input :subject %>
     <%= f.input :receiver, label: "Получатель", collection: [['Клиент','client'],['Менеджер','manager']], prompt: false, input_html: { class: "form-select" } %>
     <%= f.input :content, input_html: {rows: "10"} %>
   </div>
+    <div class="col-6">
+    <div class="display-7 mb-5">Переменные <a href="https://liquidhub.ru/collection/shpargalka-liquid" target="_blank">liquid</a></div>
+    <ul class="list-group list-group-horizontal">
+      <li class="list-group-item">{{order.number}}</li>
+      <li class="list-group-item">{{order.payment_title}}</li>
+      <li class="list-group-item"> {{order.delivery_title}}</li>
+    </ul>
+    <ul class="list-group list-group-horizontal-sm">
+      <li class="list-group-item">{{ order.comment }}</li>
+      <li class="list-group-item">{{order.creation_date}}</li>
+      <li class="list-group-item">{{order.currency_code}}</li>
+    </ul>
+      <ul class="list-group list-group-horizontal-sm">
+      <li class="list-group-item">{{order.delivery_date}}</li>
+      <li class="list-group-item">{{order.delivery_description}}</li>
+      <li class="list-group-item">{{order.delivery_price}}</li>
+    </ul>
+      <ul class="list-group list-group-horizontal-sm">
+      <li class="list-group-item">{{order.delivery_time}}</li>
+      <li class="list-group-item">{{order.payment_description}}</li>
+      <li class="list-group-item">{{order.total_price}}</li>
+    </ul>
+      <ul class="list-group list-group-horizontal-sm">
+      <li class="list-group-item">{{order.items_price}}</li>
+      <li class="list-group-item">{{order.status}}</li>
+      <li class="list-group-item">{{order.financial_status}}</li>
+    </ul>
+      <ul class="list-group list-group-horizontal-sm">
+      <li class="list-group-item">{{client.name}}</li>
+      <li class="list-group-item">{{client.email}}</li>
+      <li class="list-group-item">{{client.phone}}</li>
+    </ul>
+
+    </div>
 </div>
   <div class="row">
     <div class="col-2 btn-group mt-5">

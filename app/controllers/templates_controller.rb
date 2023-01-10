@@ -17,6 +17,7 @@ class TemplatesController < ApplicationController
   def preview
     service = Services::InsalesApi.new(current_user.insints.first)
     @order = service.order(params[:insales_order_id])
+    @client = service.client(@order.client.id)
     respond_to do |format|
       format.js
     end

@@ -32,13 +32,16 @@ private
         
         service = Services::InsalesApi.new(user.insints.first)
         order = service.order(self.insales_order_id)
+        client = service.client(order.client.id)
 
         subject_template = Liquid::Template.parse(action.template.subject)
         content_template = Liquid::Template.parse(action.template.content)
         order_drop = InsalesOrderDrop.new(order)
+        client_drop = InsalesClientDrop.new(client)
 
-        subject = subject_template.render('order' => order_drop)
-        content = content_template.render('order' => order_drop)
+
+        subject = subject_template.render('order' => order_drop, 'client' => client_drop)
+        content = content_template.render('order' => order_drop, 'client' => client_drop)
         
         email_data = {
           user: user, 
