@@ -149,6 +149,23 @@ $('#deleteAll').click(function() {
   })
 });
 // DELETE ALL //
+// CodeMirror.fromTextArea(document.getElementById("template-content"), {
+//   lineWrapping: true,
+//   // theme: "darcula",
+//   // mode: "htmlmived",
+//   //mode: "javascript"
+//   mode: "markdown",
+//   lineNumbers: true,
+// });
 
+
+var templateContent = document.getElementById("template-content");
+// console.log(templateContent);
+var editor = CodeMirror.fromTextArea(templateContent, {
+  mode: "markdown",
+  lineWrapping: true,
+  lineNumbers: true,
+});
+editor.save()
 
 });

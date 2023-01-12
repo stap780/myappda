@@ -52,24 +52,24 @@ class TemplatesController < ApplicationController
 
   # PATCH/PUT /templates/1
   def update
-  respond_to do |format|
-    if @template.update(template_params)
-      format.html { redirect_to templates_url, notice: "Template was successfully updated." }
-      format.json { render :show, status: :ok, location: @template }
-    else
-      format.html { render :edit, status: :unprocessable_entity }
-      format.json { render json: @template.errors, status: :unprocessable_entity }
+    respond_to do |format|
+      if @template.update(template_params)
+        format.html { redirect_to templates_url, notice: "Template was successfully updated." }
+        format.json { render :show, status: :ok, location: @template }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @template.errors, status: :unprocessable_entity }
+      end
     end
-  end
   end
 
   # DELETE /templates/1
   def destroy
   @template.destroy
-  respond_to do |format|
-    format.html { redirect_to templates_url, notice: "Template was successfully destroyed." }
-    format.json { head :no_content }
-  end
+    respond_to do |format|
+      format.html { redirect_to templates_url, notice: "Template was successfully destroyed." }
+      format.json { head :no_content }
+    end
   end
 
 # POST /templates

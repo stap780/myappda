@@ -4,6 +4,10 @@ class InsalesOrderDrop < Liquid::Drop
         @order = insales_order
     end
 
+    def id
+        @order.id
+    end
+
     def number
         @order.number
     end
@@ -24,7 +28,7 @@ class InsalesOrderDrop < Liquid::Drop
         @order.created_at
     end
 
-    def currency_code
+    def currency
         @order.currency_code
     end
 
@@ -62,6 +66,30 @@ class InsalesOrderDrop < Liquid::Drop
 
     def financial_status
         @order.financial_status
+    end
+
+    def paid?
+        @order.paid_at.present?
+    end
+
+    def items
+        @order.order_lines.map{|line| {"title" => line.title, "sku" => line.sku, "total_price" => line.total_price, "quantity" => line.quantity}}
+    end
+
+    def discounts
+        @order.discounts.map{|line| {"amount" => line.amount, "description" => line.description}}
+    end
+
+    def client_name
+        @order.client.name
+    end
+
+    def client_email
+        @order.client.email
+    end
+
+    def client_phone
+        @order.client.phone
     end
 
 end

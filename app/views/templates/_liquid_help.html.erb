@@ -1,0 +1,50 @@
+<span class="">Заказ</span>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{order.number}}</li>
+    <li class="list-group-item">{{order.payment_title}}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item"> {{order.delivery_title}}</li>
+    <li class="list-group-item">{{ order.comment }}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{order.creation_date}}</li>
+    <li class="list-group-item">{{order.currency}}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{order.delivery_date}}</li>
+    <li class="list-group-item">{{order.delivery_description}}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{order.delivery_price}}</li>
+    <li class="list-group-item">{{order.delivery_time}}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{order.payment_description}}</li>
+    <li class="list-group-item">{{order.total_price}}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{order.items_price}}</li>
+    <li class="list-group-item">{{order.status}}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{order.client_name}}</li>
+    <li class="list-group-item">{{order.client_phone}}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{order.client_email}}</li>
+    <li class="list-group-item">{{order.discounts}}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{order.financial_status}}</li>
+    <li class="list-group-item">{{order.paid?}}</li>
+</ul>
+<span class="">Клиент</span>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{client.name}}</li>
+    <li class="list-group-item">{{client.email}}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{client.phone}}</li>
+</ul>
+
