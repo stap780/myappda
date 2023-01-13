@@ -40,7 +40,7 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.save
-        format.html { redirect_to templates_url, notice: "Template was successfully created." }
+        format.html { redirect_to edit_template_path(@template), notice: "Шаблон создан" }
         format.json { render :show, status: :created, location: @template }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -52,9 +52,11 @@ class TemplatesController < ApplicationController
 
   # PATCH/PUT /templates/1
   def update
+    service = Services::InsalesApi.new(current_user.insints.first)
+    @ten_orders = service.ten_orders
     respond_to do |format|
       if @template.update(template_params)
-        format.html { redirect_to templates_url, notice: "Template was successfully updated." }
+        format.html { render :edit, notice: "Шаблон обновлён" }
         format.json { render :show, status: :ok, location: @template }
       else
         format.html { render :edit, status: :unprocessable_entity }

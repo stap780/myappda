@@ -1,25 +1,55 @@
-
-<%= simple_form_for(@template, remote: true) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-  <div class="row">
-    <div class="col-12 h3"><%= page_title %></div>
-    <div class="col-7">
-    <%= f.input :title %>
-    <%= f.input :subject %>
-    <%= f.input :receiver, label: "Получатель", collection: [['Клиент','client'],['Менеджер','manager']], prompt: false, input_html: { class: "form-select" } %>
-    <%= f.input :content, input_html: {id: "template-content", rows: "10"} %>
+<ul class="nav nav-tabs mb-3" id="templateTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="first-tab" data-bs-toggle="tab" data-bs-target="#first-tab-pane" type="button" role="tab" aria-controls="first-tab-pane" aria-selected="true"><%= page_title %></button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="second-tab" data-bs-toggle="tab" data-bs-target="#second-tab-pane" type="button" role="tab" aria-controls="second-tab-pane" aria-selected="false">Переменные liquid</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="third-tab" data-bs-toggle="tab" data-bs-target="#third-tab-pane" type="button" role="tab" aria-controls="third-tab-pane" aria-selected="false">Сниппеты liquid</button>
+  </li>
+</ul>
+<div class="tab-content" id="templateTabContent">
+  <div class="tab-pane fade active show" id="first-tab-pane" role="tabpanel" aria-labelledby="first-tab" tabindex="0">
+   <div class="row">
+   <div class="col-6 row">
+    <%= simple_form_for(@template) do |f| %>
+      <%= f.error_notification %>
+      <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+      
+      <%= f.input :title %>
+      <%= f.input :subject %>
+      <%= f.input :receiver, label: "Получатель", collection: [['Клиент','client'],['Менеджер','manager']], prompt: false, input_html: { class: "form-select" } %>
+      <%= f.input :content, input_html: {id: "template-content", rows: "10"} %>
+      <div class="col-2 btn-group mt-5">
+        <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
+        <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+      </div>
+     
+    <% end %>
+     </div>
+    <div class="col-6">
+      <% if !@template.new_record?%>
+        <%= form_with url: preview_templates_path, method: :get, class: "input-group", local: false do |form| %>
+          <%= form.select :insales_order_id, @ten_orders, include_blank: "Выберите заказ", class: "form-select" %>
+          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
+        <% end %>
+        <div class="mt-3 col-6">
+          <div id="order-preview"></div>
+        </div>
+      <% else %>
+      Сохраните шаблон и появится Предпросмотр
+      <% end %>  
+    </div>
+    </div>
   </div>
+  <div class="tab-pane fade" id="second-tab-pane" role="tabpanel" aria-labelledby="second-tab" tabindex="1">
     <div class="col-5">
-    <div class="mb-3">Переменные <a href="https://liquidhub.ru/collection/shpargalka-liquid" target="_blank">liquid</a></div>
+    <div class="mb-3">Полная информация по <a href="https://liquidhub.ru/collection/shpargalka-liquid" target="_blank">liquid</a></div>
     <%= render 'liquid_help' %>
     </div>
-</div>
-  <div class="row">
-    <div class="col-2 btn-group mt-5">
-      <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
-      <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
-    </div>
   </div>
-<% end %>
+  <div class="tab-pane fade" id="third-tab-pane" role="tabpanel" aria-labelledby="third-tab" tabindex="2">
+  Примеры сниппетов
+  </div>
+</div>
