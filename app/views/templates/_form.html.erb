@@ -23,7 +23,7 @@
       <%= f.input :content, input_html: {id: "template-content", rows: "10"} %>
       <div class="col-2 btn-group mt-5">
         <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
-        <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+        <%= link_to 'Назад', templates_path, class: 'btn btn-outline-primary' %>
       </div>
      
     <% end %>
@@ -34,7 +34,7 @@
           <%= form.select :insales_order_id, @ten_orders, include_blank: "Выберите заказ", class: "form-select" %>
           <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
         <% end %>
-        <div class="mt-3 col-6">
+        <div class="mt-3">
           <div id="order-preview"></div>
         </div>
       <% else %>

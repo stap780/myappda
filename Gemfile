@@ -53,7 +53,7 @@ gem 'liquid'
 
 gem 'sidekiq', '~> 5.2', '= 5.2.10'
 gem 'insales_api', git: 'https://github.com/insales/insales_api' 
-gem 'bootsnap'
+gem 'bootsnap', require: false
 
 
 group :development, :test do
