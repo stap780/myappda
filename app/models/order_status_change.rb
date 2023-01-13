@@ -36,8 +36,8 @@ private
 
         subject_template = Liquid::Template.parse(action.template.subject)
         content_template = Liquid::Template.parse(action.template.content)
-        order_drop = Drop::InsalesOrder.new(order)
-        client_drop = Drop::InsalesClient.new(client)
+        order_drop = Services::Drop::InsalesOrder.new(order)
+        client_drop = Services::Drop::InsalesClient.new(client)
 
 
         subject = subject_template.render('order' => order_drop, 'client' => client_drop)

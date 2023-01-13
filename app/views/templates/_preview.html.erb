@@ -1,8 +1,8 @@
 <% subject_template = Liquid::Template.parse(@template.subject) %>
 <% content_template = Liquid::Template.parse(@template.content) %>
 
-<% order_drop = Drop::InsalesOrder.new(@order) %>
-<% client_drop = Drop::InsalesClient.new(@client) %>
+<% order_drop = Services::Drop::InsalesOrder.new(@order) %>
+<% client_drop = Services::Drop::InsalesClient.new(@client) %>
 
 <div class="row mx-auto">
     <pre>
