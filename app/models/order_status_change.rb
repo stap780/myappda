@@ -36,8 +36,8 @@ private
 
         subject_template = Liquid::Template.parse(action.template.subject)
         content_template = Liquid::Template.parse(action.template.content)
-        order_drop = InsalesOrderDrop.new(order)
-        client_drop = InsalesClientDrop.new(client)
+        order_drop = Drop::InsalesOrder.new(order)
+        client_drop = Drop::InsalesClient.new(client)
 
 
         subject = subject_template.render('order' => order_drop, 'client' => client_drop)
@@ -51,12 +51,8 @@ private
         }
         # puts "email_data => "+email_data.to_s
         
-        if pause == true && pause_time.present?
-          EventMailer.with(email_data).send_action_email.deliver_later(wait: "#{pause_time}".to_i.minutes)
-        end
-        if pause != true
-          EventMailer.with(email_data).send_action_email.deliver_now
-        end
+        wait = pause == true && pause_time.present? ? pause_time : 1
+        EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
       end
     end
   end
