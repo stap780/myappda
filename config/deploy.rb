@@ -46,7 +46,6 @@ set :format, :pretty
 set :log_level, :info
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 set :sidekiq_default_hooks
-# set :sidekiq_config, fetch(:sidekiq_config, []).push('config/sidekiq.yml')
+# set :sidekiq_config, fetch(:sidekiq_config, []).push('config/sidekiq.yml') #not work right now
 after 'deploy:publishing', 'unicorn:restart'
-after 'deploy:publishing', 'sidekiq:restart '
 

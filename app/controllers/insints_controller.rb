@@ -286,7 +286,7 @@ class InsintsController < ApplicationController
           render json: { success: true, message: 'Информация сохранена в order_status_changes'}
         else
           new_client = Client.create(clientid: params["client"]["id"], email: params["client"]["email"], name: params["client"]["name"], phone: params["client"]["phone"])
-          client.order_status_changes.create(client_id: new_client.id,insales_order_id: params["id"], insales_order_number: params["number"], insales_custom_status_title: params["custom_status"]["title"],insales_financial_status: params["financial_status"])
+          new_client.order_status_changes.create(client_id: new_client.id,insales_order_id: params["id"], insales_order_number: params["number"], insales_custom_status_title: params["custom_status"]["title"],insales_financial_status: params["financial_status"])
           render json: { success: true, message: 'Информация сохранена в order_status_changes' }
         end
       else

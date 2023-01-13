@@ -161,11 +161,13 @@ $('#deleteAll').click(function() {
 
 var templateContent = document.getElementById("template-content");
 // console.log(templateContent);
-var editor = CodeMirror.fromTextArea(templateContent, {
-  mode: "markdown",
-  lineWrapping: true,
-  lineNumbers: true,
-});
-editor.save()
+if (templateContent) {
+  var editor = CodeMirror.fromTextArea(templateContent, {
+    mode: "markdown",
+    lineWrapping: true,
+    lineNumbers: true,
+  });
+  editor.save()
+}
 
 });
