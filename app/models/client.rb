@@ -159,11 +159,11 @@ class Client < ApplicationRecord
       end
   end
 
-
   private
 
   def normalize_phone
-    self.phone = Phonelib.valid_for_country?(phone, 'RU') ? Phonelib.parse(phone).full_e164.presence : Phonelib.parse(phone, "KZ").full_e164.presence
+    check_number = Phonelib.valid_for_country?(phone, 'RU') ? Phonelib.parse(phone).full_e164.presence : Phonelib.parse(phone, "KZ").full_e164.presence
+    self.phone = Phonelib.valid?(check_number) ? check_number : check_number.gsub('+8','+7')
   end
 
 end
