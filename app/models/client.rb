@@ -10,7 +10,7 @@ class Client < ApplicationRecord
   # validates :email, presence: true
   # validates :email, uniqueness: true
   validates :phone, phone: { possible: true, allow_blank: true }
-  before_save :normalize_phone
+  before_validation :normalize_phone
 
   def self.otchet(current_subdomain, current_user_id)
     puts "Создаём отчет"
@@ -162,8 +162,12 @@ class Client < ApplicationRecord
   private
 
   def normalize_phone
-    check_number = Phonelib.valid_for_country?(phone, 'RU') ? Phonelib.parse(phone).full_e164.presence : Phonelib.parse(phone, "KZ").full_e164.presence
-    self.phone = Phonelib.valid?(check_number) ? check_number : check_number.gsub('+8','+7')
+    if self.phone.include?('+7')
+      p = self.phone
+    else
+      p = "+7"+self.phone[1..-1] if self.phone[0] == "8"
+    end
+    self.phone = p
   end
 
 end
