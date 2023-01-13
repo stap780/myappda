@@ -25,6 +25,7 @@ module MyApp
     config.action_controller.allow_forgery_protection = false
     # config.active_job.queue_adapter = :delayed_job
     config.active_job.queue_adapter = :sidekiq
-    config.autoload_paths += %W(#{config.root}/app #{config.root}/lib)
+    # config.autoload_paths += %W(#{config.root}/app #{config.root}/lib)
+    config.eager_load_paths += %W(#{config.root}/app #{config.root}/lib)
   end
 end
