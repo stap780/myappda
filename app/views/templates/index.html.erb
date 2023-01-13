@@ -36,7 +36,7 @@
       <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
       <th>Title</th>
       <th>Subject</th>
-      <th>Receiver</th>
+      <th>Получатель</th>
       <th>Content</th>
       <th colspan="2"></th>
     </tr>
@@ -49,7 +49,7 @@
         <td><%= template.title %></td>
         <td><%= template.subject %></td>
         <td><%= template.receiver %></td>
-        <td><%= template.content %></td>
+        <td><%= template.content.truncate(40) if template.content %></td>
         <%# link_to '<span class="oi oi-eye"></span>'.html_safe, template %>
         <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_template_path(template) %></td>
         <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, template, method: :delete, data: { confirm: 'Are you sure?' } %></td>

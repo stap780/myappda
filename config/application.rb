@@ -26,6 +26,8 @@ module MyApp
     # config.active_job.queue_adapter = :delayed_job
     config.active_job.queue_adapter = :sidekiq
     # config.autoload_paths += %W(#{config.root}/app #{config.root}/lib)
-    config.eager_load_paths += %W(#{config.root}/app #{config.root}/lib)
+    # config.eager_load_paths += %W(#{config.root}/app #{config.root}/lib)
+    config.eager_load_paths << Rails.root.join('app')
+    config.eager_load_paths << Rails.root.join('lib')
   end
 end
