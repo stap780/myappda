@@ -1,5 +1,5 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb setup_script emailizb addrestock order]
+  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb checkint emailizb addrestock order]
   before_action :authenticate_admin!, only: %i[adminindex]
   before_action :set_insint, only: %i[show edit update destroy]
 
@@ -285,7 +285,8 @@ class InsintsController < ApplicationController
           client.order_status_changes.create(client_id: client.id,insales_order_id: params["id"], insales_order_number: params["number"], insales_custom_status_title: params["custom_status"]["title"],insales_financial_status: params["financial_status"])
           render json: { success: true, message: 'Информация сохранена в order_status_changes'}
         else
-          new_client = Client.create(clientid: params["client"]["id"], email: params["client"]["email"], name: params["client"]["name"], phone: params["client"]["phone"])
+          new_client = Client.new(clientid: params["client"]["id"], email: params["client"]["email"], name: params["client"]["name"], phone: params["client"]["phone"])
+          new_client.save
           new_client.order_status_changes.create(client_id: new_client.id,insales_order_id: params["id"], insales_order_number: params["number"], insales_custom_status_title: params["custom_status"]["title"],insales_financial_status: params["financial_status"])
           render json: { success: true, message: 'Информация сохранена в order_status_changes' }
         end
