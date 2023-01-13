@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get "/favorite", to: "home#favorite"
   get "/restock", to: "home#restock"
   get "/message", to: "home#message"
+  get "/preoder", to: "home#preoder"
   get "/oferta", to: "home#oferta"
   resources :insints do
     collection do
