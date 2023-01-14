@@ -3,7 +3,7 @@
 
 :queues:
     - default
-    - mailer
+    - mailers
 
 development:
   :concurrency: 5
