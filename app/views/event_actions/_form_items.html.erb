@@ -1,5 +1,5 @@
-<%= f.input :channel, collection: EventAction::CHANNEL, input_html: { class: "form-select" } %>
-<%= f.association :template, input_html: { class: "form-select" }  %>
+<%= f.input :channel, label: 'Канал оповещения', collection: EventAction::CHANNEL, input_html: { class: "form-select" } %>
+<%= f.association :template, label: 'Шаблон', input_html: { class: "form-select" }  %>
 <%= f.input :pause, label: 'Вкл отложенную отправку' %>
 <%= f.input :pause_time, as: :integer, label: 'Отложить отправку (в минутах)' %>
 <%= f.input :timetable, as: :hidden %>

@@ -6,7 +6,7 @@ class EventAction < ApplicationRecord
 
   validates :template_id, presence: true
 
-  CHANNEL = ['email']
+  CHANNEL = [['Email','email']] #['email']
             
   def normalize_data_white_space
     self.attributes.each do |key, value|

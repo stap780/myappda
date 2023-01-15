@@ -17,10 +17,10 @@
       <%= f.error_notification %>
       <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
       
-      <%= f.input :title %>
-      <%= f.input :subject %>
+      <%= f.input :title, label: "Название шаблона" %>
+      <%= f.input :subject, label: "Тема письма" %>
       <%= f.input :receiver, label: "Получатель", collection: [['Клиент','client'],['Менеджер','manager']], prompt: false, input_html: { class: "form-select" } %>
-      <%= f.input :content, input_html: {id: "template-content", rows: "10"} %>
+      <%= f.input :content, label: "Содержание письма", input_html: {id: "template-content", rows: "10"} %>
       <div class="col-2 btn-group mt-5">
         <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
         <%= link_to 'Назад', templates_path, class: 'btn btn-outline-primary' %>

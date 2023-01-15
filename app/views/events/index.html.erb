@@ -15,8 +15,12 @@
   </div>
   <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
     <div class="input-group input-group-sm">
-            <%= f.search_field :custom_status_eq , placeholder: 'custom_status', class: "form-control", style: "max-width: 180px;" %>
-            <%= f.search_field :financial_status_eq , placeholder: 'financial_status', class: "form-control", style: "max-width: 180px;" %>
+            <% if Services::InsalesApi.new(current_user.insints.first).work? %>
+            <%= f.select :custom_status_eq, Services::InsalesApi.new(current_user.insints.first).statuses, {include_blank: false, prompt: 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
+            <% else %>
+            <%= f.search_field :custom_status_eq , placeholder: 'Статус', class: "form-control", style: "max-width: 180px;" %>
+            <% end %>
+            <%= f.select :financial_status_eq, Event::FIN_STATUS, { include_blank: false, prompt: 'Фин Статус'}, class: "form-select", style: "max-width: 180px;" %>
             <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
         <span class="oi oi-magnifying-glass"></span>
       <% end %>
@@ -32,8 +36,8 @@
   <thead>
     <tr class="bg-success">
       <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
-      <th>Custom status</th>
-      <th>Financial status</th>
+      <th>Статус</th>
+      <th>Фин Статус</th>
       <th>Действие</th>
       <th colspan="2"></th>
     </tr>
@@ -44,8 +48,8 @@
     <tr>
         <td><%= check_box_tag "event_ids[]", event.id %></td>
         <td><%= event.custom_status %></td>
-        <td><%= event.financial_status %></td>
-        <td><%= event.action_title %><%if event.event_actions.first.pause%>. Отправка отложена на <%= event.event_actions.first.pause_time%> минут<%end%></td>
+        <td><%= Event::FIN_STATUS.select{|a| a[1] == event.financial_status}.flatten.first %></td>
+        <td><%= event.action_title %><%if event.event_actions.present? && event.event_actions.first.pause%>. Отправка отложена на <%= event.event_actions.first.pause_time%> минут<%end%></td>
         <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_event_path(event) %></td>
         <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

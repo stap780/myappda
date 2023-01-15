@@ -42,6 +42,11 @@ def self.check_insales_int(insint_id)
   @check_status
 end
 
+def work?
+  service = Services::InsalesApi.new(self)
+  service.work? ? true : false
+end
+
 private
 
 def before_save_check_insales_integration

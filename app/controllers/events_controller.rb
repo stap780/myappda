@@ -22,6 +22,7 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    @event.event_actions.build if !@event.event_actions.present?
   end
 
   # POST /events
@@ -42,15 +43,15 @@ class EventsController < ApplicationController
 
   # PATCH/PUT /events/1
   def update
-  respond_to do |format|
-    if @event.update(event_params)
-      format.html { redirect_to events_url, notice: "Event was successfully updated." }
-      format.json { render :show, status: :ok, location: @event }
-    else
-      format.html { render :edit, status: :unprocessable_entity }
-      format.json { render json: @event.errors, status: :unprocessable_entity }
+    respond_to do |format|
+      if @event.update(event_params)
+        format.html { redirect_to events_url, notice: "Event was successfully updated." }
+        format.json { render :show, status: :ok, location: @event }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @event.errors, status: :unprocessable_entity }
+      end
     end
-  end
   end
 
   # DELETE /events/1

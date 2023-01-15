@@ -80,5 +80,27 @@ class Services::InsalesApi
         end        
     end
 
+    def work?
+        check = false
+        begin
+            check_api = InsalesApi::CustomStatus.find(:all).map{ |d| d.title }
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+                check = false
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+                check = false
+            rescue ActiveResource::UnauthorizedAccess
+                puts "ActiveResource::UnauthorizedAccess Failed.  Response code = 401.  Response message = Unauthorized"
+                check = false
+            rescue ActiveResource::ClientError
+                puts "ActiveResource::ClientError Failed. Response code = 423.  Response message = Locked."
+                check = false
+        else
+            check = true if check_api
+        end
+    end
 
 end  
