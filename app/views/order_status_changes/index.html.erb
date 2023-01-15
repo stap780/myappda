@@ -13,11 +13,13 @@
             <%# f.search_field :event_id_eq , placeholder: 'event_id', class: "form-control", style: "max-width: 180px;" %>
             <%# f.search_field :insales_order_id_eq , placeholder: 'insales_order_id', class: "form-control", style: "max-width: 180px;" %>
             <%= f.search_field :insales_order_number_eq , placeholder: 'Номер заказа', class: "form-control", style: "max-width: 180px;" %>
-            <%= f.select :insales_custom_status_title_eq, Services::InsalesApi.new(current_user.insints.first).statuses , placeholder: 'Статус заказа', class: "form-select", style: "max-width: 180px;" %>
-            <%= f.select :insales_financial_status_eq, Event::FIN_STATUS , placeholder: 'Статус оплаты', class: "form-select", style: "max-width: 180px;" %>
-            <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
-        <span class="oi oi-magnifying-glass"></span>
-      <% end %>
+            <% if Services::InsalesApi.new(current_user.insints.first).work? %>
+            <%= f.select :insales_custom_status_title_eq, Services::InsalesApi.new(current_user.insints.first).statuses, {include_blank: false, prompt: 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
+            <% else %>
+            <%= f.search_field :custom_status_eq , placeholder: 'Статус', class: "form-control", style: "max-width: 180px;" %>
+            <% end %>
+            <%= f.select :insales_financial_status_eq, Event::FIN_STATUS, { include_blank: false, prompt: 'Статус оплаты'}, class: "form-select", style: "max-width: 180px;" %>
+            <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
       <%= link_to '<span class="oi oi-reload"></span>'.html_safe, order_status_changes_path, class: 'btn btn-outline-dark ' %>
       <%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_order_status_changes_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
     </div>
@@ -30,12 +32,12 @@
   <thead>
     <tr class="bg-success">
       <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
-      <th>Created</th>
-      <th>Client</th>
-      <th>Event</th>
-      <th>Insales number</th>
-      <th>custom status</th>
-      <th>financial status</th>
+      <th>Создан</th>
+      <th>Клиент</th>
+      <th>Событие</th>
+      <th>Номер заказа</th>
+      <th>Статус</th>
+      <th>Статус оплаты</th>
     </tr>
   </thead>
 
