@@ -80,6 +80,13 @@ class Services::InsalesApi
         end        
     end
 
+    def create_client(data)
+        puts data.to_s
+        client = InsalesApi::Client.new(data)
+        client.save
+        sleep 0.6
+    end
+
     def work?
         check = false
         begin
@@ -101,6 +108,13 @@ class Services::InsalesApi
         else
             check = true if check_api
         end
+    end
+
+    def client_fields
+        # fields = InsalesApi::Field.find(:all,:params => {:limit => 10}).map{|f| f if f.destiny == 2 || f.destiny == 5 || f.destiny == 6}.reject(&:blank?)
+        fields = InsalesApi::Field.find(:all,:params => {:limit => 10}).map{|f| f if f.destiny == 2 || f.destiny == 6}.reject(&:blank?)
+        # puts "fields => "+fields.to_s
+        fields_data = fields.map{|f| {office_title: f.office_title, id: f.id, obligatory: f.obligatory, system_name: f.system_name}}
     end
 
 end  

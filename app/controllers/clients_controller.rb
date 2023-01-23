@@ -89,6 +89,36 @@ class ClientsController < ApplicationController
     end
   end
 
+
+    # это для модалки для загрузки файла
+    def file_import_insales
+      respond_to do |format|
+        format.js
+      end
+    end  
+  
+    def import
+      #оставил для стандартного импорта к нам в систему
+    end
+
+    def import_insales_setup
+      service = Services::Client::Import.new(params[:file])
+      client_import_data = service.collect_data
+      if client_import_data
+        @header = client_import_data[:header]
+        @client_data = client_import_data[:client_data]
+        service = Services::InsalesApi.new(current_user.insints.first)
+        @insales_fields = service.client_fields
+      else
+        flash[:alert] = 'Import file error'
+      end
+    end
+
+    def update_api_insales
+      Rails.env.development? ? Services::Client::Insales.create_client(params) : InsalesClientJob.perform_later(params)
+      redirect_to clients_url, notice: 'Запущен процесс создания контактов. Дождитесь выполнении процесса. Поступит уведомление на почту'
+    end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_client

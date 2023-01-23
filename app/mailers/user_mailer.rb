@@ -33,6 +33,16 @@ class UserMailer < ApplicationMailer
         subject: 'Сервис Избранные товары не работает для ваших клиентов')
     end
 
+    def insales_client_api_import
+      @user_email =@user.email
+      @user_email_from = set_from_email
+      @url  = 'https://k-comment.ru/users/sign_in'
+      mail(
+        to: @user_email,
+        from:  @user_email_from,
+        subject: 'Клиенты импортировались в ваш магазин')
+    end
+
     private
 
     def set_from_email

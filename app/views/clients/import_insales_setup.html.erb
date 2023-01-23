@@ -1,0 +1,58 @@
+<div class="row mt-5 mb-5">
+<div class="col-7">
+<div class="mt-2 mb-2"><b>ВНИМАНИЕ</b> данные добавляются только если сопоставлены все обязательные поля</div>
+<div class="mt-2 mb-2">Импорт делается по api. Информируем что у Insales есть ограничение на кол-во запросов по api - 500 запросов за 5 минут. Поэтому импорт занимает время.</div>
+<div class="mt-2 mb-2">После завершения импорта Вам на почту поступит письмо и можно будет проверить кол-во клиентов в магазине</div>
+
+<%= form_tag update_api_insales_clients_path, method: :put do %>
+<%#f.text_field :client_data, input_html: { value: @client_data } %>
+<table class="table table-striped">
+    <thead>
+        <tr class="text-center">
+        <th colspan=4></th>
+            <th>Системные поля</th>
+            <th>Поля из файла</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @insales_fields.each do |cf|%>
+        <%if cf[:system_name] != "email_confirmation" && cf[:system_name] != "consent_to_personal_data"%>
+        <tr>
+            <td class= "p-0"><%=hidden_field_tag "update_rules[][insales_field_id]", cf[:id] %></td>
+            <td class= "p-0"><%=hidden_field_tag "update_rules[][insales_field_obligatory]",  cf[:obligatory] %></td>
+            <td class= "p-0"><%=hidden_field_tag "update_rules[][insales_field_system_name]",  cf[:system_name]%></td>
+            <td class= "p-0"><%=hidden_field_tag "update_rules[][insales_field_title]",  cf[:office_title] %></td>
+            <td>
+            <%if "#{cf[:obligatory]}" == "true"%>
+            <label>(*обязательно)</label>
+            <%end%>
+                <%=text_field_tag "update_rules[][insales_field_title]",cf[:office_title], { disabled: true, 
+                                                                                            "data-cf-id": cf[:id], 
+                                                                                            "data-cf-obligatory": cf[:obligatory], 
+                                                                                            "data-cf-system_name": cf[:system_name], 
+                                                                                            class: "form-control" } %>
+            </td>
+            <td>
+            <%if "#{cf[:obligatory]}" == "true"%>
+            <label></label>
+            <%end%>
+                <%=select_tag "update_rules[][header]", options_for_select(@header), include_blank: true, label: false, class: "form-select" %>
+            </td>
+        </tr>
+        <%end%>
+        <%end%>
+    </tbody>
+</table>
+<% @client_data.each do |client_data|%>
+    <% client_data.each do |k,v|%>
+        <%=hidden_field_tag "client_lines[][#{k}]", "#{v}" %>
+    <%end%>
+<%end%>
+
+  <div class="btn-group mt-5">
+    <%= submit_tag "Сохранить", class: "btn btn-success" %>
+    <%= link_to 'Назад', :back, class: 'btn btn-outline-primary'  %>
+  </div>
+</div>
+<%end%>
+  </div>

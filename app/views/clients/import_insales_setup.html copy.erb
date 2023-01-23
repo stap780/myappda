@@ -1,0 +1,49 @@
+<div class="row mt-5 mb-5">
+<%= form_tag update_api_insales_clients_path, method: :put do %>
+<div class="col-7">
+<%#f.text_field :client_data, input_html: { value: @client_data } %>
+<table class="table table-striped">
+    <thead>
+        <tr class="text-center">
+        <th colspan=3></th>
+            <th>Системные поля</th>
+            <th>Поля из файла</th>
+        </tr>
+    </thead>
+    <tbody>
+            <% @client_fields.each do |cf|%>
+        <%= fields_for :update_rules do |f| %>
+        <tr>
+            <td class= "p-0"><%=f.hidden_field :client_field_id, { value: "#{cf[:id]}" } %></td>
+            <td class= "p-0"><%=f.hidden_field :client_field_obligatory, { value: "#{cf[:obligatory]}"  } %></td>
+            <td class= "p-0"><%=f.hidden_field :client_field_system_name, { value: "#{cf[:system_name]}"  } %></td>
+            <td>
+            <%if "#{cf[:obligatory]}" == "true"%>
+            <label>(*обязательно)</label>
+            <%end%>
+                <%=f.text_field :client_field_title, {  disabled: true, 
+                                                        value: "#{cf[:office_title]}", 
+                                                        "data-cf-id": "#{cf[:id]}", 
+                                                        "data-cf-obligatory": "#{cf[:obligatory]}", 
+                                                        "data-cf-system_name": "#{cf[:system_name]}", 
+                                                        class: "form-control" } %>
+            </td>
+            <td>
+            <%if "#{cf[:obligatory]}" == "true"%>
+            <label></label>
+            <%end%>
+                <%=f.select :header, @header, {include_blank: true, label: false}, { class: "form-select" } %>
+            </td>
+        </tr>
+        <%end%>
+        <%end%>
+    </tbody>
+</table>
+</div>
+  <div class="btn-group mt-5">
+    <%= submit_tag "Сохранить", class: "btn btn-success" %>
+    <%= link_to 'Назад', :back, class: 'btn btn-outline-primary'  %>
+  </div>
+
+<%end%>
+  </div>

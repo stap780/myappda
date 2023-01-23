@@ -59,6 +59,10 @@ Rails.application.routes.draw do
     resources :clients do
       collection do
         get :otchet
+        get :file_import_insales
+        post :import
+        post :import_insales_setup
+        put :update_api_insales
       end
     end
     resources :invoices do

@@ -1,0 +1,15 @@
+<%= form_tag import_insales_setup_clients_path, multipart: true do %>
+<div class="modal-body">
+<div class="mt-2 mb-2"><b>ВНИМАНИЕ</b> Insales не проверяет на уникальность данные при импорте. Поэтому в разделе Клиенты могут создаваться дубликаты клиентов при повторных импортах одного и того же файла</div>
+<div class="mt-2 mb-2">В данный момент этот импорт предназначен для импорта данных клиентов <b>физических лиц</b></div>
+<div class="mt-2 mb-2">Импорт позволяет загрузить клиенту любые дополнительные данные. Для этого необходимо сделать новые поля в магазине в разделе <b>Настройки-Клиенты-Добавить поля (Физическое лицо)</b> </div>
+<div class="mt-2 mb-2"><b>ВНИМАНИЕ</b> для импорта подходят файлы (Excel 2000/97 .xls) или csv (разделитель "запятая", кодировка "utf-8")</div>
+<div class="mt-4 mb-4">Пример файла <%=link_to "client_test.xls", "/client_test.xls"%> (Excel 2000/97 .xls)</div>
+
+<%= file_field_tag :file , :class =>'import_file'%>
+</div>
+<div class="form-group mt-3">
+	<%= submit_tag "Импорт", class: "btn btn-primary import_file_submit" %>
+	<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отменить</button>
+</div>
+<% end %>

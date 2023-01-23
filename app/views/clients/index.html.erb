@@ -1,9 +1,9 @@
-<div class="row align-items-center">
+<div class="row align-items-center mt-3 mb-3">
   <div class="col-2">
     <h2>Клиенты</h2><small>Всего - <%= Client.count%></small>
   </div>
-  <div class="col-2 align-self-center">
-    <%= link_to '<i class="fa fa-list" aria-hidden="true"></i> Сохранить отчет'.html_safe, otchet_clients_path, title: "Отчет", class: "btn btn-light", role:"button", remote: true%>
+  <div class="col-3 align-self-center">
+    <%= link_to '<i class="fa fa-list" aria-hidden="true"></i> Сохранить отчет Избранное'.html_safe, otchet_clients_path, title: "Отчет", class: "btn btn-light", role:"button", remote: true%>
   </div>
   <%= search_form_for @search, html: {class: 'form-inline col-3 pl-0 pr-0'}  do |f|%>
     <div class="input-group input-group-sm">
@@ -12,6 +12,10 @@
       <%= link_to '<span class="oi oi-reload"></span>'.html_safe, clients_path, class: 'btn btn-outline-dark' %>
     </div>
   <% end %>
+    <div class="col-3 align-self-center">
+    <%= link_to 'Импорт клиентов Insales <span class="oi oi-cloud-upload"></span>'.html_safe, file_import_insales_clients_path, remote: 'true', id: 'file_import', title: 'file import', 'data-bs-toggle' => "modal", 'data-bs-target' => '#modal-edit', class: 'btn btn-outline-info btn-sm' %>
+  </div>
+
 </div>
 
 <div class="table-responsive">
