@@ -4,6 +4,7 @@
 :queues:
     - default
     - mailers
+    - insales_job
 
 development:
   :concurrency: 5

@@ -115,8 +115,12 @@ class ClientsController < ApplicationController
     end
 
     def update_api_insales
-      Rails.env.development? ? Services::Client::Insales.create_client(params) : InsalesClientJob.perform_later(params)
-      redirect_to clients_url, notice: 'Запущен процесс создания контактов. Дождитесь выполнении процесса. Поступит уведомление на почту'
+      if Rails.env.development? 
+	      Services::Client::Insales.create_client(params, current_user)
+	    else
+	     InsalesClientJob.perform_later(params.to_unsafe_hash, current_user)
+	     end
+       redirect_to clients_url, notice: 'Запущен процесс создания контактов. Дождитесь выполнении процесса. Поступит уведомление на почту'
     end
 
   private
@@ -127,6 +131,6 @@ class ClientsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def client_params
-      params.require(:client).permit(:clientid, :izb_productid, :name, :surname, :email, :phone)
+      params.require(:client).permit(:clientid, :izb_productid, :name, :surname, :email, :phone, :update_rules, :client_lines)
     end
 end
