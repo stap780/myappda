@@ -23,8 +23,6 @@ class Services::Client
             # puts @header.to_s
             # puts @client_data.to_s
             puts 'конец импорт файл '+Time.now.to_s
-            @header
-            @client_data
             @import_data = @header.present? && @client_data.present? ? {header: @header, client_data: @client_data}: false
         end
     
@@ -41,12 +39,12 @@ class Services::Client
 
     class Insales
 
-        def self.create_client(create_data)
+        def self.create_client(create_data, insint)
             puts "Services::Client::Insales create_client"
             client_lines = create_data[:client_lines]
             update_rules = create_data[:update_rules]
-            user = User.find_by_subdomain(Apartment::Tenant.current)
-            service = Services::InsalesApi.new(user.insints.first)
+            user = insint.user
+            service = Services::InsalesApi.new(insint)
             client_lines.each do |client_line|
                 client_json_data = {}
                 fields_values_attributes = []
@@ -67,6 +65,7 @@ class Services::Client
                 client_json_data["fields_values_attributes"] = fields_values_attributes
                 service.create_client(client_json_data)
                 UserMailer.with(user: user).insales_client_api_import.deliver_now
+                sleep 0.6 if client_lines.count > 490
             end
         end
 

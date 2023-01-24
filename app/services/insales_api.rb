@@ -81,10 +81,9 @@ class Services::InsalesApi
     end
 
     def create_client(data)
-        puts data.to_s
+        # puts data.to_s
         client = InsalesApi::Client.new(data)
         client.save
-        sleep 0.6
     end
 
     def work?

@@ -1,8 +1,9 @@
 class InsalesClientJob < ApplicationJob
     queue_as :insales_job
   
-    def perform(create_data, user)
+    def perform(create_data, insint)
       # Do something later
-      Services::Client::Insales.create_client(create_data, user)
+      puts "InsalesClientJob < ApplicationJob perform"
+      Services::Client::Insales.create_client(create_data, insint)
     end
   end
