@@ -107,6 +107,7 @@ class Services::InsalesApi
         else
             check = true if check_api
         end
+        check
     end
 
     def client_fields

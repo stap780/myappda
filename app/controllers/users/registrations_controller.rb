@@ -54,7 +54,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   def after_sign_up_path_for(resource)
-    dashboard_index_url(subdomain: resource.subdomain)
+    dashboard_url(subdomain: resource.subdomain)
   end
 
   # The path used after sign up for inactive accounts.
@@ -65,7 +65,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def set_user_valid_date
     if current_user.present?
       current_user.valid_from = current_user.created_at
-      current_user.valid_until = 'Sat, 30 Dec 2023' #current_user.created_at + 30.days
+      current_user.valid_until = 'Sat, 30 Dec 2024' #current_user.created_at + 30.days
       current_user.save
     end
   end
