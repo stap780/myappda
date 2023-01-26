@@ -30,8 +30,14 @@ class User < ApplicationRecord
   end # delete_tenant
 
   def self.send_user_email
-    UserMailer.test_welcome_email.deliver_now
-  end
+    # UserMailer.test_welcome_email.deliver_now
+    current_subdomain = Apartment::Tenant.current
+    user = User.find_by_subdomain(current_subdomain)
+    email_data = {
+      user: user
+    }
+    UserMailer.with(email_data).test_welcome_email.deliver_later(wait: 1)
+end
 
   def self.service_end_email
     puts "работает процесс service_end_email - "+Time.now.to_s
