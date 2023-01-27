@@ -30,8 +30,10 @@ class TemplatesController < ApplicationController
 
   # GET /templates/1/edit
   def edit
-    service = Services::InsalesApi.new(current_user.insints.first)
+    if Insint.current.present_work?
+    service = Services::InsalesApi.new(Insint.current)
     @ten_orders = service.ten_orders
+    end
   end
 
   # POST /templates

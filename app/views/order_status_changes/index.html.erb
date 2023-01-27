@@ -13,10 +13,10 @@
             <%# f.search_field :event_id_eq , placeholder: 'event_id', class: "form-control", style: "max-width: 180px;" %>
             <%# f.search_field :insales_order_id_eq , placeholder: 'insales_order_id', class: "form-control", style: "max-width: 180px;" %>
             <%= f.search_field :insales_order_number_eq , placeholder: 'Номер заказа', class: "form-control", style: "max-width: 180px;" %>
-            <% if current_user.insints.present? && Services::InsalesApi.new(current_user.insints.first).work? %>
-            <%= f.select :insales_custom_status_title_eq, Services::InsalesApi.new(current_user.insints.first).statuses, {include_blank: false, prompt: 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
+            <% if Insint.current.present_work? %>
+            <%= f.select :insales_custom_status_title_eq, Services::InsalesApi.new(Insint.current).statuses, {include_blank: false, prompt: 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
             <% else %>
-            <%= f.search_field :custom_status_eq , placeholder: 'Статус', class: "form-control", style: "max-width: 180px;" %>
+            <%= f.search_field :insales_custom_status_title_eq , placeholder: 'Статус', class: "form-control", style: "max-width: 180px;" %>
             <% end %>
             <%= f.select :insales_financial_status_eq, Event::FIN_STATUS, { include_blank: false, prompt: 'Статус оплаты'}, class: "form-select", style: "max-width: 180px;" %>
             <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>

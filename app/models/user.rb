@@ -31,13 +31,14 @@ class User < ApplicationRecord
 
   def self.send_user_email
     # UserMailer.test_welcome_email.deliver_now
-    current_subdomain = Apartment::Tenant.current
-    user = User.find_by_subdomain(current_subdomain)
+    # current_subdomain = Apartment::Tenant.current
+    # user = User.find_by_subdomain(current_subdomain)
+    user = User.current
     email_data = {
       user: user
     }
     UserMailer.with(email_data).test_welcome_email.deliver_later(wait: 1)
-end
+  end
 
   def self.service_end_email
     puts "работает процесс service_end_email - "+Time.now.to_s
@@ -45,7 +46,7 @@ end
     # puts users.count
     users.each do |user|
       puts "почта пользователя - "+user.email.to_s
-      UserMailer.with(user: user).service_end_email.deliver_now
+      UserMailer.with(user: user).service_end_email.deliver_later(wait: 1)
     end
   end
 
@@ -98,6 +99,14 @@ end
     admin2 = Rails.application.secrets.admin2
     self.subdomain == admin1 || self.subdomain == admin2
   end
+
+	def self.current
+    Thread.current[:user]
+  end
+  def self.current=(user)
+    Thread.current[:user] = user
+  end
+  
 
   private
 

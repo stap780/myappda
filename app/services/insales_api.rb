@@ -104,6 +104,9 @@ class Services::InsalesApi
             rescue ActiveResource::ClientError
                 puts "ActiveResource::ClientError Failed. Response code = 423.  Response message = Locked."
                 check = false
+            rescue SocketError
+                puts "SocketError port 80"
+                check = false
         else
             check = true if check_api
         end

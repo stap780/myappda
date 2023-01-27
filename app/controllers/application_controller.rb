@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   before_action :authenticate_user!
-
+  before_action :set_current_user
   before_action :redirect_to_subdomain  # Every logged in user should be redirected to their own subdomain
   before_action :allow_cross_domain_ajax
   helper_method :current_admin
@@ -86,6 +86,11 @@ class ApplicationController < ActionController::Base
       redirect_to useraccounts_path, alert: "У вас нет прав админа"
     end
   end
+
+  def set_current_user
+    User.current = current_user
+  end
+
 
 
 end # class

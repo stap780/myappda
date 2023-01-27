@@ -5,10 +5,11 @@ class UseraccountsController < ApplicationController
   # GET /useraccounts
   # GET /useraccounts.json
   def index
-    @useraccounts = Useraccount.all
+    redirect_to dashboard_path
+    # @useraccounts = Useraccount.all
 
-    invoice = Invoice.where(:status => "Оплачен").last
-    @pay_period = invoice.updated_at.to_date + invoice.payplan.period.split(' ')[0].to_i.months || '' if invoice.present?
+    # invoice = Invoice.where(:status => "Оплачен").last
+    # @pay_period = invoice.updated_at.to_date + invoice.payplan.period.split(' ')[0].to_i.months || '' if invoice.present?
   end
 
   # GET /useraccounts/1

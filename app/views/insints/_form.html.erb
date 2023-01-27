@@ -3,25 +3,36 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="form-inputs">
-    <% if insint.inskey.present? %>
-    <%= f.input :inskey, label: 'Ключ из настроек' %>
-    <%= f.input :password, label: 'Пароль из настроек', input_html: { value: @insint.password , type: 'text'} %>
-    <%= f.input :subdomen, label: 'Домен из настроек' %>
-    <% else %>
-    <%= f.input :inskey, label: 'Ключ из настроек', disabled: true %>
-    <%= f.input :password, label: 'Пароль из настроек', input_html: { value: @insint.password , type: 'text'}, disabled: true %>
-    <%= f.input :subdomen, label: 'Домен из настроек' , disabled: true %>
+  <div class="row mt-3">
+    <div class="col-12 h4"><%= page_title %></div>
+    <div class="col-6">
+    <% if @insint.new_record? %>
+      <%= f.input :inskey, label: 'Ключ из настроек' %>
+      <%= f.input :password, label: 'Пароль из настроек', input_html: { value: @insint.password , type: 'text'} %>
+      <%= f.input :subdomen, label: 'Домен из настроек' %>
+    <% end %>
+    <% if !@insint.new_record? %>
+    <div class="mb-3"><label>Статус интеграции:</label> <b><%= @insint.status == false ? 'не работает':'работает' %></b></div>
+    <% if @insint.inskey == ENV['INS_APP_SECRET_KEY']%>
+      <%= f.input :inskey, label: 'Ключ из приложения', disabled: true %>
+      <%= f.input :password, label: 'Пароль из приложения', input_html: { value: @insint.password , type: 'text'}, disabled: true %>
+      <%= f.input :subdomen, label: 'Домен из приложения' , disabled: true %>
+      <% else %>
+      <%= f.input :inskey, label: 'Ключ из настроек'%>
+      <%= f.input :password, label: 'Пароль из настроек', input_html: { value: @insint.password , type: 'text'} %>
+      <%= f.input :subdomen, label: 'Домен из настроек' %>
+      <% end %>
     <% end %>
     <%= f.input :insales_account_id, :as => :hidden %>
     <% if current_admin %>
-    <%= f.association :user, label: 'Имя пользователя'  %>
+      <%= f.association :user, label: 'Имя пользователя'  %>
     <% else %>
-    <%= f.input :user_id, :as => :hidden, :input_html => { :value => current_user.id } %>
+      <%= f.input :user_id, :as => :hidden, :input_html => { :value => current_user.id } %>
     <% end %>
   </div>
-
-  <div class="btn-group mt-5">
+</div>
+  <div class="row">
+  <div class="col-2 btn-group mt-5">
     <%= f.button :submit, 'Сохранить', class: 'btn btn-success'  %>
     <% if current_admin %>
     <%= link_to 'Назад', adminindex_insints_path, class: 'btn btn-outline-primary'  %>
@@ -29,4 +40,5 @@
     <%= link_to 'Назад', dashboard_path, class: 'btn btn-outline-primary'  %>
     <% end %>
   </div>
+    </div>
 <% end %>

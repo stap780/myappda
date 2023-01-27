@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get "/oferta", to: "home#oferta"
   resources :insints do
     collection do
+      get '/:id/check', action: 'check', as: 'check'
       get :install
       get :uninstall
       get :login
@@ -34,7 +35,6 @@ Rails.application.routes.draw do
       get :adminindex
       get :setup_script
       get :delete_script
-      get :checkint
       get :emailizb
       get :addrestock
       post :order

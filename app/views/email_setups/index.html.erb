@@ -1,7 +1,7 @@
 <div class="row align-items-center mt-3 mb-3">
   <div class="col-3 h3">Настройка почты</div>
   <div class="col-8">
-    <%= link_to 'Создать', new_email_setup_path, class: 'btn btn-secondary btn-sm' %>
+    <%= link_to 'Создать', new_email_setup_path, class: 'btn btn-secondary btn-sm' if EmailSetup.count == 0 %>
   </div>
 </div>
 

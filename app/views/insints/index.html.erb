@@ -1,17 +1,17 @@
-<div class="row align-items-center">
-  <div class="col-4"><h2>Интеграции insales</h2></div>
+<div class="row align-items-center mt-3 mb-3">
+  <div class="col-4"><h2>Интеграция insales</h2></div>
   <div class="col-2"><%= link_to 'Добавить', new_insint_path, class: 'btn btn-outline-dark' if current_user.insints.count == 0 %></div>
 </div>
 
 <div class="table-responsive">
-<table class="table table-hover table-condensed table-sm">
-  <thead class="thead-light">
-    <tr>
+  <table class="table table-hover table-condensed">
+  <thead>
+    <tr class="bg-success">
       <th>ДоменИнтегр</th>
       <th>Ключ</th>
       <th>Пароль</th>
-      <th>Проверить интегр</th>
-      <th colspan="2"></th>
+      <th></th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -21,10 +21,9 @@
         <td><%= insint.subdomen %></td>
         <td><%= insint.inskey %></td>
         <td><%= insint.password %></td>
-        <td><% if insint.inskey.present? %>
-          <%= link_to "Проверить", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get, class: "btn btn-outline-info btn-sm" %>
-          <% else %> автоматом<% end %>
-        </td>
+        <td><%= link_to "Проверить", check_insints_path(insint), :remote => true, :method => :get, class: "btn btn-outline-info btn-sm" %></td>
+        <td><% status_icon = insint.status == false ? '<span class="oi oi-circle-x"></span>': '<span class="oi oi-circle-check"></span>' %>
+        <%= status_icon.html_safe%></td>
         <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_insint_path(insint) %></td>
         <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
       </tr>

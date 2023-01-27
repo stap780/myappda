@@ -3,12 +3,12 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="row">
+  <div class="row mt-3">
     <div class="col-12 h4"><%= page_title %></div>
     <div class="col-12 h6">Cервис: <%= MessageSetup::TITLE %></div>
     <div class="col-12 h6">Описание: <%= MessageSetup::DESCRIPTION %></div>
     <div class="col-9">
-    <% if current_user.insints.present? && current_user.insints.first.status == true %>
+    <% if Insint.current.present_work? %>
       <%= f.input :status, label: "Статус (вкл/выкл)", wrapper: :horizontal_collection, wrapper_html: {class: 'mt-4'}  %>
       <%= f.input :title, as: :hidden, input_html: { value: MessageSetup::TITLE } %>
       <%= f.input :handle, as: :hidden, input_html: { value: MessageSetup::HANDLE }  %>

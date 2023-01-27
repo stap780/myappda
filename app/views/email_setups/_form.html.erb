@@ -4,6 +4,7 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="row">
+    <div class="col-12 h4"><%= page_title %></div>
     <div class="col-6">
     <%= f.input :address %>
     <%= f.input :port %>
@@ -15,9 +16,9 @@
   </div>
 </div>
   <div class="row">
-  <div class="col-2 btn-group mt-5">
-    <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
-    <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
-  </div>
+    <div class="col-2 btn-group mt-5">
+      <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
+      <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+    </div>
   </div>
 <% end %>

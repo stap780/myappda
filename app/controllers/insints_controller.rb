@@ -1,7 +1,7 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb checkint emailizb addrestock order]
+  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb emailizb addrestock order]
   before_action :authenticate_admin!, only: %i[adminindex]
-  before_action :set_insint, only: %i[show edit update destroy]
+  before_action :set_insint, only: %i[show edit update check destroy]
 
   # GET /insints
   # GET /insints.json
@@ -37,10 +37,12 @@ class InsintsController < ApplicationController
   # POST /insints
   def create
     @insint = Insint.new(insint_params)
-
     respond_to do |format|
       if @insint.save
-        format.html { redirect_to dashboard_url, notice: 'Интеграция insales создана' }
+        service = Services::InsalesApi.new(@insint)
+        service.work? ? @insint.update!(status: true) : @insint.update!(status: false)
+        notice = service.work? == true ? 'Интеграция insales создана. Интеграция работает!' : 'Интеграция insales создана. Не работает!'
+        format.html { redirect_to dashboard_url, notice: notice }
         format.json { render :show, status: :created, location: @insint }
       else
         format.html { render :new }
@@ -53,13 +55,16 @@ class InsintsController < ApplicationController
   def update
     respond_to do |format|
       if @insint.update(insint_params)
-        redirect_path = current_admin ? adminindex_insints_url : dashboard_url
-        format.html { redirect_to redirect_path, notice: 'Интеграция обновлена' }
-        format.json { render :show, status: :ok, location: @insint }
-      else
-        format.html { render :edit }
-        format.json { render json: @insint.errors, status: :unprocessable_entity }
-      end
+          service = Services::InsalesApi.new(@insint)
+          service.work? ? @insint.update!(status: true) : @insint.update!(status: false)
+          notice = service.work? == true ? 'Интеграция insales обновлена. Интеграция работает!' : 'Интеграция insales обновлена. Не работает!'
+          redirect_path = current_admin ? adminindex_insints_url : insints_url
+          format.html { redirect_to redirect_path, notice: notice }
+          format.json { render :show, status: :ok, location: @insint }
+        else
+          format.html { render :edit, notice: 'Проверьте данные, интеграция не работает'  }
+          format.json { render json: @insint.errors, status: :unprocessable_entity }
+        end
     end
   end
 
@@ -82,7 +87,7 @@ class InsintsController < ApplicationController
       email = save_subdomain + '@mail.ru'
       # puts save_subdomain
       user = User.create(name: params[:insales_id], subdomain: save_subdomain, password: save_subdomain,
-                         password_confirmation: save_subdomain, email: email, valid_from: Date.today, valid_until: 'Sat, 30 Dec 2023')
+                         password_confirmation: save_subdomain, email: email, valid_from: Date.today, valid_until: 'Sat, 30 Dec 2024')
       # user.valid_from = user.created_at
       # user.valid_until = user.created_at + 30.days
       # user.save
@@ -236,15 +241,15 @@ class InsintsController < ApplicationController
   #   end
   # end
 
-  def checkint
-    check_insales_int = Insint.check_insales_int(params[:insint_id])
-    notice = check_insales_int == true ? 'Интеграция работает!' : 'Не работает интеграция!'
+  def check
+    @insint = Insint.find(params[:id])
+    service = Services::InsalesApi.new(@insint)
+    notice = service.work? == true ? 'Интеграция работает!' : 'Не работает интеграция!'
     respond_to do |format|
       format.js do
         flash.now[:notice] = notice
       end
     end
-
   end
 
   def addrestock

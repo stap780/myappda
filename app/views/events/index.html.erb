@@ -1,33 +1,33 @@
 <div class="row align-items-center mt-3 mb-3">
   <div class="col-2">
-  <div class="col-md-12 p-0">
-    <div class="h3">События</div>
-  </div>
+    <div class="col-md-12 p-0">
+      <div class="h3">События</div>
+    </div>
   </div>
   <div class="col-10 pl-0 pr-0 row">
-  <div class="col-2">
-    <div class="btn-group" role="group">
-      <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown">Действия</button>
-      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-        <%= link_to 'Создать', new_event_path, class: 'dropdown-item' %>
+    <div class="col-2">
+      <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown">Действия</button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+          <%= link_to 'Создать', new_event_path, class: 'dropdown-item' %>
+        </div>
       </div>
     </div>
-  </div>
-  <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
-    <div class="input-group input-group-sm">
-            <% if current_user.insints.present? && Services::InsalesApi.new(current_user.insints.first).work? %>
-            <%= f.select :custom_status_eq, Services::InsalesApi.new(current_user.insints.first).statuses, {include_blank: false, prompt: 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
-            <% else %>
-            <%= f.search_field :custom_status_eq , placeholder: 'Статус', class: "form-control", style: "max-width: 180px;" %>
-            <% end %>
-            <%= f.select :financial_status_eq, Event::FIN_STATUS, { include_blank: false, prompt: 'Статус оплаты'}, class: "form-select", style: "max-width: 180px;" %>
-            <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
-        <span class="oi oi-magnifying-glass"></span>
-      <% end %>
-      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, events_path, class: 'btn btn-outline-dark ' %>
-      <%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_events_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
-    </div>
-  <% end %>
+    <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
+      <div class="input-group input-group-sm">
+              <% if Insint.current.present_work? %>
+              <%= f.select :custom_status_eq, Services::InsalesApi.new(Insint.current).statuses, {include_blank: false, prompt: 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
+              <% else %>
+              <%= f.search_field :custom_status_eq , placeholder: 'Статус', class: "form-control", style: "max-width: 180px;" %>
+              <% end %>
+              <%= f.select :financial_status_eq, Event::FIN_STATUS, { include_blank: false, prompt: 'Статус оплаты'}, class: "form-select", style: "max-width: 180px;" %>
+              <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
+          <span class="oi oi-magnifying-glass"></span>
+        <% end %>
+        <%= link_to '<span class="oi oi-reload"></span>'.html_safe, events_path, class: 'btn btn-outline-dark ' %>
+        <%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_events_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
+      </div>
+    <% end %>
   </div>
 </div>
 
