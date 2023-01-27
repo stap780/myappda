@@ -134,94 +134,110 @@ class InsintsController < ApplicationController
   def addizb
     insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
-    Apartment::Tenant.switch(saved_subdomain) do
-      if FavoriteSetup.check_ability
-        client = Client.find_by_clientid(params[:client_id])
-        if client.present?
-          izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
-          client.update_attributes(izb_productid: izb_productid)
-          totalcount = client.izb_productid.split(',').count
-          #добавка после расширения функционала
-          product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
-          client.favorites.create(product_id: product.id)
-          product.get_ins_product_data
-          #конец добавка после расширения функционала
-          render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
+    if saved_subdomain != "mamamila" || saved_subdomain != "insales753667"
+      Apartment::Tenant.switch(saved_subdomain) do
+        if FavoriteSetup.check_ability
+          client = Client.find_by_clientid(params[:client_id])
+          if client.present?
+            izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
+            client.update_attributes(izb_productid: izb_productid)
+            totalcount = client.izb_productid.split(',').count
+            #добавка после расширения функционала
+            product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
+            client.favorites.create(product_id: product.id)
+            product.get_ins_product_data
+            #конец добавка после расширения функционала
+            render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
+          else
+            new_client = Client.create!(clientid: params[:client_id], izb_productid: params[:product_id])
+            totalcount = new_client.izb_productid.split(',').count
+            #добавка после расширения функционала
+            product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
+            new_client.favorites.create(product_id: product.id)
+            new_client.get_ins_client_data
+            product.get_ins_product_data
+            #конец добавка после расширения функционала
+            render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
+          end
         else
-          new_client = Client.create!(clientid: params[:client_id], izb_productid: params[:product_id])
-          totalcount = new_client.izb_productid.split(',').count
-          #добавка после расширения функционала
-          product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
-          new_client.favorites.create(product_id: product.id)
-          new_client.get_ins_client_data
-          product.get_ins_product_data
-          #конец добавка после расширения функционала
-          render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
+          render json: { error: false, message: 'Кол-во клиентов больше допустимого, товары не добавляются' }
         end
-      else
-        render json: { error: false, message: 'Кол-во клиентов больше допустимого, товары не добавляются' }
       end
+    else
+      render json: { error: false, message: 'Сервис Избранное не оплачен. Приносим свои извинения. Ваша история не исчезла.' }
     end
   end
 
   def getizb
     insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
-    Apartment::Tenant.switch(saved_subdomain) do
-        client = Client.find_by_clientid(params[:client_id])
-        if client.present?
-          totalcount = client.izb_productid.split(',').count
-          render json: { success: true, products: client.izb_productid, totalcount: totalcount }
-        else
-          render json: { error: false, message: 'нет такого клиента' }
-        end
+    if saved_subdomain != "mamamila" || saved_subdomain != "insales753667"
+      Apartment::Tenant.switch(saved_subdomain) do
+          client = Client.find_by_clientid(params[:client_id])
+          if client.present?
+            totalcount = client.izb_productid.split(',').count
+            render json: { success: true, products: client.izb_productid, totalcount: totalcount }
+          else
+            render json: { error: false, message: 'нет такого клиента' }
+          end
+      end
+    else
+      render json: { error: false, message: 'Сервис Избранное не оплачен. Приносим свои извинения. Ваша история не исчезла.' }
     end
-  end
+end
 
   def deleteizb
     insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
-    Apartment::Tenant.switch(saved_subdomain) do
-      if FavoriteSetup.check_ability
-        client = Client.find_by_clientid(params[:client_id])
-        if client.present?
-          products = client.izb_productid
-          # puts products
-          if products.include?(params[:product_id])
-            ecxlude_string = []
-            ecxlude_string.push(params[:product_id])
-            products = (client.izb_productid.split(',') - ecxlude_string).uniq.join(',')
+    if saved_subdomain != "mamamila" || saved_subdomain != "insales753667"
+      Apartment::Tenant.switch(saved_subdomain) do
+        if FavoriteSetup.check_ability
+          client = Client.find_by_clientid(params[:client_id])
+          if client.present?
+            products = client.izb_productid
             # puts products
-            client.update_attributes(izb_productid: products)
-            totalcount = client.izb_productid.split(',').count
-            product = Product.find_by_insid(params[:product_id])
-            client.favorites.find_by_product_id(product).destroy #добавка после расширения функционала
-            render json: { success: true, message: 'товар удалён', totalcount: totalcount }
-          else
-            render json: { error: false, message: 'нет такого товара' }
+            if products.include?(params[:product_id])
+              ecxlude_string = []
+              ecxlude_string.push(params[:product_id])
+              products = (client.izb_productid.split(',') - ecxlude_string).uniq.join(',')
+              # puts products
+              client.update_attributes(izb_productid: products)
+              totalcount = client.izb_productid.split(',').count
+              product = Product.find_by_insid(params[:product_id])
+              client.favorites.find_by_product_id(product).destroy #добавка после расширения функционала
+              render json: { success: true, message: 'товар удалён', totalcount: totalcount }
+            else
+              render json: { error: false, message: 'нет такого товара' }
+            end
           end
+        else
+          render :json=> {:success=>true, :message=>"Кол-во клиентов больше допустимого, товары не удаляются"}
         end
-      else
-        render :json=> {:success=>true, :message=>"Кол-во клиентов больше допустимого, товары не удаляются"}
       end
+    else
+      render json: { error: false, message: 'Сервис Избранное не оплачен. Приносим свои извинения. Ваша история не исчезла.' }
     end
   end
 
   def emailizb
     insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
-    Apartment::Tenant.switch(saved_subdomain) do
-      if FavoriteSetup.check_ability
-        client = Client.find_by_clientid(params[:client_id])
-        if client.present?
-          Client.emailizb(saved_subdomain, user_client.id, user.id)
-          render json: { success: true, message: 'Товары отправлены Вам на почту' }
+    if saved_subdomain != "mamamila" || saved_subdomain != "insales753667"
+      Apartment::Tenant.switch(saved_subdomain) do
+        if FavoriteSetup.check_ability
+          client = Client.find_by_clientid(params[:client_id])
+          if client.present?
+            Client.emailizb(saved_subdomain, user_client.id, user.id)
+            render json: { success: true, message: 'Товары отправлены Вам на почту' }
+          else
+            render json: { error: false, message: 'нет такого клиента' }
+          end
         else
-          render json: { error: false, message: 'нет такого клиента' }
+          render :json=> {error: false, message: "Кол-во клиентов больше допустимого, письма не отправляются"}
         end
-      else
-        render :json=> {error: false, message: "Кол-во клиентов больше допустимого, письма не отправляются"}
       end
+    else
+      render json: { error: false, message: 'Сервис Избранное не оплачен. Приносим свои извинения. Ваша история не исчезла.' }
     end
   end
 
