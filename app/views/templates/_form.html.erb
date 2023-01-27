@@ -29,7 +29,7 @@
     <% end %>
      </div>
     <div class="col-6">
-    <% if Insint.current.present_work?%>
+    <% if Insint.present_work?%>
       <% if !@template.new_record? %>
         <%= form_with url: preview_templates_path, method: :get, class: "input-group", local: false do |form| %>
           <%= form.select :insales_order_id, @ten_orders, include_blank: "Выберите заказ", class: "form-select" %>

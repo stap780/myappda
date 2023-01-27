@@ -21,12 +21,13 @@ def self.update_and_email(insint_id)
   UserMailer.test_welcome_email(insint.user).deliver_now
 end
 
-def present_work?
-  User.current.insints.present? && Insint.current.present? && Insint.current.status == true ? true : false
-end
-
 def self.current
   User.current.insints.first
+end
+
+
+def self.present_work?
+  User.current.insints.present? && Insint.current.present? && Insint.current.status == true ? true : false
 end
 
 

@@ -30,7 +30,7 @@ class TemplatesController < ApplicationController
 
   # GET /templates/1/edit
   def edit
-    if Insint.current.present_work?
+    if Insint.present_work?
     service = Services::InsalesApi.new(Insint.current)
     @ten_orders = service.ten_orders
     end
