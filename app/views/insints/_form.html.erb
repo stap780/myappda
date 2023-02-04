@@ -13,7 +13,7 @@
     <% end %>
     <% if !@insint.new_record? %>
     <div class="mb-3"><label>Статус интеграции:</label> <b><%= @insint.status == false ? 'не работает':'работает' %></b></div>
-    <% if @insint.inskey == ENV['INS_APP_SECRET_KEY']%>
+    <% if @insint.inskey == "k-comment" %>
       <%= f.input :inskey, label: 'Ключ из приложения', disabled: true %>
       <%= f.input :password, label: 'Пароль из приложения', input_html: { value: @insint.password , type: 'text'}, disabled: true %>
       <%= f.input :subdomen, label: 'Домен из приложения' , disabled: true %>

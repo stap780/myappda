@@ -2,9 +2,7 @@ class Services::Favorite
 
   def initialize(insint)
     puts "Services::Favorite initialize"
-    # insint = Insint.find(insint_id)
-    @saved_subdomain = insint.inskey.present? ? insint.user.subdomain : "insales"+insint.insales_account_id.to_s
-    @uri = insint.inskey.present? ? "http://#{insint.inskey.to_s}:#{insint.password.to_s}@#{insint.subdomen.to_s}" : "http://k-comment:#{insint.password.to_s}@#{insint.subdomen.to_s}"
+    @uri = "http://#{insint.inskey.to_s}:#{insint.password.to_s}@#{insint.subdomen.to_s}"
     get_theme_id
     get_asset_id
   end
