@@ -94,11 +94,9 @@ class InsintsController < ApplicationController
       # puts user.id
       secret_key = ENV['INS_APP_SECRET_KEY']
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
-      insint_new = Insint.create(subdomen: params[:shop], password: password, insales_account_id: params[:insales_id], user_id: user.id, status: true)
+      insint_new = Insint.create!(subdomen: params[:shop], password: password, insales_account_id: params[:insales_id], user_id: user.id, status: true)
       # Insint.setup_ins_shop(insint_new.id) - убираем это и делаем установку скриптов под каждый сервис
       head :ok
-      ## ниже обновляем почту клиента из инсалес и письмо нам о том что зарегился клиент
-      Insint.update_and_email(insint_new.id)
     end
   end
 
