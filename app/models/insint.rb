@@ -30,7 +30,7 @@ def update_and_email
     self.user.update_attributes(:email => shopemail) if shopemail.present?
   end
 
-  UserMailer.test_welcome_email(self.user).deliver_now
+  UserMailer.with(user: self.user).test_welcome_email.deliver_now
 end
 
 
