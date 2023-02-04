@@ -8,19 +8,6 @@ validates :inskey, presence: true
 after_create :update_and_email 
 
 
-def update_and_email
-  if !insint.inskey.present?
-    url = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/account.json"
-  # ниже обновляем адрес почты пользователя
-    resp = RestClient.get( url )
-    data = JSON.parse(resp)
-    shopemail = data['email']
-    insint.user.update_attributes(:email => shopemail) if shopemail.present?
-  end
-
-  UserMailer.test_welcome_email(insint.user).deliver_now
-end
-
 def self.current
   User.current.insints.first
 end

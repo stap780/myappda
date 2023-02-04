@@ -34,10 +34,7 @@
         <td><%= insint.inskey %></td>
         <td><%= insint.password %></td>
         <td><% if insint.status == true %>добавлены<% else %> не добавлены<% end %></td>
-        <td><% if insint.inskey.present? %>
-          <%= link_to "Проверить", checkint_insints_path(:insint_id => insint.id), :remote => true, :method => :get , class: "btn btn-outline-info btn-sm" %>
-          <% else %> автоматом<% end %>
-        </td>
+        <td><%= link_to "Проверить", check_insints_path(insint), :remote => true, :method => :get , class: "btn btn-outline-info btn-sm" if insint.inskey.present? %></td>
         <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_insint_path(insint) %></td>
         <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
       </tr>

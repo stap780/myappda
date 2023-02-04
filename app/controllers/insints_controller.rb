@@ -88,13 +88,10 @@ class InsintsController < ApplicationController
       # puts save_subdomain
       user = User.create(name: params[:insales_id], subdomain: save_subdomain, password: save_subdomain,
                          password_confirmation: save_subdomain, email: email, valid_from: Date.today, valid_until: 'Sat, 30 Dec 2024')
-      # user.valid_from = user.created_at
-      # user.valid_until = user.created_at + 30.days
-      # user.save
-      # puts user.id
       secret_key = ENV['INS_APP_SECRET_KEY']
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
-      insint_new = Insint.create!(subdomen: params[:shop], password: password, insales_account_id: params[:insales_id], user_id: user.id, status: true)
+      inskey = 'k-comment'
+      insint_new = Insint.create!(subdomen: params[:shop], password: password, insales_account_id: params[:insales_id], user_id: user.id, status: true, inskey: inskey)
       # Insint.setup_ins_shop(insint_new.id) - убираем это и делаем установку скриптов под каждый сервис
       head :ok
     end
