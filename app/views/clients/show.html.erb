@@ -1,66 +1,74 @@
-<p>
-<%= link_to 'Назад', clients_path , class: "btn btn-outline-secondary" %>
-</p>
-<p>
-  <strong>Client id:</strong> <%= @client.clientid %> <strong>ФИО:</strong> <%= @client.name %> <%= @client.surname %> <strong>Email:</strong> <%= @client.email %> <strong>Phone:</strong> <%= @client.phone %>
-</p>
-
-<p>
-  <strong>Товары Избранное:</strong>
-  <p>
-    <%= link_to 'Отправить письмо с избранным'.html_safe, emailizb_client_path(@client.id), title: "Отправить письмо с избранным", class: "btn btn-light", role:"button", remote: true%>
-  </p>
-  <div class="table-responsive">
-  <table class="table table-hover table-condensed table-sm">
-    <thead class="thead-light">
-    <tr>
-      <th>Id товара</th>
-      <th>Название</th>
-      <th>Картинка</th>
-      <th>Цена</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @favorite_products.each do |pr| %>
-      <tr>
-        <td><%=pr.insid%></td>
-        <td><%= link_to "#{pr.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
-        <td><%# render '/products/one_image', :image_link => Product.get_image(pr.insid), image_style: "" %></td>
-        <td><%=pr.price%></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+<div class="row align-items-center g-2">
+  <div class="col-3 btn-group mt-5">
+    <%= link_to 'Назад', clients_path, class: 'btn btn-outline-primary' %>
+    <%= link_to 'Обновить информацию', update_from_insales_path(@client), method: :put, class: 'btn btn-outline-primary' %>
   </div>
-</p>
+</div>
+<div class="row justify-content-center align-items-center g-2 mt-3">
 <p>
-  <strong>Товары Restock:</strong>
-  <div class="table-responsive">
-  <table class="table table-hover table-condensed table-sm">
-    <thead class="thead-light">
-    <tr>
-      <th>Id товара</th>
-      <th>Id варианта</th>
-      <th>Название</th>
-      <th>Sku</th>
-      <th>Остаток</th>
-      <th>Цена</th>
-      <th>Статус</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @restock_products.each do |var| %>
-      <tr>
-        <td><%= var.product.insid %></td>
-        <td><%= var.insid %></td>
-        <td><%= link_to "#{var.product.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+var.product.insid.to_s+"?variant_id="+var.insid.to_s, target: "_blank" %></td>
-        <td><%= var.sku %></td>
-        <td><%= var.quantity %></td>
-        <td><%= var.price %></td>
-        <td><%= var.restocks.first.status %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-  </div>
+  <strong>Client id:</strong> <%= @client.clientid %> <strong>ФИО:</strong> <%= @client.fio %> <strong>Email:</strong> <%= @client.email %> <strong>Phone:</strong> <%= @client.phone %>
 </p>
+<% if @favorite_products.present? %>
+  <div class="row align-items-center mt-3 mb-3">
+    <strong>Товары Избранное:</strong>
+    <p>
+      <%= link_to 'Отправить письмо с избранным'.html_safe, emailizb_client_path(@client.id), title: "Отправить письмо с избранным", class: "btn btn-light", role:"button", remote: true%>
+    </p>
+    <div class="table-responsive">
+    <table class="table table-hover table-condensed table-sm">
+      <thead class="thead-light">
+      <tr>
+        <th>Id товара</th>
+        <th>Название</th>
+        <th>Картинка</th>
+        <th>Цена</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @favorite_products.each do |pr| %>
+        <tr>
+          <td><%=pr.insid%></td>
+          <td><%= link_to "#{pr.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
+          <td><%# render '/products/one_image', :image_link => Product.get_image(pr.insid), image_style: "" %></td>
+          <td><%=pr.price%></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+<% end %>
+<% if @restock_products.present? %>
+  <div class="row align-items-center mt-3 mb-3">
+    <strong>Товары Restock:</strong>
+    <div class="table-responsive">
+    <table class="table table-hover table-condensed table-sm">
+      <thead class="thead-light">
+      <tr>
+        <th>Id товара</th>
+        <th>Id варианта</th>
+        <th>Название</th>
+        <th>Sku</th>
+        <th>Остаток</th>
+        <th>Цена</th>
+        <th>Статус</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @restock_products.each do |var| %>
+        <tr>
+          <td><%= var.product.insid %></td>
+          <td><%= var.insid %></td>
+          <td><%= link_to "#{var.product.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+var.product.insid.to_s+"?variant_id="+var.insid.to_s, target: "_blank" %></td>
+          <td><%= var.sku %></td>
+          <td><%= var.quantity %></td>
+          <td><%= var.price %></td>
+          <td><%= var.restocks.first.status %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+<% end %>
+</div>

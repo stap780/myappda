@@ -8,14 +8,16 @@
       <%= f.search_field :invoice_id_eq, placeholder: 'Счет', class: "form-control"%>
       <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
       <%= link_to '<span class="oi oi-reload"></span>'.html_safe, payments_path, class: 'btn btn-outline-dark' %>
+      <%= link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_payments_path, class: 'btn btn-secondary', id: 'deleteAll' %>
     </div>
   <% end %>
 </div>
 
 <div class="table-responsive">
 <table class="table table-hover table-condensed table-sm">
-  <thead class="thead-light">
-    <tr>
+  <thead>
+    <tr class="bg-success">
+      <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
       <th>User</th>
       <th>User активен до</th>
       <th>Invoice</th>
@@ -28,17 +30,13 @@
       <th colspan="2"></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="items_table">
     <% @payments.each do |payment| %>
       <tr>
-        <% if payment.user.present? %>
-          <td><%= link_to payment.user.subdomain , payment %></td>
-          <td><%= payment.user.valid_until %></td>
-        <% else %>
-          <td><%= payment.subdomain %></td>
-          <td>Юзера нет</td>
-        <% end %>
-        <td><%= payment.invoice_id %></td>
+        <td><%= check_box_tag "payment_ids[]", payment.id %></td>
+        <td><%= payment.user.subdomain %></td>
+        <td><%= payment.user.present? ? payment.user.valid_until : "Юзера нет" %></td>
+        <td><%= link_to payment.invoice_id , payment %></td>
         <td><%= payment.payplan.title %></td>
         <td><%= payment.payplan.period %></td>
         <td><%= payment.paymenttype %></td>

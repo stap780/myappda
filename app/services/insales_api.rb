@@ -2,7 +2,7 @@ class Services::InsalesApi
 
     def initialize(insint)
       puts "Services::InsalesApi initialize"
-      InsalesApi::App.api_key = insint.inskey.present? ? insint.inskey.to_s : "k-comment"
+      InsalesApi::App.api_key = insint.inskey
       InsalesApi::App.configure_api(insint.subdomen.to_s, insint.password.to_s)
     end
 

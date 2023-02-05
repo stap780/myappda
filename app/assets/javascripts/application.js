@@ -112,22 +112,22 @@ $('#selectAll').click(function() {
     $(':checkbox').each(function() {
       this.checked = true;
     });
-    $('#deleteAll').show();
+    //$('#deleteAll').show();
   } else {
     $(':checkbox').each(function() {
       this.checked = false;
     });
-    $('#deleteAll').hide();
+    //$('#deleteAll').hide();
   }
 });
 // SELECT ALL //
 // DELETE ALL //
 $('#deleteAll').click(function() {
-  // event.preventDefault();
   var array = [];
   $('#items_table :checked').each(function() {
     array.push($(this).val());
   });
+  // console.log(array);
   $.ajax({
     type: "POST",
     url: $(this).attr('href') + '.json',

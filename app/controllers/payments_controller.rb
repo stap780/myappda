@@ -92,6 +92,18 @@ class PaymentsController < ApplicationController
     redirect_to after_sign_in_path_for(@user)
   end
 
+  def delete_selected
+    @payments = Payment.find(params[:ids])
+    @payments.each do |payment|
+      payment.destroy
+    end
+    respond_to do |format|
+      format.html { redirect_to payments_url, notice: "was successfully destroyed." }
+      format.json { render json: { :status => "ok", :message => "destroyed" } }
+    end
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_payment

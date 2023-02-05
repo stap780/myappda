@@ -1,4 +1,4 @@
-<div class="row align-items-center">
+<div class="row align-items-center mt-3 mb-3">
   <div class="col-2"><h2>Интеграции</h2></div>
   <div class="col-2"></div>
   <%= search_form_for @search, url: adminindex_insints_path, html: {class: 'form-inline col-3 pl-0 pr-0'} do |f|%>
@@ -12,10 +12,10 @@
 
 <div class="table-responsive">
 <table class="table table-hover table-condensed table-sm">
-  <thead class="thead-light">
-    <tr>
-      <th>Insales id</th>
-      <th>Имя</th>
+  <thead>
+    <tr class="bg-success">
+      <th>User</th>
+      <th>Ins id</th>
       <th>ДоменИнтегр</th>
       <th>Ключ</th>
       <th>Пароль</th>
@@ -28,8 +28,8 @@
   <tbody>
     <% @insints.each do |insint| %>
       <tr>
+        <td><%= insint.user.name %><br>id: <%= insint.user.id %></td>
         <td><%= insint.insales_account_id %></td>
-        <td><%= insint.user.name %></td>
         <td><%= insint.subdomen %></td>
         <td><%= insint.inskey %></td>
         <td><%= insint.password %></td>

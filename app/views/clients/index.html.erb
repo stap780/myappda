@@ -3,7 +3,9 @@
     <h2>Клиенты</h2><small>Всего - <%= Client.count%></small>
   </div>
   <div class="col-3 align-self-center">
-    <%= link_to '<i class="fa fa-list" aria-hidden="true"></i> Сохранить отчет Избранное'.html_safe, otchet_clients_path, title: "Отчет", class: "btn btn-light", role:"button", remote: true%>
+  <% if FavoriteSetup.all.present?%>
+    <%= link_to '<i class="fa fa-list"></i> Сохранить отчет Избранное'.html_safe, otchet_clients_path, title: "отчет Избранное", class: "btn btn-light", role:"button", remote: true%>
+  <% end %>
   </div>
   <%= search_form_for @search, html: {class: 'form-inline col-3 pl-0 pr-0'}  do |f|%>
     <div class="input-group input-group-sm">
@@ -22,9 +24,8 @@
   <table class="table table-hover table-condensed">
     <thead>
       <tr class="bg-success">
-      <th>ID</th>
+      <th>ID (INS)</th>
       <th>Создан</th>
-      <th>ID INS</th>
       <th>ФИО</th>
       <th>Email</th>
       <th>Phone</th>
@@ -37,10 +38,9 @@
   <tbody>
     <% @clients.each do |client| %>
       <tr>
-        <td><%= link_to client.id, client_path(client) %></td>
+        <td><%= client.id %><br>(<%= client.clientid%>)</td>
         <td><%= client.created_at.in_time_zone.strftime("%d/%m/%Y")%></td>
-        <td><%= client.clientid%></td>
-        <td><%= client.name %><%= client.surname%></td>
+        <td><%= link_to client.fio, client_path(client) %></td>
         <td><%= client.email %></td>
         <td><%= client.phone %></td>
         <td><%= client.favorites.count %><%# client.izb_productid.split(',').size if client.izb_productid %> шт. <%= link_to 'Email', emailizb_client_path(client), remote: true%></td>

@@ -25,10 +25,10 @@ class Product < ApplicationRecord
               data = JSON.parse(response)
               link = data.present? ? data[0]['compact_url'] : ''
             when 404
-              puts "error 404 get_ins_client_data"
+              puts "error 404 get_image"
               link = ''
             when 403
-              puts "error 403 get_ins_client_data"
+              puts "error 403 get_image"
               link = ''
             else
               response.return!(&block)

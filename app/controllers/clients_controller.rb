@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_client, only: [:show, :edit, :update, :emailizb, :destroy]
+  before_action :set_client, only: [:show, :edit, :update, :emailizb, :update_from_insales, :destroy]
 
   # GET /clients
   # GET /clients.json
@@ -19,11 +19,27 @@ class ClientsController < ApplicationController
 
   # GET /clients/new
   def new
-    @client = Client.new
+    #@client = Client.new
+    redirect_to clients_url, notice: 'Клиенты создаются в InSales'
   end
 
   # GET /clients/1/edit
   def edit
+    redirect_to clients_url, notice: 'Клиенты редактируются в InSales'
+  end
+
+  def update_from_insales
+    respond_to do |format|
+      # @client.get_ins_client_data
+      # redirect_to :back, notice: 'Обновили клиента.'
+      if @client.get_ins_client_data
+        format.html { redirect_to @client, notice: 'Обновили клиента.' }
+        format.json { render :show, status: :ok, location: @client }
+      else
+        format.html { render :edit }
+        format.json { render json: @client.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def otchet
@@ -90,34 +106,34 @@ class ClientsController < ApplicationController
   end
 
 
-    # это для модалки для загрузки файла
-    def file_import_insales
-      respond_to do |format|
-        format.js
-      end
-    end  
-  
-    def import
-      #оставил для стандартного импорта к нам в систему
+  # это для модалки для загрузки файла
+  def file_import_insales
+    respond_to do |format|
+      format.js
     end
+  end  
 
-    def import_insales_setup
-      service = Services::Client::Import.new(params[:file])
-      client_import_data = service.collect_data
-      if client_import_data
-        @header = client_import_data[:header]
-        @client_data = client_import_data[:client_data]
-        service = Services::InsalesApi.new(current_user.insints.first)
-        @insales_fields = service.client_fields
-      else
-        flash[:alert] = 'Ошибка в файле импорта'
-      end
-    end
+  def import
+    #оставил для стандартного импорта к нам в систему
+  end
 
-    def update_api_insales
-      Rails.env.development? ? Services::Client::Insales.create_client(params, current_user.insints.first) : InsalesClientJob.perform_later(params.to_unsafe_hash, current_user.insints.first)
-      redirect_to clients_url, notice: 'Запущен процесс создания контактов. Дождитесь выполнении процесса. Поступит уведомление на почту'
+  def import_insales_setup
+    service = Services::Client::Import.new(params[:file])
+    client_import_data = service.collect_data
+    if client_import_data
+      @header = client_import_data[:header]
+      @client_data = client_import_data[:client_data]
+      service = Services::InsalesApi.new(current_user.insints.first)
+      @insales_fields = service.client_fields
+    else
+      flash[:alert] = 'Ошибка в файле импорта'
     end
+  end
+
+  def update_api_insales
+    Rails.env.development? ? Services::Client::Insales.create_client(params, current_user.insints.first) : InsalesClientJob.perform_later(params.to_unsafe_hash, current_user.insints.first)
+    redirect_to clients_url, notice: 'Запущен процесс создания контактов. Дождитесь выполнении процесса. Поступит уведомление на почту'
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

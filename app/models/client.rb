@@ -122,43 +122,22 @@ class Client < ApplicationRecord
   end
 
   def get_ins_client_data
-      puts "get_ins_client_data"
-      # puts self.id.to_s
-      # puts Apartment::Tenant.current
+      puts "start get_ins_client_data"
+      # Apartment::Tenant.switch(saved_subdomain) do
+      # end
       current_subdomain = Apartment::Tenant.current
       user = User.find_by_subdomain(current_subdomain)
-      puts "user.id - "+user.id.to_s
-      insint = user.insints.first
-      if insint.present? && insint.status
-        ins_client_id = self.clientid.to_s
-        insint_inskey = insint.inskey.present? ? insint.inskey : "k-comment"
-        uri = "http://#{insint_inskey}:#{insint.password}@#{insint.subdomen}/admin/clients/#{ins_client_id}.json"
-        puts "uri get_ins_client_data - "+uri.to_s
-        RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
-                case response.code
-                when 200
-                  data = JSON.parse(response)
-                  client_data = {
-                    name: data["name"] || '',
-                    surname: data["surname"] || '',
-                    email: data["email"] || '',
-                    phone: data["phone"] || ''
-                  }
-                  self.update_attributes(client_data)
-                when 404
-                  puts "error 404 get_ins_client_data"
-                when 403
-                  puts "error 403 get_ins_client_data"
-                when 503
-                  puts "error 503 Service Unavailable - sleep 60 - get_ins_client_data"
-                  sleep 60
-                else
-                  response.return!(&block)
-                end
-              }
-      end
+      service = Services::InsalesApi.new(user.insints.first)
+      client = service.client(self.clientid)
+      client_data = {
+        name: client.name,
+        surname: client.surname,
+        email: client.email,
+        phone: client.phone
+      }
+      self.update_attributes(client_data)
+      puts "finish get_ins_client_data"
   end
-
 
 
   private

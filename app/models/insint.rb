@@ -21,15 +21,12 @@ end
 private
 
 def update_and_email
-  if !self.inskey.present?
-    url = "http://k-comment:"+"#{self.password}"+"@"+"#{self.subdomen}"+"/admin/account.json"
-  # ниже обновляем адрес почты пользователя
-    resp = RestClient.get( url )
-    data = JSON.parse(resp)
-    shopemail = data['email']
-    self.user.update_attributes(:email => shopemail) if shopemail.present?
-  end
-
+  url = "#{self.inskey}"+"#{self.password}"+"@"+"#{self.subdomen}"+"/admin/account.json"
+# ниже обновляем адрес почты пользователя
+  resp = RestClient.get( url )
+  data = JSON.parse(resp)
+  shopemail = data['email']
+  self.user.update_attributes(:email => shopemail) if shopemail.present?
   UserMailer.with(user: self.user).test_welcome_email.deliver_now
 end
 

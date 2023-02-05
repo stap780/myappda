@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       post :success
       post :fail
       post :result
+      post :delete_selected
     end
   end
   resources :payplans
@@ -56,6 +57,7 @@ Rails.application.routes.draw do
     resources :restock_setups
     resources :useraccounts
     get '/clients/:id/emailizb', to: 'clients#emailizb', as: 'emailizb_client'
+    put '/clients/:id/update_from_insales', to: 'clients#update_from_insales', as: 'update_from_insales'
     resources :clients do
       collection do
         get :otchet
