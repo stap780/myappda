@@ -36,7 +36,7 @@ class MessageSetup < ApplicationRecord
     
     def self.check_valid_until #проверяем срок и переводим на бесплатный тариф
       ms = MessageSetup.all.first
-      if !ms.nil?
+      if !ms.nil? && ms.payplan_id != Payplan.message_free_id
         valid_until_data = ms.valid_until == nil ? Date.today-5.year : ms.valid_until
         puts "MessageSetup ID: #{ms.id.to_s} => check_valid_until: #{valid_until_data.to_s}"
         ms.update(payplan_id: Payplan.message_free_id, valid_until: nil) if Date.today > valid_until_data

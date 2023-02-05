@@ -51,7 +51,7 @@ end
 
 def self.check_valid_until #проверяем срок и переводим на бесплатный тариф
   fs = FavoriteSetup.all.first
-  if !fs.nil?
+  if !fs.nil? && fs.payplan_id != Payplan.favorite_free_id
     valid_until_data = fs.valid_until == nil ? Date.today-5.year : fs.valid_until
     puts "FavoriteSetup ID: #{fs.id.to_s} => check_valid_until: #{valid_until_data.to_s}"
     Date.today > valid_until_data ? fs.update(payplan_id: Payplan.favorite_free_id, valid_until: nil) : nil
