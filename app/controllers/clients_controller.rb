@@ -29,17 +29,8 @@ class ClientsController < ApplicationController
   end
 
   def update_from_insales
-    respond_to do |format|
-      # @client.get_ins_client_data
-      # redirect_to :back, notice: 'Обновили клиента.'
-      if @client.get_ins_client_data
-        format.html { redirect_to @client, notice: 'Обновили клиента.' }
-        format.json { render :show, status: :ok, location: @client }
-      else
-        format.html { render :edit }
-        format.json { render json: @client.errors, status: :unprocessable_entity }
-      end
-    end
+    @client.get_ins_client_data
+    redirect_to @client, notice: 'Обновили клиента.'
   end
 
   def otchet
