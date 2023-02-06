@@ -5,7 +5,7 @@ namespace :favorite_setup do
 
 
   # проверяем срок valid_until по каждому user и переводим на бесплатный план если valid_until - пусто
-    task check_valid_until: :environment do
+    task check: :environment do
       puts "start check_valid_until - время москва - #{Time.zone.now}"
 
       User.all.order(:id).each do | user |
