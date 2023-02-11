@@ -70,6 +70,12 @@ class User < ApplicationRecord
     end
   end
 
+  def last_client_data
+    Apartment::Tenant.switch(self.subdomain) do
+      Client.last.present? ? Client.last.attributes.except("izb_productid", "updated_at") : ''
+    end
+  end
+
   def favorite_setup_status
     Apartment::Tenant.switch(self.subdomain) do
       FavoriteSetup.first.present? && FavoriteSetup.first.status ? "Вкл" : "Выкл"
