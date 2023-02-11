@@ -14,12 +14,11 @@
 </div>
 
 <div class="table-responsive">
-<table class="table table-hover table-condensed table-sm">
-  <thead>
-    <tr class="bg-success">
+  <table class="table table-sm table-hover align-middle table-bordered border-light">
+    <thead class="align-middle">
+      <tr class="bg-success">
       <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
-      <th>User</th>
-      <th>User активен до</th>
+      <th>Пользователь</th>
       <th>Invoice</th>
       <th>Тариф</th>
       <th>Период</th>
@@ -34,8 +33,7 @@
     <% @payments.each do |payment| %>
       <tr>
         <td><%= check_box_tag "payment_ids[]", payment.id %></td>
-        <td><%= payment.user.subdomain %></td>
-        <td><%= payment.user.present? ? payment.user.valid_until : "Юзера нет" %></td>
+        <td><b>Логин: </b><%= payment.user.subdomain %><br><b>Valid: </b><%= payment.user.present? ? payment.user.valid_until : "" %></td>
         <td><%= link_to payment.invoice_id , payment %></td>
         <td><%= payment.payplan.title %></td>
         <td><%= payment.payplan.period %></td>

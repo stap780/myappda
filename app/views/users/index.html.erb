@@ -8,6 +8,7 @@
   <%= search_form_for @search, {class: 'form-inline col-6 pl-0 pr-0'} do |f| %>
     <div class="input-group input-group-sm">
       <%= f.search_field :name_cont_all , placeholder: 'name', class: "form-control", style: "max-width: 180px;" %>
+      <%= f.search_field :subdomain_cont_all , placeholder: 'subdomain(логин)', class: "form-control", style: "max-width: 180px;" %>
       <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
         <span class="oi oi-magnifying-glass"></span>
       <% end %>
@@ -18,20 +19,26 @@
 
 
 <div class="table-responsive">
-  <table class="table table-hover table-condensed">
-    <thead>
+  <table class="table table-sm table-hover align-middle table-bordered border-light">
+    <thead class="align-middle">
       <tr class="bg-success">
-        <th>ID</th>
-        <th>Данные</th>
-        <th>Домен Интегр</th>
-        <th>Последний вход</th>
-        <th>Действует до</th>
-        <th>Всего клиентов</th>
-        <th>Всего в избр товаров</th>
-        <th colspan="1"></th>
+        <th rowspan="2">ID</th>
+        <th rowspan="2">Пользователь</th>
+        <th rowspan="2">Даты</th>
+        <th colspan="3">Всего</th>
+        <th colspan="3">Сервисы состояние</th>
+        <th colspan="1" rowspan="2"></th>
+      </tr>
+      <tr class="bg-success mt-0">
+        <th>Clients</th>
+        <th>Products</th>
+        <th>Favorites</th>
+        <th>Избранное</th>
+        <th>Restock</th>
+        <th>Messages</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="align-middle">
       <% @users.each do |user| %>
         <tr id="id_<%= user.id %>">
           <%= render user %>

@@ -27,7 +27,7 @@
             </td>
             <td>
               <%= @favorite_setup.payplan.title if @favorite_setup && @favorite_setup.payplan %></br>
-              <% if @favorite_setup %><% if @favorite_setup.status %>Состояние: Вкл<% else %>Состояние: Выкл<% end %><% end %>
+              <%= @favorite_setup.status ? "Состояние: Вкл" : "Состояние: Выкл" if @favorite_setup %>
             </td>
             <td><%= @favorite_setup.present? && @favorite_setup.valid_until.present? ? @favorite_setup.valid_until : "бесплатно" %></td>
             <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @favorite_setup, method: :delete, data: { confirm: 'Are you sure?' } if @favorite_setup %></td>
@@ -46,7 +46,7 @@
             </td>
             <td>
               <%= @restock_setup.payplan.title if @restock_setup && @restock_setup.payplan %></br>
-              <% if @restock_setup %><% if @restock_setup.status %>Состояние: Вкл<% else %>Состояние: Выкл<% end %><% end %>
+              <%= @restock_setup.status ? "Состояние: Вкл" : "Состояние: Выкл" if @restock_setup %>
             </td>
             <td><%= @restock_setup.present? && @restock_setup.valid_until.present? ? @restock_setup.valid_until : "бесплатно" %></td>
             <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @restock_setup, method: :delete, data: { confirm: 'Are you sure?' } if @restock_setup %></td>
@@ -65,7 +65,7 @@
             </td>
             <td>
               <%= @message_setup.payplan.title if @message_setup && @message_setup.payplan %></br>
-              <% if @message_setup %><% if @message_setup.status %>Состояние: Вкл<% else %>Состояние: Выкл<% end %><% end %>
+              <%= @message_setup.status ? "Состояние: Вкл" : "Состояние: Выкл" if @message_setup %>
             </td>
             <td><%= @message_setup.present? && @message_setup.valid_until.present? ? @message_setup.valid_until : "бесплатно" %></td>
             <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @message_setup, method: :delete, data: { confirm: 'Are you sure?' } if @message_setup %></td>

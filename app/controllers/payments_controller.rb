@@ -98,7 +98,7 @@ class PaymentsController < ApplicationController
       payment.destroy
     end
     respond_to do |format|
-      format.html { redirect_to payments_url, notice: "was successfully destroyed." }
+      # format.html { redirect_to payments_url, notice: "was successfully destroyed." }
       format.json { render json: { :status => "ok", :message => "destroyed" } }
     end
   end

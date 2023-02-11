@@ -34,7 +34,7 @@ DESCRIPTION = "Добавление и удаление товаров в/из �
 def self.check_ability #проверяем тариф и определяем как будет обрабатываться запрос
   payplan_ability = false
 
-  client_favorite_count = Client.have_favorites_count #Client.where.not(izb_productid: [nil, '']).count
+  client_favorite_count = Client.uniq_favorites_count #Client.where.not(izb_productid: [nil, '']).count
 
   fs = FavoriteSetup.all.first
   fs_status = fs.status == true ? true : false

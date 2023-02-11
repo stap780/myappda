@@ -1,8 +1,17 @@
 <td><%= link_to user.id, edit_user_path(user) %></td>
-<td><b>Имя</b> <%= user.name %> <b>Логин</b> <%= user.subdomain %><br /><b>Email</b> <%= user.email %> <br /><b>Phone</b> <%= user.phone %><b><br>Создан</b> <%= user.created_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ).to_s%></td>
-<td><%= link_to user.insints.first.subdomen, "http://"+user.insints.first.subdomen.to_s, target: "_blank" if user.insints.present? %></td>
-<td><%= user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) if user.last_sign_in_at != nil%></td>
-<td><%= user.valid_until.present? ? user.valid_until.strftime("%d-%m-%Y") : ''%></td>
-<td><%= user.client_count %></td>
+<td><b>Имя</b> <%= user.name %> <b>Логин</b> <%= user.subdomain %><br>
+    <b>Email</b> <%= user.email %><br>
+    <b>Phone</b> <%= user.phone %><br>
+    <b>Сайт</b> <%= link_to user.insints.first.subdomen, "http://"+user.insints.first.subdomen.to_s, target: "_blank" if user.insints.present? %>
+</td>
+<td><b>Создан</b> <%= user.created_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ).to_s%><br>
+    <b>Последний вход</b> <%= user.last_sign_in_at.present? ? user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : '' %><br>
+    <b>Действует до</b> <%= user.valid_until.present? ? user.valid_until.strftime("%d-%m-%Y") : ''%>
+</td>
+<td><%= user.products_count %></td>
+<td><%= user.clients_count %></td>
 <td><%= user.izb_count %></td>
+<td><%= user.favorite_setup_status %></td>
+<td><%= user.restock_setup_status %></td>
+<td><%= user.message_setup_status %></td>
 <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, user, method: :delete, data: { confirm: 'Are you sure?' }  if current_admin %></td>

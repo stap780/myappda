@@ -58,16 +58,40 @@ class User < ApplicationRecord
     end
   end
 
-  def client_count
+  def products_count
     Apartment::Tenant.switch(self.subdomain) do
-      client_count = Client.count.to_s
+      products_count = Product.count.to_s
     end
   end
 
+  def clients_count
+    Apartment::Tenant.switch(self.subdomain) do
+      clients_count = Client.count.to_s
+    end
+  end
+
+  def favorite_setup_status
+    Apartment::Tenant.switch(self.subdomain) do
+      FavoriteSetup.first.present? && FavoriteSetup.first.status ? "Вкл" : "Выкл"
+    end
+  end
+
+  def restock_setup_status
+    Apartment::Tenant.switch(self.subdomain) do
+      RestockSetup.first.present? && RestockSetup.first.status ? "Вкл" : "Выкл"
+    end
+  end
+  
+  def message_setup_status
+    Apartment::Tenant.switch(self.subdomain) do
+      MessageSetup.first.present? && MessageSetup.first.status ? "Вкл" : "Выкл"
+    end
+  end
+  
   def izb_count
     Apartment::Tenant.switch(self.subdomain) do
       #izb_count = Client.order(:id).map{|cl| cl.izb_productid.split(',').count}.sum.to_s
-      Client.favorite_products_count
+      Client.all_favorites_count
     end
   end
 
