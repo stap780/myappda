@@ -8,7 +8,7 @@
     <b>Последний вход</b> <%= user.last_sign_in_at.present? ? user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : '' %><br>
     <b>Действует до</b> <%= user.valid_until.present? ? user.valid_until.strftime("%d-%m-%Y") : ''%>
 </td>
-<td><%= link_to user.clients_count , '#', "data-bs-toggle": "tooltip", "data-bs-trigger": "click", "data-bs-html": "true",
+<td><%= link_to user.clients_count , '', "data-bs-toggle": "tooltip", "data-bs-trigger": "click", "data-bs-html": "true",
 "data-bs-placement": "top", "data-bs-title": "<span>#{user.last_client_data.to_s}</span>" %> </td>
 <td><%= user.products_count %></td>
 <td><%= user.izb_count %></td>
