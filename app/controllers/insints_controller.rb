@@ -134,8 +134,8 @@ class InsintsController < ApplicationController
         if FavoriteSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
-            izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
-            client.update_attributes(izb_productid: izb_productid)
+            # izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
+            # client.update_attributes(izb_productid: izb_productid)
             # totalcount = client.izb_productid.split(',').count
             #добавка после расширения функционала
             product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
@@ -180,7 +180,8 @@ class InsintsController < ApplicationController
       Apartment::Tenant.switch(saved_subdomain) do
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
-            totalcount = client.izb_productid.split(',').count
+            # totalcount = client.izb_productid.split(',').count
+            totalcount = client.favorites.count.to_s
             render json: { success: true, products: client.izb_productid, totalcount: totalcount }
           else
             render json: { error: false, message: 'нет такого клиента' }
@@ -199,21 +200,26 @@ class InsintsController < ApplicationController
         if FavoriteSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
-            products = client.izb_productid
-            # puts products
-            if products.include?(params[:product_id])
-              ecxlude_string = []
-              ecxlude_string.push(params[:product_id])
-              products = (client.izb_productid.split(',') - ecxlude_string).uniq.join(',')
-              # puts products
-              client.update_attributes(izb_productid: products)
-              totalcount = client.izb_productid.split(',').count
-              product = Product.find_by_insid(params[:product_id])
-              client.favorites.find_by_product_id(product).destroy #добавка после расширения функционала
-              render json: { success: true, message: 'товар удалён', totalcount: totalcount }
-            else
-              render json: { error: false, message: 'нет такого товара' }
-            end
+            client.favorites.find_by_product_id(params[:product_id]).destroy #добавка после расширения функционала
+            totalcount = client.favorites.count.to_s
+            render json: { success: true, message: 'товар удалён', totalcount: totalcount }
+
+            # products = client.izb_productid
+            # # puts products
+            # if products.include?(params[:product_id])
+            #   ecxlude_string = []
+            #   ecxlude_string.push(params[:product_id])
+            #   products = (client.izb_productid.split(',') - ecxlude_string).uniq.join(',')
+            #   # puts products
+            #   client.update_attributes(izb_productid: products)
+            #   # totalcount = client.izb_productid.split(',').count
+            #   totalcount = client.favorites.count.to_s
+            #   product = Product.find_by_insid(params[:product_id])
+            #   client.favorites.find_by_product_id(product).destroy #добавка после расширения функционала
+            #   render json: { success: true, message: 'товар удалён', totalcount: totalcount }
+            # else
+            #   render json: { error: false, message: 'нет такого товара' }
+            # end
           end
         else
           render :json=> {:success=>true, :message=>"Кол-во клиентов больше допустимого, товары не удаляются"}
@@ -245,22 +251,6 @@ class InsintsController < ApplicationController
       render json: { error: false, message: 'Сервис Избранное не оплачен. Приносим свои извинения. Ваша история не исчезла.' }
     end
   end
-
-  # def setup_script # не работает так как теперь при создании пользователя из инсалес скрипты автоматом не создаются, а создаются при включении соответствующего сервиса
-  #   Insint.setup_ins_shop(params[:insint_id])
-  #   respond_to do |format|
-  #     # format.html { :controller => 'useraccount', :action => 'index', notice: 'Скрипты добавлены в магазин' }
-  #     format.html { redirect_to useraccounts_url, notice: 'Скрипты добавлены в магазин' }
-  #   end
-  # end
-  #
-  # def delete_script # не работает так как теперь при создании пользователя из инсалес скрипты автоматом не создаются, а создаются при включении соответствующего сервиса
-  #   Insint.delete_ins_file(params[:insint_id])
-  #   respond_to do |format|
-  #     # format.html { :controller => 'useraccount', :action => 'index', notice: 'Скрипты добавлены в магазин' }
-  #     format.html { redirect_to useraccounts_url, notice: 'Скрипты удалены из магазин' }
-  #   end
-  # end
 
   def check
     @insint = Insint.find(params[:id])
