@@ -139,6 +139,10 @@ class Client < ApplicationRecord
       puts "finish get_ins_client_data"
   end
 
+  def insales_favorite_product_ids
+    Product.where(id: self.favorites.pluck(:product_id).uniq).pluck(:insid).join(',')
+  end
+
 
   private
 

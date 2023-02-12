@@ -181,8 +181,9 @@ class InsintsController < ApplicationController
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
             # totalcount = client.izb_productid.split(',').count
+            products = client.products.pluck(:insid).join(',')
             totalcount = client.favorites.count.to_s
-            render json: { success: true, products: client.izb_productid, totalcount: totalcount }
+            render json: { success: true, products: products, totalcount: totalcount }
           else
             render json: { error: false, message: 'нет такого клиента' }
           end
