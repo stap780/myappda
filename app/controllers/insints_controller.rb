@@ -181,9 +181,10 @@ class InsintsController < ApplicationController
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
             # totalcount = client.izb_productid.split(',').count
-            products = client.products.pluck(:insid).join(',')
+            favorite_product_ids = client.favorites.pluck(:product_id)
+            ins_ids = client.products.where(id: favorite_product_ids).pluck(:insid).join(',')
             totalcount = client.favorites.count.to_s
-            render json: { success: true, products: products, totalcount: totalcount }
+            render json: { success: true, products: ins_ids, totalcount: totalcount }
           else
             render json: { error: false, message: 'нет такого клиента' }
           end
@@ -201,7 +202,8 @@ class InsintsController < ApplicationController
         if FavoriteSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
-            client.favorites.find_by_product_id(params[:product_id]).destroy #добавка после расширения функционала
+            product = product.find_by_insid(params[:product_id])
+            client.favorites.find_by_product_id(product.id).destroy #добавка после расширения функционала
             totalcount = client.favorites.count.to_s
             render json: { success: true, message: 'товар удалён', totalcount: totalcount }
 
