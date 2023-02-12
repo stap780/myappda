@@ -239,7 +239,7 @@ class InsintsController < ApplicationController
         if FavoriteSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
-            Client.emailizb(saved_subdomain, client.id, user.id)
+            Client.emailizb(saved_subdomain, client.id, insint.user.id)
             render json: { success: true, message: 'Товары отправлены Вам на почту' }
           else
             render json: { error: false, message: 'нет такого клиента' }
