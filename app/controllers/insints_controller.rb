@@ -144,12 +144,20 @@ class InsintsController < ApplicationController
             #конец добавка после расширения функционала
             render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
           else
-            new_client = Client.create!(clientid: params[:client_id], izb_productid: params[:product_id])
+            service = Services::InsalesApi.new(insint)
+            search_client = service.client(params[:client_id])
+            new_client_data = {
+              clientid: params[:client_id],
+              name: search_client.name,
+              surname: search_client.surname,
+              email: search_client.email,
+              phone: search_client.phone
+            }
+            new_client = Client.create!(new_client_data)
             totalcount = new_client.izb_productid.split(',').count
             #добавка после расширения функционала
             product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
             new_client.favorites.create(product_id: product.id)
-            new_client.get_ins_client_data
             product.get_ins_product_data
             #конец добавка после расширения функционала
             render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
@@ -179,7 +187,7 @@ class InsintsController < ApplicationController
     else
       render json: { error: false, message: 'Сервис Избранное не оплачен. Приносим свои извинения. Ваша история не исчезла.' }
     end
-end
+  end
 
   def deleteizb
     insint = Insint.find_by_subdomen(params[:host])
