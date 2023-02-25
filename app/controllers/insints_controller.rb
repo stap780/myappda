@@ -81,7 +81,7 @@ class InsintsController < ApplicationController
     # puts params[:insales_id]
     @insint = Insint.find_by_insales_account_id(params[:insales_id])
     if @insint.present?
-      puts 'есть пользователь insint'
+      puts 'есть βυντθηφςβζ insint'
     else
       save_subdomain = 'insales' + params[:insales_id]
       email = save_subdomain + '@mail.ru'
@@ -90,9 +90,7 @@ class InsintsController < ApplicationController
                          password_confirmation: save_subdomain, email: email, valid_from: Date.today, valid_until: 'Sat, 30 Dec 2024')
       secret_key = ENV['INS_APP_SECRET_KEY']
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
-      inskey = 'k-comment'
-      insint_new = Insint.create!(subdomen: params[:shop], password: password, insales_account_id: params[:insales_id], user_id: user.id, status: true, inskey: inskey)
-      # Insint.setup_ins_shop(insint_new.id) - убираем это и делаем установку скриптов под каждый сервис
+      Insint.create(subdomen: params[:shop], password: password, insales_account_id: params[:insales_id], user_id: user.id, status: true, inskey: 'k-comment')
       head :ok
     end
   end
@@ -175,7 +173,7 @@ class InsintsController < ApplicationController
 
   def getizb
     insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
+    saved_subdomain = insint.user.subdomain
     if saved_subdomain != "mamamila" || saved_subdomain != "insales753667"
       Apartment::Tenant.switch(saved_subdomain) do
           client = Client.find_by_clientid(params[:client_id])
@@ -196,13 +194,13 @@ class InsintsController < ApplicationController
 
   def deleteizb
     insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
+    saved_subdomain = insint.user.subdomain
     if saved_subdomain != "mamamila" || saved_subdomain != "insales753667"
       Apartment::Tenant.switch(saved_subdomain) do
         if FavoriteSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
-            product = product.find_by_insid(params[:product_id])
+            product = Product.find_by_insid(params[:product_id])
             client.favorites.find_by_product_id(product.id).destroy #добавка после расширения функционала
             totalcount = client.favorites.count.to_s
             render json: { success: true, message: 'товар удалён', totalcount: totalcount }

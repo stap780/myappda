@@ -1,6 +1,6 @@
 class Client < ApplicationRecord
 
-  has_many :favorites, dependent: :destroy
+  has_many :favorites, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :products, -> { distinct }, through: :favorites
   has_many :restocks, dependent: :destroy
   has_many :variants, -> { distinct }, through: :restocks
@@ -38,7 +38,7 @@ class Client < ApplicationRecord
     end
   end
 
-  def self.emailizb( saved_subdomain, user_client_id, user_id )
+  def self.emailizb( saved_subdomain, user_ client_id, user_id )
     Apartment::Tenant.switch(saved_subdomain) do
       client = Client.find(user_client_id)
       insint = User.find(user_id).insints.first
@@ -92,7 +92,6 @@ class Client < ApplicationRecord
 
   def self.all_favorites_count
     Client.joins(:favorites).count #даёт общее кол-во товаров в избранном
-    # Client.joins(:favorites).distinct.count #даёт только уникальное кол-во товаров в избранном
   end
 
   def self.restock_count
@@ -100,23 +99,6 @@ class Client < ApplicationRecord
     # Client.joins(:restocks).distinct.count
   end
 
-  # def self.client_count(user_id)
-  #   user = User.find(user_id)
-  #   # puts user.id
-  #   saved_subdomain = user.subdomain
-  #   # puts saved_subdomain
-  #   Apartment::Tenant.switch!(saved_subdomain)
-  #   client_count = Client.order(:id).count
-  #   client_count ||= ''
-  # end
-
-  # def self.izb_count(user_id)
-  #   user = User.find(user_id)
-  #   saved_subdomain = user.subdomain
-  #   Apartment::Tenant.switch!(saved_subdomain)
-  #   izb_count = Client.order(:id).map{|cl| cl.izb_productid.split(',').count}.sum
-  #   izb_count ||= ''
-  # end
   def fio
     self.name.to_s+" "+self.surname.to_s
   end

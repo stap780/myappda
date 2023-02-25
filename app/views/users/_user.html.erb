@@ -9,7 +9,7 @@
     <b>Действует до</b> <%= user.valid_until.present? ? user.valid_until.strftime("%d-%m-%Y") : ''%>
 </td>
 <td>
-    <span data-bs-toggle= "tooltip" data-bs-trigger= "click" data-bs-html= "true" 
+    <span type="button" data-bs-toggle= "tooltip" data-bs-trigger= "click" data-bs-html= "true" 
           data-bs-placement= "left" data-bs-title="<span><%=user.last_client_data.to_s%></span>">
       <%= user.clients_count %>
     </span>

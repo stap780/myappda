@@ -14,12 +14,10 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
     redirect_to dashboard_path, alert: 'Access denied.' unless @user == current_user || current_admin
   end
 
   def show
-    @user = User.find(params[:id])
     redirect_to dashboard_path, alert: 'Access denied.' unless @user == current_user || current_admin
   end
 
@@ -38,15 +36,14 @@ class UsersController < ApplicationController
       end
     end
   end
-
+  
 
   def destroy
-    @user = User.find(params[:id])
-    if (User.count > 1) && !@user.admin?
-      @user.destroy! if (User.count > 1) && !current_admin
+    if User.count > 1 && !@user.admin?
+      @user.destroy
 
       respond_to do |format|
-        format.html { redirect_to users_url, notice: 'Пользователь удалён' }
+        format.html { redirect_to :back, notice: 'Пользователь удалён' }
         format.json { head :no_content }
       end
     else

@@ -21,11 +21,8 @@ end
 private
 
 def update_and_email
-  url = "#{self.inskey}"+"#{self.password}"+"@"+"#{self.subdomen}"+"/admin/account.json"
-# ниже обновляем адрес почты пользователя
-  resp = RestClient.get( url )
-  data = JSON.parse(resp)
-  shopemail = data['email']
+  service = Services::InsalesApi.new(self)
+  shopemail = service.account.email
   self.user.update_attributes(:email => shopemail) if shopemail.present?
   UserMailer.with(user: self.user).test_welcome_email.deliver_now
 end
