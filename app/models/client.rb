@@ -38,7 +38,7 @@ class Client < ApplicationRecord
     end
   end
 
-  def self.emailizb( saved_subdomain, user_ client_id, user_id )
+  def self.emailizb( saved_subdomain, user_client_id, user_id )
     Apartment::Tenant.switch(saved_subdomain) do
       client = Client.find(user_client_id)
       insint = User.find(user_id).insints.first
