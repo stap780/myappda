@@ -1,6 +1,6 @@
 class Client < ApplicationRecord
 
-  has_many :favorites, -> { order(id: :desc) }, dependent: :destroy
+  has_many :favorites, dependent: :destroy
   has_many :products, -> { distinct }, through: :favorites
   has_many :restocks, dependent: :destroy
   has_many :variants, -> { distinct }, through: :restocks
