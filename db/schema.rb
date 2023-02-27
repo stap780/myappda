@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_25_164834) do
+ActiveRecord::Schema.define(version: 2023_02_26_133851) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,15 +98,9 @@ ActiveRecord::Schema.define(version: 2023_02_25_164834) do
     t.string "timetable_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "operation"
     t.index ["event_id"], name: "index_event_actions_on_event_id"
     t.index ["template_id"], name: "index_event_actions_on_template_id"
-  end
-
-  create_table "event_order_status_changes", force: :cascade do |t|
-    t.integer "event_id"
-    t.integer "order_status_change_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -171,7 +165,6 @@ ActiveRecord::Schema.define(version: 2023_02_25_164834) do
 
   create_table "order_status_changes", force: :cascade do |t|
     t.integer "client_id"
-    t.integer "event_id"
     t.integer "insales_order_id"
     t.integer "insales_order_number"
     t.string "insales_custom_status_title"

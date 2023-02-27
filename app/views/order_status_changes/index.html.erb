@@ -31,10 +31,9 @@
   <table class="table table-hover table-condensed">
   <thead>
     <tr class="bg-success">
-      <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
+      <!--<th><%# check_box_tag 'selectAll', 'selectAll'%></th>-->
       <th>Создан</th>
       <th>Клиент</th>
-      <th>Событие</th>
       <th>Номер заказа</th>
       <th>Статус</th>
       <th>Статус оплаты</th>
@@ -44,10 +43,9 @@
   <tbody id="items_table">
     <% @order_status_changes.each do |order_status_change| %>
     <tr data-insales-order-id="<%= order_status_change.insales_order_id.to_s%>">
-        <td><%= check_box_tag "order_status_change_ids[]", order_status_change.id %></td>
+        <!--<td><%# check_box_tag "order_status_change_ids[]", order_status_change.id %></td>-->
         <td><%= order_status_change.created_at.strftime('%F %R') %></td>
         <td><%= order_status_change.client.fio if order_status_change.client%></td>
-        <td><%= order_status_change.events.first.action_title if order_status_change.events.present? %></td>
         <td><%= order_status_change.insales_order_number %></td>
         <td><%= order_status_change.insales_custom_status_title %></td>
         <td><%= order_status_change.insales_financial_status %></td>

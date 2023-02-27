@@ -82,6 +82,6 @@ class EventActionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def event_action_params
-      params.require(:event_action).permit(:channel, :event_id, :template_id, :pause, :pause_time, :timetable, :timetable_time)
+      params.require(:event_action).permit(:channel, :event_id, :template_id, :pause, :pause_time, :timetable, :timetable_time, :operation)
     end
 end

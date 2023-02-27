@@ -2,6 +2,9 @@ class Services::InsalesApi
 
     def initialize(insint)
       puts "Services::InsalesApi initialize"
+      @k = insint.inskey
+      @d = insint.subdomen.to_s
+      @p = insint.password.to_s
       InsalesApi::App.api_key = insint.inskey
       InsalesApi::App.configure_api(insint.subdomen.to_s, insint.password.to_s)
     end
@@ -118,6 +121,28 @@ class Services::InsalesApi
         fields = InsalesApi::Field.find(:all,:params => {:limit => 10}).map{|f| f if f.destiny == 2 || f.destiny == 6}.reject(&:blank?)
         # puts "fields => "+fields.to_s
         fields_data = fields.map{|f| {office_title: f.office_title, id: f.id, obligatory: f.obligatory, system_name: f.system_name}}
+    end
+
+    def set_cancel_status(insales_order_id)
+        url = "https://#{@k}:#{@p}@#{@d}/admin/orders/#{insales_order_id.to_s}.json"
+        # puts url
+        data = { "order": { "fulfillment_status": "declined" } }
+        RestClient::Request.execute(method: :put, url: url, payload: data.to_json, verify_ssl: false,  headers: {'Content-Type': 'application/json'}, accept: :json)  { |response, request, result, &block|
+            # puts response.code
+            case response.code
+            when 200
+                puts 'we change status to declined'
+                # puts response
+            when 404
+                puts '404'
+                puts response
+            when 422
+                puts '422'
+                puts response
+            else
+                response.return!(&block)
+            end
+        }  
     end
 
 end  

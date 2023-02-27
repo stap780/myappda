@@ -36,6 +36,7 @@
   <thead>
     <tr class="bg-success">
       <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
+      <th>#</th>
       <th>Статус</th>
       <th>Фин Статус</th>
       <th>Действие</th>
@@ -47,8 +48,9 @@
     <% @events.each do |event| %>
     <tr>
         <td><%= check_box_tag "event_ids[]", event.id %></td>
+        <td><%= event.id %></td>
         <td><%= event.custom_status %></td>
-        <td><%= Event::FIN_STATUS.select{|a| a[1] == event.financial_status}.flatten.first %></td>
+        <td><%= event.fin_status %></td>
         <td><%= event.action_title %><%if event.event_actions.present? && event.event_actions.first.pause%>. Отправка отложена на <%= event.event_actions.first.pause_time%> минут<%end%></td>
         <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_event_path(event) %></td>
         <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, event, method: :delete, data: { confirm: 'Are you sure?' } %></td>

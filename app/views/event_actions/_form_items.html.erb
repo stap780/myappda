@@ -1,6 +1,9 @@
-<%= f.input :channel, label: 'Канал оповещения', collection: EventAction::CHANNEL, input_html: { class: "form-select" } %>
-<%= f.association :template, label: 'Шаблон', input_html: { class: "form-select" }  %>
-<%= f.input :pause, label: 'Вкл отложенную отправку' %>
-<%= f.input :pause_time, as: :integer, label: 'Отложить отправку (в минутах)' %>
-<%= f.input :timetable, as: :hidden %>
-<%= f.input :timetable_time, as: :hidden %>
+<%= f.input :channel, label: 'Канал события', collection: EventAction::CHANNEL, input_html: { class: "form-select" , onchange: "set_operation(this)"}, wrapper_html: { class: "mt-1" }  %>
+<%= f.input :operation, label: "Действие", wrapper_html: { class: "mt-1" } do %>
+    <%= f.select :operation, EventAction::OPERATION.map { |r| [r[0], r[1], { value2: r[2]}] }, { include_blank: true}, { class: "form-select" } %>
+<% end %>
+<%= f.association :template, label: 'Шаблон', input_html: { class: "form-select" } , wrapper_html: { class: "mt-1" }  %>
+<%= f.input :pause, label: 'Вкл отложенное выполнение', wrapper_html: { class: "mt-1" }  %>
+<%= f.input :pause_time, as: :integer, label: 'Отложить выполнение (в минутах)', input_html: { class: "mt-1" }  %>
+<%= f.input :timetable, as: :hidden, input_html: { class: "mt-1" }  %>
+<%= f.input :timetable_time, as: :hidden, wrapper_html: { class: "mt-1" }  %>

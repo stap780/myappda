@@ -4,6 +4,7 @@
     - default
     - mailers
     - insales_job
+    - order_job
 
 development:
   :concurrency: 5

@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   def index
     #@events = Event.all
     @search = Event.ransack(params[:q])
-    @search.sorts = 'id asc' if @search.sorts.empty?
+    @search.sorts = 'id desc' if @search.sorts.empty?
     @events = @search.result.paginate(page: params[:page], per_page: 30)
   end
 
@@ -56,11 +56,11 @@ class EventsController < ApplicationController
 
   # DELETE /events/1
   def destroy
-  @event.destroy
-  respond_to do |format|
-    format.html { redirect_to events_url, notice: "Event was successfully destroyed." }
-    format.json { head :no_content }
-  end
+    @event.destroy
+    respond_to do |format|
+      format.html { redirect_to events_url, notice: "Event was successfully destroyed." }
+      format.json { head :no_content }
+    end
   end
 
 # POST /events
@@ -77,13 +77,12 @@ class EventsController < ApplicationController
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_event
       @event = Event.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def event_params
-      params.require(:event).permit(:custom_status, :financial_status, event_actions_attributes: [:id, :channel, :event_id, :template_id, :pause, :pause_time, :timetable, :timetable_time])
+      params.require(:event).permit(:custom_status, :financial_status, event_actions_attributes: [:id, :channel, :event_id, :template_id, :pause, :pause_time, :timetable, :timetable_time, :operation])
     end
 end

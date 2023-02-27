@@ -43,7 +43,7 @@ class UsersController < ApplicationController
       @user.destroy
 
       respond_to do |format|
-        format.html { redirect_to :back, notice: 'Пользователь удалён' }
+        format.html { redirect_back fallback_location: users_url, notice: 'Пользователь удалён' }
         format.json { head :no_content }
       end
     else

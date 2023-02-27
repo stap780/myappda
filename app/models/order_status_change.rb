@@ -1,10 +1,7 @@
 class OrderStatusChange < ApplicationRecord
   belongs_to :client
-  has_many :event_order_status_changes
-  has_many :events , through: :event_order_status_changes
 
   before_save :normalize_data_white_space
-  after_create :add_event
   after_commit :do_event_action, on: [:create]
 
 
@@ -12,25 +9,22 @@ class OrderStatusChange < ApplicationRecord
 
 private
 
-  def add_event
-    events = Event.where(custom_status: self.insales_custom_status_title, financial_status: self.insales_financial_status)
-    events.each do |event|
-      event.event_order_status_changes.create(order_status_change_id: self.id)  if event.present?
-    end
-  end
-
   def do_event_action
-    if self.events.present?
+    events = Event.where(custom_status: self.insales_custom_status_title, financial_status: self.insales_financial_status)
+    if events.present?
+      puts "do_event_action"
       user = User.find_by_subdomain(Apartment::Tenant.current)
-      self.events.each do |event|
+      events.each do |event|
         action = event.event_actions.first
+        channel = action.channel
+        operation = action.operation
         pause = action.pause
         pause_time = action.pause_time
         timetable = action.timetable
         receiver = self.client.email if action.template.receiver == 'client'
         receiver = user.email if action.template.receiver == 'manager'
-        
-        service = Services::InsalesApi.new(user.insints.first)
+        insint = user.insints.first
+        service = Services::InsalesApi.new(insint)
         order = service.order(self.insales_order_id)
         client = service.client(order.client.id)
 
@@ -52,7 +46,13 @@ private
         # puts "email_data => "+email_data.to_s
         
         wait = pause == true && pause_time.present? ? pause_time : 1
-        EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
+        if channel == 'email'
+          EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
+        end
+        if channel == 'insales_api'
+          OrderJob.set(wait: wait.to_i.minutes).perform_later(self.insales_order_id, operation, insint)
+        end
+
       end
     end
   end
