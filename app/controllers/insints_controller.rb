@@ -294,7 +294,7 @@ class InsintsController < ApplicationController
     puts "account_id => "+account_id.to_s
 
     insint = Insint.find_by_insales_account_id(account_id)
-    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
+    saved_subdomain = insint.user.subdomain #insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
     Apartment::Tenant.switch(saved_subdomain) do
       if MessageSetup.check_ability
         client = Client.find_by_clientid(params["client"]["id"])

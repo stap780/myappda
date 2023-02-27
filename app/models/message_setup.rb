@@ -9,8 +9,8 @@ class MessageSetup < ApplicationRecord
     after_commit :send_file_to_store_if_new, on: [:create]
 
     HANDLE = "message"
-    TITLE = "Сообщения о смене статуса заказа"
-    DESCRIPTION = "уведомлений клиентов и менеджеров интернет-магазина при смене статусов заказов с помощью SMS и Email сообщений"
+    TITLE = "Сообщения и тригеры по заказам"
+    DESCRIPTION = "уведомлений клиентов и менеджеров интернет-магазина при смене статусов заказов с помощью InsalesApi, SMS, Email сообщений"
     
           
     def self.check_ability #проверяем тариф и определяем как будет обрабатываться запрос
@@ -25,11 +25,6 @@ class MessageSetup < ApplicationRecord
 
         puts "valid_until_ability => "+valid_until_ability.to_s
 
-        # payplan = Payplan.find_by_id(ms.payplan_id)      
-        # payplan_ability = payplan.handle == "message_email_no_limit" ? true : false
-        # puts "payplan_ability => "+payplan_ability.to_s
-      
-        # check_work = ms_status == true && payplan_ability == true ? true : false
         check_work = ms_status == true && valid_until_ability == true ? true : false
       end
     end
@@ -61,7 +56,7 @@ class MessageSetup < ApplicationRecord
     end
 
     def set_valid_until_for_free_payplan
-      self.valid_until = Date.today+14.days if self.payplan_id == Payplan.message_free_id && self.status
+      self.valid_until = Date.today+14.days if self.payplan_id == Payplan.message_free_id && self.status  == true
     end
     
     def create_invoice
