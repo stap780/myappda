@@ -45,11 +45,11 @@ class MessageSetupsController < ApplicationController
   # PATCH/PUT /message_setups/1
   def update
     if @message_setup.have_free_payplan_invoice_and_no_valid?
-      redirect_to dashboard_services_url, alert: "У вас уже использовался бесплатный тестовый период" 
+      redirect_to dashboard_services_url, alert: "У вас уже использовался бесплатный тестовый период. Обратитесь к администратору" 
     else
       respond_to do |format|
         if @message_setup.update(message_setup_params)
-          format.html { redirect_to dashboard_services_url, notice: "Message setup was successfully updated." }
+          format.html { redirect_to dashboard_services_url, notice: "Настройки обновились." }
           format.json { render :show, status: :ok, location: @message_setup }
         else
           format.html { render :edit, status: :unprocessable_entity }

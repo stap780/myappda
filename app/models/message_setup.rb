@@ -9,7 +9,7 @@ class MessageSetup < ApplicationRecord
     after_commit :send_file_to_store_if_new, on: [:create]
 
     HANDLE = "message"
-    TITLE = "Сообщения и тригеры по заказам"
+    TITLE = "Тригеры (Сообщения и api по заказам)"
     DESCRIPTION = "уведомлений клиентов и менеджеров интернет-магазина при смене статусов заказов с помощью InsalesApi, SMS, Email сообщений"
     
           
@@ -40,7 +40,8 @@ class MessageSetup < ApplicationRecord
 
     def have_free_payplan_invoice_and_no_valid?
         check_invoice = Invoice.where(payplan_id: Payplan.message_free_id).present? ? true : false
-        check_date = Date.today > self.valid_until ? true : false
+        valid_until_data = self.valid_until == nil ? Date.today-5.year : self.valid_until
+        check_date = Date.today > valid_until_data ? true : false
         check_invoice == true && check_date == true ? true : false
     end
   
