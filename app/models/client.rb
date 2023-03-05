@@ -52,7 +52,7 @@ class Client < ApplicationRecord
       fio = client.fio
       email = client.email #arr_email.join
 
-      products = client.favorites.pluck(:product_id)
+      products = client.favorites.pluck(:product_id).reverse
       puts "products.count - "+products.count.to_s
 
       ClientMailer.emailizb(shoptitle, shopemail,  shopurl, fio, email, products, saved_subdomain ).deliver_now
