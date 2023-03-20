@@ -320,7 +320,8 @@ class InsintsController < ApplicationController
   end
 
   def abandoned_cart
-  
+    puts "abandoned_cart params => "+params.to_s
+    head :ok
   end
   
   private
