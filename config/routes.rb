@@ -39,7 +39,7 @@ Rails.application.routes.draw do
       get :emailizb
       get :addrestock
       post :order
-      post :abandoned_cart
+      get :abandoned_cart
     end
   end
 
