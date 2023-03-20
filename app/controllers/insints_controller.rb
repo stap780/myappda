@@ -1,5 +1,5 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb emailizb addrestock order]
+  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb emailizb addrestock order abandoned_cart]
   before_action :authenticate_admin!, only: %i[adminindex]
   before_action :set_insint, only: %i[show edit update check destroy]
 
@@ -264,29 +264,30 @@ class InsintsController < ApplicationController
     end
   end
 
-  def addrestock
-    insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
-    Apartment::Tenant.switch(saved_subdomain) do
-      if RestockSetup.check_ability
-        client = Client.find_by_email(params[:client_email])
-        if client.present?
-          product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
-          variant = product.variants.find_or_create_by(insid: params[:variant_id])
-          client.restocks.create(variant_id: variant.id) #добавка после расширения функционала
-          render json: { success: true, message: 'Информация сохранена. Мы известим вас о поступлении'}
-        else
-          new_client = Client.create(email: params[:client_email])
-          product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
-          variant = product.variants.find_or_create_by(insid: params[:variant_id])
-          new_client.restocks.create(variant_id: variant.id) #добавка после расширения функционала
-          render json: { success: true, message: 'Информация сохранена. Мы известим вас о поступлении' }
-        end
-      else
-        render json: { error: false, message: 'Кол-во клиентов больше допустимого, товары не добавляются' }
-      end
-    end
-  end
+  # δвыключил как отдельный сервис
+  # def addrestock
+  #   insint = Insint.find_by_subdomen(params[:host])
+  #   saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
+  #   Apartment::Tenant.switch(saved_subdomain) do
+  #     if RestockSetup.check_ability
+  #       client = Client.find_by_email(params[:client_email])
+  #       if client.present?
+  #         product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
+  #         variant = product.variants.find_or_create_by(insid: params[:variant_id])
+  #         client.restocks.create(variant_id: variant.id) #добавка после расширения функционала
+  #         render json: { success: true, message: 'Информация сохранена. Мы известим вас о поступлении'}
+  #       else
+  #         new_client = Client.create(email: params[:client_email])
+  #         product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
+  #         variant = product.variants.find_or_create_by(insid: params[:variant_id])
+  #         new_client.restocks.create(variant_id: variant.id) #добавка после расширения функционала
+  #         render json: { success: true, message: 'Информация сохранена. Мы известим вас о поступлении' }
+  #       end
+  #     else
+  #       render json: { error: false, message: 'Кол-во клиентов больше допустимого, товары не добавляются' }
+  #     end
+  #   end
+  # end
 
   def order
     number = params["number"]
@@ -316,6 +317,10 @@ class InsintsController < ApplicationController
         render json: { error: false, message: 'не смогли добавить запись в order_status_changes' }
       end
     end
+  end
+
+  def abandoned_cart
+  
   end
   
   private
