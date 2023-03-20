@@ -321,7 +321,8 @@ class InsintsController < ApplicationController
 
   def abandoned_cart
     puts "abandoned_cart params => "+params.to_s
-    head :ok
+    # head :ok
+    render json: { success: true, message: 'server abandoned_cart' }
   end
   
   private
