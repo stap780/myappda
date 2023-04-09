@@ -14,7 +14,6 @@ class Variant < ApplicationRecord
     puts "get_ins_variant_data"
     # puts Apartment::Tenant.current
     current_subdomain = Apartment::Tenant.current
-    # Apartment::Tenant.switch!(current_subdomain)
     user = User.find_by_subdomain(current_subdomain)
     puts "user.id - "+user.id.to_s
     insint = user.insints.first
