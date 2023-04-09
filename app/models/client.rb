@@ -5,7 +5,8 @@ class Client < ApplicationRecord
   has_many :restocks, dependent: :destroy
   has_many :variants, -> { distinct }, through: :restocks
   has_many :order_status_changes
-  validates :clientid, presence: true
+  has_many :cases
+  # validates :clientid, presence: true
   # validates :clientid, uniqueness: true
   # validates :email, presence: true
   # validates :email, uniqueness: true

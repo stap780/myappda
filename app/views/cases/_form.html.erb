@@ -1,0 +1,50 @@
+
+<%= simple_form_for(@case) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="row">
+    <div class="col-12 h3 mt-3 mb-3"><%= page_title %></div>
+    <div class="col-6">
+      <%= f.input :status, collection: Case::STATUS, input_html: {class: "form-select" }%>
+      <%= f.input :number, disabled: true %>
+      <%= f.association :client, class: "form-select", input_html: {class: "form-select" } %>
+      <%= f.input :casetype, collection: Case::CASETYPE, input_html: {class: "form-select" }%>
+      <%= f.input :insales_custom_status_title, label: "Статус Ins", disabled: true %>
+      <%= f.input :insales_financial_status, label: "Фин Статус", disabled: true %>
+    </div>
+    <div class="col-6">
+    <div class="table-responsive">
+    <label for="line-table">Позиции заявки</label>
+      <table class="table table-primary" id="line-table">
+        <thead>
+          <tr>
+            <th scope="col">Название товара</th>
+            <th scope="col">Вариант</th>
+            <th scope="col">Кол-во</th>
+            <th scope="col">Цена</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @case.lines.each do |line|%>
+          <tr class="line_<%= line.id%>">
+            <td><%= line.product.title %></td>
+            <td><%= link_to "#{line.variant.insid.to_s }", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+line.variant.product.insid.to_s+"?variant_id="+line.variant.insid.to_s, target: "_blank" %>
+                <br>Артикул: <%= line.variant.sku.to_s  %></td>
+            <td><%= line.quantity %></td>
+            <td><%= line.price %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2 btn-group mt-5">
+      <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
+      <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+    </div>
+  </div>
+<% end %>

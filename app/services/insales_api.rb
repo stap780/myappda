@@ -10,7 +10,19 @@ class Services::InsalesApi
     end
 
     def statuses
-        statuses = InsalesApi::CustomStatus.find(:all).map{ |d| d.title }
+        begin
+            statuses = InsalesApi::CustomStatus.find(:all).map{ |d| d.title }
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401.  Response message = Unauthorized"
+        else
+            statuses
+        end        
     end
 
     def account
@@ -143,6 +155,54 @@ class Services::InsalesApi
                 response.return!(&block)
             end
         }  
+    end
+
+    def get_product_data(insales_product_id)
+        begin
+            product = InsalesApi::Product.find(insales_product_id)
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401.  Response message = Unauthorized"
+        else
+            product
+        end        
+    end
+
+    def get_variants(insales_product_id)
+        begin
+            variants = InsalesApi::Variant.find(:all, :params => {:product_id => insales_product_id})
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401.  Response message = Unauthorized"
+        else
+            variants
+        end        
+    end
+
+    def get_variant_data(insales_product_id, insales_variant_id)
+        begin
+            variant = InsalesApi::Variant.find(insales_variant_id, :params => {:product_id => insales_product_id})
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401.  Response message = Unauthorized"
+        else
+            variant
+        end        
     end
 
 end  

@@ -1,5 +1,5 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb emailizb addrestock order abandoned_cart]
+  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb emailizb addrestock order abandoned_cart restock]
   before_action :authenticate_admin!, only: %i[adminindex]
   before_action :set_insint, only: %i[show edit update check destroy]
 
@@ -264,7 +264,7 @@ class InsintsController < ApplicationController
     end
   end
 
-  # δвыключил как отдельный сервис
+  # выключил как отдельный сервис
   # def addrestock
   #   insint = Insint.find_by_subdomen(params[:host])
   #   saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
@@ -295,22 +295,56 @@ class InsintsController < ApplicationController
     puts "account_id => "+account_id.to_s
 
     insint = Insint.find_by_insales_account_id(account_id)
-    saved_subdomain = insint.user.subdomain #insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
+    saved_subdomain = insint.user.subdomain
     Apartment::Tenant.switch(saved_subdomain) do
       if MessageSetup.check_ability
         client = Client.find_by_clientid(params["client"]["id"])
         if client.present?
-          client.order_status_changes.create!(insales_order_id: params["id"], 
-                                              insales_order_number: params["number"], 
+          # создаём запись о том что произошло изменение в заказе
+          client.order_status_changes.create!(insales_order_id: params["id"], insales_order_number: params["number"], 
                                               insales_custom_status_title: params["custom_status"]["title"],
                                               insales_financial_status: params["financial_status"])
+          # конец запись о том что произошло изменение в заказе
+          # проверяем заявку и создаём или обновляем
+          search_case = Case.where(client_id: client.id, insales_order_id: params["id"])
+          mycase = search_case.present? ? search_case.update(insales_custom_status_title: params["custom_status"]["title"], insales_financial_status: params["financial_status"]) : 
+                                          Case.create!( client_id: client.id, insales_order_id: params["id"], 
+                                                        insales_custom_status_title: params["custom_status"]["title"], insales_financial_status: params["financial_status"],
+                                                        status: "new", casetype: "order", number: params["number"], insales_order_id: params["id"])
+          params["order_lines"].each do |line|
+            product = Product.find_by_insid(line["product_id"]).present? ? Product.find_by_insid(line["product_id"]) : Product.create!(insid: line["product_id"])
+            puts "product => "+product.inspect
+            variant = product.variants.where(insid: line["variant_id"]).present? ? product.variants.where(insid: line["variant_id"]) : 
+                                                                                  product.variants.create!(insid: line["variant_id"])
+            our_line = mycase.lines.create!(  product_id: product.id, 
+                                              variant_id: variant.id, quantity: line["quantity"], price: line["full_total_price"])
+          end
+                                                
+          # конец проверяем заявку и создаём или обновляем
           render json: { success: true, message: 'Информация сохранена в order_status_changes'}
+
         else
+
           new_client = Client.create!(clientid: params["client"]["id"], email: params["client"]["email"], name: params["client"]["name"], phone: params["client"]["phone"])
-          new_client.order_status_changes.create( insales_order_id: params["id"], 
-                                                  insales_order_number: params["number"], 
+          # создаём запись о том что произошло изменение в заказе
+          new_client.order_status_changes.create!( insales_order_id: params["id"], insales_order_number: params["number"], 
                                                   insales_custom_status_title: params["custom_status"]["title"],
                                                   insales_financial_status: params["financial_status"])
+          # конец запись о том что произошло изменение в заказе
+          # создаём заявку
+          mycase = Case.create!( client_id: new_client.id, insales_order_id: params["id"], 
+                                  insales_custom_status_title: params["custom_status"]["title"], insales_financial_status: params["financial_status"],
+                                  status: "new", casetype: "order", number: params["number"], insales_order_id: params["id"])
+
+          params["order_lines"].each do |line|
+            product = Product.find_by_insid(line["product_id"]).present? ? Product.find_by_insid(line["product_id"]) : Product.create!(insid: line["product_id"])
+            #puts "product => "+product.inspect
+            variant = product.variants.where(insid: line["variant_id"]).present? ? product.variants.where(insid: line["variant_id"]) : 
+                                                                                  product.variants.create!(insid: line["variant_id"])
+            our_line = mycase.lines.create!(  product_id: product.id, 
+                                              variant_id: variant.id, quantity: line["quantity"], price: line["full_total_price"])
+          end
+          # конец создаём заявку
           render json: { success: true, message: 'Информация сохранена в order_status_changes' }
         end
       else
@@ -320,9 +354,71 @@ class InsintsController < ApplicationController
   end
 
   def abandoned_cart
-    puts "abandoned_cart params => "+params.to_s
-    # head :ok
-    render json: { success: true, message: 'server abandoned_cart' }
+    number = params["id"]
+    account_id = params["insales_account_id"]
+    puts "account_id => "+account_id.to_s
+
+    insint = Insint.find_by_insales_account_id(account_id)
+    # insint = Insint.find_by_insales_account_id(784184)
+    saved_subdomain = insint.user.subdomain
+    Apartment::Tenant.switch(saved_subdomain) do
+      if MessageSetup.check_ability
+        number = params["id"]
+        search_client = Client.find_by_email(params["contacts"]["email"]).present? ? Client.find_by_email(params["contacts"]["email"]) : 
+                                                                                    Client.find_by_phone(params["contacts"]["phone"])
+        
+        client = search_client.present? ? search_client : 
+                                          Client.create!( email: params["contacts"]["email"], phone: params["contacts"]["phone"], name: "abandoned_"+number.to_s)
+        mycase = Case.find_by_number(number).present? ? Case.find_by_number(number) : 
+                                                      Case.create!(number: number, casetype: 'abandoned_cart', client_id: client.id, status: "new")
+        puts "mycase => "+mycase.to_s
+        params["lines"].each do |line|
+          product = Product.find_by_insid(line["productId"]).present? ? Product.find_by_insid(line["productId"]) : Product.create!(insid: line["productId"])
+          variant = product.variants.where(insid: line["variantId"]).present? ? product.variants.where(insid: line["variantId"])[0] : 
+                                                                                product.variants.create!(insid: line["variantId"])[0]
+          our_line = mycase.lines.create!(  product_id: product.id, 
+                                            variant_id: variant.id, quantity: line["quantity"], price: line["price"])
+        end
+
+        render json: { success: true, message: 'Информация сохранена в cases abandoned_cart'}
+      else
+        render json: { error: false, message: 'не смогли добавить запись в cases abandoned_cart' }
+      end
+    end
+  end
+
+  def restock
+    number = params["id"]
+    account_id = params["insales_account_id"]
+    puts "account_id => "+account_id.to_s
+
+    insint = Insint.find_by_insales_account_id(account_id)
+    # insint = Insint.find_by_insales_account_id(784184)
+    saved_subdomain = insint.user.subdomain
+    Apartment::Tenant.switch(saved_subdomain) do
+      if MessageSetup.check_ability
+        number = params["id"]
+        search_client = Client.find_by_email(params["contacts"]["email"]).present? ? Client.find_by_email(params["contacts"]["email"]) : 
+                                                                                    Client.find_by_phone(params["contacts"]["phone"])
+        
+        client = search_client.present? ? search_client : 
+                                          Client.create!( email: params["contacts"]["email"], phone: params["contacts"]["phone"], name: "restock_"+number.to_s)
+        mycase = Case.find_by_number(number).present? ? Case.find_by_number(number) : 
+                                                      Case.create!(number: number, casetype: 'restock', client_id: client.id, status: "new")
+        puts "mycase => "+mycase.to_s
+        params["lines"].each do |line|
+          product = Product.find_by_insid(line["productId"]).present? ? Product.find_by_insid(line["productId"]) : Product.create!(insid: line["productId"])
+          variant = product.variants.where(insid: line["variantId"]).present? ? product.variants.where(insid: line["variantId"])[0] : 
+                                                                                product.variants.create!(insid: line["variantId"])[0]
+          our_line = mycase.lines.create!(  product_id: product.id, 
+                                            variant_id: variant.id, quantity: line["quantity"], price: line["price"])
+        end
+
+        render json: { success: true, message: 'Информация сохранена в cases abandoned_cart'}
+      else
+        render json: { error: false, message: 'не смогли добавить запись в cases abandoned_cart' }
+      end
+    end
   end
   
   private

@@ -1,0 +1,17 @@
+<% subject_template = Liquid::Template.parse(@template.subject) %>
+<% content_template = Liquid::Template.parse(@template.content) %>
+
+<% order_drop = Services::Drop::InsalesOrder.new(@order) %>
+<% client_drop = Services::Drop::InsalesClient.new(@client) %>
+
+<div class="row mx-auto">
+    <pre>
+        <code>
+            <div><span class="h6">Тема письма:</span> <%= subject_template.render('order' => order_drop, 'client' => client_drop)%></div>
+            
+            <div class="h6">Содержание письма:</div> 
+            <div><%= content_template.render('order' => order_drop, 'client' => client_drop).html_safe%></div>
+        </code>
+    </pre>
+</div>
+

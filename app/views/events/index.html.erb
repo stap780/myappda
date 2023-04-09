@@ -15,13 +15,13 @@
     </div>
     <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
       <div class="input-group input-group-sm">
-              <% if Insint.present_work? %>
-              <%= f.select :custom_status_eq, Services::InsalesApi.new(Insint.current).statuses, {include_blank: false, prompt: 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
-              <% else %>
-              <%= f.search_field :custom_status_eq , placeholder: 'Статус', class: "form-control", style: "max-width: 180px;" %>
-              <% end %>
-              <%= f.select :financial_status_eq, Event::FIN_STATUS, { include_blank: false, prompt: 'Статус оплаты'}, class: "form-select", style: "max-width: 180px;" %>
-              <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
+        <% if Insint.present_work? %>
+        <%= f.select :custom_status_eq, Services::InsalesApi.new(Insint.current).statuses, {include_blank: false, prompt: 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
+        <% else %>
+        <%= f.search_field :custom_status_eq , placeholder: 'Статус', class: "form-control", style: "max-width: 180px;" %>
+        <% end %>
+        <%= f.select :financial_status_eq, Event::FIN_STATUS, { include_blank: false, prompt: 'Статус оплаты'}, class: "form-select", style: "max-width: 180px;" %>
+        <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
           <span class="oi oi-magnifying-glass"></span>
         <% end %>
         <%= link_to '<span class="oi oi-reload"></span>'.html_safe, events_path, class: 'btn btn-outline-dark ' %>

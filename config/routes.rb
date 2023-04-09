@@ -40,16 +40,20 @@ Rails.application.routes.draw do
       get :addrestock
       post :order
       post :abandoned_cart
+      post :restock
     end
   end
 
   constraints SubdomainConstraint do
+    resources :lines
+    resources :cases
     resources :order_status_changes
     resources :message_setups
     resources :event_actions
     resources :templates do
       collection do
-        get '/:id/preview', action: 'preview', as: 'preview'
+        get '/:id/preview_ins_order', action: 'preview_ins_order', as: 'preview_ins_order'
+        get '/:id/preview_case', action: 'preview_case', as: 'preview_case'
       end
     end
     resources :events

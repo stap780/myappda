@@ -1,9 +1,12 @@
 class Product < ApplicationRecord
-
+  has_many :lines
+  has_many :cases, through: :lines
   has_many :favorites, dependent: :destroy
   has_many :clients, through: :favorites
   has_many :variants, :dependent => :destroy
   accepts_nested_attributes_for :variants, allow_destroy: true #,reject_if: proc { |attributes| attributes['weight'].blank? }
+  after_commit :get_ins_api_data, on: [:create]
+
 
   validates :insid, presence: true
   validates :insid, uniqueness: true
@@ -82,5 +85,17 @@ class Product < ApplicationRecord
     end
   end
 
+  def get_ins_api_data
+    puts "start product get_ins_api_data"
+    current_subdomain = Apartment::Tenant.current
+    user = User.find_by_subdomain(current_subdomain)
+    service = Services::InsalesApi.new(user.insints.first)
+    product = service.get_product_data(self.insid)
+    product_data = {
+      title: product.title
+    }
+    self.update_attributes(product_data)
+    puts "finish product get_ins_api_data"
+  end
 
 end

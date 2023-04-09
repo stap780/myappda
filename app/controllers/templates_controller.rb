@@ -1,6 +1,6 @@
 class TemplatesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_template, only: [:show, :edit, :update, :preview, :destroy]
+  before_action :set_template, only: [:show, :edit, :update, :preview_ins_order, :preview_case, :destroy]
 
   # GET /templates
   def index
@@ -14,7 +14,7 @@ class TemplatesController < ApplicationController
   def show
   end
   
-  def preview
+  def preview_ins_order
     service = Services::InsalesApi.new(current_user.insints.first)
     @order = service.order(params[:insales_order_id])
     @client = service.client(@order.client.id)
@@ -23,6 +23,13 @@ class TemplatesController < ApplicationController
     end
   end
 
+  def preview_case
+    @case = Case.find_by_id(params[:case_id])
+    @client = @case.client
+    respond_to do |format|
+      format.js
+    end
+  end
   # GET /templates/new
   def new
     @template = Template.new

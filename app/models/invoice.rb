@@ -4,7 +4,7 @@ class Invoice < ApplicationRecord
   has_many :payments, :dependent => :destroy
 
   before_create :set_data_if_new_record
-  after_commit :create_payment, on: [:create, :update]
+  after_commit :create_payment, on: [:create]
   after_update :set_service_valid_after_update_invoice
   # before_destroy :update_service_before_destroy_invoice
 
@@ -67,12 +67,12 @@ private
           new_valid_until = old_valid_until + "#{add_period}".to_i.months
           fs.update_attributes(valid_until: new_valid_until)
         end
-        if service_handle == "restock"
-          rs = RestockSetup.all.first
-          old_valid_until = rs.valid_until.nil? ? Date.today : rs.valid_until
-          new_valid_until = old_valid_until + "#{add_period}".to_i.months
-          rs.update_attributes(valid_until: new_valid_until)
-        end
+        # if service_handle == "restock"
+        #   rs = RestockSetup.all.first
+        #   old_valid_until = rs.valid_until.nil? ? Date.today : rs.valid_until
+        #   new_valid_until = old_valid_until + "#{add_period}".to_i.months
+        #   rs.update_attributes(valid_until: new_valid_until)
+        # end
         if service_handle == "message"
           ms = MessageSetup.all.first
           old_valid_until = ms.valid_until.nil? ? Date.today : ms.valid_until

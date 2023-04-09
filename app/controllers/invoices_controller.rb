@@ -22,6 +22,7 @@ class InvoicesController < ApplicationController
 
   # GET /invoices/1/edit
   def edit
+    redirect_to invoices_url, notice: "Invoice can't be edit."
   end
 
   # POST /invoices

@@ -3,12 +3,13 @@ class Event < ApplicationRecord
     has_many :templates, through: :event_actions
     accepts_nested_attributes_for :event_actions, reject_if: :all_blank    
 
-    validates :custom_status, presence: true
-    validates :financial_status, presence: true
+    validates :casetype, presence: true
+    # validates :custom_status, presence: true
+    # validates :financial_status, presence: true
 
 
 
-    FIN_STATUS = [['Не оплачен','pending'],['Оплачен','paid']] #["pending", "paid"]
+    FIN_STATUS = [['Не оплачен','pending'],['Оплачен','paid']].freeze #["pending", "paid"]
 
     def action_title
         action = self.event_actions

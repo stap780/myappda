@@ -22,6 +22,7 @@ class ProductsController < ApplicationController
 
   # GET /products/1/edit
   def edit
+    redirect_to products_url, notice: 'Товары создаются в InSales'
   end
 
   # POST /products

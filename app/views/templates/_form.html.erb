@@ -31,12 +31,18 @@
     <div class="col-6">
     <% if Insint.present_work?%>
       <% if !@template.new_record? %>
-        <%= form_with url: preview_templates_path, method: :get, class: "input-group", local: false do |form| %>
+        <%= form_with url: preview_ins_order_templates_path, method: :get, class: "input-group", local: false do |form| %>
           <%= form.select :insales_order_id, @ten_orders, include_blank: "Выберите заказ", class: "form-select" %>
           <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
         <% end %>
+        <%= form_with url: preview_case_templates_path, method: :get, class: "input-group", local: false do |form| %>
+          <%= form.select :case_id, Case.all.limit(10).pluck(:id), include_blank: "Выберите заявку", class: "form-select" %>
+          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
+        <% end %>
+
         <div class="mt-3">
           <div id="order-preview"></div>
+          <div id="case-preview"></div>
         </div>
       <% else %>
       Сохраните шаблон и появится Предпросмотр

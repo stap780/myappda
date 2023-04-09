@@ -9,3 +9,15 @@ function set_operation(element){
         }
     });
 }
+
+function check_type(element){
+    var searchType = element.value;
+    //console.log(searchType);
+    if ( searchType === 'order' ) {
+        $('.event_custom_status').removeClass('d-none');
+        $('.event_financial_status').removeClass('d-none');
+    } else {
+        $('.event_custom_status').addClass('d-none');
+        $('.event_financial_status').addClass('d-none');
+    }   
+}

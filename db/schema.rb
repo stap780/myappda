@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_26_133851) do
+ActiveRecord::Schema.define(version: 2023_04_03_102426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,18 @@ ActiveRecord::Schema.define(version: 2023_02_26_133851) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "cases", force: :cascade do |t|
+    t.string "number"
+    t.integer "client_id"
+    t.string "casetype"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "insales_custom_status_title"
+    t.string "insales_financial_status"
+    t.integer "insales_order_id"
+    t.string "status"
   end
 
   create_table "clients", id: :serial, force: :cascade do |t|
@@ -108,6 +120,7 @@ ActiveRecord::Schema.define(version: 2023_02_26_133851) do
     t.string "financial_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "casetype"
   end
 
   create_table "favorite_setups", force: :cascade do |t|
@@ -150,6 +163,16 @@ ActiveRecord::Schema.define(version: 2023_02_26_133851) do
     t.string "payertype"
     t.string "paymenttype"
     t.string "service_handle"
+  end
+
+  create_table "lines", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "variant_id"
+    t.integer "quantity"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "case_id"
   end
 
   create_table "message_setups", force: :cascade do |t|

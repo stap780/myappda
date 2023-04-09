@@ -34,6 +34,7 @@
   <thead>
     <tr class="bg-success">
       <!-- <th><%# check_box_tag 'selectAll', value: 'selectAll'%></th> -->
+      <th>#</th>
       <th>Insid</th>
       <th>Img</th>
       <th>Название</th>
@@ -46,6 +47,7 @@
     <% @products.each do |product| %>
       <tr>
         <!-- <td><%# check_box_tag "product_ids[]", product.id %></td> -->
+        <td><%= product.id %></td>
         <td><%= product.insid %></td>
         <td><%# render 'one_image', :image_link => Product.get_image(product.insid), image_style: "" %></td>
         <td><%= product.title %></td>

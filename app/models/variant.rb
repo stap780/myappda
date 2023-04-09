@@ -1,10 +1,14 @@
 class Variant < ApplicationRecord
   belongs_to :product
-  has_many :restocks, dependent: :destroy
+  # has_many :restocks, dependent: :destroy #планирую убирать restock
+  has_many :lines
+  has_many :cases, through: :lines
+  
   validates :insid, presence: true
   validates :insid, uniqueness: true
 
-  after_create :get_ins_data
+  # after_create :get_ins_data
+  after_commit :get_ins_api_data, on: [:create]
 
   def get_ins_data
     puts "get_ins_variant_data"
@@ -40,6 +44,21 @@ class Variant < ApplicationRecord
               }
       sleep 0.5
     end
+  end
+
+  def get_ins_api_data
+    puts "start variant get_ins_api_data"
+    current_subdomain = Apartment::Tenant.current
+    user = User.find_by_subdomain(current_subdomain)
+    service = Services::InsalesApi.new(user.insints.first)
+    variant = service.get_variant_data(self.product.insid, self.insid)
+    variant_data = {
+      price: variant.price,
+      sku: variant.sku,
+      quantity: variant.quantity
+    }
+    self.update_attributes(variant_data)
+    puts "finish variant get_ins_api_data"
   end
 
   private
