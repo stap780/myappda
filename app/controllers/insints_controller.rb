@@ -310,7 +310,7 @@ class InsintsController < ApplicationController
           mycase = search_case.present? ? search_case.update(insales_custom_status_title: params["custom_status"]["title"], insales_financial_status: params["financial_status"]) : 
                                           Case.create!( client_id: client.id, insales_order_id: params["id"], 
                                                         insales_custom_status_title: params["custom_status"]["title"], insales_financial_status: params["financial_status"],
-                                                        status: "new", casetype: "order", number: params["number"], insales_order_id: params["id"])
+                                                        status: "new", casetype: "order", number: params["number"])
           params["order_lines"].each do |line|
             product = Product.find_by_insid(line["product_id"]).present? ? Product.find_by_insid(line["product_id"]) : Product.create!(insid: line["product_id"])
             puts "product => "+product.inspect
@@ -334,7 +334,7 @@ class InsintsController < ApplicationController
           # создаём заявку
           mycase = Case.create!( client_id: new_client.id, insales_order_id: params["id"], 
                                   insales_custom_status_title: params["custom_status"]["title"], insales_financial_status: params["financial_status"],
-                                  status: "new", casetype: "order", number: params["number"], insales_order_id: params["id"])
+                                  status: "new", casetype: "order", number: params["number"])
 
           params["order_lines"].each do |line|
             product = Product.find_by_insid(line["product_id"]).present? ? Product.find_by_insid(line["product_id"]) : Product.create!(insid: line["product_id"])
