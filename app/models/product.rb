@@ -104,7 +104,7 @@ class Product < ApplicationRecord
   end
 
   def do_restock_event_action
-    events = Event.where(casetype: 'restock', custom_status: self.insales_custom_status_title, financial_status: self.insales_financial_status)
+    events = Event.where(casetype: 'restock')
     if events.present?
       puts "do_restock_event_action"
       user = User.find_by_subdomain(Apartment::Tenant.current)
