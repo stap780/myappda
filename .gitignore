@@ -15,12 +15,15 @@
 
 
 # Ignore all logfiles and tempfiles.
+log/*
 /log/*
+tmp/*
 /tmp/*
 !/log/.keep
 !/tmp/.keep
 /z-help.txt
 /first_stage.txt
+config/secrets.yml
 /config/secrets.yml
 
 # Ignore Byebug command history file.
