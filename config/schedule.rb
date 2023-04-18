@@ -45,3 +45,7 @@ end
 every 1.day, :at => '08:25' do #
   runner "User.service_end_email"
 end
+
+every 1.hour do 
+  rake "restock:check_quantity_and_send_client_email"
+end

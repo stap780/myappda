@@ -15,6 +15,7 @@
     </div>
     <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
       <div class="input-group input-group-sm">
+      <%= f.select :casetype_in, Case::CASETYPE, { :prompt => 'Тип заявки'}, class: "form-select", style: "max-width: 180px;" %>
         <% if Insint.present_work? %>
         <%= f.select :custom_status_eq, Services::InsalesApi.new(Insint.current).statuses, {include_blank: false, prompt: 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
         <% else %>
@@ -37,10 +38,11 @@
     <tr class="bg-success">
       <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
       <th>#</th>
+      <th>Тип заявки</th>
       <th>Статус</th>
       <th>Фин Статус</th>
       <th>Действие</th>
-      <th colspan="2"></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -49,11 +51,19 @@
     <tr>
         <td><%= check_box_tag "event_ids[]", event.id %></td>
         <td><%= event.id %></td>
+        <td><%= event.casetype_value %></td>
         <td><%= event.custom_status %></td>
         <td><%= event.fin_status %></td>
-        <td><%= event.action_title %><%if event.event_actions.present? && event.event_actions.first.pause%>. Отправка отложена на <%= event.event_actions.first.pause_time%> минут<%end%></td>
-        <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_event_path(event) %></td>
-        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= event.action_title %>
+            <% if event.pause_text %><br><%= event.pause_text %><% end %>
+            <% if event.timetable_text %><br><%= event.timetable_text %><% end %>
+        </td>
+        <td>
+        <span class="d-flex">
+             <br><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_event_path(event), class: "px-3" %>
+             <br><%= link_to '<span class="oi oi-trash"></span>'.html_safe, event, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </span>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -62,5 +72,5 @@
 
 
 <div class="apple_pagination">
-<%= will_paginate @events %>
+  <%= will_paginate @events %>
 </div>

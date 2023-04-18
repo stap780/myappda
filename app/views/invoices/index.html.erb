@@ -32,7 +32,7 @@
         <td><%= invoice.sum %></td>
         <td><%= render 'invoice_status', f: invoice%></td>
         <td><%= invoice.paymenttype %></td>
-        <td><%= link_to "Оплатить", edit_invoice_path(invoice) if invoice.status != 'Оплачен' && invoice.status != 'Отменён' %></td>
+        <td><%= link_to "Оплатить", edit_invoice_path(invoice), class: 'btn btn-outline-info' if invoice.status != 'Оплачен' && invoice.status != 'Отменён' %></td>
         <%# link_to '<span class="oi oi-trash"></span>'.html_safe, invoice, method: :delete, data: { confirm: 'Вы уверенны?' } if invoice.status != 'Оплачен' %>
       </tr>
     <% end %>

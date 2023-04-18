@@ -6,7 +6,7 @@ class CasesController < ApplicationController
   def index
     #@cases = Case.all
     @search = Case.all.ransack(params[:q])
-    @search.sorts = 'id asc' if @search.sorts.empty?
+    @search.sorts = 'id desc' if @search.sorts.empty?
     @cases = @search.result.includes(:client).paginate(page: params[:page], per_page: 30)
   end
 

@@ -35,11 +35,11 @@
     <tr class="bg-success">
       <!-- <th><%# check_box_tag 'selectAll', value: 'selectAll'%></th> -->
       <th>#</th>
-      <th>Insid</th>
-      <th>Img</th>
+      <th>Id товара</th>
+      <%# <th>Img</th> %>
       <th>Название</th>
-      <th>Variants</th>
-      <th>Price</th>
+      <th>Варианты</th>
+      <th>Цены</th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -49,7 +49,7 @@
         <!-- <td><%# check_box_tag "product_ids[]", product.id %></td> -->
         <td><%= product.id %></td>
         <td><%= product.insid %></td>
-        <td><%# render 'one_image', :image_link => Product.get_image(product.insid), image_style: "" %></td>
+        <!--<td><%# render 'one_image', :image_link => Product.get_image(product.insid), image_style: "" %></td>-->
         <td><%= product.title %></td>
         <td><%= link_to '<span class="oi oi-eye"></span>'.html_safe, product if product.variants.present? %></td>
         <td><%= product.price %></td>

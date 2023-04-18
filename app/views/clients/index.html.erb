@@ -29,8 +29,10 @@
       <th>ФИО</th>
       <th>Email</th>
       <th>Phone</th>
+      <% if Favorite.all.count > 0 %>
       <th>Избранное</th>
-      <th>Restock</th>
+      <% end %>
+      <th>Сообщить <br>о поступлении</th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -40,11 +42,15 @@
       <tr>
         <td><%= client.id %><br>(<%= client.clientid%>)</td>
         <td><%= client.created_at.in_time_zone.strftime("%d/%m/%Y")%></td>
-        <td><%= link_to client.fio, client_path(client) %></td>
+        <td><%= client.fio%></td>
         <td><%= client.email %></td>
         <td><%= client.phone %></td>
-        <td><%= client.favorites.count %><%# client.izb_productid.split(',').size if client.izb_productid %> шт. <%= link_to 'Email', emailizb_client_path(client), remote: true%></td>
-        <td><%= client.restocks.count %> шт.</td>
+        <% if Favorite.all.count > 0 %>
+        <td><%= link_to client.favorites.count.to_s+' шт', client_path(client) if client.favorites.count > 0 %> <%# link_to 'Email', emailizb_client_path(client), remote: true %></td>
+        <% end %>
+         <% if Restock.all.count > 0 %>
+        <td><%= link_to client.restocks.count.to_s+' шт', client_path(client) if client.restocks.count > 0 %></td>
+        <% end %>
         <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, client, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
       </tr>
     <% end %>

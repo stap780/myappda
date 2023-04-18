@@ -5,6 +5,7 @@
     - mailers
     - insales_job
     - order_job
+    - restock_job
 
 development:
   :concurrency: 5

@@ -1,6 +1,6 @@
 class Variant < ApplicationRecord
   belongs_to :product
-  # has_many :restocks, dependent: :destroy #планирую убирать restock
+  has_many :restocks
   has_many :lines
   has_many :cases, through: :lines
   

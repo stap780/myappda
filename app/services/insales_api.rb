@@ -205,4 +205,71 @@ class Services::InsalesApi
         end        
     end
 
+    def collections_ids
+        begin
+            ids = InsalesApi::Collection.find( :all).map{|p| p.id}
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401.  Response message = Unauthorized"
+        else
+            ids
+        end        
+    end
+
+    def marketplaces
+        begin
+            marketplaces = InsalesApi::Marketplace.find(:all)
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401.  Response message = Unauthorized"
+        else
+            marketplaces
+        end        
+    end
+
+    def create_xml
+        begin
+            col_ids = InsalesApi::Collection.find( :all).map{|p| p.id}
+            property_id = InsalesApi::Property.first.id
+            data = {
+                "marketplace": {
+                  "name": "YM K-comment #{Time.now}",
+                  "type": "Marketplace::ModelYandexMarket",
+                  "shop_name": "YM K-comment",
+                  "shop_company": "YM K-comment",
+                  "description_type": 1,
+                  "vendor_id": property_id,
+                  "adult": 0,
+                  "page_encoding": "utf-8",
+                  "image_style": "thumb",
+                  "model_type": "name",
+                  "collection_ids": col_ids,
+                  "use_variants": true
+                }
+              }
+            new_market = InsalesApi::Marketplace.new(data)
+            new_market.save
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401.  Response message = Unauthorized"
+        else
+            new_market
+        end        
+    end
+
 end  

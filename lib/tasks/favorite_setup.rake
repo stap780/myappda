@@ -5,19 +5,19 @@ namespace :favorite_setup do
 
 
   # проверяем срок valid_until по каждому user и переводим на бесплатный план если valid_until - пусто
-    task check: :environment do
-      puts "start check_valid_until - время москва - #{Time.zone.now}"
+  task check_valid_until: :environment do
+    puts "start check_valid_until - время москва - #{Time.zone.now}"
 
-      User.all.order(:id).each do | user |
-        tenant = user.subdomain
-        puts "tenant - "+tenant.to_s
-        Apartment::Tenant.switch(tenant) do
-          FavoriteSetup.check_valid_until
-        end
+    User.all.order(:id).each do | user |
+      tenant = user.subdomain
+      puts "tenant - "+tenant.to_s
+      Apartment::Tenant.switch(tenant) do
+        FavoriteSetup.check_valid_until
       end
-
-      puts "finish check_valid_until - время москва - #{Time.zone.now}"
     end
+
+    puts "finish check_valid_until - время москва - #{Time.zone.now}"
+  end
 
   # отправляем письмо клиенту если check_ability не проходит
   task favorite_service_not_work_email: :environment do

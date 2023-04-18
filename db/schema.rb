@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_03_102426) do
+ActiveRecord::Schema.define(version: 2023_04_14_091629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 2023_04_03_102426) do
     t.date "valid_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "restock_xml"
   end
 
   create_table "order_status_changes", force: :cascade do |t|
@@ -226,6 +227,7 @@ ActiveRecord::Schema.define(version: 2023_04_03_102426) do
     t.decimal "price", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "restock"
   end
 
   create_table "restock_setups", force: :cascade do |t|
@@ -245,6 +247,7 @@ ActiveRecord::Schema.define(version: 2023_04_03_102426) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status"
+    t.integer "product_id"
     t.index ["client_id"], name: "index_restocks_on_client_id"
     t.index ["variant_id"], name: "index_restocks_on_variant_id"
   end
@@ -298,6 +301,7 @@ ActiveRecord::Schema.define(version: 2023_04_03_102426) do
     t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "restock"
     t.index ["product_id"], name: "index_variants_on_product_id"
   end
 

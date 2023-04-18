@@ -14,8 +14,6 @@ class Invoice < ApplicationRecord
   end
 
   def get_payment
-    current_subdomain = Apartment::Tenant.current
-    user = User.find_by_subdomain(current_subdomain)
     check_payment = Payment.where(user_id: self.get_user.id, payplan_id: self.payplan.id, invoice_id: self.id)
     payment = check_payment.present? ? check_payment.first : nil
   end

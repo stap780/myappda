@@ -5,14 +5,15 @@ class Client < ApplicationRecord
   has_many :restocks, dependent: :destroy
   has_many :variants, -> { distinct }, through: :restocks
   has_many :order_status_changes
-  has_many :cases
-  # validates :clientid, presence: true
-  # validates :clientid, uniqueness: true
-  # validates :email, presence: true
-  # validates :email, uniqueness: true
+  has_many :cases, dependent: :destroy
   validates :phone, phone: { possible: true, allow_blank: true }
   before_validation :normalize_phone
 
+  def self.with_restocks
+    cl_ids = Restock.all.pluck(:client_id).uniq
+    clients = Client.includes(:restocks).where('restocks.client_id' => cl_ids)
+  end
+  
   def self.otchet(current_subdomain, current_user_id)
     puts "Создаём отчет"
     insint = User.find(current_user_id).insints.first
@@ -60,44 +61,12 @@ class Client < ApplicationRecord
     end
   end
 
-  def self.restock_send_email
-    if RestockSetup.check_ability
-      Restock.check_quantity_and_change_status
-      clients = Client.joins(:restocks).where("restocks.status = ?","Отправляется")
-      puts clients.count
-      clients.each do |client|
-        current_subdomain = Apartment::Tenant.current
-        user = User.find_by_subdomain(current_subdomain)
-        insint = user.insints.first
-        insint_inskey = insint.inskey.present? ? insint.inskey : "k-comment"
-        uri = "http://#{insint_inskey}:#{insint.password}@#{insint.subdomen}/admin/account.json"
-        response = RestClient.get(uri)
-        data = JSON.parse(response)
-        shoptitle = data['title']
-        shopemail = data['email']
-        shopurl = "http://"+insint.subdomen
-        fio = client.name+" "+client.surname #arr_fio.join
-        email = client.email #arr_email.join
-
-        variants = client.restocks.where(status: "Отправляется").pluck(:variant_id)
-        ClientMailer.emailrestock(shoptitle, shopemail,  shopurl, fio, email, variants ).deliver_now
-        client.restocks.where(status: "Отправляется").update_all(status: "Сообщение отправлено")
-
-      end
-    end
-  end
-
   def self.uniq_favorites_count
     Client.joins(:favorites).distinct.count #даёт только уникальное кол-во товаров в избранном
   end
 
   def self.all_favorites_count
     Client.joins(:favorites).count #даёт общее кол-во товаров в избранном
-  end
-
-  def self.restock_count
-    Client.joins(:restocks).count
-    # Client.joins(:restocks).distinct.count
   end
 
   def fio

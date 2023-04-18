@@ -7,14 +7,14 @@ class ClientsController < ApplicationController
   def index
     @search = Client.ransack(params[:q])
     @search.sorts = 'id desc' if @search.sorts.empty?
-    @clients = @search.result.paginate(page: params[:page], per_page: 50)
+    @clients = @search.result.includes(:favorites, :restocks).paginate(page: params[:page], per_page: 50)
   end
 
   # GET /clients/1
   # GET /clients/1.json
   def show
     @favorite_products = Product.where(id: @client.favorites.pluck(:product_id))
-    @restock_products = Variant.where(id: @client.restocks.pluck(:variant_id))
+    #@restock_products = Variant.where(id: @client.restocks.pluck(:variant_id))
   end
 
   # GET /clients/new

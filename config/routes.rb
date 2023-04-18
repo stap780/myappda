@@ -54,6 +54,7 @@ Rails.application.routes.draw do
       collection do
         get '/:id/preview_ins_order', action: 'preview_ins_order', as: 'preview_ins_order'
         get '/:id/preview_case', action: 'preview_case', as: 'preview_case'
+        get '/:id/preview_restock', action: 'preview_restock', as: 'preview_restock'
       end
     end
     resources :events

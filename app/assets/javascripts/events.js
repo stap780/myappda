@@ -19,5 +19,14 @@ function check_type(element){
     } else {
         $('.event_custom_status').addClass('d-none');
         $('.event_financial_status').addClass('d-none');
-    }   
+    }
+    if ( searchType === 'restock' ) {
+        $('.event_event_actions_timetable').removeClass('d-none');
+        $('.event_event_actions_timetable_time').removeClass('d-none');
+    } else {
+        $('.event_event_actions_timetable').addClass('d-none');
+        $('.event_event_actions_timetable_time').addClass('d-none');
+    }
+
 }
+

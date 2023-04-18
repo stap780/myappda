@@ -19,10 +19,13 @@
       <table class="table table-primary" id="line-table">
         <thead>
           <tr>
-            <th scope="col">Название товара</th>
-            <th scope="col">Вариант</th>
-            <th scope="col">Кол-во</th>
-            <th scope="col">Цена</th>
+            <th>Название товара</th>
+            <th>Вариант</th>
+            <th>Кол-во</th>
+            <th>Цена</th>
+            <% if @case.casetype == 'restock'%>
+            <th>Статус позиции</th>
+            <% end %>
           </tr>
         </thead>
         <tbody>
@@ -33,6 +36,9 @@
                 <br>Артикул: <%= line.variant.sku.to_s  %></td>
             <td><%= line.quantity %></td>
             <td><%= line.price %></td>
+            <% if @case.casetype == 'restock'%>
+            <td><%= line.variant.restocks.first.status%></td>
+            <% end %>
           </tr>
           <% end %>
         </tbody>

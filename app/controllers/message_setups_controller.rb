@@ -44,17 +44,13 @@ class MessageSetupsController < ApplicationController
 
   # PATCH/PUT /message_setups/1
   def update
-    if @message_setup.have_free_payplan_invoice_and_no_valid?
-      redirect_to dashboard_services_url, alert: "У вас уже использовался бесплатный тестовый период. Обратитесь к администратору" 
-    else
-      respond_to do |format|
-        if @message_setup.update(message_setup_params)
-          format.html { redirect_to dashboard_services_url, notice: "Настройки обновились." }
-          format.json { render :show, status: :ok, location: @message_setup }
-        else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @message_setup.errors, status: :unprocessable_entity }
-        end
+    respond_to do |format|
+      if @message_setup.update(message_setup_params)
+        format.html { redirect_to dashboard_services_url, notice: "Настройки обновились." }
+        format.json { render :show, status: :ok, location: @message_setup }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @message_setup.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -89,6 +85,6 @@ class MessageSetupsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def message_setup_params
-      params.require(:message_setup).permit(:title, :handle, :description, :status, :payplan_id, :valid_until)
+      params.require(:message_setup).permit(:title, :handle, :description, :status, :payplan_id, :valid_until, :restock_xml)
     end
 end

@@ -4,9 +4,10 @@ class MessageSetup < ApplicationRecord
     validates :title, presence: true
     validates :handle, uniqueness: true
     before_save :normalize_data_white_space
-    before_save :set_valid_until_for_free_payplan, on: [:create, :update]
-    after_commit :create_invoice, on: [:create, :update]
+    before_save :set_valid_until_for_free_payplan_if_new, on: [:create]
     after_commit :send_file_to_store_if_new, on: [:create]
+    after_commit :create_invoice, on: [:create, :update]
+    after_commit :check_services, on: [:update]
 
     HANDLE = "message"
     TITLE = "Тригеры (Сообщения и api по заказам)"
@@ -19,31 +20,31 @@ class MessageSetup < ApplicationRecord
       ms = MessageSetup.all.first
       if ms
         ms_status = ms.status == true ? true : false
-        puts "ms_status => "+ms_status.to_s
+        puts "MessageSetup ms_status => "+ms_status.to_s
 
         valid_until_ability = ms.valid_until.present? &&  Date.today <= ms.valid_until ? true : false
 
-        puts "valid_until_ability => "+valid_until_ability.to_s
+        puts "MessageSetup valid_until_ability => "+valid_until_ability.to_s
 
         check_work = ms_status == true && valid_until_ability == true ? true : false
       end
     end
     
-    def self.check_valid_until #проверяем срок и переводим на бесплатный тариф
-      ms = MessageSetup.all.first
-      if !ms.nil? && ms.payplan_id != Payplan.message_free_id
-        valid_until_data = ms.valid_until == nil ? Date.today-5.year : ms.valid_until
-        puts "MessageSetup ID: #{ms.id.to_s} => check_valid_until: #{valid_until_data.to_s}"
-        ms.update(payplan_id: Payplan.message_free_id, valid_until: nil) if Date.today > valid_until_data
-      end
-    end
+    # def self.check_valid_until #проверяем срок и переводим на бесплатный тариф
+    #   ms = MessageSetup.all.first
+    #   if !ms.nil? && ms.payplan_id != Payplan.message_free_id
+    #     valid_until_data = ms.valid_until == nil ? Date.today-5.year : ms.valid_until
+    #     puts "MessageSetup ID: #{ms.id.to_s} => check_valid_until: #{valid_until_data.to_s}"
+    #     ms.update(payplan_id: Payplan.message_free_id, valid_until: nil) if Date.today > valid_until_data
+    #   end
+    # end
 
-    def have_free_payplan_invoice_and_no_valid?
-        check_invoice = Invoice.where(payplan_id: Payplan.message_free_id).present? ? true : false
-        valid_until_data = self.valid_until == nil ? Date.today-5.year : self.valid_until
-        check_date = Date.today > valid_until_data ? true : false
-        check_invoice == true && check_date == true ? true : false
-    end
+    # def have_free_payplan_invoice_and_no_valid?
+    #     check_invoice = Invoice.where(payplan_id: Payplan.message_free_id).present? ? true : false
+    #     valid_until_data = self.valid_until == nil ? Date.today-5.year : self.valid_until
+    #     check_date = Date.today > valid_until_data ? true : false
+    #     check_invoice == true && check_date == true ? true : false
+    # end
   
   private
     
@@ -53,11 +54,16 @@ class MessageSetup < ApplicationRecord
         service = Services::InsalesApi.new(user.insints.first)
         service.add_order_webhook
         # service.delete_order_webhook if self.status == false
+        xml = service.create_xml
+        self.restock_xml = xml.url
+        self.save
       end
     end
 
-    def set_valid_until_for_free_payplan
-      self.valid_until = Date.today+14.days if self.payplan_id == Payplan.message_free_id && self.status  == true
+    def set_valid_until_for_free_payplan_if_new
+      if new_record?
+        self.valid_until = Date.today+14.days if self.payplan_id == Payplan.message_free_id && self.status  == true
+      end
     end
     
     def create_invoice
@@ -70,7 +76,7 @@ class MessageSetup < ApplicationRecord
       if self.status
         if self.payplan_id == Payplan.message_free_id
           invoice = Invoice.create(invoice_data.merge!(status: "Оплачен"))
-          payment = invoice.get_payment.update(paymentdate: Date.today, status: "Оплачен")
+          payment = invoice.get_payment.update!(paymentdate: Date.today, status: "Оплачен")
         else
           invoice = Invoice.create(invoice_data)
         end
@@ -83,6 +89,17 @@ class MessageSetup < ApplicationRecord
       end
     end
 
+    def check_services
+     if !self.restock_xml.present?
+        user = User.find_by_subdomain(Apartment::Tenant.current)
+        if user.insints.last.status
+          service = Services::InsalesApi.new(user.insints.first)
+          xml = service.create_xml
+          self.restock_xml = xml.url
+          self.save
+        end
+      end
+    end
 end
     
     

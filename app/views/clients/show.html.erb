@@ -1,6 +1,6 @@
 <div class="row align-items-center g-2">
   <div class="col-4 btn-group mt-5">
-    <%= link_to 'Назад', clients_path, class: 'btn btn-outline-primary' %>
+    <%= link_to 'Назад', clients_path, class: 'btn btn-success' %>
     <%= link_to 'Обновить данные клиента из инсалес', update_from_insales_path(@client), method: :put, class: 'btn btn-outline-primary' %>
   </div>
 </div>
@@ -38,7 +38,7 @@
     </div>
   </div>
 <% end %>
-<% if @restock_products.present? %>
+<% if @client.restocks.present? %>
   <div class="row align-items-center mt-3 mb-3">
     <strong>Товары Restock:</strong>
     <div class="table-responsive">
@@ -55,15 +55,16 @@
       </tr>
       </thead>
       <tbody>
-      <% @restock_products.each do |var| %>
+      <% @client.restocks.each do |res| %>
         <tr>
+        <% var = res.variant%>
           <td><%= var.product.insid %></td>
           <td><%= var.insid %></td>
           <td><%= link_to "#{var.product.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+var.product.insid.to_s+"?variant_id="+var.insid.to_s, target: "_blank" %></td>
           <td><%= var.sku %></td>
           <td><%= var.quantity %></td>
           <td><%= var.price %></td>
-          <td><%= var.restocks.first.status %></td>
+          <td><%= res.status %></td>
         </tr>
         <% end %>
       </tbody>

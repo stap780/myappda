@@ -1,6 +1,6 @@
 class TemplatesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_template, only: [:show, :edit, :update, :preview_ins_order, :preview_case, :destroy]
+  before_action :set_template, only: [:show, :edit, :update, :preview_ins_order, :preview_case, :preview_restock, :destroy]
 
   # GET /templates
   def index
@@ -30,6 +30,14 @@ class TemplatesController < ApplicationController
       format.js
     end
   end
+
+  def preview_restock
+    @client = Client.find_by_id(params[:client_id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
   # GET /templates/new
   def new
     @template = Template.new
