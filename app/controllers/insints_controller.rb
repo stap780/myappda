@@ -311,19 +311,23 @@ class InsintsController < ApplicationController
         # конец запись о том что произошло изменение в заказе
         # проверяем заявку и создаём или обновляем
         search_case = Case.where(client_id: client.id, insales_order_id: params["id"])
+        puts "search_case.id => "+search_case.first.id.to_s
         mycase = search_case.present? ? search_case.update( insales_custom_status_title: params["custom_status"]["title"], 
-                                                            insales_financial_status: params["financial_status"]) : 
+                                                                  insales_financial_status: params["financial_status"])[0] : 
                                         Case.create!( client_id: client.id, insales_order_id: params["id"], 
                                                       insales_custom_status_title: params["custom_status"]["title"],
                                                       insales_financial_status: params["financial_status"],
-                                                      status: "new", casetype: "order", number: params["number"])
+                                                      status: "new", casetype: "order", number: params["number"] )
+        puts "mycase => "+mycase.to_s
+        puts mycase.is_a?Array
         params["order_lines"].each do |o_line|
           product = Product.find_by_insid(o_line["product_id"]).present? ?  Product.find_by_insid(o_line["product_id"]) : 
                                                                           Product.create!(insid: o_line["product_id"])
           puts "insint order product => "+product.inspect
           variant = product.variants.where(insid: o_line["variant_id"]).present? ? product.variants.where(insid: o_line["variant_id"])[0] : 
                                                                                 product.variants.create!(insid: o_line["variant_id"])
-          mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["full_total_price"])
+          mycase.lines.create!( product_id: product.id, 
+                                variant_id: variant.id, quantity: o_line["quantity"], price: o_line["full_total_price"])
         end
                                               
         # конец проверяем заявку и создаём или обновляем
@@ -355,7 +359,7 @@ class InsintsController < ApplicationController
                                           Client.create!( email: params["contacts"]["email"], phone: params["contacts"]["phone"], 
                                                                                               name: "abandoned_"+number.to_s)
         mycase = Case.find_by_number(number).present? ? Case.find_by_number(number) : 
-                                                      Case.create!( number: number, 
+                                                        Case.create!( number: number, 
                                                                     casetype: 'abandoned_cart',
                                                                     client_id: client.id, status: "new")
         puts "insint abandoned_cart mycase => "+mycase.inspect.to_s
