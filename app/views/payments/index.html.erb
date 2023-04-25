@@ -33,7 +33,7 @@
     <% @payments.each do |payment| %>
       <tr>
         <td><%= check_box_tag "payment_ids[]", payment.id %></td>
-        <td><b>Логин: </b><%= payment.user.subdomain %><br><b>Valid: </b><%= payment.user.present? ? payment.user.valid_until : "" %></td>
+        <td><b>Логин: </b><%= payment.user.subdomain if payment.user.present?%><br><b>Valid: </b><%= payment.user.present? ? payment.user.valid_until : "" %></td>
         <td><%= link_to payment.invoice_id , payment %></td>
         <td><%= payment.payplan.title %></td>
         <td><%= payment.payplan.period %></td>

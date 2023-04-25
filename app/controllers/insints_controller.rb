@@ -317,13 +317,13 @@ class InsintsController < ApplicationController
                                                       insales_custom_status_title: params["custom_status"]["title"],
                                                       insales_financial_status: params["financial_status"],
                                                       status: "new", casetype: "order", number: params["number"])
-        params["order_lines"].each do |line|
-          product = Product.find_by_insid(line["product_id"]).present? ?  Product.find_by_insid(line["product_id"]) : 
-                                                                          Product.create!(insid: line["product_id"])
+        params["order_lines"].each do |o_line|
+          product = Product.find_by_insid(o_line["product_id"]).present? ?  Product.find_by_insid(o_line["product_id"]) : 
+                                                                          Product.create!(insid: o_line["product_id"])
           puts "insint order product => "+product.inspect
-          variant = product.variants.where(insid: line["variant_id"]).present? ? product.variants.where(insid: line["variant_id"])[0] : 
-                                                                                product.variants.create!(insid: line["variant_id"])
-          our_line = mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: line["quantity"], price: line["full_total_price"])
+          variant = product.variants.where(insid: o_line["variant_id"]).present? ? product.variants.where(insid: o_line["variant_id"])[0] : 
+                                                                                product.variants.create!(insid: o_line["variant_id"])
+          mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["full_total_price"])
         end
                                               
         # конец проверяем заявку и создаём или обновляем
@@ -352,21 +352,19 @@ class InsintsController < ApplicationController
                                                                                       Client.find_by_phone(params["contacts"]["phone"])
         
         client = search_client.present? ? search_client : 
-                                          Client.create!( email: params["contacts"]["email"], 
-                                                          phone: params["contacts"]["phone"], 
-                                                          name: "abandoned_"+number.to_s)
+                                          Client.create!( email: params["contacts"]["email"], phone: params["contacts"]["phone"], 
+                                                                                              name: "abandoned_"+number.to_s)
         mycase = Case.find_by_number(number).present? ? Case.find_by_number(number) : 
                                                       Case.create!( number: number, 
                                                                     casetype: 'abandoned_cart',
                                                                     client_id: client.id, status: "new")
         puts "insint abandoned_cart mycase => "+mycase.inspect.to_s
-        params["lines"].each do |line|
-          product = Product.find_by_insid(line["productId"]).present? ? Product.find_by_insid(line["productId"]) : 
-                                                                        Product.create!(insid: line["productId"])
-          variant = product.variants.where(insid: line["variantId"]).present? ? product.variants.where(insid: line["variantId"])[0] : 
-                                                                                product.variants.create!(insid: line["variantId"])
-          our_line = mycase.lines.create!(  product_id: product.id, 
-                                            variant_id: variant.id, quantity: line["quantity"], price: line["price"])
+        params["lines"].each do |o_line|
+          product = Product.find_by_insid(o_line["productId"]).present? ? Product.find_by_insid(o_line["productId"]) : 
+                                                                        Product.create!(insid: o_line["productId"])
+          variant = product.variants.where(insid: o_line["variantId"]).present? ? product.variants.where(insid: o_line["variantId"])[0] : 
+                                                                                  product.variants.create!(insid: o_line["variantId"])
+          mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
         end
         mycase.do_event_action
         render json: { success: true, message: 'Информация сохранена в cases abandoned_cart'}
@@ -395,13 +393,13 @@ class InsintsController < ApplicationController
         mycase = Case.find_by_number(number).present? ? Case.find_by_number(number) : 
                                                       Case.create!(number: number, casetype: 'restock', client_id: client.id, status: "new")
         puts "insint restock mycase => "+mycase.to_s
-        params["lines"].each do |line|
-          product = Product.find_by_insid(line["productId"]).present? ? Product.find_by_insid(line["productId"]) : 
-                                                                        Product.create!(insid: line["productId"])
-          variant = product.variants.where(insid: line["variantId"]).present? ? product.variants.where(insid: line["variantId"])[0] : 
-                                                                                product.variants.create!(insid: line["variantId"])
+        params["lines"].each do |o_line|
+          product = Product.find_by_insid(line["productId"]).present? ? Product.find_by_insid(o_line["productId"]) : 
+                                                                        Product.create!(insid: o_line["productId"])
+          variant = product.variants.where(insid: o_line["variantId"]).present? ? product.variants.where(insid: o_line["variantId"])[0] : 
+                                                                                product.variants.create!(insid: o_line["variantId"])
           our_line = mycase.lines.create!(  product_id: product.id, 
-                                            variant_id: variant.id, quantity: line["quantity"], price: line["price"])
+                                            variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
         end
         mycase.add_restock
 

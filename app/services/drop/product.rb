@@ -17,7 +17,8 @@ class Services::Drop::Product < Liquid::Drop
     end
 
     def variants
-        @product.variants.map{|line| {"insid" => line.insid, "sku" => line.sku, "price" => line.price, "quantity" => line.quantity}}
+        # @product.variants.map{|line| {"insid" => line.insid, "sku" => line.sku, "price" => line.price, "quantity" => line.quantity}}
+        @product.variants.map{|var| var.attributes}
     end
 
 
