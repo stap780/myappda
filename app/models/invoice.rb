@@ -19,13 +19,7 @@ class Invoice < ApplicationRecord
   end
   
   def payment_date
-    data = self.get_payment.present? ? self.get_payment.paymentdate.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : ''
-  end
-
-  def create_payment
-    if !self.get_payment.present?
-      self.payments.create(user_id: self.get_user.id, payplan_id: self.payplan.id, status: 'Не оплачен', paymenttype: self.paymenttype )
-    end
+    self.get_payment.present? ? self.get_payment.paymentdate.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : ''
   end
 
 private
@@ -34,6 +28,12 @@ private
     if new_record?
       self.sum = self.payplan.price 
       self.status = 'Не оплачен' if self.status.nil?
+    end
+  end
+
+  def create_payment
+    if !self.get_payment.present?
+      self.payments.create!( user_id: self.get_user.id, payplan_id: self.payplan.id, status: 'Не оплачен', paymenttype: self.paymenttype )
     end
   end
 

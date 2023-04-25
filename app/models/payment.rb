@@ -2,7 +2,7 @@ class Payment < ApplicationRecord
   belongs_to :user
   belongs_to :payplan
 
-  validates :paymentdate, presence: true
+  # validates :paymentdate, presence: true
 
   before_create :add_subdomain #не помню зачем это
   after_commit :update_invoice_after_update_payment , on: [:update]

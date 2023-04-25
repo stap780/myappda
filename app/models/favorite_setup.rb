@@ -12,25 +12,6 @@ TITLE = "Избранное"
 DESCRIPTION = "Добавление и удаление товаров в/из избранного на любом устройстве для зарегистрированных клиентов магазина"
 
 
-# def apartment_add_new_item_to_user
-#   tenants = User.order(:id).pluck(:subdomain)
-#   tenants.each do |tenant|
-#     # puts tenant
-#     Apartment::Tenant.switch(tenant) do
-#       Item.create(title: self.title, handle: self.handle, description: self.description)
-#     end
-#   end
-# end
-#rake
-# def apartment_delete_item_from_user
-#   tenants = User.order(:id).pluck(:subdomain)
-#   tenants.each do |tenant|
-#     Apartment::Tenant.switch(tenant) do
-#       Item.where(handle: self.handle).delete_all
-#     end
-#   end
-# end
-
 def self.check_ability #проверяем тариф и определяем как будет обрабатываться запрос
   payplan_ability = false
 
