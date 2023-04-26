@@ -32,7 +32,9 @@
       <% if Favorite.all.count > 0 %>
       <th>Избранное</th>
       <% end %>
+      <% if Restock.all.count > 0 %>
       <th>Сообщить <br>о поступлении</th>
+       <% end %>
       <th colspan="1"></th>
     </tr>
   </thead>
