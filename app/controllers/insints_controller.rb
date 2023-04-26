@@ -136,8 +136,8 @@ class InsintsController < ApplicationController
             # client.update_attributes(izb_productid: izb_productid)
             # totalcount = client.izb_productid.split(',').count
             #добавка после расширения функционала
-            product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
-            client.favorites.create!(product_id: product.id)
+            product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
+            Favorite.create!(product_id: product.id, client_id: client.id)
             totalcount = client.favorites.count.to_s
             product.get_ins_product_data
             #конец добавка после расширения функционала
@@ -152,11 +152,12 @@ class InsintsController < ApplicationController
               email: search_client.email,
               phone: search_client.phone
             }
+            # puts "new_client_data => "+new_client_data.to_s
             new_client = Client.create!(new_client_data)
             # totalcount = new_client.izb_productid.split(',').count
             #добавка после расширения функционала
-            product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create(insid: params[:product_id])
-            new_client.favorites.create!(product_id: product.id)
+            product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
+            Favorite.create!(product_id: product.id, client_id: new_client.id)
             totalcount = new_client.favorites.count.to_s
             product.get_ins_product_data
             #конец добавка после расширения функционала
@@ -263,31 +264,6 @@ class InsintsController < ApplicationController
       end
     end
   end
-
-  # выключил как отдельный сервис
-  # def addrestock
-  #   insint = Insint.find_by_subdomen(params[:host])
-  #   saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
-  #   Apartment::Tenant.switch(saved_subdomain) do
-  #     if RestockSetup.check_ability
-  #       client = Client.find_by_email(params[:client_email])
-  #       if client.present?
-  #         product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
-  #         variant = product.variants.find_or_create_by(insid: params[:variant_id])
-  #         client.restocks.create(variant_id: variant.id) #добавка после расширения функционала
-  #         render json: { success: true, message: 'Информация сохранена. Мы известим вас о поступлении'}
-  #       else
-  #         new_client = Client.create(email: params[:client_email])
-  #         product = Product.find_or_create_by(insid: params[:product_id]) #добавка после расширения функционала
-  #         variant = product.variants.find_or_create_by(insid: params[:variant_id])
-  #         new_client.restocks.create(variant_id: variant.id) #добавка после расширения функционала
-  #         render json: { success: true, message: 'Информация сохранена. Мы известим вас о поступлении' }
-  #       end
-  #     else
-  #       render json: { error: false, message: 'Кол-во клиентов больше допустимого, товары не добавляются' }
-  #     end
-  #   end
-  # end
 
   def order
     number = params["number"]
