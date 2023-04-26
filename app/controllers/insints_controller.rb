@@ -137,7 +137,7 @@ class InsintsController < ApplicationController
             # totalcount = client.izb_productid.split(',').count
             #добавка после расширения функционала
             product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
-            fav = Favorite.new(product_id: product.id, client_id: new_client.id)
+            fav = Favorite.new(product_id: product.id, client_id: client.id)
             fav.save
             totalcount = client.favorites.count.to_s
             product.get_ins_product_data
