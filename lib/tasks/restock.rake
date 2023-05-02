@@ -16,7 +16,7 @@ namespace :restock do
                   Services::RestockAction.new(user, client, events, restock_xml).do_action
               end
             end
-        end if tenant == 'test2'
+        end #if tenant == 'test2'
       end
   
       puts "finish check_product_qt - время москва - #{Time.zone.now}"

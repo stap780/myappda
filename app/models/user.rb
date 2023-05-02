@@ -93,6 +93,12 @@ class User < ApplicationRecord
       MessageSetup.first.present? && MessageSetup.first.status ? "Вкл" : "Выкл"
     end
   end
+
+  def message_setup_valid_until
+    Apartment::Tenant.switch(self.subdomain) do
+      MessageSetup.first.present? && MessageSetup.first.status ? MessageSetup.first.valid_until : ''
+    end
+  end
   
   def izb_count
     Apartment::Tenant.switch(self.subdomain) do
