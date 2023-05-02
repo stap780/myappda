@@ -5,7 +5,7 @@ class Product < ApplicationRecord
   has_many :clients, through: :favorites
   has_many :variants, :dependent => :destroy
   accepts_nested_attributes_for :variants, allow_destroy: true #,reject_if: proc { |attributes| attributes['weight'].blank? }
-  # after_commit :get_ins_api_data, on: [:create]
+  after_commit :get_ins_api_data, on: [:create]
 
 
   validates :insid, presence: true

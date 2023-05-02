@@ -30,21 +30,6 @@ class MessageSetup < ApplicationRecord
       end
     end
     
-    # def self.check_valid_until #проверяем срок и переводим на бесплатный тариф
-    #   ms = MessageSetup.all.first
-    #   if !ms.nil? && ms.payplan_id != Payplan.message_free_id
-    #     valid_until_data = ms.valid_until == nil ? Date.today-5.year : ms.valid_until
-    #     puts "MessageSetup ID: #{ms.id.to_s} => check_valid_until: #{valid_until_data.to_s}"
-    #     ms.update(payplan_id: Payplan.message_free_id, valid_until: nil) if Date.today > valid_until_data
-    #   end
-    # end
-
-    # def have_free_payplan_invoice_and_no_valid?
-    #     check_invoice = Invoice.where(payplan_id: Payplan.message_free_id).present? ? true : false
-    #     valid_until_data = self.valid_until == nil ? Date.today-5.year : self.valid_until
-    #     check_date = Date.today > valid_until_data ? true : false
-    #     check_invoice == true && check_date == true ? true : false
-    # end
   
   private
     
@@ -95,8 +80,10 @@ class MessageSetup < ApplicationRecord
         if user.insints.last.status
           service = Services::InsalesApi.new(user.insints.first)
           xml = service.create_xml
-          self.restock_xml = xml.url
-          self.save
+          if xml
+            self.restock_xml = xml.url
+            self.save
+          end
         end
       end
     end

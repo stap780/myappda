@@ -9,3 +9,5 @@
 <%= f.input :timetable_time, label: "Проверять каждые (в часах)", wrapper_html: { class: "#{class_display} mt-2" } do %>
     <%= f.select :timetable_time, Array.new(25){|e| [e, e*60]}.drop(1), { include_blank: true}, { class: "form-select" } %>
 <% end %>
+
+

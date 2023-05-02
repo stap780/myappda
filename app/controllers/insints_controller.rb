@@ -137,10 +137,10 @@ class InsintsController < ApplicationController
             # totalcount = client.izb_productid.split(',').count
             #добавка после расширения функционала
             product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
-            fav = Favorite.new(product_id: product.id, client_id: client.id)
+            fav = Favorite.new(product_id: product.id, client_id: client.id, created_at: Time.now, updated_at: Time.now)
             fav.save
             totalcount = client.favorites.count.to_s
-            product.get_ins_product_data
+            # product.get_ins_api_data
             #конец добавка после расширения функционала
             render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
           else
@@ -158,10 +158,10 @@ class InsintsController < ApplicationController
             # totalcount = new_client.izb_productid.split(',').count
             #добавка после расширения функционала
             product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
-            fav = Favorite.new(product_id: product.id, client_id: new_client.id)
+            fav = Favorite.new(product_id: product.id, client_id: new_client.id, created_at: Time.now, updated_at: Time.now)
             fav.save
             totalcount = new_client.favorites.count.to_s
-            product.get_ins_api_data
+            # product.get_ins_api_data
             #конец добавка после расширения функционала
             render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
           end
@@ -289,7 +289,7 @@ class InsintsController < ApplicationController
         # конец запись о том что произошло изменение в заказе
         # проверяем заявку и создаём или обновляем
         search_case = Case.where(client_id: client.id, insales_order_id: params["id"])
-        puts "search_case.id => "+search_case.first.id.to_s
+        puts "search_case.id => "+search_case.first.id.to_s if search_case.present?
         mycase = search_case.present? ? search_case.update( insales_custom_status_title: params["custom_status"]["title"], 
                                                                   insales_financial_status: params["financial_status"])[0] : 
                                         Case.create!( client_id: client.id, insales_order_id: params["id"], 
