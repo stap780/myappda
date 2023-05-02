@@ -314,7 +314,7 @@ class InsintsController < ApplicationController
         # конец создаём заявку
         render json: { success: true, message: 'Информация сохранена в order_status_changes and case' }
       else
-        render json: { error: false, message: 'не смогли добавить запись в order_status_changes and case' }
+        render json: { error: false, message: 'не смогли добавить запись в order_status_changes and case Сервис не включен' }
       end
     end
   end
@@ -351,7 +351,7 @@ class InsintsController < ApplicationController
         mycase.do_event_action
         render json: { success: true, message: 'Информация сохранена в cases abandoned_cart'}
       else
-        render json: { error: false, message: 'не смогли добавить запись в cases abandoned_cart' }
+        render json: { error: false, message: 'не смогли добавить запись в cases abandoned_cart Сервис не включен' }
       end
     end
   end
@@ -376,7 +376,7 @@ class InsintsController < ApplicationController
                                                       Case.create!(number: number, casetype: 'restock', client_id: client.id, status: "new")
         puts "insint restock mycase => "+mycase.to_s
         params["lines"].each do |o_line|
-          product = Product.find_by_insid(line["productId"]).present? ? Product.find_by_insid(o_line["productId"]) : 
+          product = Product.find_by_insid(o_line["productId"]).present? ? Product.find_by_insid(o_line["productId"]) : 
                                                                         Product.create!(insid: o_line["productId"])
           variant = product.variants.where(insid: o_line["variantId"]).present? ? product.variants.where(insid: o_line["variantId"])[0] : 
                                                                                 product.variants.create!(insid: o_line["variantId"])
@@ -387,7 +387,7 @@ class InsintsController < ApplicationController
 
         render json: { success: true, message: 'Информация сохранена в cases restock'}
       else
-        render json: { error: false, message: 'не смогли добавить запись в cases restock' }
+        render json: { error: false, message: 'не смогли добавить запись в cases restock Сервис не включен' }
       end
     end
   end
