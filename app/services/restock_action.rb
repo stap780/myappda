@@ -5,7 +5,7 @@ class Services::RestockAction
         @client = client
         @events = events
         @restock_xml = restock_xml
-        @download_path = Rails.env.development? ? "#{Rails.root}/public/#{@user.id}.xml" : "/var/www/k-comment/shared/public/#{@user.id}.xml"
+        @download_path = Rails.env.development? ? "#{Rails.root}/public/#{@user.id}.xml" : "/var/www/myappda/shared/public/#{@user.id}.xml"
     end
 
     def do_action#(user, client, events)
