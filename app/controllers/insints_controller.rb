@@ -370,8 +370,8 @@ class InsintsController < ApplicationController
         search_client = Client.find_by_email(params["contacts"]["email"]).present? ? Client.find_by_email(params["contacts"]["email"]) : 
                                                                                     Client.find_by_phone(params["contacts"]["phone"])
         client_name = params["contacts"]["name"].present? ? params["contacts"]["name"] : "restock_"+number.to_s
-        client = search_client.present? ? search_client : 
-                                          Client.create!( email: params["contacts"]["email"], phone: params["contacts"]["phone"], name: client_name)
+        phone = params["contacts"]["phone"].present? ? params["contacts"]["phone"] : "+79011111111"
+        client = search_client.present? ? search_client : Client.create!( email: params["contacts"]["email"], phone: phone, name: client_name)
         mycase = Case.find_by_number(number).present? ? Case.find_by_number(number) : 
                                                       Case.create!(number: number, casetype: 'restock', client_id: client.id, status: "new")
         puts "insint restock mycase => "+mycase.to_s
