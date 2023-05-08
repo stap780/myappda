@@ -5,30 +5,30 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :set_current_user
   before_action :redirect_to_subdomain  # Every logged in user should be redirected to their own subdomain
-  # before_action :allow_cross_domain_ajax
-  before_action :allow_cross_domain_access
-  after_action :cors_set_access_control_headers
+  ## before_action :allow_cross_domain_ajax
+  # before_action :allow_cross_domain_access
+  # after_action :cors_set_access_control_headers
   helper_method :current_admin
   helper_method :authenticate_admin!
 
-  # def allow_cross_domain_ajax
-  #     headers['Access-Control-Allow-Origin'] = '*'
-  #     headers['Access-Control-Request-Method'] = 'GET, POST, OPTIONS'
+  ## def allow_cross_domain_ajax
+  ##     headers['Access-Control-Allow-Origin'] = '*'
+  ##     headers['Access-Control-Request-Method'] = 'GET, POST, OPTIONS'
+  ## end
+
+  # def allow_cross_domain_access
+  #     headers['Access-Control-Allow-Origin'] = '*' #http://localhost:9000
+  #     headers['Access-Control-Allow-Headers'] = 'GET, POST, PUT, DELETE, OPTIONS'
+  #     headers['Access-Control-Allow-Methods'] = %w{Origin Accept Content-Type X-Requested-With X-CSRF-Token}.join(',')
+  #     headers['Access-Control-Max-Age'] = '1728000'
   # end
 
-  def allow_cross_domain_access
-      headers['Access-Control-Allow-Origin'] = '*' #http://localhost:9000
-      headers['Access-Control-Allow-Headers'] = 'GET, POST, PUT, DELETE, OPTIONS'
-      headers['Access-Control-Allow-Methods'] = %w{Origin Accept Content-Type X-Requested-With X-CSRF-Token}.join(',')
-      headers['Access-Control-Max-Age'] = '1728000'
-  end
-
-  def cors_set_access_control_headers
-      headers['Access-Control-Allow-Origin'] = '*'
-      headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
-      headers['Access-Control-Allow-Headers'] = %w{Origin Accept Content-Type X-Requested-With X-CSRF-Token}.join(',')
-      headers['Access-Control-Max-Age'] = "1728000"
-  end
+  # def cors_set_access_control_headers
+  #     headers['Access-Control-Allow-Origin'] = '*'
+  #     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
+  #     headers['Access-Control-Allow-Headers'] = %w{Origin Accept Content-Type X-Requested-With X-CSRF-Token}.join(',')
+  #     headers['Access-Control-Max-Age'] = "1728000"
+  # end
   private
 
   def after_sign_in_path_for(resource_or_scope)
