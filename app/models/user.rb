@@ -82,6 +82,12 @@ class User < ApplicationRecord
     end
   end
 
+  def favorite_setup_valid_until
+    Apartment::Tenant.switch(self.subdomain) do
+      FavoriteSetup.first.present? && FavoriteSetup.first.status ? FavoriteSetup.first.valid_until : ''
+    end
+  end
+
   def restock_setup_status
     Apartment::Tenant.switch(self.subdomain) do
       RestockSetup.first.present? && RestockSetup.first.status ? "Вкл" : "Выкл"

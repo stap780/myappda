@@ -139,7 +139,7 @@ class InsintsController < ApplicationController
             product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
             fav = Favorite.new(product_id: product.id, client_id: client.id, created_at: Time.now, updated_at: Time.now)
             fav.save
-            totalcount = client.favorites.count.to_s
+            totalcount = client.favorites.uniq.count.to_s
             # product.get_ins_api_data
             #конец добавка после расширения функционала
             render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
@@ -160,7 +160,7 @@ class InsintsController < ApplicationController
             product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
             fav = Favorite.new(product_id: product.id, client_id: new_client.id, created_at: Time.now, updated_at: Time.now)
             fav.save
-            totalcount = new_client.favorites.count.to_s
+            totalcount = new_client.favorites.uniq.count.to_s
             # product.get_ins_api_data
             #конец добавка после расширения функционала
             render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
@@ -181,10 +181,9 @@ class InsintsController < ApplicationController
       Apartment::Tenant.switch(saved_subdomain) do
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
-            # totalcount = client.izb_productid.split(',').count
             favorite_product_ids = client.favorites.pluck(:product_id).uniq.reverse
             ins_ids = client.products.where(id: favorite_product_ids).pluck(:insid).join(',')
-            totalcount = client.favorites.count.to_s
+            totalcount = favorite_product_ids.count.to_s
             render json: { success: true, products: ins_ids, totalcount: totalcount }
           else
             render json: { error: false, message: 'нет такого клиента' }
@@ -205,25 +204,8 @@ class InsintsController < ApplicationController
           if client.present?
             product = Product.find_by_insid(params[:product_id])
             client.favorites.find_by_product_id(product.id).destroy #добавка после расширения функционала
-            totalcount = client.favorites.count.to_s
+            totalcount = client.favorites.uniq.count.to_s
             render json: { success: true, message: 'товар удалён', totalcount: totalcount }
-
-            # products = client.izb_productid
-            # # puts products
-            # if products.include?(params[:product_id])
-            #   ecxlude_string = []
-            #   ecxlude_string.push(params[:product_id])
-            #   products = (client.izb_productid.split(',') - ecxlude_string).uniq.join(',')
-            #   # puts products
-            #   client.update_attributes(izb_productid: products)
-            #   # totalcount = client.izb_productid.split(',').count
-            #   totalcount = client.favorites.count.to_s
-            #   product = Product.find_by_insid(params[:product_id])
-            #   client.favorites.find_by_product_id(product).destroy #добавка после расширения функционала
-            #   render json: { success: true, message: 'товар удалён', totalcount: totalcount }
-            # else
-            #   render json: { error: false, message: 'нет такого товара' }
-            # end
           end
         else
           render :json=> {:success=>true, :message=>"Кол-во клиентов больше допустимого, товары не удаляются"}

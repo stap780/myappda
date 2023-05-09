@@ -16,8 +16,9 @@
 </td>
 <td><%= user.products_count %></td>
 <td><%= user.izb_count %></td>
-<td><%= user.favorite_setup_status %></td>
+<td><%= user.favorite_setup_status %><br>
+    Действует до - <%= user.favorite_setup_valid_until %></td>
 <td><%= user.message_setup_status %><br>
-    <%= user.message_setup_valid_until %>
+    Действует до - <%= user.message_setup_valid_until %>
 </td>
 <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, user, method: :delete, data: { confirm: 'Are you sure?' }  if current_admin %></td>
