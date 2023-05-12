@@ -8,6 +8,13 @@
     <b>Последний вход</b> <%= user.last_sign_in_at.present? ? user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : '' %><br>
     <b>Действует до</b> <%= user.valid_until.present? ? user.valid_until.strftime("%d-%m-%Y") : ''%>
 </td>
+    <td><% insint = user.insints.first %>
+    <% if insint %>
+    Интег.: <%= link_to "Проверить", check_insints_path(insint), :remote => true, :method => :get, class: "btn btn-outline-info btn-sm" %>
+    <% end %>
+    </br>
+    Почта: <%= link_to "Проверить", check_email_users_path(user), :remote => true, :method => :get, class: "btn btn-outline-info btn-sm" %>
+    </td>
 <td>
     <span type="button" data-bs-toggle= "tooltip" data-bs-trigger= "click" data-bs-html= "true" 
           data-bs-placement= "left" data-bs-title="<span><%=user.last_client_data.to_s%></span>">

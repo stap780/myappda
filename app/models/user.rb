@@ -145,11 +145,22 @@ class User < ApplicationRecord
 	def self.current
     Thread.current[:user]
   end
+
   def self.current=(user)
     Thread.current[:user] = user
   end
   
-
+  def check_email
+    email_data = {
+      user: self, 
+      subject: 'Test subject', 
+      content: 'Test content', 
+      receiver: 'info@k-comment.ru'
+    }
+    check_email = EventMailer.with(email_data).send_action_email.deliver_later(wait: '1'.to_i.minutes)
+    check_email.present? ? true : false
+  end
+  
   private
 
   def normalize_phone

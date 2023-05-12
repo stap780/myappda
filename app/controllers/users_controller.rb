@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :check_email]
   before_action :authenticate_admin!, only: [:index]
 
 
@@ -50,7 +50,6 @@ class UsersController < ApplicationController
     end
   end
 
-
   def delete_image
     ActiveStorage::Attachment.where(id: params[:image_id])[0].purge
     respond_to do |format|
@@ -58,6 +57,16 @@ class UsersController < ApplicationController
       format.json { render json: { :status => "ok", :message => "destroyed" } }
     end
   end
+
+  def check_email
+    notice = @user.check_email.present? ? 'Почта настроена верно и тестовое сообщение отправили' : 'Не работает Почта!'
+    respond_to do |format|
+      format.js do
+        flash.now[:notice] = notice
+      end
+    end
+  end
+
 
   private
 

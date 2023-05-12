@@ -1,4 +1,98 @@
 <div class="container">
 <%= render partial: "/home/header"%>
 </div>
-<div class="text-center text-uppercase mt-5 mb-5">страница в разработке</div>
+<div class="container mb-5">
+<h1 class="display-4 text-center text-uppercase mt-5 mb-5">Триггеры - Сообщить о поступлении</h1>
+<section class="page-section pt-0">
+<div class="row">
+    <div class="display-6 text-center text-uppercase mb-5">Возможности</div>
+    <ol class="list-group list-group-numbered">
+        <li class="list-group-item">уведомлений клиентов и менеджеров интернет-магазина о событиях, происходящих с заказами в зависимости от статуса заказа или оплаты, включая пользовательские статусы.</li>
+        <li class="list-group-item">возможность настроить и использовать доменную почту, например info@store.ru Есть настройки для yandex, mail, gmail, masterhost и др.</li>
+        <li class="list-group-item">отложенная отправка через несколько минут, часов, дней</li>
+        <li class="list-group-item">индивидуальные шаблоны сообщений для разных событий как для клиента, так и для менеджера магазина. (планируется добавить к статусам и способы доставки)</li>
+        <li class="list-group-item">использование языка Liquid для сообщений, как в шаблонах InSales. 
+        С помощью языка Liquid можно подставлять любую информацию, доступную в заказе, включая телефон клиента, сумму заказа, E-mail клиента, купленные позиции и т.д. 
+        С помощью условий в Liquid вы можете реализовать адаптивные сообщения, которые показывают или скрывают информацию в зависимости от переменных заказа</li>
+        <li class="list-group-item">разные каналы оповещения клиента: email, sms (в разработке), telegramm (в разработке), whatsapp (в разработке) </li>
+        <li class="list-group-item">периодическая отправка сообщений</li>
+        <li class="list-group-item">"Брошенная корзина"</li>
+        <li class="list-group-item">"Предзаказ"</li>
+        <li class="list-group-item">"Сообщить о поступлении"</li>
+    </ol>
+    </div>
+</section>
+<section class="page-section price pt-0">
+    <div class="row justi">
+        <div class="display-6 text-center text-uppercase mb-5">Стоимость</div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="card text-center ml-0 mr-0">
+            <div class="card-header">Бесплатно</div>
+                <div class="card-body">
+                <h4 class="card-title ">14 дней</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">консультации</li>
+                    <li class="list-group-item">бесплатно 14 дней</li>
+                    <li class="list-group-item">полный функционал</li>
+                </ul>
+                </div>
+                <div class="card-body">
+                    <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary btn-lg' %>
+                    <a href="https://www.insales.ru/collection/dopolneniya-k-shablonam/product/k-comment?aff=8337582b0" target="_blank" class='text-center btn btn-outline-success btn-lg'>Insales</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="card text-center ml-0 mr-0">
+            <div class="card-header text-white bg-success">Стандарт</div>
+                <div class="card-body">
+                <h4 class="card-title">1000 ₽/мес</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">консультации</li>
+                    <li class="list-group-item">оплата за 1 мес</li>
+                    <li class="list-group-item">полный функционал</li>
+                </ul>
+                </div>
+                <div class="card-body">
+                <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary btn-lg' %>
+                <a href="https://www.insales.ru/collection/dopolneniya-k-shablonam/product/k-comment?aff=8337582b0" target="_blank" class='text-center btn btn-outline-success btn-lg'>Insales</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="card text-center ml-0 mr-0">
+            <div class="card-header">Стандарт 6</div>
+                <div class="card-body">
+                <h4 class="card-title">900 ₽/мес</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">скидка 10% (5400 ₽)</li>
+                    <li class="list-group-item">оплата за 6 мес</li>
+                    <li class="list-group-item">полный функционал</li>
+                </ul>
+                </div>
+                <div class="card-body">
+                    <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary btn-lg' %>
+                    <a href="https://www.insales.ru/collection/dopolneniya-k-shablonam/product/k-comment?aff=8337582b0" target="_blank" class='text-center btn btn-outline-success btn-lg'>Insales</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="card text-center ml-0 mr-0">
+            <div class="card-header text-white bg-danger">Стандарт 12</div>
+                <div class="card-body">
+                <h4 class="card-title">800 ₽/мес</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">скидка 20% (9600 ₽)</li>
+                    <li class="list-group-item">оплата за 12 мес</li>
+                    <li class="list-group-item">полный функционал</li>
+                </ul>
+                </div>
+                <div class="card-body">
+                    <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary btn-lg' %>
+                    <a href="https://www.insales.ru/collection/dopolneniya-k-shablonam/product/k-comment?aff=8337582b0" target="_blank" class='text-center btn btn-outline-success btn-lg'>Insales</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>

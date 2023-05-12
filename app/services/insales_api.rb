@@ -104,13 +104,11 @@ class Services::InsalesApi
     def work?
         check = false
         begin
-            check_api = InsalesApi::CustomStatus.find(:all).map{ |d| d.title }
+            check_api = InsalesApi::CustomStatus.find(:all).present? ? InsalesApi::CustomStatus.find(:all).map{ |d| d.title } : false
             rescue ActiveResource::ResourceNotFound
-                #redirect_to :action => 'not_found'
                 puts  'not_found 404'
                 check = false
             rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
-                #redirect_to :action => 'new'
                 puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
                 check = false
             rescue ActiveResource::UnauthorizedAccess

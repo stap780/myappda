@@ -21,11 +21,11 @@ class Services::Drop::Client < Liquid::Drop
     end
 
     def restocks
-        @client.restocks.map{|line| {"title" => line.variant.product.title, "id" => line.variant.product.id, "insid" => line.variant.product.insid, "var_insid" => line.variant.insid}}
+        @client.restocks.map{|line| {"title" => line.variant.product.title, "id" => line.variant.product.id, "insid" => line.variant.product.insid, "var_insid" => line.variant.insid, "sku" => line.variant.sku.to_s}}
     end
 
     def restocks_for_inform
-        @client.restocks.for_inform.map{|line| {"title" => line.variant.product.title, "id" => line.variant.product.id, "insid" => line.variant.product.insid, "var_insid" => line.variant.insid}}
+        @client.restocks.for_inform.map{|line| {"title" => line.variant.product.title, "id" => line.variant.product.id, "insid" => line.variant.product.insid, "var_insid" => line.variant.insid, "sku" => line.variant.sku.to_s}}
     end
     
 
