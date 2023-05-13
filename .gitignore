@@ -25,6 +25,7 @@ tmp/*
 /first_stage.txt
 config/secrets.yml
 /config/secrets.yml
+storage/*
 
 # Ignore Byebug command history file.
 .byebug_history
