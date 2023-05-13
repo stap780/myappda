@@ -18,10 +18,10 @@
       <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
       
       <%= f.input :title, label: "Название шаблона" %>
-      <%= f.input :subject, label: "Тема письма" %>
-      <%= f.input :receiver, label: "Получатель", collection: [['Клиент','client'],['Менеджер','manager']], prompt: false, input_html: { class: "form-select" } %>
-      <%= f.input :content, label: "Содержание письма", input_html: {id: "template-content", rows: "10"} %>
-      <div class="col-2 btn-group mt-5">
+      <%= f.input :subject, label: "Тема письма", wrapper_html: {class: "mt-2"} %>
+      <%= f.input :receiver, label: "Получатель", collection: [['Клиент','client'],['Менеджер','manager']], prompt: false, input_html: { class: "form-select" }, wrapper_html: {class: "mt-2"} %>
+      <%= f.input :content, label: "Содержание письма", input_html: {id: "template-content", rows: "10"} , wrapper_html: {class: "mt-2"}%>
+      <div class="col-2 btn-group mt-5 mb-5">
         <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
         <%= link_to 'Назад', templates_path, class: 'btn btn-outline-primary' %>
       </div>
@@ -35,12 +35,12 @@
           <%= form.select :insales_order_id, @ten_orders, include_blank: "Выберите заказ", class: "form-select" %>
           <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
         <% end %>
-        <%= form_with url: preview_case_templates_path, method: :get, class: "input-group", local: false do |form| %>
+        <%= form_with url: preview_case_templates_path, method: :get, class: "input-group mt-2", local: false do |form| %>
           <%= form.select :case_id, Case.all.limit(10).pluck(:id), include_blank: "Выберите заявку", class: "form-select" %>
           <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
         <% end %>
-        <%= form_with url: preview_restock_templates_path, method: :get, class: "input-group", local: false do |form| %>
-          <%= form.select :client_id, Client.order(:id).limit(10).pluck(:id), include_blank: "Выберите клиента", class: "form-select" %>
+        <%= form_with url: preview_restock_templates_path, method: :get, class: "input-group mt-2", local: false do |form| %>
+          <%= form.select :client_id, Client.order(:id).limit(10).pluck(:name,:id), include_blank: "Выберите клиента", class: "form-select" %>
           <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
         <% end %>
 

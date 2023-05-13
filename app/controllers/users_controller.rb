@@ -23,9 +23,8 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
-    @user.avatar.attach(params[:user][:avatar]) if params[:user][:avatar]
+    @user.image.attach(params[:user][:image]) if params[:user][:image]
     respond_to do |format|
-      #if @user.update(name: params[:user][:name], email: params[:user][:email], role_id: params[:user][:role_id])
       if @user.update(user_params)
         redirect_path = @user == current_user ? dashboard_path : users_url
         format.html { redirect_to redirect_path, notice: "User was successfully updated." }
@@ -40,7 +39,6 @@ class UsersController < ApplicationController
   def destroy
     if User.count > 1 && !@user.admin?
       @user.destroy
-
       respond_to do |format|
         format.html { redirect_back fallback_location: users_url, notice: 'Пользователь удалён' }
         format.json { head :no_content }
@@ -55,6 +53,9 @@ class UsersController < ApplicationController
     respond_to do |format|
       #format.html { redirect_to edit_product_path(params[:id]), notice: 'Image was successfully deleted.' }
       format.json { render json: { :status => "ok", :message => "destroyed" } }
+      format.js do
+        flash.now[:notice] = 'Image was successfully deleted.'
+      end
     end
   end
 
@@ -75,7 +76,7 @@ class UsersController < ApplicationController
   end
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:name, :email, :subdomain, :avatar, :phone, :admin)
+      params.require(:user).permit(:name, :email, :subdomain, :phone, :admin, :avatar, avatar_attachment_attributes: [:id, :_destroy])
     end
 
 end

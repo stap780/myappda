@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   # Include default devise modules. Others available are:
   # :recoverable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,:rememberable, :trackable, :validatable, :recoverable, :date_restrictable
@@ -10,7 +12,8 @@ class User < ApplicationRecord
   has_many	 :payments, :dependent => :destroy
   accepts_nested_attributes_for :payments, allow_destroy: true
 
-  has_one_attached :avatar, dependent: :destroy
+  has_one_attached :image
+  accepts_nested_attributes_for :image_attachment, allow_destroy: true
   before_save :normalize_phone
 
   validates :name, presence: true
@@ -19,6 +22,8 @@ class User < ApplicationRecord
   validates_length_of :subdomain, maximum: 32, message: "максимальная длина 32 знака"
   validates_exclusion_of :subdomain, in: ['www', 'mail', 'ftp', 'admin', 'test', 'public', 'private', 'staging', 'app', 'web', 'net'], message: "эти слова использовать нельзя"
   # validates :attribute, phone: { possible: true, allow_blank: true, types: [:voip, :mobile], country_specifier: -> phone { phone.country.try(:upcase) } }
+  #validates :image, attached: true
+  validates :image, dimension: { width: { min: 100, max: 1200 } }, content_type: [:png, :jpg, :jpeg], size: { less_than: 100.kilobytes , message: 'is not given between size' }
 
   def create_tenant
     Apartment::Tenant.create(subdomain)
@@ -50,9 +55,9 @@ class User < ApplicationRecord
     end
   end
 
-  def avatar_thumbnail
-    if avatar.attached?
-      avatar.variant(combine_options: {auto_orient: true, thumbnail: '160x160', gravity: 'center', extent: '160x160' })
+  def image_thumb
+    if image.attached?
+      image.variant(combine_options: {auto_orient: true, thumbnail: '160x160', gravity: 'center', extent: '160x160' })
     else
       # "/default_avatar.png"
     end
@@ -161,10 +166,25 @@ class User < ApplicationRecord
     check_email.present? ? true : false
   end
   
+  def image_data
+    return unless self.image.attached?
+    image = self.image
+    image.blob.attributes.slice('filename', 'byte_size', 'id').merge(url: image_url(image))
+  end
+
+  def image_url(image)
+      rails_blob_path(image, only_path: true)
+  end
+
+
   private
 
   def normalize_phone
     self.phone = Phonelib.valid_for_country?(phone, 'RU') ? Phonelib.parse(phone).full_e164.presence : Phonelib.parse(phone, "KZ").full_e164.presence
   end
 
-end # class
+
+end
+
+# User.joins(:avatar_attachment).where('created_at <= ?', Time.now)
+#attach local file - some_profile.avatar.attach(io: File.open('/path/to/file'), filename: 'avatar.png')

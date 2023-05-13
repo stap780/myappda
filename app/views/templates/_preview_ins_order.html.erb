@@ -3,6 +3,8 @@
 
 <% order_drop = Services::Drop::InsalesOrder.new(@order) %>
 <% client_drop = Services::Drop::InsalesClient.new(@client) %>
+<% user_drop = Services::Drop::User.new(current_user) %>
+
 
 <div class="row mx-auto">
     <pre>
@@ -10,7 +12,7 @@
             <div><span class="h6">Тема письма:</span> <%= subject_template.render('order' => order_drop, 'client' => client_drop)%></div>
             
             <div class="h6">Содержание письма:</div> 
-            <div><%= content_template.render('order' => order_drop, 'client' => client_drop).html_safe%></div>
+            <div><%= content_template.render('order' => order_drop, 'client' => client_drop, 'user' => user_drop).html_safe%></div>
         </code>
     </pre>
 </div>
