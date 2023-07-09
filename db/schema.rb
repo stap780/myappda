@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_14_091629) do
+ActiveRecord::Schema.define(version: 2023_07_09_103100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,7 +184,7 @@ ActiveRecord::Schema.define(version: 2023_04_14_091629) do
     t.date "valid_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "restock_xml"
+    t.string "product_xml"
   end
 
   create_table "order_status_changes", force: :cascade do |t|
@@ -219,6 +219,15 @@ ActiveRecord::Schema.define(version: 2023_04_14_091629) do
     t.string "description"
     t.string "service_handle"
     t.string "handle"
+  end
+
+  create_table "preorders", force: :cascade do |t|
+    t.integer "variant_id"
+    t.integer "client_id"
+    t.string "status"
+    t.integer "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "products", force: :cascade do |t|

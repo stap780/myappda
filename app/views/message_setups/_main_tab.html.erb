@@ -1,4 +1,4 @@
-    <div class="col-9">
+    <div class="col-md-9">
       <% if Insint.present_work? %>
         <%= f.input :status, label: "Статус (вкл/выкл)", wrapper: :horizontal_collection, wrapper_html: {class: 'mt-4'}  %>
         <%= f.input :title, as: :hidden, input_html: { value: MessageSetup::TITLE } %>
@@ -6,7 +6,7 @@
         <%= f.input :description, as: :hidden, input_html: { value: MessageSetup::DESCRIPTION }  %>
         <%= f.input :valid_until, as: :hidden, input_html: { }  %>
       <% else %>
-      Внимание!!! Интеграция не настроена. Настройте <%= link_to "интеграцию", useraccounts_path %>
+        Внимание!!! Интеграция не настроена. Настройте <%= link_to "интеграцию", useraccounts_path %>
       <% end %>
         <% disabled = @message_setup.payplan && @message_setup.payplan.handle.include?("free") ? false : true %>
         <% checked = @message_setup.payplan ? @message_setup.payplan.id : Payplan.message_free_id %>
@@ -20,3 +20,7 @@
                                     wrapper: :horizontal_collection,
                                     wrapper_html: {class: 'mt-4'} %>
     </div>
+<div class="col-md-9">
+    <% placeholder = f.object.product_xml.present? ? '' : 'появится автоматически после сохранения сервиса' %>
+    <%= f.input :product_xml, disabled: true, label: 'Ссылка на файл с товарами', placeholder: placeholder, wrapper_html: { class: "mt-4" }  %>
+</div>

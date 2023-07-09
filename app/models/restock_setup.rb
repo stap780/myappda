@@ -1,4 +1,11 @@
 class RestockSetup < ApplicationRecord
+
+  #####
+
+  ### Этот раздел не работает, так как сменили принцип всего приложения
+  ### Теперь у нас Триггеры и всё настраивается в разделе Message
+
+  #####
   belongs_to :payplan
 
   validates :title, presence: true

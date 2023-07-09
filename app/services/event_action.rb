@@ -15,6 +15,7 @@ class Services::EventAction
         subject_template = Liquid::Template.parse(action.template.subject)
         content_template = Liquid::Template.parse(action.template.content)
         
+        user_drop = Services::Drop::User.new(user)
         if mycase.casetype != 'order'
             case_drop = Services::Drop::Case.new(mycase)
             client_drop = Services::Drop::Client.new(mycase.client)
@@ -29,7 +30,7 @@ class Services::EventAction
         end
 
         subject = subject_template.render('case' => case_drop, 'client' => client_drop)
-        content = content_template.render('case' => case_drop, 'client' => client_drop)
+        content = content_template.render('case' => case_drop, 'client' => client_drop, 'user' => user_drop)
         
         email_data = {
             user: user, 

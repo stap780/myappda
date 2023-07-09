@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get "/favorite", to: "home#favorite"
   get "/restock", to: "home#restock"
   get "/message", to: "home#message"
-  get "/preoder", to: "home#preoder"
+  get "/preorder", to: "home#preorder"
   get "/oferta", to: "home#oferta"
   resources :insints do
     collection do
@@ -41,6 +41,7 @@ Rails.application.routes.draw do
       post :order
       post :abandoned_cart
       post :restock
+      post :preorder
     end
   end
 

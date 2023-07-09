@@ -1,5 +1,5 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb emailizb addrestock order abandoned_cart restock]
+  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb emailizb order abandoned_cart restock preorder]
   before_action :authenticate_admin!, only: %i[adminindex]
   before_action :set_insint, only: %i[show edit update check destroy]
 
@@ -87,7 +87,7 @@ class InsintsController < ApplicationController
       email = save_subdomain + '@mail.ru'
       # puts save_subdomain
       user = User.create(name: params[:insales_id], subdomain: save_subdomain, password: save_subdomain,
-                         password_confirmation: save_subdomain, email: email, valid_from: Date.today, valid_until: 'Sat, 30 Dec 2024')
+                          password_confirmation: save_subdomain, email: email, valid_from: Date.today, valid_until: 'Sat, 30 Dec 2024')
       secret_key = ENV['INS_APP_SECRET_KEY']
       password = Digest::MD5.hexdigest(params[:token] + secret_key)
       Insint.create(subdomen: params[:shop], password: password, insales_account_id: params[:insales_id], user_id: user.id, status: true, inskey: 'k-comment')
@@ -373,12 +373,48 @@ class InsintsController < ApplicationController
       end
     end
   end
-  
+
+  def preorder
+    number = params["id"]
+    account_id = params["insales_account_id"]
+    puts "account_id => "+account_id.to_s
+
+    insint = Insint.find_by_insales_account_id(account_id)
+    # insint = Insint.find_by_insales_account_id(784184)
+    saved_subdomain = insint.user.subdomain
+    Apartment::Tenant.switch(saved_subdomain) do
+      if MessageSetup.check_ability
+        number = params["id"]
+        search_client = Client.find_by_email(params["contacts"]["email"]).present? ? Client.find_by_email(params["contacts"]["email"]) : 
+                                                                                    Client.find_by_phone(params["contacts"]["phone"])
+        client_name = params["contacts"]["name"].present? ? params["contacts"]["name"] : "preorder_"+number.to_s
+        phone = params["contacts"]["phone"].present? ? params["contacts"]["phone"] : "+79011111111"
+        client = search_client.present? ? search_client : Client.create!( email: params["contacts"]["email"], phone: phone, name: client_name)
+        mycase = Case.find_by_number(number).present? ? Case.find_by_number(number) : 
+                                                      Case.create!(number: number, casetype: 'preorder', client_id: client.id, status: "new")
+        puts "insint preorder mycase => "+mycase.to_s
+        params["lines"].each do |o_line|
+          product = Product.find_by_insid(o_line["productId"]).present? ? Product.find_by_insid(o_line["productId"]) : 
+                                                                        Product.create!(insid: o_line["productId"])
+          variant = product.variants.where(insid: o_line["variantId"]).present? ? product.variants.where(insid: o_line["variantId"])[0] : 
+                                                                                product.variants.create!(insid: o_line["variantId"])
+          our_line = mycase.lines.create!(  product_id: product.id, 
+                                            variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
+        end
+        mycase.add_preorder
+
+        render json: { success: true, message: 'Информация сохранена в cases preorder'}
+      else
+        render json: { error: false, message: 'не смогли добавить запись в cases preorder Сервис не включен' }
+      end
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_insint
-    @insint = Insint.find(params[:id])
+  @insint = Insint.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

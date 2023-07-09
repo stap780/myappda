@@ -85,6 +85,6 @@ class MessageSetupsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def message_setup_params
-      params.require(:message_setup).permit(:title, :handle, :description, :status, :payplan_id, :valid_until, :restock_xml)
+      params.require(:message_setup).permit(:title, :handle, :description, :status, :payplan_id, :valid_until, :product_xml)
     end
 end

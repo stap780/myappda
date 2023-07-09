@@ -9,11 +9,11 @@ namespace :restock do
         Apartment::Tenant.switch(tenant) do
             user = User.find_by_subdomain(tenant)
             if MessageSetup.all.count > 0
-              restock_xml = MessageSetup.first.restock_xml
+              product_xml = MessageSetup.first.product_xml
               events = Event.where(casetype: 'restock')
               clients = Client.with_restocks
               clients.each do |client|
-                  Services::RestockAction.new(user, client, events, restock_xml).do_action
+                  Services::RestockAction.new(user, client, events, product_xml).do_action
               end
             end
         end #if tenant == 'test2'

@@ -13,48 +13,42 @@ gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
-
-gem 'jbuilder', '~> 2.5'
-gem 'bcrypt'
-gem 'rbnacl', '< 5.0', :require => false
-gem 'rbnacl-libsodium', :require => false
-gem 'bcrypt_pbkdf', '< 2.0', :require => false
-gem 'ed25519', '~> 1.2', '>= 1.2.4'
-
-gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary', '~> 0.12.3.1'
-gem 'combine_pdf'
-# User and Tenant management
+gem 'active_storage_validations'
 gem 'apartment'
+gem 'bcrypt'
+gem 'bcrypt_pbkdf', '< 2.0', :require => false
+gem 'bootstrap', '~> 5.1.0'
+gem 'cocoon'
+gem 'combine_pdf'
+gem 'delayed_job_active_record'
 gem 'devise'
 gem 'devise_date_restrictable'
-gem 'bootstrap', '~> 5.1.0'
-gem 'simple_form'
-gem 'unicorn'
-gem 'rest-client'
+gem 'ed25519', '~> 1.2', '>= 1.2.4'
+gem 'figaro'
+gem 'image_processing'
+gem 'insales_api', git: 'https://github.com/insales/insales_api'
+gem 'jbuilder', '~> 2.5'
+gem 'jquery-rails'
+gem 'liquid'
+gem 'mini_magick'
 gem 'nokogiri'
-gem 'cocoon'
-gem 'will_paginate', '~> 3.1.0'
+gem 'phonelib'
+gem 'rack-cors'
 gem 'ransack'
 gem 'roo'
 gem 'roo-xls'
-gem 'whenever', require: false
-gem 'delayed_job_active_record'
 gem 'ru_propisju'
-gem 'figaro'
-gem 'phonelib'
-gem 'mini_magick'
-gem 'image_processing'
-gem 'active_storage_validations'
-
-gem 'jquery-rails'
+gem 'rbnacl', '< 5.0', :require => false
+gem 'rbnacl-libsodium', :require => false
+gem 'rest-client'
 gem 'rubyzip'
-gem 'liquid'
-
 gem 'sidekiq', '~> 5.2', '= 5.2.10'
-gem 'insales_api', git: 'https://github.com/insales/insales_api'
-
-gem 'rack-cors'
+gem 'simple_form'
+gem 'unicorn'
+gem 'whenever', require: false
+gem 'wicked_pdf'
+gem 'will_paginate', '~> 3.1.0'
+gem 'wkhtmltopdf-binary', '~> 0.12.3.1'
 
 
 group :development, :test do

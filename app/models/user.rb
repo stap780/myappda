@@ -23,12 +23,11 @@ class User < ApplicationRecord
   validates_exclusion_of :subdomain, in: ['www', 'mail', 'ftp', 'admin', 'test', 'public', 'private', 'staging', 'app', 'web', 'net'], message: "эти слова использовать нельзя"
   # validates :attribute, phone: { possible: true, allow_blank: true, types: [:voip, :mobile], country_specifier: -> phone { phone.country.try(:upcase) } }
   #validates :image, attached: true
-  validates :image, dimension: { width: { min: 100, max: 1200 } }, content_type: [:png, :jpg, :jpeg], size: { less_than: 100.kilobytes , message: 'is not given between size' }
+  validates :image, dimension: { width: { min: 100, max: 1200 } }, content_type: [:png, :jpg, :jpeg], size: { less_than: 2.megabytes , message: 'is not given between size' }
 
   def create_tenant
     Apartment::Tenant.create(subdomain)
   end # create_tenant
-
 
   def delete_tenant
     Apartment::Tenant.drop(subdomain)   
@@ -176,7 +175,16 @@ class User < ApplicationRecord
       rails_blob_path(image, only_path: true)
   end
 
+  def logo_file_name
+    return unless self.image.attached?
+    self.image_data[:filename]
+  end
 
+  def logo_url
+    return unless self.image.attached?
+    self.image_data[:url]
+  end
+  
   private
 
   def normalize_phone

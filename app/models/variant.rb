@@ -1,6 +1,7 @@
 class Variant < ApplicationRecord
   belongs_to :product
   has_many :restocks
+  has_many :preorders
   has_many :lines
   has_many :cases, through: :lines
   

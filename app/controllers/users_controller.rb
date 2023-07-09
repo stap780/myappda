@@ -13,6 +13,10 @@ class UsersController < ApplicationController
     @message_setup = MessageSetup.first
   end
 
+  def new
+    redirect_to dashboard_path, alert: 'Access denied.' unless @user == current_user || current_admin
+  end
+
   def edit
     redirect_to dashboard_path, alert: 'Access denied.' unless @user == current_user || current_admin
   end

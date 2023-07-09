@@ -1,4 +1,13 @@
 class RestockSetupsController < ApplicationController
+  
+  #####
+
+  ### Этот раздел не работает, так как сменили принцип всего приложения
+  ### Теперь у нас Триггеры и всё настраивается в разделе Message
+
+  #####
+  
+  
   before_action :authenticate_user!
   before_action :set_restock_setup, only: [:show, :edit, :update, :destroy]
 

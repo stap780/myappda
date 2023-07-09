@@ -15,7 +15,7 @@
     <div class="image-table row justify-content-between mt-3">
       <% if @user.image.attached?%>
       <div class="col-6 row align-items-center mt-1 image-item">
-        <div class="col-9" data-image="<%= @user.image.metadata %>" data-image-url="<%= @user.image_data[:url]%>">
+        <div class="col-9" data-image="<%= @user.image.metadata %>" data-image-data="<%= @user.image_data%>">
           <%= image_tag @user.image_thumb %>
         </div>
         <div class="col-3">

@@ -1,14 +1,14 @@
 class Services::RestockAction
 
-    def initialize(user, client, events, restock_xml)
+    def initialize(user, client, events, product_xml)
         @user = user
         @client = client
         @events = events
-        @restock_xml = restock_xml
+        @product_xml = product_xml
         @download_path = Rails.env.development? ? "#{Rails.root}/public/#{@user.id}.xml" : "/var/www/myappda/shared/public/#{@user.id}.xml"
     end
 
-    def do_action#(user, client, events)
+    def do_action # (user, client, events)
         @events.each do |event|
             action = event.event_actions.first
             channel = action.channel
@@ -59,7 +59,7 @@ class Services::RestockAction
     def load_products_xml
         File.delete(@download_path) if File.file?(@download_path).present?
     
-        RestClient.get( @restock_xml ) { |response, request, result, &block|
+        RestClient.get( @product_xml ) { |response, request, result, &block|
                 case response.code
                 when 200
                     f = File.new(@download_path, "wb")

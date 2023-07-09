@@ -19,7 +19,8 @@ class UseraccountsController < ApplicationController
 
   # GET /useraccounts/new
   def new
-    @useraccount = Useraccount.new
+    #@useraccount = Useraccount.new
+    redirect_to dashboard_path, alert: 'Access denied.' unless @user == current_user || current_admin
   end
 
   # GET /useraccounts/1/edit
