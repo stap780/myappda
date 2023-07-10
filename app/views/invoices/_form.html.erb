@@ -1,11 +1,11 @@
 
-<%= simple_form_for(@invoice) do |f| %>
+<%= simple_form_for(invoice, wrapper: :horizontal_form) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="row mt-3">
     <div class="col-12 h4"><%= page_title %></div>
     <div class="payplan-wrapper mt-5">
-      <%= f.input :payertype, as: :radio_buttons, 
+      <%= f.input :payertype, as: :radio_buttons,
                               collection: [['fiz', 'Физ лицо'], ['ur', 'Юр лицо']],
                               label_method: :second, 
                               value_method: :first,
@@ -15,7 +15,7 @@
       <%# f.association :payplan, as: :radio_buttons, label_method: lambda { |plan| "Период продления #{plan.period}. Стоимость -  #{plan.price} руб" }, value_method: :id,
        #checked: 2,
       label: false, input_html: { class: 'payplan-item-wrapper' }, wrapper_html: { class: 'text-center mt-3 mb-3'} %>
-      <% collection = @invoice.payplan_id.present? ? Payplan.where(id: @invoice.payplan_id) : Payplan.where("handle ILIKE ?", "%extra%")%>
+      <% collection = @invoice.payplan_id.present? ? Payplan.where(id: @invoice.payplan_id) : Payplan.where("handle ILIKE ANY (array[?])",["%message%","%extra%","%favorite%"]).where.not("handle ILIKE ANY (array[?])",["%free%"])%>
       <%= f.association :payplan, collection: collection,
                                   as: :radio_buttons,
                                   label: 'Выберите услугу:',

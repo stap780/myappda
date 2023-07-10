@@ -14,7 +14,7 @@ class Services::EventAction
 
         subject_template = Liquid::Template.parse(action.template.subject)
         content_template = Liquid::Template.parse(action.template.content)
-        
+
         user_drop = Services::Drop::User.new(user)
         if mycase.casetype != 'order'
             case_drop = Services::Drop::Case.new(mycase)
@@ -31,21 +31,25 @@ class Services::EventAction
 
         subject = subject_template.render('case' => case_drop, 'client' => client_drop)
         content = content_template.render('case' => case_drop, 'client' => client_drop, 'user' => user_drop)
-        
+
         email_data = {
             user: user, 
-            subject: subject, 
-            content: content, 
+            subject: subject,
+            content: content,
             receiver: receiver
         }
-        
+
         wait = pause == true && pause_time.present? ? pause_time : 1
         if channel == 'email'
             EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
         end
-        if channel == 'insales_api'
-            OrderJob.set(wait: wait.to_i.minutes).perform_later(mycase.insales_order_id, operation, insint)
+        if channel == 'insales_api' && operation == 'cancel_order'
+            CancelOrderJob.set(wait: wait.to_i.minutes).perform_later(mycase.insales_order_id, operation, insint)
         end
+        if channel == 'insales_api' && operation == 'preorder_order'
+            #PreorderOrderJob.set(wait: wait.to_i.minutes).perform_later(mycase.insales_order_id, operation, insint)
+        end
+
 
     end
 

@@ -29,7 +29,7 @@
               <%= @favorite_setup.payplan.title if @favorite_setup && @favorite_setup.payplan %></br>
               <%= @favorite_setup.status ? "Состояние: Вкл" : "Состояние: Выкл" if @favorite_setup %>
             </td>
-            <td><%= @favorite_setup.present? && @favorite_setup.valid_until.present? ? @favorite_setup.valid_until : "бесплатно" %></td>
+            <td><%= @favorite_setup.present? && @favorite_setup.valid_until.present? ? @favorite_setup.valid_until.strftime("%d/%m/%Y") : "бесплатно" %></td>
             <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @favorite_setup, method: :delete, data: { confirm: 'Are you sure?' } if @favorite_setup %></td>
           </tr>
 
@@ -48,7 +48,7 @@
               <%= @message_setup.payplan.title if @message_setup && @message_setup.payplan %></br>
               <%= @message_setup.status ? "Состояние: Вкл" : "Состояние: Выкл" if @message_setup %>
             </td>
-            <td><%= @message_setup.present? && @message_setup.valid_until.present? ? @message_setup.valid_until : "бесплатно" %></td>
+            <td><%= @message_setup.present? && @message_setup.valid_until.present? ? @message_setup.valid_until.strftime("%d/%m/%Y") : "бесплатно" %></td>
             <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @message_setup, method: :delete, data: { confirm: 'Are you sure?' } if @message_setup %></td>
           </tr>
         </tbody>

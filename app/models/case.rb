@@ -30,14 +30,14 @@ class Case < ApplicationRecord
     if self.casetype == 'preorder'
       puts "Case add_preorder start"
       self.lines.each do |line|
-        preorder.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: self.client.id)
+        Preorder.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: self.client.id)
       end
       puts "Case add_preorder finish"
     end
   end
 
   def do_event_action # for 'order' & 'abandoned_cart'
-    if self.casetype == 'order' || self.casetype == 'abandoned_cart'
+    if self.casetype == 'order' || self.casetype == 'abandoned_cart' || self.casetype == 'preorder'
       puts "Case do_event_action start"
       events = Event.where(casetype: self.casetype)
       if events.present?
