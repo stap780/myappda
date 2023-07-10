@@ -229,19 +229,21 @@ class Services::InsalesApi
                 #redirect_to :action => 'new'
                 puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
             rescue ActiveResource::UnauthorizedAccess
-                puts "Failed.  Response code = 401.  Response message = Unauthorized"
+                puts "Failed.  Response code = 401. Response message = Unauthorized"
             rescue ActiveResource::ClientError
-                puts "Failed.   Response code = 423.  Response message = Locked."
-        else
+                puts "ActiveResource::ClientError - Failed. Response code = 423.  Response message = Locked. Это наверно тарифный план клиента"
+            rescue StandardError => e
+                puts e.response.body
+            else
             marketplaces
         end        
     end
 
     def create_xml
         begin
-            col_ids = InsalesApi::Collection.find( :all).map{|p| p.id}
-            property_id = InsalesApi::Property.first.id
-            data = {
+          col_ids = InsalesApi::Collection.find( :all).map{|p| p.id}
+          property_id = InsalesApi::Property.first.id
+          data = {
                 "marketplace": {
                   "name": "YM K-comment #{Time.now}",
                   "type": "Marketplace::ModelYandexMarket",
@@ -257,16 +259,18 @@ class Services::InsalesApi
                   "use_variants": true
                 }
               }
-            new_market = InsalesApi::Marketplace.new(data)
-            new_market.save
-            rescue ActiveResource::ResourceNotFound
-              puts  'not_found 404'
-            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
-              puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
-            rescue ActiveResource::UnauthorizedAccess
-              puts "Failed.  Response code = 401.  Response message = Unauthorized"
-            rescue ActiveResource::ClientError
-              puts "Failed.   Response code = 423.  Response message = Locked."
+          new_market = InsalesApi::Marketplace.new(data)
+          new_market.save
+          rescue ActiveResource::ResourceNotFound
+            puts  'not_found 404'
+          rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+            puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+          rescue ActiveResource::UnauthorizedAccess
+            puts "Failed.  Response code = 401. Response message = Unauthorized"
+          rescue ActiveResource::ClientError
+            puts "ActiveResource::ClientError - Failed. Response code = 423.  Response message = Locked. Это наверно тарифный план клиента"
+          rescue StandardError => e
+            puts e.response.body
         else
           new_market
         end

@@ -38,8 +38,13 @@ private
       service.add_order_webhook
       # service.delete_order_webhook if self.status == false
       xml = service.create_xml
-      self.product_xml = xml.url
-      self.save
+      if xml
+        self.product_xml = xml.url
+        self.save
+      else
+        self.product_xml = 'обратитесь в поддержку чтобы они прописали ссылку на файл с товарами'
+        self.save
+      end
     end
   end
 
