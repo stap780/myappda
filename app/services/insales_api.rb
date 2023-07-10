@@ -260,16 +260,16 @@ class Services::InsalesApi
             new_market = InsalesApi::Marketplace.new(data)
             new_market.save
             rescue ActiveResource::ResourceNotFound
-                puts  'not_found 404'
+              puts  'not_found 404'
             rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
-                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+              puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
             rescue ActiveResource::UnauthorizedAccess
-                puts "Failed.  Response code = 401.  Response message = Unauthorized"
+              puts "Failed.  Response code = 401.  Response message = Unauthorized"
             rescue ActiveResource::ClientError
-                puts "Failed.   Response code = 423.  Response message = Locked."
+              puts "Failed.   Response code = 423.  Response message = Locked."
         else
-            new_market
-        end        
+          new_market
+        end
     end
 
 end  

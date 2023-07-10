@@ -66,7 +66,7 @@ class MessageSetupsController < ApplicationController
 
 # POST /message_setups
   def delete_selected
-    @message_setups = Message Setup.find(params[:ids])
+    @message_setups = MessageSetup.find(params[:ids])
     @message_setups.each do |message_setup|
         message_setup.destroy
     end
@@ -75,7 +75,6 @@ class MessageSetupsController < ApplicationController
       format.json { render json: { :status => "ok", :message => "destroyed" } }
     end
   end
-
 
   private
     # Use callbacks to share common setup or constraints between actions.

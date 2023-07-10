@@ -5,9 +5,8 @@ class MessageSetup < ApplicationRecord
   validates :handle, uniqueness: true
   before_save :normalize_data_white_space
   before_save :set_valid_until_for_free_payplan_if_new, on: [:create]
-  after_commit :send_file_to_store_if_new, on: [:create]
+  after_create :create_order_webhook_and_xml
   after_commit :create_invoice, on: [:create, :update]
-  after_commit :check_services, on: [:update]
 
   HANDLE = "message"
   TITLE = "Тригеры (Сообщения и api по заказам)"
@@ -32,7 +31,7 @@ class MessageSetup < ApplicationRecord
 
 private
   
-  def send_file_to_store_if_new
+  def create_order_webhook_and_xml
     user = User.find_by_subdomain(Apartment::Tenant.current)
     if user.insints.last.status
       service = Services::InsalesApi.new(user.insints.first)
@@ -73,18 +72,6 @@ private
     end
   end
 
-  def check_services
-    if !self.product_xml.present?
-      user = User.find_by_subdomain(Apartment::Tenant.current)
-      if user.insints.last.status
-        service = Services::InsalesApi.new(user.insints.first)
-        xml = service.create_xml
-        if xml
-          self.product_xml = xml.url
-          self.save
-        end
-      end
-    end
-  end
+  
 end
 
