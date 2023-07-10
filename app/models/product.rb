@@ -145,8 +145,8 @@ class Product < ApplicationRecord
           if channel == 'email'
             EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
           end
-          if channel == 'insales_api'
-            OrderJob.set(wait: wait.to_i.minutes).perform_later(self.insales_order_id, operation, insint)
+          if channel == 'insales_api' && operation == 'cancel_order'
+            CancelOrderJob.set(wait: wait.to_i.minutes).perform_later(self.insales_order_id, operation, insint)
           end
         end
       end
