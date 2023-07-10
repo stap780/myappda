@@ -37,21 +37,6 @@ private
     end
   end
 
-  # def update_service_before_destroy_invoice
-  #   if self.status != "Отменён"
-  #     if self.service_handle == "favorite"
-  #       fs = FavoriteSetup.all.first
-  #       favorite_free_payplan_id = Payplan.favorite_free_id
-  #       fs.update_attributes(payplan_id: favorite_free_payplan_id, valid_until: nil) if fs
-  #     end
-  #     if self.service_handle == "restock"
-  #       rs = RestockSetup.all.first
-  #       restock_free_payplan_id = Payplan.restock_free_id
-  #       rs.update_attributes(payplan_id: restock_free_payplan_id, valid_until: nil) if rs
-  #     end
-  #   end
-  # end
-
   def set_service_valid_after_update_invoice
     if !new_record? && saved_change_to_status?
       service_handle = self.service_handle
@@ -60,19 +45,13 @@ private
       if payplan.price != 0 && self.status == 'Оплачен'
         if service_handle == "favorite"
           fs = FavoriteSetup.all.first
-          old_valid_until = fs.valid_until.nil? ? Date.today : fs.valid_until
+          old_valid_until = fs.valid_until.nil? || !fs.valid_until.nil? && fs.valid_until < Date.today ? Date.today : fs.valid_until
           new_valid_until = old_valid_until + "#{add_period}".to_i.months
           fs.update_attributes(valid_until: new_valid_until)
         end
-        # if service_handle == "restock"
-        #   rs = RestockSetup.all.first
-        #   old_valid_until = rs.valid_until.nil? ? Date.today : rs.valid_until
-        #   new_valid_until = old_valid_until + "#{add_period}".to_i.months
-        #   rs.update_attributes(valid_until: new_valid_until)
-        # end
         if service_handle == "message"
           ms = MessageSetup.all.first
-          old_valid_until = ms.valid_until.nil? ? Date.today : ms.valid_until
+          old_valid_until = ms.valid_until.nil? || !ms.valid_until.nil? && ms.valid_until < Date.today ? Date.today : ms.valid_until
           new_valid_until = old_valid_until + "#{add_period}".to_i.months
           ms.update_attributes(valid_until: new_valid_until)
         end

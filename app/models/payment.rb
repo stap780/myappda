@@ -10,6 +10,15 @@ class Payment < ApplicationRecord
   Status = ['Не оплачен','Оплачен']
   Paymenttype = [['Счёт для юр лиц', 'invoice'],['Кредитные карты', 'creditcard'], ['Paypal', 'paypal']]
 
+
+  def destroy_invoice
+    tenant = self.user.subdomain
+    Apartment::Tenant.switch(tenant) do
+      invoice = Invoice.find_by_id(self.invoice_id)
+      invoice.destroy
+    end
+  end
+
   private
 
   def add_subdomain
@@ -21,7 +30,7 @@ class Payment < ApplicationRecord
       tenant = self.user.subdomain
       Apartment::Tenant.switch(tenant) do
         invoice = Invoice.find_by_id(self.invoice_id)
-        invoice.update_attributes(status: 'Оплачен') if self.status == 'Оплачен'
+        invoice.update!(status: 'Оплачен') if self.status == 'Оплачен'
       end
     end
   end
