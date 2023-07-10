@@ -7,6 +7,7 @@ class MessageSetupsController < ApplicationController
     @search = MessageSetup.all.ransack(params[:q])
     @search.sorts = 'id asc' if @search.sorts.empty?
     @message_setups = @search.result.paginate(page: params[:page], per_page: 30)
+    redirect_to dashboard_services_url
   end
 
   # GET /message_setups/1
