@@ -35,6 +35,9 @@
       <% if Restock.all.count > 0 %>
       <th>Сообщить <br>о поступлении</th>
        <% end %>
+      <% if Preorder.all.count > 0 %>
+      <th>Предзаказ</th>
+       <% end %>    
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -53,6 +56,9 @@
          <% if Restock.all.count > 0 %>
         <td><%= link_to client.restocks.count.to_s+' шт', client_path(client) if client.restocks.count > 0 %></td>
         <% end %>
+        <% if Preorder.all.count > 0 %>
+        <td><%= link_to client.preorders.count.to_s+' шт', client_path(client) if client.preorders.count > 0 %></td>
+        <% end %>       
         <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, client, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
       </tr>
     <% end %>

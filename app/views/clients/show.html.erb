@@ -72,4 +72,39 @@
     </div>
   </div>
 <% end %>
+<% if @client.preorders.present? %>
+  <div class="row align-items-center mt-3 mb-3">
+    <strong>Товары Предзаказ:</strong>
+    <div class="table-responsive">
+    <table class="table table-hover table-condensed table-sm">
+      <thead class="thead-light">
+      <tr>
+        <th>Id товара</th>
+        <th>Id варианта</th>
+        <th>Название</th>
+        <th>Sku</th>
+        <th>Остаток</th>
+        <th>Цена</th>
+        <th>Статус</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @client.preorders.each do |res| %>
+        <tr>
+        <% var = res.variant%>
+          <td><%= var.product.insid %></td>
+          <td><%= var.insid %></td>
+          <td><%= link_to "#{var.product.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+var.product.insid.to_s+"?variant_id="+var.insid.to_s, target: "_blank" %></td>
+          <td><%= var.sku %></td>
+          <td><%= var.quantity %></td>
+          <td><%= var.price %></td>
+          <td><%= res.status %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+<% end %>
+
 </div>
