@@ -286,10 +286,15 @@ class InsintsController < ApplicationController
           puts "insint order product => "+product.inspect
           variant = product.variants.where(insid: o_line["variant_id"]).present? ? product.variants.where(insid: o_line["variant_id"])[0] : 
                                                                                 product.variants.create!(insid: o_line["variant_id"])
-          mycase.lines.create!( product_id: product.id, 
-                                variant_id: variant.id, quantity: o_line["quantity"], price: o_line["full_total_price"])
+          line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
+          if line.present?
+            line.first.update!(quantity: o_line["quantity"], price: o_line["full_total_price"])
+          else
+            mycase.lines.create!( product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["full_total_price"])
+          end
+
         end
-                                              
+
         # конец проверяем заявку и создаём или обновляем
 
         mycase.do_event_action
@@ -328,7 +333,14 @@ class InsintsController < ApplicationController
                                                                         Product.create!(insid: o_line["productId"])
           variant = product.variants.where(insid: o_line["variantId"]).present? ? product.variants.where(insid: o_line["variantId"])[0] : 
                                                                                   product.variants.create!(insid: o_line["variantId"])
-          mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
+          # mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
+          line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
+          if line.present?
+            line.first.update!(quantity: o_line["quantity"], price: o_line["full_total_price"])
+          else
+            mycase.lines.create!( product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["full_total_price"])
+          end
+        
         end
         mycase.do_event_action
         render json: { success: true, message: 'Информация сохранена в cases abandoned_cart'}
@@ -362,8 +374,16 @@ class InsintsController < ApplicationController
                                                                         Product.create!(insid: o_line["productId"])
           variant = product.variants.where(insid: o_line["variantId"]).present? ? product.variants.where(insid: o_line["variantId"])[0] : 
                                                                                 product.variants.create!(insid: o_line["variantId"])
-          our_line = mycase.lines.create!(  product_id: product.id, 
-                                            variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
+
+          # our_line = mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
+
+          line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
+          if line.present?
+            line.first.update!(quantity: o_line["quantity"], price: o_line["full_total_price"])
+          else
+            mycase.lines.create!( product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["full_total_price"])
+          end
+                                                                              
         end
         mycase.add_restock
 
@@ -398,8 +418,15 @@ class InsintsController < ApplicationController
                                                                         Product.create!(insid: o_line["productId"])
           variant = product.variants.where(insid: o_line["variantId"]).present? ? product.variants.where(insid: o_line["variantId"])[0] : 
                                                                                 product.variants.create!(insid: o_line["variantId"])
-          our_line = mycase.lines.create!(  product_id: product.id, 
-                                            variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
+          # our_line = mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
+
+          line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
+          if line.present?
+            line.first.update!(quantity: o_line["quantity"], price: o_line["full_total_price"])
+          else
+            mycase.lines.create!( product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["full_total_price"])
+          end
+
         end
         mycase.add_preorder
 
