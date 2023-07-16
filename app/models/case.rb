@@ -7,7 +7,7 @@ class Case < ApplicationRecord
 
   before_save :normalize_data_white_space
   # after_create :add_restock
-  # after_commit :do_event_action, on: :create # for 'order' & 'abandoned_cart'
+  after_commit :do_event_action, on: :create # for 'order' & 'abandoned_cart' & 'preorder'
 
   CASETYPE = [['Заказ','order'],['Сообщить о поступлении','restock'],['Брошенная корзина','abandoned_cart'],['Предзаказ','preorder']].freeze
   STATUS = [['Новый','new'],['В работе','take'],['Завершили','finish']].freeze
