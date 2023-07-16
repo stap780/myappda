@@ -15,7 +15,6 @@
   <thead>
     <tr class="bg-success">
       <th>User</th>
-      <th>Ins id</th>
       <th>ДоменИнтегр</th>
       <th>Ключ</th>
       <th>Пароль</th>
@@ -28,8 +27,7 @@
   <tbody>
     <% @insints.each do |insint| %>
       <tr>
-        <td><%= insint.user.name %><br>id: <%= insint.user.id %></td>
-        <td><%= insint.insales_account_id %></td>
+        <td>Name: <%= insint.user.name %> (id: <%= insint.user.id %>)<br>Ins id: <%= insint.insales_account_id %></td>
         <td><%= insint.subdomen %></td>
         <td><%= insint.inskey %></td>
         <td><%= insint.password %></td>

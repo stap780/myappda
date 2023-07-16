@@ -48,7 +48,7 @@ class Services::EventAction
             CancelOrderJob.set(wait: wait.to_i.minutes).perform_later(mycase.insales_order_id, operation, insint)
         end
         if channel == 'insales_api' && operation == 'preorder_order'
-            PreorderJob.set(wait: wait.to_i.minutes).perform_later(mycase, operation, insint)
+            PreorderJob.set(wait: wait.to_i.minutes).perform_later(mycase.id, operation, insint)
         end
 
     end

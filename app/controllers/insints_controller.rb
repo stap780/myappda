@@ -31,7 +31,7 @@ class InsintsController < ApplicationController
 
   # GET /insints/1/edit
   def edit
-    redirect_to dashboard_url, alert: 'Access denied.' unless @insint.user == current_user
+    redirect_to dashboard_url, alert: 'Access denied.' unless @insint.user == current_user || current_user.admin?
   end
 
   # POST /insints
