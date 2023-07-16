@@ -47,7 +47,7 @@ class Services::InsalesApi
         else
             status
         end
-        puts "status => " + status.inspect.to_s
+        puts "create_or_find_custom_status status => " + status.inspect.to_s
         status
     end
 
@@ -105,10 +105,13 @@ class Services::InsalesApi
             rescue ActiveResource::ClientError
                 puts "ActiveResource::ClientError - Failed. Response code = 423.  Response message = Locked. Это наверно тарифный план клиента"
             rescue StandardError => e
+                puts 'create_order StandardError => '+e.to_s
                 puts e.response.body
             else
             order
-        end        
+        end
+        puts "create_order  => " + order.inspect.to_s
+        order
     end
 
     def ten_orders
@@ -229,8 +232,11 @@ class Services::InsalesApi
         order.fulfillment_status = 'new' # 'главный статус обязательно , так как пользовательский делается только внутри главного
         begin
             order.save
+        rescue ActiveResource::Redirection => e
+            puts  'ActiveResource::Redirection => '+ e
         rescue StandardError => e
             puts 'set_order_custom_status StandardError => '+e.to_s #e.response.body
+            puts e.response.body if e.present? && e.response.present?
         else
             order
         end
