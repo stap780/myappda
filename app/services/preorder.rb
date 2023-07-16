@@ -26,8 +26,8 @@ class Services::Preorder
             order_status = service.create_or_find_custom_status.system_status
             service.variants_group_update(variants_for_update) #нужно товарам (вариантам) проставить кол-во чтобы сделать заказ
 
-            client = {'name' => mycase.client.name, 'email' => mycase.client.email, 'phone' => mycase.client.phone}
-            shipping_address_attributes = {"full_locality_name" => "Moscow"}
+            client = {'name' => mycase.client.name,'surname' => mycase.client.name, 'email' => mycase.client.email, 'phone' => mycase.client.phone, "consent_to_personal_data" => true}
+            shipping_address_attributes = {"full_locality_name" => "Moscow", "country": "RU"}
             deliveries = service.get_deliveries
             delivery_variant_id = deliveries.first.id
             payment_gateways = service.get_payment_gateways
