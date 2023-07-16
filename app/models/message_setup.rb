@@ -30,7 +30,7 @@ class MessageSetup < ApplicationRecord
 
 
 private
-  
+
   def create_order_webhook_and_xml
     user = User.find_by_subdomain(Apartment::Tenant.current)
     if user.insints.last.status
@@ -53,7 +53,7 @@ private
       self.valid_until = Date.today+14.days if self.payplan_id == Payplan.message_free_id && self.status  == true
     end
   end
-  
+
   def create_invoice
     invoice_data = {
       payplan_id: self.payplan.id, 
@@ -77,6 +77,6 @@ private
     end
   end
 
-  
+
 end
 

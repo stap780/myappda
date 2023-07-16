@@ -36,7 +36,7 @@ class Case < ApplicationRecord
     end
   end
 
-  def do_event_action # for 'order' & 'abandoned_cart'
+  def do_event_action # for 'order' & 'abandoned_cart' & 'preorder'
     if self.casetype == 'order' || self.casetype == 'abandoned_cart' || self.casetype == 'preorder'
       puts "Case do_event_action start"
       events = Event.where(casetype: self.casetype)

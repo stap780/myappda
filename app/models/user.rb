@@ -34,9 +34,6 @@ class User < ApplicationRecord
   end # delete_tenant
 
   def self.send_user_email
-    # UserMailer.test_welcome_email.deliver_now
-    # current_subdomain = Apartment::Tenant.current
-    # user = User.find_by_subdomain(current_subdomain)
     user = User.current
     email_data = {
       user: user

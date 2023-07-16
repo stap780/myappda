@@ -4,8 +4,9 @@ class OrderJob < ApplicationJob #delete after 20 of July 2023
     def perform(insales_order_id, operation, insint)
       service = Services::InsalesApi.new(insint)
       order = service.order(insales_order_id)
-      service.set_cancel_status(insales_order_id) if order.financial_status == "pending"
-    end
+      order_status = "declined"
+      service.set_order_status(insales_order_id, order_status) if order.financial_status == "pending"
+      end
   
   
-  end
+end

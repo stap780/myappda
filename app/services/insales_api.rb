@@ -22,7 +22,33 @@ class Services::InsalesApi
                 puts "Failed.  Response code = 401.  Response message = Unauthorized"
         else
             statuses
-        end        
+        end
+    end
+
+    def create_or_find_custom_status
+        begin
+            # if InsalesApi::CustomStatus.find(:all).map{ |d| d if d.system_status == 'preorder' }.reject(&:blank?).present?
+                status = InsalesApi::CustomStatus.find(:all).map{ |d| d if d.permalink.include?('preorder') }.reject(&:blank?)[0]
+            # else
+            #     data =  {  "system_status" => "preorder", "title" => "Предзаказ" } 
+            #     status = InsalesApi::CustomStatus.new(data)
+            #     status.save
+            # end
+            rescue ActiveResource::ResourceNotFound
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401. Response message = Unauthorized"
+            rescue ActiveResource::ClientError
+                puts "ActiveResource::ClientError - Failed. Response code = 423.  Response message = Locked. Это наверно тарифный план клиента"
+            rescue StandardError => e
+                puts e#e.response.body
+        else
+            status
+        end
+        puts "status => " + status.inspect.to_s
+        status
     end
 
     def account
@@ -53,6 +79,34 @@ class Services::InsalesApi
             rescue ActiveResource::UnauthorizedAccess
             puts "Failed.  Response code = 401.  Response message = Unauthorized"
         else
+            order
+        end        
+    end
+
+    def create_order(order_lines_attributes, client, shipping_address_attributes, delivery_variant_id, payment_gateway_id)
+        data =  {  "order_lines_attributes" => order_lines_attributes,
+                    "client" => client,
+                    "shipping_address_attributes" => shipping_address_attributes,
+                    "delivery_variant_id" => delivery_variant_id,
+                    "payment_gateway_id" => payment_gateway_id
+                    } 
+
+        begin
+            order = InsalesApi::Order.new(data)
+            order.save
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401. Response message = Unauthorized"
+            rescue ActiveResource::ClientError
+                puts "ActiveResource::ClientError - Failed. Response code = 423.  Response message = Locked. Это наверно тарифный план клиента"
+            rescue StandardError => e
+                puts e.response.body
+            else
             order
         end        
     end
@@ -120,6 +174,9 @@ class Services::InsalesApi
             rescue SocketError
                 puts "SocketError port 80"
                 check = false
+            rescue StandardError => e
+                puts e.response.body
+                check = false
         else
             check = true if check_api
         end
@@ -133,26 +190,51 @@ class Services::InsalesApi
         fields_data = fields.map{|f| {office_title: f.office_title, id: f.id, obligatory: f.obligatory, system_name: f.system_name}}
     end
 
-    def set_cancel_status(insales_order_id)
-        url = "https://#{@k}:#{@p}@#{@d}/admin/orders/#{insales_order_id.to_s}.json"
-        # puts url
-        data = { "order": { "fulfillment_status": "declined" } }
-        RestClient::Request.execute(method: :put, url: url, payload: data.to_json, verify_ssl: false,  headers: {'Content-Type': 'application/json'}, accept: :json)  { |response, request, result, &block|
-            # puts response.code
-            case response.code
-            when 200
-                puts 'we change status to declined'
-                # puts response
-            when 404
-                puts '404'
-                puts response
-            when 422
-                puts '422'
-                puts response
-            else
-                response.return!(&block)
-            end
-        }  
+    def set_order_status(insales_order_id, order_status)
+        order = InsalesApi::Order.find(insales_order_id)
+        order.fulfillment_status = order_status
+        begin
+            order.save
+        rescue StandardError => e
+            puts e #e.response.body
+        else
+            order
+        end
+        order
+        # url = "https://#{@k}:#{@p}@#{@d}/admin/orders/#{insales_order_id.to_s}.json"
+        # # puts url
+        # data = { "order": { "fulfillment_status": "declined" } }
+        # RestClient::Request.execute(method: :put, url: url, payload: data.to_json, verify_ssl: false,  headers: {'Content-Type': 'application/json'}, accept: :json)  { |response, request, result, &block|
+        #     # puts response.code
+        #     case response.code
+        #     when 200
+        #         puts 'we change status to declined'
+        #         # puts response
+        #     when 404
+        #         puts '404'
+        #         puts response
+        #     when 422
+        #         puts '422'
+        #         puts response
+        #     else
+        #         response.return!(&block)
+        #     end
+        # }  
+    end
+
+    def set_order_custom_status(insales_order_id, order_custom_status_permalink)
+        puts 'set_order_custom_status'
+        order = InsalesApi::Order.find(insales_order_id)
+        order.custom_status_permalink = order_custom_status_permalink
+        order.fulfillment_status = 'declined' # 'главный статус обязательно , так как пользовательский делается только внутри главного
+        begin
+            order.save
+        rescue StandardError => e
+            puts e #e.response.body
+        else
+            order
+        end
+        order
     end
 
     def get_product_data(insales_product_id)
@@ -276,4 +358,67 @@ class Services::InsalesApi
         end
     end
 
-end  
+    def get_deliveries
+        begin
+            deliveries = InsalesApi::DeliveryVariant.find(:all)
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401. Response message = Unauthorized"
+            rescue ActiveResource::ClientError
+                puts "ActiveResource::ClientError - Failed. Response code = 423.  Response message = Locked. Это наверно тарифный план клиента"
+            rescue StandardError => e
+                puts e.response.body
+            else
+            deliveries
+        end        
+    end
+
+    def get_payment_gateways
+        begin
+            payment_gateways = InsalesApi::PaymentGateway.find(:all)
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401. Response message = Unauthorized"
+            rescue ActiveResource::ClientError
+                puts "ActiveResource::ClientError - Failed. Response code = 423.  Response message = Locked. Это наверно тарифный план клиента"
+            rescue StandardError => e
+                puts e #e.response.body
+            else
+            payment_gateways
+        end        
+    end
+
+    def variants_group_update(variants)
+        # variants - [{"id": 1,"price": 100,"quantity": 3}]
+        begin
+            variants = InsalesApi::Product.variants_group_update(variants)
+            rescue ActiveResource::ResourceNotFound
+                #redirect_to :action => 'not_found'
+                puts  'not_found 404'
+            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+                #redirect_to :action => 'new'
+                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
+            rescue ActiveResource::UnauthorizedAccess
+                puts "Failed.  Response code = 401.  Response message = Unauthorized"
+            rescue StandardError => e
+                puts e #e.response.body
+        else
+            variants
+        end        
+    end
+end
+
+# логирование
+# ActiveSupport::Notifications.subscribe('request.active_resource')  do |name, start, finish, id, payload|
+#   puts payload
+# end

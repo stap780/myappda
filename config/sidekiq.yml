@@ -6,10 +6,11 @@
     - insales_job
     - order_job
     - restock_job
+    - preorder_job
 
 development:
   :concurrency: 5
 staging:
   :concurrency: 10
 production:
-  :concurrency: 20
+  :concurrency: 30
