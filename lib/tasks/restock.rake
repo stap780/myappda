@@ -1,6 +1,6 @@
 #  encoding : utf-8
 namespace :restock do
-    desc "restock shedule update"
+    desc "restock schedule update"
   
     task check_quantity_and_send_client_email: :environment do
       puts "start check_product_qt - время москва - #{Time.zone.now}"
@@ -13,7 +13,7 @@ namespace :restock do
               events = Event.where(casetype: 'restock')
               clients = Client.with_restocks
               clients.each do |client|
-                  Services::RestockAction.new(user, client, events, product_xml).do_action
+                  Services::Restock.new(user, client, events, product_xml).do_action
               end
             end
         end #if tenant == 'test2'

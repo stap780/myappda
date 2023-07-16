@@ -1,11 +1,16 @@
-class PreorderOrderJob < ApplicationJob
-    queue_as :preorder_job
+class Services::Preorder
 
-    def perform(mycase, operation, insint)
-        service = Services::InsalesApi.new(insint)
+    def initialize(mycase, operation, insint)
+        @mycase = mycase
+        @operation = operation
+        @insint = insint
+    end
+
+    def do_action
+        service = Services::InsalesApi.new(@insint)
         order_lines_attributes = []
         variants_for_update = []
-        mycase.lines.each do |line|
+        @mycase.lines.each do |line|
             data = Hash.new
             v_data = Hash.new
             data['variant_id'] = line.variant.insid
@@ -16,7 +21,7 @@ class PreorderOrderJob < ApplicationJob
             variants_for_update.push(v_data)
         end
         order_status = service.create_or_find_custom_status.system_status
-        service.variants_group_update(variants_for_update) #нужно товарам проставить кол-во чтобы сделать заказ
+        service.variants_group_update(variants_for_update) #нужно товарам (вариантам) проставить кол-во чтобы сделать заказ
 
         client = {'name' => mycase.client.name, 'email' => mycase.client.email, 'phone' => mycase.client.phone}
         shipping_address_attributes = {"full_locality_name" => "Moscow"}
@@ -36,6 +41,4 @@ class PreorderOrderJob < ApplicationJob
         service.set_order_custom_status(order.id, order_custom_status_permalink) if order_custom_status_permalink
 
     end
-
-
 end
