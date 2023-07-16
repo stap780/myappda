@@ -230,7 +230,7 @@ class Services::InsalesApi
         begin
             order.save
         rescue StandardError => e
-            puts e #e.response.body
+            puts 'set_order_custom_status StandardError => '+e.to_s #e.response.body
         else
             order
         end
