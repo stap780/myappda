@@ -11,45 +11,45 @@ class Services::EventAction
         timetable_time = action.timetable_time
         receiver = mycase.client.email if action.template.receiver == 'client'
         receiver = user.email if action.template.receiver == 'manager'
+        insint = user.insints.first
+        wait = pause == true && pause_time.present? ? pause_time : 1
 
         subject_template = Liquid::Template.parse(action.template.subject)
         content_template = Liquid::Template.parse(action.template.content)
 
         user_drop = Services::Drop::User.new(user)
-        if mycase.casetype != 'order'
-            case_drop = Services::Drop::Case.new(mycase)
-            client_drop = Services::Drop::Client.new(mycase.client)
-        end
-        if mycase.casetype == 'order'
-            insint = user.insints.first
-            service = Services::InsalesApi.new(insint)
-            order = service.order(mycase.insales_order_id)
-            client = service.client(order.client.id)
-            case_drop = Services::Drop::InsalesOrder.new(order)
-            client_drop = Services::Drop::InsalesClient.new(client)
-        end
 
-        subject = subject_template.render('case' => case_drop, 'client' => client_drop)
-        content = content_template.render('case' => case_drop, 'client' => client_drop, 'user' => user_drop)
-
-        email_data = {
-            user: user, 
-            subject: subject,
-            content: content,
-            receiver: receiver
-        }
-
-        wait = pause == true && pause_time.present? ? pause_time : 1
         if channel == 'email'
+            if mycase.casetype != 'order'
+                case_drop = Services::Drop::Case.new(mycase)
+                client_drop = Services::Drop::Client.new(mycase.client)
+            end
+            if mycase.casetype == 'order'
+                service = Services::InsalesApi.new(insint)
+                order = service.order(mycase.insales_order_id)
+                client = service.client(order.client.id)
+                case_drop = Services::Drop::InsalesOrder.new(order)
+                client_drop = Services::Drop::InsalesClient.new(client)
+            end
+
+            subject = subject_template.render('case' => case_drop, 'client' => client_drop)
+            content = content_template.render('case' => case_drop, 'client' => client_drop, 'user' => user_drop)
+
+            email_data = {
+                user: user, 
+                subject: subject,
+                content: content,
+                receiver: receiver
+            }
+
             EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
         end
-        if channel == 'insales_api' && operation == 'cancel_order'
+        if channel == 'insales_api' && operation == 'cancel_order'            
             CancelOrderJob.set(wait: wait.to_i.minutes).perform_later(mycase.insales_order_id, operation, insint)
         end
         if channel == 'insales_api' && operation == 'preorder_order'
             PreorderOrderJob.set(wait: wait.to_i.minutes).perform_later(mycase, operation, insint)
         end
-
 
     end
 

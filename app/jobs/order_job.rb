@@ -6,7 +6,7 @@ class OrderJob < ApplicationJob #delete after 20 of July 2023
       order = service.order(insales_order_id)
       order_status = "declined"
       service.set_order_status(insales_order_id, order_status) if order.financial_status == "pending"
-      end
+    end
   
   
 end
