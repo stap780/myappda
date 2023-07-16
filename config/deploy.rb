@@ -1,5 +1,5 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.16.0"
+lock "~> 3.17.3"
 
 set :application, 'myappda'
 set :repo_url, 'git@github.com:stap780/myappda.git'
