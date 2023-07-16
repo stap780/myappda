@@ -39,7 +39,7 @@ class Services::Preorder
                                             delivery_variant_id, 
                                             payment_gateway_id )
             
-            # в инсалес должен быть создан кастомный статус в группе Отменён с названием - 'preorder'
+            # в инсалес должен быть создан кастомный статус в группе Новый с названием - 'preorder'
             order_custom_status_permalink = service.create_or_find_custom_status.permalink
             service.set_order_custom_status(order.id, order_custom_status_permalink) if order_custom_status_permalink
         end

@@ -226,7 +226,7 @@ class Services::InsalesApi
         puts 'set_order_custom_status'
         order = InsalesApi::Order.find(insales_order_id)
         order.custom_status_permalink = order_custom_status_permalink
-        order.fulfillment_status = 'declined' # 'главный статус обязательно , так как пользовательский делается только внутри главного
+        order.fulfillment_status = 'new' # 'главный статус обязательно , так как пользовательский делается только внутри главного
         begin
             order.save
         rescue StandardError => e
