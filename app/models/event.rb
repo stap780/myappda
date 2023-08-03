@@ -4,9 +4,6 @@ class Event < ApplicationRecord
     accepts_nested_attributes_for :event_actions, reject_if: :all_blank    
 
     validates :casetype, presence: true
-    # validates :custom_status, presence: true
-    # validates :financial_status, presence: true
-    # after_commit :restock_job, on: [:create, :update]
 
     FIN_STATUS = [['Не оплачен','pending'],['Оплачен','paid']].freeze #["pending", "paid"]
 

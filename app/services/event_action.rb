@@ -54,3 +54,6 @@ class Services::EventAction
     end
 
 end
+
+# test
+# PreorderJob.set(wait: 1.minutes).perform_later(267,"preorder_order",User.find(407).insints.first)

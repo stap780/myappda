@@ -125,16 +125,27 @@ class Services::InsalesApi
             format_type: "json"
         }
         webhook_order_create = InsalesApi::Webhook.new(webhook: data_webhook_order_create)
+        begin
         webhook_order_create.save
-
+        rescue StandardError => e
+            puts "StandardError => "+e.to_s
+            puts "e.response => "+e.response.to_s if e.response
+            puts "e.response.body => "+e.response.body.to_s if e.response && e.response.body
+        end
         data_webhook_order_update = {
             address: "https://k-comment.ru/insints/order",
             topic: "orders/update",
             format_type: "json"
         }
         webhook_order_update = InsalesApi::Webhook.new(webhook: data_webhook_order_update)
+        begin
         webhook_order_update.save
-    end
+        rescue StandardError => e
+            puts "StandardError => "+e.to_s
+            puts "e.response => "+e.response.to_s if e.response
+            puts "e.response.body => "+e.response.body.to_s if e.response && e.response.body
+        end
+end
 
     def client(insales_client_id)
         begin
@@ -349,6 +360,10 @@ class Services::InsalesApi
               }
           new_market = InsalesApi::Marketplace.new(data)
           new_market.save
+          rescue StandardError => e
+            puts "StandardError => "+e.to_s
+            puts "e.response => "+e.response.to_s if e.response
+            puts "e.response.body => "+e.response.body.to_s if e.response && e.response.body
           rescue ActiveResource::ResourceNotFound
             puts  'not_found 404'
           rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
@@ -357,8 +372,6 @@ class Services::InsalesApi
             puts "Failed.  Response code = 401. Response message = Unauthorized"
           rescue ActiveResource::ClientError
             puts "ActiveResource::ClientError - Failed. Response code = 423.  Response message = Locked. Это наверно тарифный план клиента"
-          rescue StandardError => e
-            puts e.response.body
         else
           new_market
         end

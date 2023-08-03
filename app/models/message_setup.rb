@@ -29,7 +29,6 @@ class MessageSetup < ApplicationRecord
   end
 
 
-private
 
   def create_order_webhook_and_xml
     user = User.find_by_subdomain(Apartment::Tenant.current)
@@ -47,6 +46,8 @@ private
       end
     end
   end
+
+  private
 
   def set_valid_until_for_free_payplan_if_new
     if new_record?

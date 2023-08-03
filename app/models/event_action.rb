@@ -18,5 +18,3 @@ class EventAction < ApplicationRecord
   end
 
 end
-
-
