@@ -38,7 +38,7 @@ Rails.application.routes.draw do
       get :delete_script
       get :emailizb
       get :addrestock
-      get :extra_data
+      post :extra_data
       post :order
       post :abandoned_cart
       post :restock
