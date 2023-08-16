@@ -28,8 +28,6 @@ class MessageSetup < ApplicationRecord
     end
   end
 
-
-
   def create_order_webhook_and_xml
     user = User.find_by_subdomain(Apartment::Tenant.current)
     if user.insints.last.status

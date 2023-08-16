@@ -1,5 +1,5 @@
 class InsintsController < ApplicationController
-  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb emailizb order abandoned_cart restock preorder]
+  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb emailizb order abandoned_cart restock preorder extra_data]
   before_action :authenticate_admin!, only: %i[adminindex]
   before_action :set_insint, only: %i[show edit update check destroy]
 
@@ -435,6 +435,14 @@ class InsintsController < ApplicationController
         render json: { error: false, message: 'не смогли добавить запись в cases preorder Сервис не включен' }
       end
     end
+  end
+
+  def extra_data
+    {
+      "discount": +111,
+      "discount_type": "MONEY",
+      "title": "Ваша пошлина за заказ"
+      }
   end
 
   private
