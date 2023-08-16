@@ -438,11 +438,13 @@ class InsintsController < ApplicationController
   end
 
   def extra_data
-    {
+    data = {
       "discount": +111,
       "discount_type": "MONEY",
       "title": "Ваша пошлина за заказ"
       }
+
+      render json: { success: true, data: data}
   end
 
   private
