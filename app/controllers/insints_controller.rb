@@ -329,10 +329,10 @@ class InsintsController < ApplicationController
                                                                     client_id: client.id, status: "new")
         puts "insint abandoned_cart mycase => "+mycase.inspect.to_s
         params["lines"].each do |o_line|
-          product = Product.find_by_insid(o_line["productId"]).present? ? Product.find_by_insid(o_line["productId"]) : 
-                                                                        Product.create!(insid: o_line["productId"])
-          variant = product.variants.where(insid: o_line["variantId"]).present? ? product.variants.where(insid: o_line["variantId"])[0] : 
-                                                                                  product.variants.create!(insid: o_line["variantId"])
+          product = Product.find_by_insid(o_line["productId"].to_i).present? ? Product.find_by_insid(o_line["productId"].to_i) : 
+                                                                        Product.create!(insid: o_line["productId"].to_i)
+          variant = product.variants.where(insid: o_line["variantId"].to_i).present? ? product.variants.where(insid: o_line["variantId"].to_i)[0] : 
+                                                                                  product.variants.create!(insid: o_line["variantId"].to_i)
           # mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
           line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
           if line.present?
