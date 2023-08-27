@@ -68,6 +68,10 @@ class Case < ApplicationRecord
     end
   end
 
+  def client_fio
+    self.client ? self.client.fio : ''
+  end
+
   private
 
   def normalize_data_white_space

@@ -1,0 +1,12 @@
+<tr>
+    <td><%= check_box_tag "case_ids[]", mycase.id %></td>
+    <td><%= mycase.id %></td>
+    <td><%= mycase.created_at.strftime("%d/%m/%Y")%></td>
+    <td><%= mycase.status %></td>
+    <td><%= mycase.casetype_value %></td>
+    <td><%= mycase.number %></td>
+    <td><%= mycase.client_fio %></td>
+
+    <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_case_path(mycase), class: "px-3" %>
+    <%= link_to '<span class="oi oi-trash"></span>'.html_safe, mycase, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>
