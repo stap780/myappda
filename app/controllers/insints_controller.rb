@@ -315,7 +315,7 @@ class InsintsController < ApplicationController
     # insint = Insint.find_by_insales_account_id(784184)
     saved_subdomain = insint.user.subdomain
     Apartment::Tenant.switch(saved_subdomain) do
-      if MessageSetup.check_ability
+      if MessageSetup.check_ability && params["lines"].count > 0
         number = params["id"]
         search_client = Client.find_by_email(params["contacts"]["email"]).present? ?  Client.find_by_email(params["contacts"]["email"]) : 
                                                                                       Client.find_by_phone(params["contacts"]["phone"])

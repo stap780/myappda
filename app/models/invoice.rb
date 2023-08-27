@@ -61,7 +61,7 @@ private
           ms = MessageSetup.first
           old_valid_until = ms.valid_until.nil? || !ms.valid_until.nil? && ms.valid_until < Date.today ? Date.today : ms.valid_until
           new_valid_until = old_valid_until + "#{add_period}".to_i.months
-          ms.update!(valid_until: new_valid_until)
+          ms.update!(valid_until: new_valid_until, payplan_id: payplan.id)
         end
       end
     else
