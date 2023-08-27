@@ -47,7 +47,7 @@
       <tr>
           <td><%= check_box_tag "case_ids[]", mycase.id %></td>
           <td><%= mycase.id %></td>
-          <td><%= mycase.created_at.strftime("%d/%m/%Y")%></td>
+          <td><%= mycase.created_at.strftime("%d/%m/%Y %H:%M")%></td>
           <td><%= mycase.status %></td>
           <td><%= mycase.casetype_value %></td>
           <td><%= mycase.number %></td>
