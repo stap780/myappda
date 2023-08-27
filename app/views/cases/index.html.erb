@@ -33,6 +33,7 @@
     <tr class="bg-success">
       <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
       <th>#</th>
+      <th>Дата</th>
       <th>Статус</th>
       <th>Тип заявки</th>
       <th>Номер</th>
@@ -46,6 +47,7 @@
     <tr>
         <td><%= check_box_tag "case_ids[]", mycase.id %></td>
         <td><%= mycase.id %></td>
+        <td><%= mycase.created_at.strftime("%d/%m/%Y"))%></td>
         <td><%= mycase.status %></td>
         <td><%= mycase.casetype_value %></td>
         <td><%= mycase.number %></td>
