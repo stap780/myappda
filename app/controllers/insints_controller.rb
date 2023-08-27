@@ -345,7 +345,7 @@ class InsintsController < ApplicationController
         mycase.do_event_action
         render json: { success: true, message: 'Информация сохранена в cases abandoned_cart'}
       else
-        render json: { error: false, message: 'не смогли добавить запись в cases abandoned_cart Сервис не включен' }
+        render json: { error: true, message: 'не смогли добавить запись в cases abandoned_cart Сервис не включен' }
       end
     end
   end

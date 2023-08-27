@@ -39,10 +39,12 @@ private
 
   def set_service_valid_after_update_invoice
     if !new_record? && saved_change_to_status?
-      service_handle = self.service_handle
-      payplan = Payplan.find_by_id(self.payplan_id)
+      # service_handle = self.service_handle
+      # payplan = Payplan.find_by_id(self.payplan_id)
+      payplan = self.payplan
+      service_handle = payplan.service_handle
       add_period = payplan.period
-      if payplan.price != 0 && self.status == 'Оплачен'
+      if payplan.price.to_i != 0 && self.status == 'Оплачен'
         if service_handle == "favorite"
           fs = FavoriteSetup.all.first
           old_valid_until = fs.valid_until.nil? || !fs.valid_until.nil? && fs.valid_until < Date.today ? Date.today : fs.valid_until
