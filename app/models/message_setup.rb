@@ -65,7 +65,8 @@ class MessageSetup < ApplicationRecord
         invoice = Invoice.create(invoice_data.merge!(status: "Оплачен"))
         payment = invoice.get_payment.update!(paymentdate: Date.today, status: "Оплачен")
       else
-        invoice = Invoice.create(invoice_data)
+        not_have_invoice = Invoice.where(invoice_data.merge!(status: "Не оплачен"))
+        invoice = Invoice.create(invoice_data) if not_have_invoice
       end
     end
   end

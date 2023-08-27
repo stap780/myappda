@@ -42,6 +42,8 @@ private
   end
 
   def set_service_valid_after_update_invoice
+    puts 'invoice saved_change_to_status? => '+saved_change_to_status?.to_s
+    puts 'invoice saved_change_to_status => '+saved_change_to_status.to_s
     if !new_record? && saved_change_to_status?
       # service_handle = self.service_handle
       # payplan = Payplan.find_by_id(self.payplan_id)
