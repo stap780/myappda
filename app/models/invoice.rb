@@ -46,13 +46,13 @@ private
       add_period = payplan.period
       if payplan.price.to_i != 0 && self.status == 'Оплачен'
         if service_handle == "favorite"
-          fs = FavoriteSetup.all.first
+          fs = FavoriteSetup.first
           old_valid_until = fs.valid_until.nil? || !fs.valid_until.nil? && fs.valid_until < Date.today ? Date.today : fs.valid_until
           new_valid_until = old_valid_until + "#{add_period}".to_i.months
           fs.update!(valid_until: new_valid_until)
         end
         if service_handle == "message"
-          ms = MessageSetup.all.first
+          ms = MessageSetup.first
           old_valid_until = ms.valid_until.nil? || !ms.valid_until.nil? && ms.valid_until < Date.today ? Date.today : ms.valid_until
           new_valid_until = old_valid_until + "#{add_period}".to_i.months
           ms.update!(valid_until: new_valid_until)
