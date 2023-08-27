@@ -5,7 +5,7 @@ class Invoice < ApplicationRecord
 
   before_create :set_data_if_new_record
   after_create :create_payment
-  after_update :set_service_valid_after_update_invoice
+  # after_update :set_service_valid_after_update_invoice
   # before_destroy :update_service_before_destroy_invoice
 
   def get_user

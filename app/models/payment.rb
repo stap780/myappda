@@ -31,6 +31,7 @@ class Payment < ApplicationRecord
       Apartment::Tenant.switch(tenant) do
         invoice = Invoice.find_by_id(self.invoice_id)
         invoice.update!(status: 'Оплачен') if self.status == 'Оплачен'
+        invoice.set_service_valid_after_update_invoice if self.status == 'Оплачен'
       end
     end
   end

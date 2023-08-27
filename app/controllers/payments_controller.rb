@@ -6,7 +6,6 @@ class PaymentsController < ApplicationController
   skip_before_action :redirect_to_subdomain
 
   # GET /payments
-  # GET /payments.json
   def index
     # @payments = Payment.all
     @search = Payment.ransack(params[:q])
@@ -15,7 +14,6 @@ class PaymentsController < ApplicationController
   end
 
   # GET /payments/1
-  # GET /payments/1.json
   def show
   end
 
@@ -29,7 +27,6 @@ class PaymentsController < ApplicationController
   end
 
   # POST /payments
-  # POST /payments.json
   def create
     @payment = Payment.new(payment_params)
     respond_to do |format|
@@ -44,7 +41,6 @@ class PaymentsController < ApplicationController
   end
 
   # PATCH/PUT /payments/1
-  # PATCH/PUT /payments/1.json
   def update
     respond_to do |format|
       if @payment.update(payment_params)
@@ -58,7 +54,6 @@ class PaymentsController < ApplicationController
   end
 
   # DELETE /payments/1
-  # DELETE /payments/1.json
   def destroy
     @payment.destroy_invoice
     @payment.destroy
@@ -78,9 +73,11 @@ class PaymentsController < ApplicationController
   def success
     puts 'success here'
     @user = User.find(params[:CURRENT_USER])
-    Apartment::Tenant.switch!(@user.subdomain)
-    invoice = Invoice.find(params[:LMI_PAYMENT_NO])
-    invoice.update_attributes(:status => 'Оплачен')
+    Apartment::Tenant.switch(@user.subdomain) do
+      invoice = Invoice.find(params[:LMI_PAYMENT_NO])
+      invoice.update_attributes(status: 'Оплачен')
+      invoice.set_service_valid_after_update_invoice
+    end
     sign_in(:user, @user)
     redirect_to after_sign_in_path_for(@user)
   end

@@ -15,7 +15,7 @@ class MessageSetup < ApplicationRecord
   def self.check_ability #проверяем тариф и определяем как будет обрабатываться запрос
     payplan_ability = false
         
-    ms = MessageSetup.all.first
+    ms = MessageSetup.first
     if ms
       ms_status = ms.status == true ? true : false
       puts 'MessageSetup ms_status => '+ms_status.to_s
