@@ -5,7 +5,7 @@ class Payment < ApplicationRecord
   # validates :paymentdate, presence: true
 
   before_create :add_subdomain #не помню зачем это
-  after_commit :update_invoice_after_update_payment , on: [:update]
+  after_commit :update_invoice_after_update_payment, on: [:update]
 
   Status = ['Не оплачен','Оплачен']
   Paymenttype = [['Счёт для юр лиц', 'invoice'],['Кредитные карты', 'creditcard'], ['Paypal', 'paypal']]
@@ -31,7 +31,6 @@ class Payment < ApplicationRecord
       Apartment::Tenant.switch(tenant) do
         invoice = Invoice.find_by_id(self.invoice_id)
         invoice.update!(status: 'Оплачен') if self.status == 'Оплачен'
-        invoice.set_service_valid_after_update_invoice if self.status == 'Оплачен'
       end
     end
   end

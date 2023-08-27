@@ -5,7 +5,7 @@ class Invoice < ApplicationRecord
 
   before_create :set_data_if_new_record
   after_create :create_payment
-  # after_update :set_service_valid_after_update_invoice
+  after_commit :set_service_valid_after_update_invoice, on: [:update]
   # before_destroy :update_service_before_destroy_invoice
 
   def get_user
@@ -20,6 +20,25 @@ class Invoice < ApplicationRecord
   
   def payment_date
     self.get_payment.present? ? self.get_payment.paymentdate.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : ''
+  end
+
+  def set_service_valid
+    set_service_valid_after_update_invoice
+  end
+
+private
+
+  def set_data_if_new_record
+    if new_record?
+      self.sum = self.payplan.price 
+      self.status = 'Не оплачен' if self.status.nil?
+    end
+  end
+
+  def create_payment
+    if !self.get_payment.present?
+      self.payments.create!( user_id: self.get_user.id, payplan_id: self.payplan.id, status: 'Не оплачен', paymenttype: self.paymenttype )
+    end
   end
 
   def set_service_valid_after_update_invoice
@@ -43,22 +62,10 @@ class Invoice < ApplicationRecord
           ms.update!(valid_until: new_valid_until)
         end
       end
+    else
+      puts 'invoice status not change'
     end
   end
 
-private
-
-  def set_data_if_new_record
-    if new_record?
-      self.sum = self.payplan.price 
-      self.status = 'Не оплачен' if self.status.nil?
-    end
-  end
-
-  def create_payment
-    if !self.get_payment.present?
-      self.payments.create!( user_id: self.get_user.id, payplan_id: self.payplan.id, status: 'Не оплачен', paymenttype: self.paymenttype )
-    end
-  end
 
 end
