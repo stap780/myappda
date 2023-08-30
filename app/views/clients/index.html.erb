@@ -32,9 +32,9 @@
       <th>ФИО</th>
       <th>Email</th>
       <th>Phone</th>
-      <%=tag.th('Избранное') if Favorite.all.count > 0 %>
-      <%=tag.th('Сообщить о поступлении') if Restock.all.count > 0 %>
-      <%=tag.th('Предзаказ') if Preorder.all.count > 0 %>
+      <%=tag.th 'Избранное' if Favorite.all.count > 0 %>
+      <%=tag.th 'Сообщить о поступлении' if Restock.all.count > 0 %>
+      <%=tag.th 'Предзаказ' if Preorder.all.count > 0 %>
       <th colspan="1"></th>
     </tr>
   </thead>
