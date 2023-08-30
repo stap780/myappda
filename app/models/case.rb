@@ -69,7 +69,7 @@ class Case < ApplicationRecord
   end
 
   def client_data
-    self.client ? self.client.fio.to_s+" "+self.client.email.to_s+" "+self.client.phone.to_s : ''
+    self.client ? self.client.fio.to_s+" - "+self.client.email.to_s+" - "+self.client.phone.to_s : ''
   end
 
   private
