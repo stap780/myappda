@@ -389,7 +389,7 @@ class InsintsController < ApplicationController
 
         render json: { success: true, message: 'Информация сохранена в cases restock'}
       else
-        render json: { error: false, message: 'не смогли добавить запись в cases restock Сервис не включен' }
+        render json: { error: true, message: 'не смогли добавить запись в cases restock Сервис не включен' }
       end
     end
   end

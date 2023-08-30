@@ -33,8 +33,8 @@
     <tr class="bg-success">
       <th><%= check_box_tag 'selectAll', 'selectAll'%></th>
       <th>#</th>
-      <th>Дата</th>
       <th>Статус</th>
+      <th>Дата</th>
       <th>Тип заявки</th>
       <th>Номер</th>
       <th>Клиент</th>
@@ -47,11 +47,11 @@
       <tr>
           <td><%= check_box_tag "case_ids[]", mycase.id %></td>
           <td><%= mycase.id %></td>
-          <td><%= mycase.created_at.strftime("%d/%m/%Y %H:%M")%></td>
           <td><%= mycase.status %></td>
+          <td><%= mycase.created_at.strftime("%d/%m/%Y %H:%M")%></td>
           <td><%= mycase.casetype_value %></td>
           <td><%= mycase.number %></td>
-          <td><%= mycase.client_fio %></td>
+          <td><%= mycase.client_data %></td>
 
           <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_case_path(mycase), class: "px-3" %>
           <%= link_to '<span class="oi oi-trash"></span>'.html_safe, mycase, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -61,7 +61,5 @@
 </table>
 </div>
 
+<%= render 'shared/paginate', object: @cases %>
 
-<div class="apple_pagination">
-  <%= will_paginate @cases %>
-</div>

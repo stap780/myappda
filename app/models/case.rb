@@ -68,8 +68,8 @@ class Case < ApplicationRecord
     end
   end
 
-  def client_fio
-    self.client ? self.client.fio : ''
+  def client_data
+    self.client ? self.client.fio+" "+self.client.email+" "+self.client.phone : ''
   end
 
   private
@@ -82,6 +82,3 @@ class Case < ApplicationRecord
 
 
 end
-  
-  
-  

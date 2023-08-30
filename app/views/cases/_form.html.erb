@@ -1,11 +1,10 @@
 
 <%= simple_form_for(@case) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+    <%= render 'shared/errors', object: @case%>
 
   <div class="row">
     <div class="col-12 h3 mt-3 mb-3"><%= page_title %></div>
-    <div class="col-6">
+    <div class="col-5">
       <%= f.input :status, collection: Case::STATUS, input_html: {class: "form-select" }%>
       <%= f.input :number, disabled: true %>
       <%= f.association :client, class: "form-select", input_html: {class: "form-select" } %>
@@ -13,7 +12,7 @@
       <%= f.input :insales_custom_status_title, label: "Статус Ins", disabled: true %>
       <%= f.input :insales_financial_status, label: "Фин Статус", disabled: true %>
     </div>
-    <div class="col-6">
+    <div class="col-7">
     <div class="table-responsive">
     <label for="line-table">Позиции заявки</label>
       <table class="table table-primary" id="line-table">
@@ -23,23 +22,19 @@
             <th>Вариант</th>
             <th>Кол-во</th>
             <th>Цена</th>
-            <% if @case.casetype == 'restock'%>
-            <th>Статус позиции</th>
-            <% end %>
+            <%= tag td('Статус позиции') if @case.casetype == 'restock' %>
           </tr>
         </thead>
         <tbody>
           <% @case.lines.each do |line|%>
-          <tr class="line_<%= line.id%>">
-            <td><%= line.product.title %></td>
-            <td><%= link_to "#{line.variant.insid.to_s }", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+line.variant.product.insid.to_s+"?variant_id="+line.variant.insid.to_s, target: "_blank" %>
-                <br>Артикул: <%= line.variant.sku.to_s  %></td>
-            <td><%= line.quantity %></td>
-            <td><%= line.price %></td>
-            <% if @case.casetype == 'restock'%>
-            <td><%= line.variant.restocks.first.status%></td>
-            <% end %>
-          </tr>
+            <tr class="line_<%= line.id%>">
+              <td><%= line.product.title %></td>
+              <td><%= link_to "#{line.variant.insid.to_s }", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+line.variant.product.insid.to_s+"?variant_id="+line.variant.insid.to_s, target: "_blank" %>
+                  <br>Артикул: <%= line.variant.sku.to_s  %></td>
+              <td><%= line.quantity %></td>
+              <td><%= line.price %></td>
+              <%= tag td( line.variant.restocks.first.status ) if @case.casetype == 'restock'%>
+            </tr>
           <% end %>
         </tbody>
       </table>

@@ -3,18 +3,21 @@
     <h2>Клиенты</h2><small>Всего - <%= Client.count%></small>
   </div>
   <div class="col-3 align-self-center">
-  <% if FavoriteSetup.all.present?%>
-    <%= link_to '<i class="fa fa-list"></i> Сохранить отчет Избранное'.html_safe, otchet_clients_path, title: "отчет Избранное", class: "btn btn-light", role:"button", remote: true%>
-  <% end %>
+    <% if FavoriteSetup.all.present?%>
+      <%= link_to '<i class="fa fa-list"></i> Сохранить отчет Избранное'.html_safe, otchet_clients_path, title: "отчет Избранное", class: "btn btn-light", role:"button", remote: true%>
+    <% end %>
   </div>
   <%= search_form_for @search, html: {class: 'form-inline col-3 pl-0 pr-0'}  do |f|%>
     <div class="input-group input-group-sm">
       <%= f.search_field :clientid_cont_all, placeholder: 'ID', class: "form-control"%>
+      <%= f.search_field :name_or_surname_cont_all, placeholder: 'ФИО', class: "form-control"%>
+      <%= f.search_field :email_cont_all, placeholder: 'Email', class: "form-control"%>
+      <%= f.search_field :phone_cont_all, placeholder: 'Телефон', class: "form-control"%>
       <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
       <%= link_to '<span class="oi oi-reload"></span>'.html_safe, clients_path, class: 'btn btn-outline-dark' %>
     </div>
   <% end %>
-    <div class="col-3 align-self-center">
+  <div class="col-3 align-self-center">
     <%= link_to 'Импорт клиентов Insales <span class="oi oi-cloud-upload"></span>'.html_safe, file_import_insales_clients_path, remote: 'true', id: 'file_import', title: 'file import', 'data-bs-toggle' => "modal", 'data-bs-target' => '#modal-edit', class: 'btn btn-outline-info btn-sm' %>
   </div>
 
@@ -29,15 +32,9 @@
       <th>ФИО</th>
       <th>Email</th>
       <th>Phone</th>
-      <% if Favorite.all.count > 0 %>
-      <th>Избранное</th>
-      <% end %>
-      <% if Restock.all.count > 0 %>
-      <th>Сообщить <br>о поступлении</th>
-       <% end %>
-      <% if Preorder.all.count > 0 %>
-      <th>Предзаказ</th>
-       <% end %>    
+      <%=tag th('Избранное') if Favorite.all.count > 0 %>
+      <%=tag th('Сообщить о поступлении') if Restock.all.count > 0 %>
+      <%=tag th('Предзаказ') if Preorder.all.count > 0 %>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -66,6 +63,6 @@
 </table>
 
 </div>
-<div class="digg_pagination">
-  <%= will_paginate @clients %>
-</div>
+
+<%= render 'shared/paginate', object: @clients %>
+
