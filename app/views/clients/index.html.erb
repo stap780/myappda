@@ -2,12 +2,12 @@
   <div class="col-2">
     <h2>Клиенты</h2><small>Всего - <%= Client.count%></small>
   </div>
-  <div class="col-3 align-self-center">
+  <div class="col-2 align-self-center">
     <% if FavoriteSetup.all.present?%>
       <%= link_to '<i class="fa fa-list"></i> Сохранить отчет Избранное'.html_safe, otchet_clients_path, title: "отчет Избранное", class: "btn btn-light", role:"button", remote: true%>
     <% end %>
   </div>
-  <%= search_form_for @search, html: {class: 'form-inline col-3 pl-0 pr-0'}  do |f|%>
+  <%= search_form_for @search, html: {class: 'form-inline col-5 pl-0 pr-0'}  do |f|%>
     <div class="input-group input-group-sm">
       <%= f.search_field :clientid_cont_all, placeholder: 'ID', class: "form-control"%>
       <%= f.search_field :name_or_surname_cont_all, placeholder: 'ФИО', class: "form-control"%>

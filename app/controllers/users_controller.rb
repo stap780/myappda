@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update, :destroy, :check_email]
-  before_action :authenticate_admin!, only: [:index]
+  before_action :authenticate_admin!, only: [:index], except: [:stop_impersonating]
 
 
   def index
@@ -72,6 +72,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def impersonate
+    user = User.find(params[:id])
+    impersonate_user(user)
+    redirect_to root_path
+  end
+
+  def stop_impersonating
+    stop_impersonating_user
+    redirect_to root_path
+  end
 
   private
 

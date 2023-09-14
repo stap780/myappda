@@ -23,9 +23,13 @@ function check_type(element){
     if ( searchType === 'restock' ) {
         $('.event_event_actions_timetable').removeClass('d-none');
         $('.event_event_actions_timetable_time').removeClass('d-none');
+        $('.event_event_actions_timetable input').prop( "checked", true );
+        $('.event_event_actions_timetable_time select').prop('selectedIndex',1);
     } else {
         $('.event_event_actions_timetable').addClass('d-none');
         $('.event_event_actions_timetable_time').addClass('d-none');
+        $('.event_event_actions_timetable input').prop( "checked", false );
+        $('.event_event_actions_timetable_time select').prop('selectedIndex',0);
     }
 
 }

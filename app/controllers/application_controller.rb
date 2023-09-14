@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   protect_from_forgery with: :null_session
+  impersonates :user
 
   before_action :authenticate_user!
   before_action :set_current_user
@@ -51,7 +52,8 @@ class ApplicationController < ActionController::Base
     if request.subdomain.present?
       if current_user.present? && request.subdomain != current_user.subdomain
         subdomain = current_user.subdomain
-        host = request.host_with_port.sub!("#{request.subdomain}", subdomain)
+        # host = request.host_with_port.sub!("#{request.subdomain}", subdomain)
+        host = request.host_with_port.sub("#{request.subdomain}", subdomain)
         redirect_to "http://#{host}#{request.path}"
       end
     end

@@ -22,6 +22,7 @@ gem 'cocoon'
 gem 'combine_pdf'
 gem 'delayed_job_active_record'
 gem 'devise'
+gem "pretender"
 gem 'devise_date_restrictable'
 gem 'ed25519', '~> 1.2', '>= 1.2.4'
 gem 'figaro'

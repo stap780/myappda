@@ -197,6 +197,8 @@ GEM
     pg (1.5.3)
     phonelib (0.8.2)
     popper_js (2.11.7)
+    pretender (0.4.0)
+      actionpack (>= 5.2)
     public_suffix (5.0.3)
     racc (1.7.1)
     rack (2.2.7)
@@ -374,6 +376,7 @@ DEPENDENCIES
   nokogiri
   pg (>= 0.18, < 2.0)
   phonelib
+  pretender
   rack-cors
   rails (~> 5.2.4, >= 5.2.4.4)
   ransack

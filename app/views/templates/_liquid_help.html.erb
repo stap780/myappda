@@ -1,4 +1,6 @@
-<span class="">Заказ</span>
+<div class="row">
+<div class="col-6">
+<span class="">Заказ в Инсалес</span>
 <ul class="list-group list-group-horizontal">
     <li class="list-group-item">{{order.number}}</li>
     <li class="list-group-item">{{order.payment_title}}</li>
@@ -39,7 +41,9 @@
     <li class="list-group-item">{{order.financial_status}}</li>
     <li class="list-group-item">{{order.paid?}}</li>
 </ul>
-<span class="">Клиент</span>
+</div>
+<div class="col-6">
+<span class="">Клиент магазина</span>
 <ul class="list-group list-group-horizontal">
     <li class="list-group-item">{{client.name}}</li>
     <li class="list-group-item">{{client.email}}</li>
@@ -48,12 +52,12 @@
     <li class="list-group-item">{{client.phone}}</li>
 </ul>
 <ul class="list-group list-group-horizontal">
-    <li class="list-group-item">{{ client.restocks }}</li>
+    <li class="list-group-item">{{ client.restocks }} все товары клеинта для Сообщить о поступлении</li>
 </ul>
 <ul class="list-group list-group-horizontal">
-    <li class="list-group-item">{{ client.restocks_for_inform }}</li>
+    <li class="list-group-item">{{ client.restocks_for_inform }} товары клеинта для Сообщить о поступлении имеющие статус ready </li>
 </ul>
-<span class="">Пользователь</span>
+<span class="">Пользователь приложения</span>
 <ul class="list-group list-group-horizontal">
     <li class="list-group-item">{{user.name}}</li>
     <li class="list-group-item">{{user.email}}</li>
@@ -64,4 +68,7 @@
 <ul class="list-group list-group-horizontal">
     <li class="list-group-item">{{ user.logo }}</li>
 </ul>
+</div>
 
+
+</div>

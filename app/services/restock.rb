@@ -51,7 +51,7 @@ class Services::Restock
                     puts "don't have restocks to inform client"
                 end
             else
-                puts "не наш период hour_now #{hour_now}, periods #{periods}, table_hour #{table_hour}"
+                puts "не наш период now_hour #{now_hour}, periods #{periods}, table_hour #{table_hour}"
             end
         end
     end

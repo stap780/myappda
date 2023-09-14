@@ -14,6 +14,10 @@
       </li>
       <%= render "/layouts/admin_navigation" if current_admin %>
       <%= render "/layouts/user_navigation" unless current_admin %>
+      <li><% if current_user != true_user %>
+      <%= link_to "You (#{true_user.name }) are signed in as #{current_user.name }<br>Back to admin".html_safe, stop_impersonating_users_path, method: :post %>
+      <% end %>
+      </li>
     </ul>
     <ul class="navbar-nav">
       <!-- <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></a> <div class="dropdown-menu

@@ -97,6 +97,8 @@ Rails.application.routes.draw do
   }
 
   resources :users do
+    post :impersonate, on: :member
+    post :stop_impersonating, on: :collection
     collection do
       get '/:id/check_email', action: 'check_email', as: 'check_email'
       delete '/:id/images/:image_id', action: 'delete_image', as: 'delete_image'
