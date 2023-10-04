@@ -40,7 +40,7 @@ class Case < ApplicationRecord
   def do_event_action
     if self.casetype == 'order' || self.casetype == 'abandoned_cart' || self.casetype == 'preorder'
       puts "Case do_event_action start"
-      events = Event.where(casetype: self.casetype)
+      events = Event.active.where(casetype: self.casetype)
       if events.present?
         puts "case do_event_action"
         user = User.find_by_subdomain(Apartment::Tenant.current)
@@ -56,7 +56,7 @@ class Case < ApplicationRecord
     client.cases.where(casetype: 'restock').each do |mycase|
       lines_state = mycase.lines.map{|line| line.variant.restocks.first.status}
       # puts "lines_state.uniq => "+lines_state.uniq
-      lines_state.uniq == 'send' ? mycase.update(status: 'finish') : nil
+      lines_state.uniq.join == 'send' ? mycase.update(status: 'finish') : nil
     end
   end
 

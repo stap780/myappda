@@ -34,3 +34,8 @@ function check_type(element){
 
 }
 
+$(document).ready(function() {
+    $('#event_casetype').each(function(e){
+        check_type(e);
+    });
+});

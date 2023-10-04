@@ -42,11 +42,12 @@ class Services::Restock
 
             if periods.include?(now_hour.to_i)
                 load_products_xml
-                restocks_update_status_for_inform
+                restocks_update_status_for_inform # we set status READY
                 if @client.restocks.for_inform.present?
                     EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes) if channel == 'email'
                     @client.restocks.for_inform.update_all(status: "send")
                     Case.restock_update_cases(@client)
+                    puts "client have restocks and we inform it"
                 else
                     puts "don't have restocks to inform client"
                 end
@@ -65,7 +66,7 @@ class Services::Restock
                     f = File.new(@download_path, "wb")
                     f << response.body
                     f.close
-                    puts "Services::Restock load and write products file"
+                    puts "Services::Restock load and write products xml file - user id => #{@user.id}.to_s"
                 else
                     response.return!(&block)
                 end

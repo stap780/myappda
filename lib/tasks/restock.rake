@@ -10,7 +10,7 @@ namespace :restock do
             user = User.find_by_subdomain(tenant)
             if MessageSetup.all.count > 0
               product_xml = MessageSetup.first.product_xml
-              events = Event.where(casetype: 'restock')
+              events = Event.active.where(casetype: 'restock')
               clients = Client.with_restocks
               clients.each do |client|
                   Services::Restock.new(user, client, events, product_xml).do_action

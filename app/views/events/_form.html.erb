@@ -1,10 +1,12 @@
 
 <%= simple_form_for(@event) do |f| %>
-  <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="row">
     <div class="col-6">
+
+      <%= f.input :active, label: 'Вкл/выкл', wrapper_html: { class: "mt-2" }  %>
+
       <%= f.input :casetype, label: "Тип заявки", collection: Case::CASETYPE, prompt: "Тип заявки", input_html: { class: "form-select", onchange: "check_type(this)"} %>
       <% class_display = @event.casetype == 'order' ||  @event.casetype == 'restock' ? '' : 'd-none'%>
       <% if Insint.present_work? %>
