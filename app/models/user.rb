@@ -158,7 +158,9 @@ class User < ApplicationRecord
       content: 'Test content', 
       receiver: 'info@k-comment.ru'
     }
-    check_email = EventMailer.with(email_data).send_action_email.deliver_later(wait: '1'.to_i.minutes)
+    # check_email = EventMailer.with(email_data).send_action_email.deliver_later(wait: '1'.to_i.minutes)
+    check_email = EventMailer.with(email_data).send_action_email.deliver_now
+
     check_email.present? ? true : false
   end
   

@@ -7,7 +7,7 @@ class EventMailer < ApplicationMailer
     def send_action_email
         @user_email = @user.email
         @user_email_from = set_from_email
-        mail( to: @receiver, from:  @user_email_from, subject: @subject )
+        mail( to: @receiver, from: @user_email_from, subject: @subject )
     end
   
 

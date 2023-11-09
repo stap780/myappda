@@ -203,7 +203,7 @@ class InsintsController < ApplicationController
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
             product = Product.find_by_insid(params[:product_id])
-            client.favorites.find_by_product_id(product.id).destroy #добавка после расширения функционала
+            client.favorites.find_by_product_id(product.id).destroy if product.present? #добавка после расширения функционала
             totalcount = client.favorites.uniq.count.to_s
             render json: { success: true, message: 'товар удалён', totalcount: totalcount }
           end
