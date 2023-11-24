@@ -11,6 +11,14 @@ class Client < ApplicationRecord
   validates :phone, phone: { possible: true, allow_blank: true }
   before_validation :normalize_phone
 
+  def self.ransackable_attributes(auth_object = nil)
+    Client.attribute_names
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["cases", "favorites", "order_status_changes", "preorders", "products", "restocks", "variants"]
+  end
+
   def self.with_restocks
     cl_ids = Restock.all.pluck(:client_id).uniq
     clients = Client.includes(:restocks).where('restocks.client_id' => cl_ids)
@@ -86,7 +94,7 @@ class Client < ApplicationRecord
       # end
       current_subdomain = Apartment::Tenant.current
       user = User.find_by_subdomain(current_subdomain)
-      service = Services::InsalesApi.new(user.insints.first)
+      service = ApiInsales.new(user.insints.first)
       client = service.client(self.clientid)
       client_data = {
         name: client.name,

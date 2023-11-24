@@ -23,8 +23,8 @@ class Services::Restock
             subject_template = Liquid::Template.parse(action.template.subject)
             content_template = Liquid::Template.parse(action.template.content)
             
-            client_drop = Services::Drop::Client.new(@client)
-            restock_drop = Services::Drop::Client.new(@client.restocks)
+            client_drop = Drops::Client.new(@client)
+            restock_drop = Drops::Client.new(@client.restocks)
 
             subject = subject_template.render('client' => client_drop)
             content = content_template.render('client' => client_drop, 'restocks' => restock_drop)

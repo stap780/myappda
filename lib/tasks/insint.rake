@@ -8,7 +8,7 @@ namespace :insint do
     User.all.order(:id).each do | user |
         insint = user.insints.first
         if insint.present?
-          service = Services::InsalesApi.new(insint)
+          service = ApiInsales.new(insint)
           if service.account.present?
             # puts user.id.to_s
             insales_account_id = service.account.id

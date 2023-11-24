@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module MyApp
   class Application < Rails::Application
+    config.load_defaults 7.0
+    
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -29,5 +31,7 @@ module MyApp
     # config.eager_load_paths += %W(#{config.root}/app #{config.root}/lib)
     config.eager_load_paths << Rails.root.join('app')
     config.eager_load_paths << Rails.root.join('lib')
+    config.autoload_paths += %W(#{config.root}/services #{config.root}/app/services/drop #{config.root}/app/classes)
+
   end
 end

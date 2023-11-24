@@ -4,7 +4,7 @@ namespace :liquid do
   
     task check_work: :environment do
         user = User.find 67
-        service = Services::InsalesApi.new(user.insints.first)
+        service = ApiInsales.new(user.insints.first)
         Apartment::Tenant.switch!(user.subdomain)
         order_status_change = OrderStatusChange.last
         order = service.order(order_status_change.insales_order_id)
@@ -32,7 +32,7 @@ namespace :liquid do
             receiver = osc.client.email if action.template.receiver == 'client'
             receiver = user.email if action.template.receiver == 'manager'
             
-            service = Services::InsalesApi.new(user.insints.first)
+            service = ApiInsales.new(user.insints.first)
             order = service.order(osc.insales_order_id)
     
             subject_template = Liquid::Template.parse(action.template.subject)

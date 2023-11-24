@@ -1,5 +1,5 @@
-class Services::Drop::User < Liquid::Drop
 
+class Drops::User < Liquid::Drop
     def initialize(user)
         @user = user
     end
@@ -35,6 +35,5 @@ class Services::Drop::User < Liquid::Drop
         @user.image.attached? ? host+@user.logo_url : ''
         # @user.image.attached? ? 'https://k-comment.ru/test_logo.png' : ''
     end
-
-
 end
+

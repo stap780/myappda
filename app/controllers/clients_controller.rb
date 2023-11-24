@@ -114,7 +114,7 @@ class ClientsController < ApplicationController
     if client_import_data
       @header = client_import_data[:header]
       @client_data = client_import_data[:client_data]
-      service = Services::InsalesApi.new(current_user.insints.first)
+      service = ApiInsales.new(current_user.insints.first)
       @insales_fields = service.client_fields
     else
       flash[:alert] = 'Ошибка в файле импорта'

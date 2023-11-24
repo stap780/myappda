@@ -1,11 +1,13 @@
-##
+#
 # Wird eine Subdomain aufgerufen, für die es keinen Mandanten gibt
 # (`TenantNotFound`), soll auf die Startseite umgeleitet werden.
 ##
 module RescuableApartmentMiddleware
   def call(*args)
     begin
-      # puts *args.to_s
+      puts "args"
+    #   puts *args.to_s
+      puts "args ==="
       super
     rescue Apartment::TenantNotFound
       # redirect_url = Rails.application.routes.url_helpers.url_for(controller: 'website', action: :index)

@@ -6,7 +6,7 @@ namespace :order do
       puts "start create_order - время москва - #{Time.zone.now}"
       Apartment::Tenant.switch!('test2')
       user = User.find_by_subdomain(Apartment::Tenant.current)
-      service = Services::InsalesApi.new(user.insints.first)
+      service = ApiInsales.new(user.insints.first)
       mycase = Case.find 51
       lines = [{ variant_id: 481328778, quantity: 1}]
       variants_for_update = [{ id: 481328778, quantity: 1}]

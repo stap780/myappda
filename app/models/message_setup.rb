@@ -4,7 +4,7 @@ class MessageSetup < ApplicationRecord
   validates :title, presence: true
   validates :handle, uniqueness: true
   before_save :normalize_data_white_space
-  before_save :set_valid_until_for_free_payplan_if_new, on: [:create]
+  before_save :set_valid_until_for_free_payplan_new, if: [:create]
   after_create :create_order_webhook_and_xml
   after_commit :create_invoice, on: [:create, :update]
 
@@ -31,7 +31,7 @@ class MessageSetup < ApplicationRecord
   def create_order_webhook_and_xml
     user = User.find_by_subdomain(Apartment::Tenant.current)
     if user.insints.last.status
-      service = Services::InsalesApi.new(user.insints.first)
+      service = ApiInsales.new(user.insints.first)
       service.add_order_webhook
       # service.delete_order_webhook if self.status == false
       xml = service.create_xml
@@ -47,10 +47,8 @@ class MessageSetup < ApplicationRecord
 
   private
 
-  def set_valid_until_for_free_payplan_if_new
-    if new_record?
-      self.valid_until = Date.today+14.days if self.payplan_id == Payplan.message_free_id && self.status  == true
-    end
+  def set_valid_until_for_free_payplan_new
+    self.valid_until = Date.today+14.days if new_record? if self.payplan_id == Payplan.message_free_id && self.status  == true
   end
 
   def create_invoice

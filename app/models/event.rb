@@ -9,7 +9,9 @@ class Event < ApplicationRecord
 
     FIN_STATUS = [['Не оплачен','pending'],['Оплачен','paid']].freeze #["pending", "paid"]
 
-
+    def self.ransackable_attributes(auth_object = nil)
+        Event.attribute_names
+    end
 
     def action_title
         action = self.event_actions

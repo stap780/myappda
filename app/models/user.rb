@@ -25,6 +25,11 @@ class User < ApplicationRecord
   #validates :image, attached: true
   validates :image, dimension: { width: { min: 100, max: 1200 } }, content_type: [:png, :jpg, :jpeg], size: { less_than: 2.megabytes , message: 'is not given between size' }
 
+  def self.ransackable_attributes(auth_object = nil)
+    User.attribute_names
+  end
+
+
   def create_tenant
     Apartment::Tenant.create(subdomain)
   end # create_tenant
@@ -53,7 +58,8 @@ class User < ApplicationRecord
 
   def image_thumb
     if image.attached?
-      image.variant(combine_options: {auto_orient: true, thumbnail: '160x160', gravity: 'center', extent: '160x160' })
+      # image.variant(combine_options: {auto_orient: true, thumbnail: '160x160', gravity: 'center', extent: '160x160' })
+      image.variant(resize_to_fill: [160,160])
     else
       # "/default_avatar.png"
     end

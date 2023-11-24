@@ -44,7 +44,7 @@ class Services::Client
             client_lines = create_data[:client_lines]
             update_rules = create_data[:update_rules]
             user = insint.user
-            service = Services::InsalesApi.new(insint)
+            service = ApiInsales.new(insint)
             client_lines.each do |client_line|
                 client_json_data = {}
                 fields_values_attributes = []

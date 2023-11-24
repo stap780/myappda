@@ -10,7 +10,7 @@ class Services::Preorder
     def do_action
         Apartment::Tenant.switch(@tenant) do
             mycase = Case.find(@mycase_id)
-            service = Services::InsalesApi.new(@insint)
+            service = ApiInsales.new(@insint)
             order_lines_attributes = []
             variants_for_update = []
             mycase.lines.each do |line|

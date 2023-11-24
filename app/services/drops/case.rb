@@ -1,4 +1,4 @@
-class Services::Drop::Case < Liquid::Drop
+class Drops::Case < Liquid::Drop
 
     def initialize(mycase)
         @case = mycase

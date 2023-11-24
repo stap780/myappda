@@ -8,6 +8,10 @@ class Invoice < ApplicationRecord
   after_commit :set_service_valid_after_update_invoice, on: [:update]
   # before_destroy :update_service_before_destroy_invoice
 
+  def self.ransackable_attributes(auth_object = nil)
+    Invoice.attribute_names
+  end
+
   def get_user
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)

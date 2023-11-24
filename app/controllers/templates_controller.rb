@@ -15,7 +15,7 @@ class TemplatesController < ApplicationController
   end
   
   def preview_ins_order
-    service = Services::InsalesApi.new(current_user.insints.first)
+    service = ApiInsales.new(current_user.insints.first)
     @order = service.order(params[:insales_order_id])
     @client = service.client(@order.client.id)
     respond_to do |format|
@@ -46,7 +46,7 @@ class TemplatesController < ApplicationController
   # GET /templates/1/edit
   def edit
     if Insint.present_work?
-    service = Services::InsalesApi.new(Insint.current)
+    service = ApiInsales.new(Insint.current)
     @ten_orders = service.ten_orders
     end
   end
@@ -69,7 +69,7 @@ class TemplatesController < ApplicationController
 
   # PATCH/PUT /templates/1
   def update
-    service = Services::InsalesApi.new(current_user.insints.first)
+    service = ApiInsales.new(current_user.insints.first)
     @ten_orders = service.ten_orders
     respond_to do |format|
       if @template.update(template_params)

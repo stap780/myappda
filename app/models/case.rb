@@ -11,6 +11,14 @@ class Case < ApplicationRecord
 
   CASETYPE = [['Заказ','order'],['Сообщить о поступлении','restock'],['Брошенная корзина','abandoned_cart'],['Предзаказ','preorder']].freeze
   STATUS = [['Новый','new'],['В работе','take'],['Завершили','finish']].freeze
+  
+  def self.ransackable_attributes(auth_object = nil)
+    Case.attribute_names
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["client", "lines", "products", "variants"]
+  end
 
   def casetype_value
     Case::CASETYPE.select{|c| c if c[1] == self.casetype}.flatten[0]

@@ -1,4 +1,4 @@
-class Services::Drop::InsalesOrder < Liquid::Drop
+class Drops::InsalesOrder < Liquid::Drop
 
     def initialize(insales_order)
         @order = insales_order

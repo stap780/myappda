@@ -1,7 +1,7 @@
-class Services::InsalesApi
+class ApiInsales
 
     def initialize(insint)
-      puts "Services::InsalesApi initialize"
+      puts "ApiInsales initialize"
       @k = insint.inskey
       @d = insint.subdomen.to_s
       @p = insint.password.to_s
@@ -189,7 +189,7 @@ end
                 puts "SocketError port 80"
                 check = false
             rescue StandardError => e
-                puts e.response.body
+                puts e
                 check = false
         else
             check = true if check_api

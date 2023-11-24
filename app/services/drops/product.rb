@@ -1,4 +1,4 @@
-class Services::Drop::Product < Liquid::Drop
+class Drops::Product < Liquid::Drop
 
     def initialize(product)
         @product = product

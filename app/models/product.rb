@@ -13,6 +13,10 @@ class Product < ApplicationRecord
   validates :insid, presence: true
   validates :insid, uniqueness: true
 
+  def self.ransackable_attributes(auth_object = nil)
+    Product.attribute_names
+  end
+
   def self.get_image(insid)
     puts "get_image"
     current_subdomain = Apartment::Tenant.current
@@ -91,7 +95,7 @@ class Product < ApplicationRecord
     puts "start product get_ins_api_data"
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
-    service = Services::InsalesApi.new(user.insints.first)
+    service = ApiInsales.new(user.insints.first)
     product = service.get_product_data(self.insid)
     product_data = {
       title: product.title
@@ -120,14 +124,14 @@ class Product < ApplicationRecord
           receiver = self.client.email if action.template.receiver == 'client'
           receiver = user.email if action.template.receiver == 'manager'
           insint = user.insints.first
-          service = Services::InsalesApi.new(insint)
+          service = ApiInsales.new(insint)
           order = service.order(self.insales_order_id)
           client = service.client(order.client.id)
 
           subject_template = Liquid::Template.parse(action.template.subject)
           content_template = Liquid::Template.parse(action.template.content)
-          order_drop = Services::Drop::InsalesOrder.new(order)
-          client_drop = Services::Drop::InsalesClient.new(client)
+          order_drop = Drops::InsalesOrder.new(order)
+          client_drop = Drops::InsalesClient.new(client)
 
 
           subject = subject_template.render('order' => order_drop, 'client' => client_drop)

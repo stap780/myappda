@@ -10,7 +10,7 @@
       <%= f.input :casetype, label: "Тип заявки", collection: Case::CASETYPE, prompt: "Тип заявки", input_html: { class: "form-select", onchange: "check_type(this)"} %>
       <% class_display = @event.casetype == 'order' ||  @event.casetype == 'restock' ? '' : 'd-none'%>
       <% if Insint.present_work? %>
-      <%= f.input :custom_status, label: "Статус заказа", collection: Services::InsalesApi.new(Insint.current).statuses, prompt: "Статус", 
+      <%= f.input :custom_status, label: "Статус заказа", collection: ApiInsales.new(Insint.current).statuses, prompt: "Статус", 
                                   input_html: { class: "form-select" }, wrapper_html: { class: class_display } %>
       <% else %>
       <%= f.input :custom_status, label: "Статус заказа", placeholder: "Статус",disabled: true, 

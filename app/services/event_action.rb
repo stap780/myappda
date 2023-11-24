@@ -17,19 +17,19 @@ class Services::EventAction
         subject_template = Liquid::Template.parse(action.template.subject)
         content_template = Liquid::Template.parse(action.template.content)
 
-        user_drop = Services::Drop::User.new(user)
+        user_drop = Drops::User.new(user)
 
         if channel == 'email'
             if mycase.casetype != 'order'
-                case_drop = Services::Drop::Case.new(mycase)
-                client_drop = Services::Drop::Client.new(mycase.client)
+                case_drop = Drops::Case.new(mycase)
+                client_drop = Drops::Client.new(mycase.client)
             end
             if mycase.casetype == 'order'
-                service = Services::InsalesApi.new(insint)
+                service = ApiInsales.new(insint)
                 order = service.order(mycase.insales_order_id)
                 client = service.client(order.client.id)
-                case_drop = Services::Drop::InsalesOrder.new(order)
-                client_drop = Services::Drop::InsalesClient.new(client)
+                case_drop = Drops::InsalesOrder.new(order)
+                client_drop = Drops::InsalesClient.new(client)
             end
 
             subject = subject_template.render('case' => case_drop, 'client' => client_drop)

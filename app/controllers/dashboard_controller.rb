@@ -4,8 +4,8 @@ class DashboardController < ApplicationController
   def index
     insint = current_user.insints.first
     clients = Client.all
-    service = current_user.insints.first.present? ? Services::InsalesApi.new(current_user.insints.first) : nil
-    @ins_account = service.present? ? service.account : nil
+    service = current_user.insints.first.present? ? ApiInsales.new(current_user.insints.first) : nil
+    @ins_account = service.present? && service.work? ? service.account : nil
 
     # izb_product_string = clients.map(&:izb_productid).join(',')
     # @count_izb = izb_product_string.split(',').count

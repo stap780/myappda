@@ -52,9 +52,10 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  config.hosts << ".lvh.me"
+  # config.hosts << "/.+\.lvh\.me:\d+/"
   # Make app the standard subdomain
   config.after_initialize do
-    #Rails.application.routes.default_url_options[:host] = 'app.lvh.me:3000'
     Rails.application.routes.default_url_options[:host] = 'lvh.me:3000'
   end # after_initialize
 

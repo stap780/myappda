@@ -39,7 +39,7 @@ class InsintsController < ApplicationController
     @insint = Insint.new(insint_params)
     respond_to do |format|
       if @insint.save
-        service = Services::InsalesApi.new(@insint)
+        service = ApiInsales.new(@insint)
         service.work? ? @insint.update!(status: true) : @insint.update!(status: false)
         notice = service.work? == true ? 'Интеграция insales создана. Интеграция работает!' : 'Интеграция insales создана. Не работает!'
         format.html { redirect_to dashboard_url, notice: notice }
@@ -55,7 +55,7 @@ class InsintsController < ApplicationController
   def update
     respond_to do |format|
       if @insint.update(insint_params)
-          service = Services::InsalesApi.new(@insint)
+          service = ApiInsales.new(@insint)
           service.work? ? @insint.update!(status: true) : @insint.update!(status: false)
           notice = service.work? == true ? 'Интеграция insales обновлена. Интеграция работает!' : 'Интеграция insales обновлена. Не работает!'
           redirect_path = current_admin ? adminindex_insints_url : insints_url
@@ -144,7 +144,7 @@ class InsintsController < ApplicationController
             #конец добавка после расширения функционала
             render json: { success: true, message: 'товар добавлен в избранное', totalcount: totalcount }
           else
-            service = Services::InsalesApi.new(insint)
+            service = ApiInsales.new(insint)
             search_client = service.client(params[:client_id])
             new_client_data = {
               clientid: params[:client_id],
@@ -240,7 +240,7 @@ class InsintsController < ApplicationController
 
   def check
     @insint = Insint.find(params[:id])
-    service = Services::InsalesApi.new(@insint)
+    service = ApiInsales.new(@insint)
     notice = service.work? == true ? 'Интеграция работает!' : 'Не работает интеграция!'
     respond_to do |format|
       format.js do

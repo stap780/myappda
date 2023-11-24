@@ -38,8 +38,9 @@ class ApplicationController < ActionController::Base
   end # after_sign_in_path_for
 
   def after_sign_out_path_for(resource_or_scope)
-    url = request.host_with_port.gsub("#{request.subdomain}.","")
-    "http://"+url
+    # url = request.host_with_port.gsub("#{request.subdomain}.","")
+    # "http://"+url
+    root_url(subdomain: '')
   end
 
   def invoice_path_for(resource_or_scope)
@@ -48,26 +49,29 @@ class ApplicationController < ActionController::Base
 
 
   def redirect_to_subdomain
+    puts "self.is_a?(DeviseController)"
+    puts self.is_a?(DeviseController)
+    puts "redirect_to_subdomain request.subdomain => "+ request.subdomain.to_s
     return if self.is_a?(DeviseController)
-    if request.subdomain.present?
-      if current_user.present? && request.subdomain != current_user.subdomain
-        subdomain = current_user.subdomain
-        # host = request.host_with_port.sub!("#{request.subdomain}", subdomain)
-        host = request.host_with_port.sub("#{request.subdomain}", subdomain)
-        redirect_to "http://#{host}#{request.path}"
-      end
+
+    if current_user.present? && request.subdomain != current_user.subdomain
+      subdomain = current_user.subdomain
+      host = request.host_with_port.sub! "#{request.subdomain}", subdomain
+
+      redirect_to "http://#{host}#{request.path}"
     end
-  end # redirect_to_subdomain
+  end
 
 
   def redirect_to_app_url
     return if request.subdomain.present? && request.subdomain == 'app'
+
     url = app_url
-    redirect_to url
+    redirect_to url, allow_other_host: true
   end
 
   def app_url
-    puts request.subdomain.present?
+    puts "request.subdomain.present? "+request.subdomain.present?.to_s
     puts 'request.domain - '+request.domain.to_s
     puts 'request.subdomain - '+request.subdomain.to_s
     puts 'request.host_with_port '+request.host_with_port.to_s
@@ -76,17 +80,13 @@ class ApplicationController < ActionController::Base
     subdomain = 'app'
 
     if request.subdomain.present?
-      # host = request.host_with_port.sub! "#{request.subdomain}.", ''
-      host = request.host_with_port.remove("#{request.subdomain}.")
+      host = request.host_with_port.sub! "#{request.subdomain}.", ''
     else
       host = request.host_with_port
-    end
+    end # if
 
-    app_url = "http://#{subdomain}.#{host}#{request.path}"
-    puts app_url
-    app_url
-
-  end # app_url
+    "http://#{subdomain}.#{host}#{request.path}"
+  end 
 
   def current_admin
     if current_user.present?

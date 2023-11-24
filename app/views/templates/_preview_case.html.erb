@@ -1,9 +1,9 @@
 <% subject_template = Liquid::Template.parse(@template.subject) %>
 <% content_template = Liquid::Template.parse(@template.content) %>
 
-<% client_drop = Services::Drop::Client.new(@client) %>
-<% case_drop = Services::Drop::Case.new(@case) %>
-<% user_drop = Services::Drop::User.new(current_user) %>
+<% client_drop = Drops::Client.new(@client) %>
+<% case_drop = Drops::Case.new(@case) %>
+<% user_drop = Drops::User.new(current_user) %>
 
 
 <div class="row mx-auto">
