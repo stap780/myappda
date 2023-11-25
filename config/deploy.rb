@@ -1,11 +1,11 @@
 lock "~> 3.18.0"
 
-server '91.220.109.113', port: 22, roles: [:web, :app, :db], primary: true
+server '178.253.40.249', port: 22, roles: [:web, :app, :db], primary: true
 set :application, "myappda"
 set :repo_url, "git@github.com:stap780/myappda.git"
 
 
-set :user, 'deploy'
+set :user, 'myappda'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
 
