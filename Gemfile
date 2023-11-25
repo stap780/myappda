@@ -23,6 +23,9 @@ gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 
+# Bundle and process CSS [https://github.com/rails/cssbundling-rails]
+gem "cssbundling-rails"
+
 gem 'active_storage_validations'
 # gem 'apartment'
 gem 'ros-apartment', require: 'apartment'
@@ -83,3 +86,5 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
+# Use Redis for Action Cable
+gem "redis", "~> 4.0"

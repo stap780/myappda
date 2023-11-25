@@ -3,6 +3,7 @@
   <head>
     <%= render partial: 'layouts/head' %>
     <%= render partial: 'layouts/metrics' %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
   <body class="<%= current_page_path_as_class %> d-flex flex-column h-100">
     <% if user_signed_in? %>
