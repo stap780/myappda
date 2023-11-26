@@ -1,5 +1,5 @@
 class Users::PasswordsController < Devise::PasswordsController
-
+  prepend_before_action :check_captcha, only: [:create]
   # GET /resource/password/new
   # def new
   #   super
@@ -30,4 +30,17 @@ class Users::PasswordsController < Devise::PasswordsController
   # def after_sending_reset_password_instructions_path_for(resource_name)
   #   super(resource_name)
   # end
+  private
+
+  def check_captcha
+    return if verify_recaptcha(action: 'password/reset') #verify_recaptcha # verify_recaptcha(action: 'password/reset') for v3
+
+    self.resource = resource_class.new
+
+    respond_with_navigational(resource) do
+      flash.discard(:recaptcha_error) # We need to discard flash to avoid showing it on the next page reload
+      render :new
+    end
+  end
+
 end

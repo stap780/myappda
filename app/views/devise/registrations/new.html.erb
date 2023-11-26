@@ -3,7 +3,7 @@
   <div class="form-sign-help">
   <%# START add reCAPTCHA %>
     <%= flash[:recaptcha_error] %>
-    <%= recaptcha_tags %>
+    <%= recaptcha_v3(action: 'signup') %>
   <%# END add reCAPTCHA %>
   </div>
   <div class="form-sign-help">

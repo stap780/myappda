@@ -71,7 +71,7 @@ class Users::SessionsController < Devise::SessionsController
   private 
   
   def check_captcha
-    return if verify_recaptcha # verify_recaptcha(action: 'login') for v3
+    return if verify_recaptcha(action: 'login') #verify_recaptcha # verify_recaptcha(action: 'login') for v3
 
     self.resource = resource_class.new sign_in_params
 
