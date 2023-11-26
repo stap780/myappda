@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
   before_action :set_current_user
-  before_action :redirect_to_subdomain  # Every logged in user should be redirected to their own subdomain
+  # before_action :redirect_to_subdomain  # Every logged in user should be redirected to their own subdomain
   ## before_action :allow_cross_domain_ajax
   # before_action :allow_cross_domain_access
   # after_action :cors_set_access_control_headers
@@ -57,8 +57,8 @@ class ApplicationController < ActionController::Base
     if current_user.present? && request.subdomain != current_user.subdomain
       subdomain = current_user.subdomain
       host = request.host_with_port.sub! "#{request.subdomain}", subdomain
-
-      redirect_to "http://#{host}#{request.path}", allow_other_host: true
+      puts "host - "+host.to_s
+      redirect_to "http://#{host}#{request.path}"
     end
   end
 
