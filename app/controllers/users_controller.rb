@@ -80,7 +80,8 @@ class UsersController < ApplicationController
 
   def stop_impersonating
     stop_impersonating_user
-    redirect_to root_path, allow_other_host: true
+    # redirect_to root_path
+    redirect_to after_sign_in_path_for(User.where(role: 'admin').first), allow_other_host: true
   end
 
   private
