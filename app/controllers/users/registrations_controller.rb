@@ -80,16 +80,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def check_captcha
-    9    return if verify_recaptcha # verify_recaptcha(action: 'signup') for v3
-    10
-    11    self.resource = resource_class.new sign_up_params
-    12    resource.validate # Look for any other validation errors besides reCAPTCHA
-    13    set_minimum_password_length
-    14
-    15    respond_with_navigational(resource) do
-    16      flash.discard(:recaptcha_error) # We need to discard flash to avoid showing it on the next page reload
-    17      render :new
-    18    end
-    19  end
+    return if verify_recaptcha # verify_recaptcha(action: 'signup') for v3
+
+    self.resource = resource_class.new sign_up_params
+    resource.validate # Look for any other validation errors besides reCAPTCHA
+    set_minimum_password_length
+
+    respond_with_navigational(resource) do
+      flash.discard(:recaptcha_error) # We need to discard flash to avoid showing it on the next page reload
+      render :new
+    end
+  end
 
 end
