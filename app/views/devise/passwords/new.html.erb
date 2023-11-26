@@ -3,14 +3,15 @@
   <h2 class="form-signin-heading"><%= t('.sign_up', :default => "Забыли пароль?") %></h2>
   <%= render "devise/shared/error_messages", resource: resource %>
   <%= f.input_field :email, autofocus: true , class: 'form-control', placeholder: "Email" %>
+
+  <%# START add reCAPTCHA %>
+  <%= flash[:recaptcha_error] %>
+  <%= recaptcha_tags %>
+  <%# END add reCAPTCHA %>
+
   <%= f.submit t('.sign_up', :default => "Отправить инструкции"), class: 'btn btn-success' %>
 <% end %>
-  <div class="form-sign-help">
-  <%# START add reCAPTCHA %>
-    <%= flash[:recaptcha_error] %>
-    <%= recaptcha_v3(action: 'password/reset', site_key: Rails.application.credentials.recaptcha_site_key) %>
-  <%# END add reCAPTCHA %>
-  </div>
+
 <div class="form-sign-help">
   <%= render "devise/shared/links" %>
 </div>

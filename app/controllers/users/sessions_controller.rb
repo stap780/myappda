@@ -1,5 +1,8 @@
 class Users::SessionsController < Devise::SessionsController
-  prepend_before_action :validate_recaptchas, only: [:create] # Change this to be any actions you want to protect.
+  # prepend_before_action :validate_recaptchas, only: [:create] # для версии 3
+  prepend_before_action :check_captcha, only: [:create]
+  
+  
   before_action :configure_sign_in_params, only: [:create]
   before_action :redirect_to_app_url, except: :destroy
 
@@ -42,8 +45,6 @@ class Users::SessionsController < Devise::SessionsController
       @user = User.find_by_email(params[:user][:email])
       if @user.present?
         Apartment::Tenant.switch!(@user.subdomain)
-
-
         sign_in(:user, @user)
         redirect_to after_sign_in_path_for(@user), allow_other_host: true
       else
@@ -68,16 +69,28 @@ class Users::SessionsController < Devise::SessionsController
   def check_sign_in_user
   end
 
-  protected
+  # protected
 
-  def validate_recaptchas
-    v3_verify = verify_recaptcha(action: 'login', 
-                                 minimum_score: 0.9, 
-                                 secret_key: Rails.application.credentials.recaptcha_site_key)
-    return if v3_verify
+  # def validate_recaptchas оставил как пример для  v3 - но не сработало
+  #   v3_verify = verify_recaptcha(action: 'login', 
+  #                                minimum_score: 0.9, 
+  #                                secret_key: Rails.application.credentials.recaptcha_site_key)
+  #   return if v3_verify
+
+  #   self.resource = resource_class.new sign_in_params
+  #   respond_with_navigational(resource) { render :new }
+  # end
+  private
+  
+  def check_captcha
+    return if verify_recaptcha # verify_recaptcha(action: 'login') for v3
 
     self.resource = resource_class.new sign_in_params
-    respond_with_navigational(resource) { render :new }
+
+    respond_with_navigational(resource) do
+      flash.discard(:recaptcha_error) # We need to discard flash to avoid showing it on the next page reload
+      render :new
+    end
   end
 
 end

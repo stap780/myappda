@@ -6,6 +6,11 @@
     <%= f.input_field :password_confirmation, class: 'form-control' , placeholder: "Password confirmation"     %>
     <%= f.input_field :name, class: 'form-control' , placeholder: "Ваше Имя"   %>
     <%= f.input_field :subdomain ,  class: 'form-control' , placeholder: "Логин (например - 'myshop')"   %>
+    
+    <%# START add reCAPTCHA %>
+    <%= flash[:recaptcha_error] %>
+    <%= recaptcha_tags %>
+    <%# END add reCAPTCHA %>
 
     <%= f.submit t('.sign_up', :default => "Поехали"), class: 'btn btn-success' %>
 <% end %>

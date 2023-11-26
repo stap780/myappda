@@ -154,11 +154,6 @@ class User < ApplicationRecord
     end
   end
 
-  def admin?
-    admin1 = Rails.application.secrets.admin1
-    admin2 = Rails.application.secrets.admin2
-    self.subdomain == admin1 || self.subdomain == admin2
-  end
 
 	def self.current
     Thread.current[:user]
