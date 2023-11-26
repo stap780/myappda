@@ -1,4 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect.
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
   after_action :set_user_valid_date, only: [:create]
@@ -75,4 +76,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
       UserMailer.with(user: current_user).test_welcome_email.deliver_now
     end
   end
+
+  private
+
+  def check_captcha
+    9    return if verify_recaptcha # verify_recaptcha(action: 'signup') for v3
+    10
+    11    self.resource = resource_class.new sign_up_params
+    12    resource.validate # Look for any other validation errors besides reCAPTCHA
+    13    set_minimum_password_length
+    14
+    15    respond_with_navigational(resource) do
+    16      flash.discard(:recaptcha_error) # We need to discard flash to avoid showing it on the next page reload
+    17      render :new
+    18    end
+    19  end
+
 end

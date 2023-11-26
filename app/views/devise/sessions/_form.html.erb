@@ -1,4 +1,4 @@
-<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: "form", class: "form-signin" }) do |f| %>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: "form", class: "form-signin", data: { turbo: false} }) do |f| %>
 <h2 class="form-signin-heading"><%= t('.sign_in', :default => "Вход в сервис") %></h2>
 <%= render "devise/shared/error_messages", resource: resource %>
 <%= f.label :email, class: "sr-only" %>
