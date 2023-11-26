@@ -61,7 +61,7 @@ gem 'simple_form'
 # gem 'unicorn'
 gem 'whenever', require: false
 gem 'wicked_pdf'
-gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate', '~> 4.0'
 gem 'wkhtmltopdf-binary', '~> 0.12.3.1'
 gem 'puma'
 gem 'rexml', '~> 3.2', '>= 3.2.6'
