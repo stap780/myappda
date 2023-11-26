@@ -10,6 +10,7 @@ class Client < ApplicationRecord
   has_many :cases, dependent: :destroy
   validates :phone, phone: { possible: true, allow_blank: true }
   before_validation :normalize_phone
+  validates :email, presence: true, uniqueness: true
 
   def self.ransackable_attributes(auth_object = nil)
     Client.attribute_names

@@ -89,11 +89,12 @@ class ApplicationController < ActionController::Base
   end 
 
   def current_admin
-    if current_user.present?
-      admin1 = Rails.application.secrets.admin1
-      admin2 = Rails.application.secrets.admin2
-      current_user.subdomain == admin1 || current_user.subdomain == admin2 || current_user.admin?
-    end
+    # if current_user.present?
+    #   admin1 = Rails.application.secrets.admin1
+    #   admin2 = Rails.application.secrets.admin2
+    #   current_user.subdomain == admin1 || current_user.subdomain == admin2 || current_user.admin?
+    # end
+    current_user.admin? if current_user.present?
   end
 
   def authenticate_admin!

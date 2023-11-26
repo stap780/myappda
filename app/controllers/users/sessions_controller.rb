@@ -1,5 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
-  prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect.
+  prepend_before_action :validate_recaptchas, only: [:create] # Change this to be any actions you want to protect.
   before_action :configure_sign_in_params, only: [:create]
   before_action :redirect_to_app_url, except: :destroy
 
@@ -68,17 +68,16 @@ class Users::SessionsController < Devise::SessionsController
   def check_sign_in_user
   end
 
-  private 
-  
-  def check_captcha
-    return if verify_recaptcha(action: 'login') #verify_recaptcha # verify_recaptcha(action: 'login') for v3
+  protected
+
+  def validate_recaptchas
+    v3_verify = verify_recaptcha(action: 'login', 
+                                 minimum_score: 0.9, 
+                                 secret_key: Rails.application.credentials.recaptcha_site_key)
+    return if v3_verify
 
     self.resource = resource_class.new sign_in_params
-
-    respond_with_navigational(resource) do
-      flash.discard(:recaptcha_error) # We need to discard flash to avoid showing it on the next page reload
-      render :new
-    end
+    respond_with_navigational(resource) { render :new }
   end
 
 end

@@ -5,6 +5,7 @@ class User < ApplicationRecord
   # :recoverable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,:rememberable, :trackable, :validatable, :recoverable, :date_restrictable
 
+  after_initialize :set_default_role, :if => :new_record?
   after_create :create_tenant
   after_destroy :delete_tenant
   has_many	 :insints, :dependent => :destroy
@@ -24,6 +25,16 @@ class User < ApplicationRecord
   # validates :attribute, phone: { possible: true, allow_blank: true, types: [:voip, :mobile], country_specifier: -> phone { phone.country.try(:upcase) } }
   #validates :image, attached: true
   validates :image, dimension: { width: { min: 100, max: 1200 } }, content_type: [:png, :jpg, :jpeg], size: { less_than: 2.megabytes , message: 'is not given between size' }
+
+  Role = ['admin', 'user']
+
+  def admin?
+    self.role == 'admin'
+  end
+  
+  def set_default_role
+    self.role ||= 'user'
+  end
 
   def self.ransackable_attributes(auth_object = nil)
     User.attribute_names

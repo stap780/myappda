@@ -3,7 +3,7 @@
   <div class="form-sign-help">
   <%# START add reCAPTCHA %>
     <%= flash[:recaptcha_error] %>
-    <%= recaptcha_v3(action: 'signup') %>
+    <%= recaptcha_v3(action: 'signup', site_key: Rails.application.credentials.recaptcha_site_key) %>
   <%# END add reCAPTCHA %>
   </div>
   <div class="form-sign-help">
