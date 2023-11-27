@@ -120,7 +120,7 @@ class ApiInsales
 
     def add_order_webhook
         data_webhook_order_create = {
-            address: "https://k-comment.ru/insints/order",
+            address: "https://myappda.ru/insints/order",
             topic: "orders/create",
             format_type: "json"
         }
@@ -133,7 +133,7 @@ class ApiInsales
             puts "e.response.body => "+e.response.body.to_s if e.response && e.response.body
         end
         data_webhook_order_update = {
-            address: "https://k-comment.ru/insints/order",
+            address: "https://myappda.ru/insints/order",
             topic: "orders/update",
             format_type: "json"
         }
@@ -344,10 +344,10 @@ end
           property_id = InsalesApi::Property.first.id
           data = {
                 "marketplace": {
-                  "name": "YM K-comment #{Time.now}",
+                  "name": "YM myappda #{Time.now}",
                   "type": "Marketplace::ModelYandexMarket",
-                  "shop_name": "YM K-comment",
-                  "shop_company": "YM K-comment",
+                  "shop_name": "YM myappda",
+                  "shop_company": "YM myappda",
                   "description_type": 1,
                   "vendor_id": property_id,
                   "adult": 0,
