@@ -63,30 +63,30 @@ class ApplicationController < ActionController::Base
   # end
 
 
-  # def redirect_to_app_url
-  #   return if request.subdomain.present? && request.subdomain == 'app'
+  def redirect_to_app_url
+    return if request.subdomain.present? && request.subdomain == 'app'
 
-  #   url = app_url
-  #   redirect_to url, allow_other_host: true
-  # end
+    url = app_url
+    redirect_to url, allow_other_host: true
+  end
 
-  # def app_url
-  #   puts "request.subdomain.present? "+request.subdomain.present?.to_s
-  #   puts 'request.domain - '+request.domain.to_s
-  #   puts 'request.subdomain - '+request.subdomain.to_s
-  #   puts 'request.host_with_port '+request.host_with_port.to_s
-  #   puts 'request.path '+request.path.to_s
+  def app_url
+    puts "request.subdomain.present? "+request.subdomain.present?.to_s
+    puts 'request.domain - '+request.domain.to_s
+    puts 'request.subdomain - '+request.subdomain.to_s
+    puts 'request.host_with_port '+request.host_with_port.to_s
+    puts 'request.path '+request.path.to_s
 
-  #   subdomain = 'app'
+    subdomain = 'app'
 
-  #   if request.subdomain.present?
-  #     host = request.host_with_port.sub! "#{request.subdomain}.", ''
-  #   else
-  #     host = request.host_with_port
-  #   end # if
+    if request.subdomain.present?
+      host = request.host_with_port.sub! "#{request.subdomain}.", ''
+    else
+      host = request.host_with_port
+    end # if
 
-  #   "http://#{subdomain}.#{host}#{request.path}"
-  # end 
+    "http://#{subdomain}.#{host}#{request.path}"
+  end 
 
   def current_admin
     # if current_user.present?

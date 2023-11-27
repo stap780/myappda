@@ -1,8 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
   # prepend_before_action :validate_recaptchas, only: [:create] # для версии 3
   prepend_before_action :check_captcha, only: [:create]
-  
-  
   before_action :configure_sign_in_params, only: [:create]
   before_action :redirect_to_app_url, except: :destroy
 
