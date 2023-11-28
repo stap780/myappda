@@ -7,7 +7,7 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :variants, allow_destroy: true #,reject_if: proc { |attributes| attributes['weight'].blank? }
   has_many :restocks
   has_many :preorders
-  # after_commit :get_ins_api_data, on: [:create]
+  after_commit :get_ins_api_data, on: [:create]
 
 
   validates :insid, presence: true
@@ -79,7 +79,7 @@ class Product < ApplicationRecord
                   title: data['title'],
                   price: data['variants'][0]['base_price']
                 }
-                self.update_attributes(product_data)
+                self.update!(product_data)
               when 404
                 puts "error 404 get_ins_product_data"
               when 403
@@ -100,7 +100,7 @@ class Product < ApplicationRecord
     product_data = {
       title: product.title
     }
-    self.update_attributes(product_data)
+    self.update!(product_data)
     puts "finish product get_ins_api_data"
   end
 

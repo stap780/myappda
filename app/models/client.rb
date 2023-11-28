@@ -103,7 +103,7 @@ class Client < ApplicationRecord
         email: client.email,
         phone: client.phone
       }
-      self.update_attributes(client_data)
+      self.update!(client_data)
       puts "finish get_ins_client_data"
   end
 

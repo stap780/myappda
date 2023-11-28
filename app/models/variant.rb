@@ -33,7 +33,7 @@ class Variant < ApplicationRecord
                   sku: data['sku'] || '',
                   quantity: data['quantity'] || 0
                 }
-                self.update_attributes(variant_data)
+                self.update!(variant_data)
               when 404
                 puts "error 404 get_ins_variant_data"
               when 403
@@ -57,7 +57,7 @@ class Variant < ApplicationRecord
       sku: variant.sku,
       quantity: variant.quantity
     }
-    self.update_attributes(variant_data)
+    self.update!(variant_data)
     puts "finish variant get_ins_api_data"
   end
 

@@ -23,7 +23,7 @@ private
 def update_and_email
   service = ApiInsales.new(self)
   shopemail = service.account.email
-  self.user.update_attributes(:email => shopemail) if shopemail.present?
+  self.user.update!(:email => shopemail) if shopemail.present?
   UserMailer.with(user: self.user).test_welcome_email.deliver_now
 end
 
