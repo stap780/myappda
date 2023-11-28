@@ -324,9 +324,7 @@ class InsintsController < ApplicationController
                                           Client.create!( email: params["contacts"]["email"], phone: params["contacts"]["phone"], 
                                                                                               name: "abandoned_"+number.to_s)
         mycase = Case.find_by_number(number).present? ? Case.find_by_number(number) : 
-                                                        Case.create!( number: number, 
-                                                                    casetype: 'abandoned_cart',
-                                                                    client_id: client.id, status: "new")
+                                                        Case.create!( number: number, casetype: 'abandoned_cart', client_id: client.id, status: "new")
         puts "insint abandoned_cart mycase => "+mycase.inspect.to_s
         params["lines"].each do |o_line|
           product = Product.find_by_insid(o_line["productId"].to_i).present? ? Product.find_by_insid(o_line["productId"].to_i) : 

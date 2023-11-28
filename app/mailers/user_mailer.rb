@@ -9,13 +9,13 @@ class UserMailer < ApplicationMailer
       mail(to: "panaet80@gmail.com, info@two-g.ru",
           reply_to: @user_email,
           from:  @user_email_from,
-          subject: 'Новая регистрация в приложении K-Comment')
+          subject: 'Новая регистрация в приложении myappda')
     end
 
     def service_end_email
       @user_email = @user.email
       @user_email_from = set_from_email
-      @url  = 'https://k-comment.ru/users/sign_in'
+      @url  = 'https://myappda.ru/users/sign_in'
       mail(
         to: @user_email,
         from:  @user_email_from,
@@ -26,7 +26,7 @@ class UserMailer < ApplicationMailer
       @user_email =@user.email
       @user_email_from = set_from_email
       @client_count = @user.client_count
-      @url  = 'https://k-comment.ru/users/sign_in'
+      @url  = 'https://myappda.ru/users/sign_in'
       mail(
         to: @user_email,
         from:  @user_email_from,
@@ -36,7 +36,7 @@ class UserMailer < ApplicationMailer
     def insales_client_api_import
       @user_email =@user.email
       @user_email_from = set_from_email
-      @url  = 'https://k-comment.ru/users/sign_in'
+      @url  = 'https://myappda.ru/users/sign_in'
       mail(
         to: @user_email,
         from:  @user_email_from,
@@ -46,7 +46,7 @@ class UserMailer < ApplicationMailer
     private
 
     def set_from_email
-      @user && @user.has_smtp_settings? ? @user.smtp_settings[:user_name] : 'info@k-comment.ru'
+      @user && @user.has_smtp_settings? ? @user.smtp_settings[:user_name] : 'info@myappda.ru'
     end
 
     def set_delivery_options

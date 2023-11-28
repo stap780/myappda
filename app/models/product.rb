@@ -7,7 +7,7 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :variants, allow_destroy: true #,reject_if: proc { |attributes| attributes['weight'].blank? }
   has_many :restocks
   has_many :preorders
-  after_commit :get_ins_api_data, on: [:create]
+  # after_commit :get_ins_api_data, on: [:create]
 
 
   validates :insid, presence: true
