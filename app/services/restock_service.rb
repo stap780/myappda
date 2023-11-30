@@ -1,4 +1,4 @@
-class Restock
+class RestockService
 
     def initialize(user, client, events, product_xml)
         @user = user

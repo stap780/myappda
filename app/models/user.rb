@@ -40,7 +40,6 @@ class User < ApplicationRecord
     User.attribute_names
   end
 
-
   def create_tenant
     Apartment::Tenant.create(subdomain)
   end # create_tenant

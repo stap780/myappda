@@ -46,3 +46,8 @@ body {    overflow-x: hidden;}
 
 .messenger_icon .whatsapp img {background-color:#64bb26;}
 .messenger_icon .telegram img {background-color:#55bef8;}
+
+
+#our_flash {
+  z-index: $zindex-fixed;
+}

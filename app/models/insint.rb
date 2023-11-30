@@ -7,6 +7,10 @@ validates :password, presence: true
 validates :inskey, presence: true
 after_create :update_and_email 
 
+def self.ransackable_attributes(auth_object = nil)
+  Insint.attribute_names
+end
+
 
 def self.current
   User.current.insints.first

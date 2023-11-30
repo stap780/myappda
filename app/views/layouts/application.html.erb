@@ -3,7 +3,6 @@
   <head>
     <%= render partial: 'layouts/head' %>
     <%= render partial: 'layouts/metrics' %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
   <body class="<%= current_page_path_as_class %> d-flex flex-column h-100">
     <% if user_signed_in? %>
@@ -12,14 +11,16 @@
       </header>
     <% end %>
     <main class="flex-shrink-0">
+        <div id="our_flash">
+          <%= render "shared/flash"%>
+        </div>
       <div id="main-content" class="container-fluid">
-      
-        <%= render partial: "/layouts/notice_messages"%>
+
         <%= yield %>
       </div>
     </main>
       <%= render partial: "/layouts/footer" if check_current_page_show_this_part? %>
-      <%# render partial: "/layouts/zammad"%>
+      <%= render partial: "/layouts/zammad"%>
       <%= render partial: "/layouts/messengers"%>
       <%= render partial: "/layouts/modal"%>
     </body>

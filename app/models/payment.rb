@@ -10,6 +10,13 @@ class Payment < ApplicationRecord
   Status = ['Не оплачен','Оплачен']
   Paymenttype = [['Счёт для юр лиц', 'invoice'],['Кредитные карты', 'creditcard'], ['Paypal', 'paypal']]
 
+  def self.ransackable_attributes(auth_object = nil)
+    Payment.attribute_names
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["payplan", "user"]
+  end
 
   def destroy_invoice
     tenant = self.user.subdomain

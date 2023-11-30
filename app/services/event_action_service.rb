@@ -1,4 +1,4 @@
-class EventAction
+class EventActionService
 
     def self.do_action(user, event, mycase)
 

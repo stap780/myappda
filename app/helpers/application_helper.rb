@@ -10,6 +10,10 @@ module ApplicationHelper
     end
   end
 
+  # def prepend_flash
+  #   turbo_stream.prepend 'our_flash', partial: 'shared/flash'
+  # end
+
   def check_current_page_show_this_part?
     not_show = ['users_sign_in','users_sign_up','users_password_new']
     if not_show.include?( current_page_path_as_class )

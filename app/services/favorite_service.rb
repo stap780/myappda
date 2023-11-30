@@ -1,4 +1,4 @@
-class Favorite
+class FavoriteService
 
   def initialize(insint)
     puts "Favorite initialize"

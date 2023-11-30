@@ -53,7 +53,7 @@ class Case < ApplicationRecord
         puts "case do_event_action"
         user = User.find_by_subdomain(Apartment::Tenant.current)
         events.each do |event|
-          EventAction.do_action(user, event, self)
+          EventActionService.do_action(user, event, self)
         end
       end
       puts "Case do_event_action finish"

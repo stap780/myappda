@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     @favorite_setup = FavoriteSetup.first
     @restock_setup = RestockSetup.first
     @message_setup = MessageSetup.first
+    #flash.now[:alert] = "testtest"
   end
 
   def new
@@ -31,7 +32,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update(user_params)
         redirect_path = @user == current_user ? dashboard_path : users_url
-        format.html { redirect_to redirect_path, notice: "User was successfully updated." }
+        format.html { redirect_to redirect_path, notice: "User was successfully updated."}
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
