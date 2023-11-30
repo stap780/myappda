@@ -33,14 +33,17 @@
       <% if !@template.new_record? %>
         <%= form_with url: preview_ins_order_templates_path, method: :get, class: "input-group", local: false do |form| %>
           <%= form.select :insales_order_id, @ten_orders, include_blank: "Выберите заказ", class: "form-select" %>
+          <%= form.text_field :insales_order_id, placeholder: "или введите Id заказа в инсалес", class: "form-control" %>
           <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
         <% end %>
         <%= form_with url: preview_case_templates_path, method: :get, class: "input-group mt-2", local: false do |form| %>
           <%= form.select :case_id, Case.all.limit(10).pluck(:id), include_blank: "Выберите заявку", class: "form-select" %>
+          <%= form.text_field :case_id, placeholder: "или введите Id заявки", class: "form-control" %>
           <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
         <% end %>
         <%= form_with url: preview_restock_templates_path, method: :get, class: "input-group mt-2", local: false do |form| %>
           <%= form.select :client_id, Client.order(:id).limit(10).pluck(:name,:id), include_blank: "Выберите клиента", class: "form-select" %>
+          <%= form.text_field :client_id, placeholder: "или введите Id клиента", class: "form-control" %>
           <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
         <% end %>
 
