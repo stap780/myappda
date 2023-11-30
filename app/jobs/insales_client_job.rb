@@ -4,6 +4,6 @@ class InsalesClientJob < ApplicationJob
     def perform(create_data, insint)
       # Do something later
       puts "InsalesClientJob < ApplicationJob perform"
-      Services::Client::Insales.create_client(create_data, insint)
+      Client::Insales.create_client(create_data, insint)
     end
   end

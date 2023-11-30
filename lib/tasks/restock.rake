@@ -13,7 +13,7 @@ namespace :restock do
               events = Event.active.where(casetype: 'restock')
               clients = Client.with_restocks
               clients.each do |client|
-                  Services::Restock.new(user, client, events, product_xml).do_action
+                  Restock.new(user, client, events, product_xml).do_action
               end
             end
         end #if tenant == 'test2'

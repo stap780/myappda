@@ -1,4 +1,4 @@
-class Services::Restock
+class Restock
 
     def initialize(user, client, events, product_xml)
         @user = user
@@ -66,7 +66,7 @@ class Services::Restock
                     f = File.new(@download_path, "wb")
                     f << response.body
                     f.close
-                    puts "Services::Restock load and write products xml file - user id => #{@user.id}.to_s"
+                    puts "Restock load and write products xml file - user id => #{@user.id}.to_s"
                 else
                     response.return!(&block)
                 end

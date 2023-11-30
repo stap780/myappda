@@ -56,7 +56,7 @@ class RestockSetup < ApplicationRecord
       # if !new_record? && saved_change_to_status?
       #   user = User.find_by_subdomain(Apartment::Tenant.current)
       #   insint = user.insints.first
-      #   service = Services::restock.new(insint.id)
+      #   service = restock.new(insint.id)
       #   service.load_script if self.status == true
       #   service.delete_ins_file if self.status == false
       # end

@@ -1,7 +1,7 @@
-class Services::Favorite
+class Favorite
 
   def initialize(insint)
-    puts "Services::Favorite initialize"
+    puts "Favorite initialize"
     @uri = "http://#{insint.inskey.to_s}:#{insint.password.to_s}@#{insint.subdomen.to_s}"
     get_theme_id
     get_asset_id

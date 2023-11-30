@@ -1,4 +1,4 @@
-class Services::Preorder
+class Preorder
 
     def initialize(mycase_id, operation, insint)
         @mycase_id = mycase_id

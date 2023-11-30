@@ -52,7 +52,7 @@ end
 #   if !new_record? && saved_change_to_status?
 #     user = User.find_by_subdomain(Apartment::Tenant.current)
 #     insint = user.insints.first
-#     service = Services::Favorite.new(insint)
+#     service = Favorite.new(insint)
 #     service.load_script if self.status == true
 #     service.delete_ins_file if self.status == false
 #   end

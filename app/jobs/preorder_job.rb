@@ -3,7 +3,7 @@ class PreorderJob < ApplicationJob
 
     def perform(mycase_id, operation, insint)
 
-        preorder = Services::Preorder.new(mycase_id, operation, insint)
+        preorder = Preorder.new(mycase_id, operation, insint)
         preorder.do_action
 
     end
@@ -12,5 +12,5 @@ class PreorderJob < ApplicationJob
 end
 
 # test
-# preorder = Services::Preorder.new(110,"preorder_order",User.find(407).insints.first)
+# preorder = Preorder.new(110,"preorder_order",User.find(407).insints.first)
 # preorder.do_action

@@ -120,7 +120,7 @@ class InsintsController < ApplicationController
         Useraccount.create(shop: params[:shop], email: params[:user_email], insuserid: params[:user_id], name: user_name) if !user_account.present?
       end
       sign_in(:user, user)
-      redirect_to after_sign_in_path_for(user)
+      redirect_to after_sign_in_path_for(user), allow_other_host: true
     end
   end
 

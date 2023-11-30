@@ -109,7 +109,7 @@ class ClientsController < ApplicationController
   end
 
   def import_insales_setup
-    service = Services::Client::Import.new(params[:file])
+    service = Client::Import.new(params[:file])
     client_import_data = service.collect_data
     if client_import_data
       @header = client_import_data[:header]
@@ -122,7 +122,7 @@ class ClientsController < ApplicationController
   end
 
   def update_api_insales
-    Rails.env.development? ? Services::Client::Insales.create_client(params, current_user.insints.first) : InsalesClientJob.perform_later(params.to_unsafe_hash, current_user.insints.first)
+    Rails.env.development? ? Client::Insales.create_client(params, current_user.insints.first) : InsalesClientJob.perform_later(params.to_unsafe_hash, current_user.insints.first)
     redirect_to clients_url, notice: 'Запущен процесс создания контактов. Дождитесь выполнении процесса. Поступит уведомление на почту'
   end
 

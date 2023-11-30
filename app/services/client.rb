@@ -1,9 +1,9 @@
-class Services::Client
+class Client
 
     class Import
 
         def initialize(file)
-            puts "Services::Client::Import initialize"
+            puts "Client::Import initialize"
             @file = file
             @header
             @client_data = []
@@ -40,7 +40,7 @@ class Services::Client
     class Insales
 
         def self.create_client(create_data, insint)
-            puts "Services::Client::Insales create_client"
+            puts "Client::Insales create_client"
             client_lines = create_data[:client_lines]
             update_rules = create_data[:update_rules]
             user = insint.user
