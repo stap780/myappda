@@ -13,7 +13,7 @@ set :use_sudo,        true
 set :sudo, "sudo -u myappda -i"
 
 set :pty,             true
-set :use_sudo,        false
+# set :use_sudo,        false
 set :stage,           :production
 set :deploy_via,      :remote_cache
 set :deploy_to,       "/var/www/#{fetch(:application)}"
