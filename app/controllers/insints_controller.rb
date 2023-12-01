@@ -259,7 +259,7 @@ class InsintsController < ApplicationController
     Apartment::Tenant.switch(saved_subdomain) do
       if MessageSetup.check_ability
         #check_client = Client.find_by_clientid(params["client"]["id"])
-        check_client = Client.find_by_clientid(params["client"]["email"])
+        check_client = Client.find_by_email(params["client"]["email"])
         client = check_client.present? ? check_client : Client.create!(  clientid: params["client"]["id"], 
                                                                           email: params["client"]["email"], 
                                                                           name: params["client"]["name"], 
