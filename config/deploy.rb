@@ -9,6 +9,9 @@ set :user, 'myappda'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
 
+set :use_sudo,        true
+set :sudo, "sudo -u myappda -i"
+
 set :pty,             true
 set :use_sudo,        false
 set :stage,           :production
