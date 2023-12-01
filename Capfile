@@ -32,8 +32,9 @@ require "capistrano/rvm"
 # require 'capistrano3/unicorn'
 require "whenever/capistrano"
 require 'capistrano/rails/console'
+
 require "capistrano/puma"
-install_plugin Capistrano::Puma  # Default puma tasks
+install_plugin Capistrano::Puma
 install_plugin Capistrano::Puma::Systemd
 
 require 'capistrano/sidekiq'
