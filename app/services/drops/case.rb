@@ -27,6 +27,10 @@ class Drops::Case < Liquid::Drop
         @case.number
     end
 
+    def total_price
+        @case.lines.sum(:price)
+    end
+
 
     # def client_name
     #     @case.client.name
