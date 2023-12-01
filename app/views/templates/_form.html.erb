@@ -12,15 +12,15 @@
 <div class="tab-content" id="templateTabContent">
   <div class="tab-pane fade active show" id="first-tab-pane" role="tabpanel" aria-labelledby="first-tab" tabindex="0">
    <div class="row">
-   <div class="col-6 row">
-    <%= simple_form_for(@template) do |f| %>
+   <div class="col-6">
+    <%= simple_form_for(@template, html: {class: "row"}) do |f| %>
       <%= f.error_notification %>
       <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
       
-      <%= f.input :title, label: "Название шаблона" %>
-      <%= f.input :subject, label: "Тема письма", wrapper_html: {class: "mt-2"} %>
-      <%= f.input :receiver, label: "Получатель", collection: [['Клиент','client'],['Менеджер','manager']], prompt: false, input_html: { class: "form-select" }, wrapper_html: {class: "mt-2"} %>
-      <%= f.input :content, label: "Содержание письма", input_html: {id: "template-content", rows: "10"} , wrapper_html: {class: "mt-2"}%>
+      <%= f.input :title, label: "Название шаблона", wrapper_html: {class: "col-6"}  %>
+      <%= f.input :receiver, label: "Получатель", collection: [['Клиент','client'],['Менеджер','manager']], prompt: false, input_html: { class: "form-select" }, wrapper_html: {class: "col-6"} %>
+      <%= f.input :subject, label: "Тема письма", wrapper_html: {class: "mt-4"} %>
+      <%= f.input :content, label: "Содержание письма", input_html: {id: "template-content", rows: "15"} , wrapper_html: {class: "mt-4"}%>
       <div class="col-2 btn-group mt-5 mb-5">
         <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
         <%= link_to 'Назад', templates_path, class: 'btn btn-outline-primary' %>
@@ -31,26 +31,39 @@
     <div class="col-6">
     <% if Insint.present_work?%>
       <% if !@template.new_record? %>
+      <div class="h6">Заказ инсалес и данные из инсалес</div>
         <%= form_with url: preview_ins_order_templates_path, method: :get, class: "input-group", local: false do |form| %>
           <%= form.select :insales_order_id, @ten_orders, include_blank: "Выберите заказ", class: "form-select" %>
-          <%= form.text_field :insales_order_id, placeholder: "или введите Id заказа в инсалес", class: "form-control" %>
           <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
         <% end %>
-        <%= form_with url: preview_case_templates_path, method: :get, class: "input-group mt-2", local: false do |form| %>
-          <%= form.select :case_id, Case.all.limit(10).pluck(:id), include_blank: "Выберите заявку", class: "form-select" %>
+        <%= form_with url: preview_ins_order_templates_path, method: :get, class: "input-group", local: false do |form| %>
+          <%= form.text_field :insales_order_id, placeholder: "или введите Id заказа из инсалес", class: "form-control" %>
+          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
+        <% end %>
+        <div class="h6 mt-5">Заявки</div>
+        <%= form_with url: preview_case_templates_path, method: :get, class: "input-group", local: false do |form| %>
+          <%= form.select :case_id, Case.order(id: :desc).limit(10).pluck(:id), include_blank: "Выберите заявку", class: "form-select" %>
+          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
+        <% end %>
+        <%= form_with url: preview_case_templates_path, method: :get, class: "input-group", local: false do |form| %>
           <%= form.text_field :case_id, placeholder: "или введите Id заявки", class: "form-control" %>
           <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
         <% end %>
-        <%= form_with url: preview_restock_templates_path, method: :get, class: "input-group mt-2", local: false do |form| %>
-          <%= form.select :client_id, Client.order(:id).limit(10).pluck(:name,:id), include_blank: "Выберите клиента", class: "form-select" %>
-          <%= form.text_field :client_id, placeholder: "или введите Id клиента", class: "form-control" %>
-          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
-        <% end %>
+
+        <%# form_with url: preview_restock_templates_path, method: :get, class: "input-group mt-2", local: false do |form| %>
+          <%# form.select :client_id, Client.order(:id).limit(10).pluck(:name,:id), include_blank: "Выберите клиента", class: "form-select" %>
+          <%# button_tag(type: 'submit', class: "btn btn-outline-secondary") do %><%#Предпросмотр<%# end %>
+        <%#end %>
+        <%# form_with url: preview_restock_templates_path, method: :get, class: "input-group mt-2", local: false do |form| %>
+          <%# form.text_field :client_id, placeholder: "или введите Id клиента", class: "form-control" %>
+          <%# button_tag(type: 'submit', class: "btn btn-outline-secondary") do %><%#Предпросмотр<%# end %>
+        <%#end %>
+
 
         <div class="mt-3">
           <div id="order-preview"></div>
           <div id="case-preview"></div>
-          <div id="restock-preview"></div>
+          <%#<div id="restock-preview"></div>%>
         </div>
       <% else %>
       Сохраните шаблон и появится Предпросмотр
@@ -68,6 +81,6 @@
     </div>
   </div>
   <div class="tab-pane fade" id="third-tab-pane" role="tabpanel" aria-labelledby="third-tab" tabindex="2">
-  Примеры сниппетов
+  <%= render 'liquid_snippet' %>
   </div>
 </div>

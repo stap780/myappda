@@ -19,7 +19,7 @@ class EventActionService
 
         user_drop = Drops::User.new(user)
 
-        if channel == 'email'
+        if channel == 'email' && mycase.casetype != 'abandoned_cart'
             if mycase.casetype != 'order'
                 case_drop = Drops::Case.new(mycase)
                 client_drop = Drops::Client.new(mycase.client)
@@ -36,17 +36,23 @@ class EventActionService
             content = content_template.render('case' => case_drop, 'client' => client_drop, 'user' => user_drop)
 
             email_data = {
-                user: user, 
-                subject: subject,
-                content: content,
-                receiver: receiver
-            }
-
-            EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
+                            user: user, 
+                            subject: subject,
+                            content: content,
+                            receiver: receiver
+                        }
+            if mycase.casetype != 'abandoned_cart'
+                EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
+            end
+            if mycase.casetype == 'abandoned_cart'
+                AbandonedJob.set(wait: wait.to_i.minutes).perform_later(mycase.id, insint, email_data)
+            end
         end
+
         if channel == 'insales_api' && operation == 'cancel_order'            
             CancelOrderJob.set(wait: wait.to_i.minutes).perform_later(mycase.insales_order_id, operation, insint)
         end
+
         if channel == 'insales_api' && operation == 'preorder_order'
             PreorderJob.set(wait: wait.to_i.minutes).perform_later(mycase.id, operation, insint)
         end

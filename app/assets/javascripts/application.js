@@ -163,6 +163,7 @@ if (templateContent) {
     lineNumbers: true,
   });
   editor.save()
+  editor.setSize("100%", "500")
 }
 
 

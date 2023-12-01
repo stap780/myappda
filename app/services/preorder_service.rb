@@ -34,10 +34,10 @@ class PreorderService
             payment_gateway_id = payment_gateways.first.id
 
             order_insales = service.create_order(   order_lines_attributes, 
-                                            client, 
-                                            shipping_address_attributes, 
-                                            delivery_variant_id, 
-                                            payment_gateway_id )
+                                                    client, 
+                                                    shipping_address_attributes, 
+                                                    delivery_variant_id, 
+                                                    payment_gateway_id )
             
             # в инсалес должен быть создан кастомный статус в группе Новый с названием - 'preorder'
             order_custom_status_permalink = service.create_or_find_custom_status.permalink

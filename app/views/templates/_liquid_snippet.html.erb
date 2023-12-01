@@ -1,0 +1,30 @@
+<p>Примеры сниппетов</p>
+<p>
+Заголовок письма: {{client.name}} - Ваша брошенная корзина
+</p>
+<p>Содержание письма</p>
+<p>
+<pre>
+&lt;html&gt;
+&lt;body&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p&gt;Добрый день, {{ client.name }}&lt;/p&gt;
+
+{% if case.items.size &gt; 0 %}
+&lt;p&gt;Товары, которыми вы интересовались снова в наличии:&lt;/p&gt;
+{% for item in case.items %}
+  &lt;p&gt;&lt;a href=&quot;https://my-store.ru/product_by_id/{{item['insid']}}?variant_id={{item['var_insid']}}&quot;&gt;{{item['title']}}&lt;a/&gt;&lt;/p&gt;
+  &lt;p&gt;SKU - {{item['sku']}}&lt;/p&gt;
+  &lt;p&gt;quantity - {{item['quantity']}}&lt;/p&gt;
+  &lt;p&gt;price - {{item['price']}}&lt;/p&gt;
+{% endfor %}
+{% endif %}
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</p>

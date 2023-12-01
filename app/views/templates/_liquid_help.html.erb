@@ -52,10 +52,10 @@
     <li class="list-group-item">{{client.phone}}</li>
 </ul>
 <ul class="list-group list-group-horizontal">
-    <li class="list-group-item">{{ client.restocks }} все товары клеинта для Сообщить о поступлении</li>
+    <li class="list-group-item">{{ client.restocks }} все товары клиента для Сообщить о поступлении</li>
 </ul>
 <ul class="list-group list-group-horizontal">
-    <li class="list-group-item">{{ client.restocks_for_inform }} товары клеинта для Сообщить о поступлении имеющие статус ready </li>
+    <li class="list-group-item">{{ client.restocks_for_inform }} товары клиента для Сообщить о поступлении имеющие статус ready </li>
 </ul>
 <span class="">Пользователь приложения</span>
 <ul class="list-group list-group-horizontal">
@@ -67,6 +67,19 @@
 </ul>
 <ul class="list-group list-group-horizontal">
     <li class="list-group-item">{{ user.logo }}</li>
+</ul>
+<span class="">Заявка</span>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{case.id}}</li>
+    <li class="list-group-item">{{case.status}}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{case.items}}</li>
+    <li class="list-group-item">{{ case.created_at }}</li>
+</ul>
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">{{ case.casetype }}</li>
+    <li class="list-group-item">{{ case.number }}</li>
 </ul>
 </div>
 

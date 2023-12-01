@@ -260,10 +260,13 @@ class InsintsController < ApplicationController
       if MessageSetup.check_ability
         #check_client = Client.find_by_clientid(params["client"]["id"])
         check_client = Client.find_by_email(params["client"]["email"])
-        client = check_client.present? ? check_client : Client.create!(  clientid: params["client"]["id"], 
-                                                                          email: params["client"]["email"], 
-                                                                          name: params["client"]["name"], 
-                                                                          phone: params["client"]["phone"])
+        client_data = {
+                        clientid: params["client"]["id"], 
+                        email: params["client"]["email"], 
+                        name: params["client"]["name"], 
+                        phone: params["client"]["phone"]
+                      }
+        client = check_client.present? ? check_client.update!(client_data) : Client.create!(client_data)
         # создаём запись о том что произошло изменение в заказе
         client.order_status_changes.create!(  insales_order_id: params["id"], 
                                               insales_order_number: params["number"], 
@@ -274,7 +277,8 @@ class InsintsController < ApplicationController
         search_case = Case.where(client_id: client.id, insales_order_id: params["id"])
         puts "search_case.id => "+search_case.first.id.to_s if search_case.present?
         mycase = search_case.present? ? search_case.update( insales_custom_status_title: params["custom_status"]["title"], 
-                                                                  insales_financial_status: params["financial_status"])[0] : 
+                                                                  insales_financial_status: params["financial_status"
+                                                                  status: "take"])[0] : 
                                         Case.create!( client_id: client.id, insales_order_id: params["id"], 
                                                       insales_custom_status_title: params["custom_status"]["title"],
                                                       insales_financial_status: params["financial_status"],
