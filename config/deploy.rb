@@ -38,46 +38,60 @@ namespace :puma do
     end
   
     before 'deploy:starting', 'puma:make_dirs'
-  end
+end
   
-  namespace :deploy do
-    desc "Make sure local git is in sync with remote."
-    task :check_revision do
+namespace :deploy do
+  desc "Make sure local git is in sync with remote."
+  task :check_revision do
+    on roles(:app) do
+      # Update this to your branch name: master, main, etc. Here it's master
+      unless `git rev-parse HEAD` == `git rev-parse origin/master`
+        puts "WARNING: HEAD is not the same as origin/main"
+        puts "Run `git push` to sync changes."
+        exit
+      end
+    end
+  end
+
+  desc 'Initial Deploy'
+  task :initial do
+    on roles(:app) do
+      before 'deploy:restart', 'puma:start'
+      invoke 'deploy'
+    end
+  end
+
+  desc 'Restart application'
+    task :restart do
+      on roles(:app), in: :sequence, wait: 5 do
+        invoke 'puma:restart'
+      end
+  end
+
+  namespace :sidekiq do
+    desc 'Quieten sidekiq'
+    task :quiet do
       on roles(:app) do
-        # Update this to your branch name: master, main, etc. Here it's master
-        unless `git rev-parse HEAD` == `git rev-parse origin/master`
-          puts "WARNING: HEAD is not the same as origin/main"
-          puts "Run `git push` to sync changes."
-          exit
-        end
+        puts capture("pgrep -f 'sidekiq' | xargs kill -TSTP")
       end
     end
   
-    desc 'Initial Deploy'
-    task :initial do
+    desc 'Restart Sidekiq'
+    task :restart do
       on roles(:app) do
-        before 'deploy:restart', 'puma:start'
-        invoke 'deploy'
+        execute :sudo, :systemctl, :restart, :sidekiq
+        execute :sudo, :systemctl, 'daemon-reload'
       end
     end
-  
-    desc 'Restart application'
-      task :restart do
-        on roles(:app), in: :sequence, wait: 5 do
-          invoke 'puma:restart'
-        end
-    end
-  
-  #   desc "Restart sidekiq"
-  #   task :restart_sidekiq do
-  #     on roles(:app), in: :sequence, wait: 5 do
-  #       execute :sudo, :systemctl, :restart, :sidekiq
-  #     end
-  #   end
-  
-    before :starting,     :check_revision
-    after  :finishing,    :compile_assets
-    after  :finishing,    :cleanup
-  #   after  :finishing,    :restart_sidekiq
   end
+
+  before :starting,     :check_revision
+  after  :finishing,    :compile_assets
+  after  :finishing,    :cleanup
+  # sidekiq related commands
+  after 'deploy:starting', 'sidekiq:quiet'
+  after 'deploy:reverted', 'sidekiq:restart'
+  after 'deploy:published', 'sidekiq:restart'
+  
+end
   
