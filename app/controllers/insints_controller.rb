@@ -277,8 +277,8 @@ class InsintsController < ApplicationController
         search_case = Case.where(client_id: client.id, insales_order_id: params["id"])
         puts "search_case.id => "+search_case.first.id.to_s if search_case.present?
         mycase = search_case.present? ? search_case.update( insales_custom_status_title: params["custom_status"]["title"], 
-                                                                  insales_financial_status: params["financial_status"
-                                                                  status: "take"])[0] : 
+                                                                  insales_financial_status: params["financial_status"],
+                                                                  status: "take")[0] : 
                                         Case.create!( client_id: client.id, insales_order_id: params["id"], 
                                                       insales_custom_status_title: params["custom_status"]["title"],
                                                       insales_financial_status: params["financial_status"],
