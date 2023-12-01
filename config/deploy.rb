@@ -68,14 +68,7 @@ namespace :deploy do
       end
   end
 
-  namespace :sidekiq do
-    # desc 'Quieten sidekiq'
-    # task :quiet do
-    #   on roles(:app) do
-    #     puts capture("pgrep -f 'sidekiq' | xargs kill -TSTP")
-    #   end
-    # end
-  
+  namespace :sidekiq do  
     desc 'Restart Sidekiq'
     task :restart do
       on roles(:app) do
@@ -89,8 +82,6 @@ namespace :deploy do
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   # sidekiq related commands
-  # after 'deploy:starting', 'sidekiq:quiet'
-  # after 'deploy:reverted', 'sidekiq:restart'
   after 'deploy:published', 'sidekiq:restart'
   
 end

@@ -19,7 +19,7 @@ class EventActionService
 
         user_drop = Drops::User.new(user)
 
-        if channel == 'email' && mycase.casetype != 'abandoned_cart'
+        if channel == 'email'
             if mycase.casetype != 'order'
                 case_drop = Drops::Case.new(mycase)
                 client_drop = Drops::Client.new(mycase.client)
