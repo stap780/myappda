@@ -56,7 +56,7 @@ gem 'rbnacl', '< 5.0', :require => false
 gem 'rbnacl-libsodium', :require => false
 gem 'rest-client'
 gem 'rubyzip'
-gem 'sidekiq', '~> 5.2', '= 5.2.10'
+gem 'sidekiq', '~> 7.0.3'
 gem 'simple_form'
 # gem 'unicorn'
 gem 'whenever', require: false
