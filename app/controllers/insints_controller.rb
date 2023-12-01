@@ -266,7 +266,9 @@ class InsintsController < ApplicationController
                         name: params["client"]["name"], 
                         phone: params["client"]["phone"]
                       }
-        client = check_client.present? ? check_client.update!(client_data) : Client.create!(client_data)
+        check_client.update!(client_data) if check_client.present?
+        client = check_client.present? ? check_client : Client.create!(client_data)
+
         # создаём запись о том что произошло изменение в заказе
         client.order_status_changes.create!(  insales_order_id: params["id"], 
                                               insales_order_number: params["number"], 
