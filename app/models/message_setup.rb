@@ -4,7 +4,7 @@ class MessageSetup < ApplicationRecord
   validates :title, presence: true
   validates :handle, uniqueness: true
   before_save :normalize_data_white_space
-  before_save :set_valid_until_for_free_payplan_new, if: [:create]
+  # before_save :set_valid_until_for_free_payplan_new, if: [:create] #убираем тарифы из сервисов и разрываем логическую связь с ними
   after_create :create_order_webhook_and_xml
   after_commit :create_invoice, on: [:create, :update]
 
@@ -47,9 +47,9 @@ class MessageSetup < ApplicationRecord
 
   private
 
-  def set_valid_until_for_free_payplan_new
-    self.valid_until = Date.today+14.days if new_record? if self.payplan_id == Payplan.message_free_id && self.status  == true
-  end
+  # def set_valid_until_for_free_payplan_new
+  #   self.valid_until = Date.today+14.days if new_record? if self.payplan_id == Payplan.message_free_id && self.status  == true
+  # end
 
   def create_invoice
     invoice_data = {

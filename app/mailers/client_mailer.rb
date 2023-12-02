@@ -1,6 +1,6 @@
 class ClientMailer < ApplicationMailer
 
-  default from: 'info@k-comment.ru'
+  default from: 'info@myappda.ru'
 
     def emailizb(shoptitle, shopemail, shopurl, fio, email, products, current_subdomain )
       @shoptitle = shoptitle

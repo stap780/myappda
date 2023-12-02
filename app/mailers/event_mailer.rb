@@ -14,7 +14,7 @@ class EventMailer < ApplicationMailer
     private
 
     def set_from_email
-        @user && @user.has_smtp_settings? ? @user.smtp_settings[:user_name] : 'info@k-comment.ru'
+        @user && @user.has_smtp_settings? ? @user.smtp_settings[:user_name] : 'info@myappda.ru'
     end
 
     def set_delivery_options

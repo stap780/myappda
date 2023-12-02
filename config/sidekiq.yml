@@ -8,6 +8,7 @@
     - restock_job
     - preorder_job
     - abandoned_job
+:max_retries: 3
 
 development:
   :concurrency: 5

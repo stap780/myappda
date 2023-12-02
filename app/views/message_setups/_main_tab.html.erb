@@ -8,9 +8,9 @@
       <% else %>
         Внимание!!! Интеграция не настроена. Настройте <%= link_to "интеграцию", useraccounts_path %>
       <% end %>
-        <% disabled = @message_setup.payplan && @message_setup.payplan.handle.include?("free") ? false : true %>
-        <% checked = @message_setup.payplan ? @message_setup.payplan.id : Payplan.message_free_id %>
-        <%= f.association :payplan, collection: Payplan.where(service_handle: "message").order(:id), 
+        <%# disabled = @message_setup.payplan && @message_setup.payplan.handle.include?("free") ? false : true %>
+        <%# checked = @message_setup.payplan ? @message_setup.payplan.id : Payplan.message_free_id %>
+        <%# f.association :payplan, collection: Payplan.where(service_handle: "message").order(:id), 
                                     as: :radio_buttons,
                                     label: 'Тарифы:',
                                     label_method: lambda { |plan| "#{plan.title} Период продления #{plan.period} месяц. Стоимость -  #{plan.price} руб".html_safe },

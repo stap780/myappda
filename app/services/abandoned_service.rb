@@ -10,7 +10,7 @@ class AbandonedService
     def check_ability
         Apartment::Tenant.switch(@tenant) do
             mycase = Case.find(@mycase_id)
-            lines = mycase.lines.pluck(:variant_id).
+            lines = mycase.lines.pluck(:variant_id)
             check = []
             orders = Case.where(client_id: mycase.client_id, casetype: 'order').where('created_at > ?', mycase.created_at)
             orders.each do |order|
@@ -23,4 +23,5 @@ class AbandonedService
     def do_action
         EventMailer.with(@email_data).send_action_email.deliver_now
     end
+    
 end

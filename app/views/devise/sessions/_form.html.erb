@@ -21,8 +21,8 @@
     <%# recaptcha_v3(action: 'login', site_key: Rails.application.credentials.recaptcha_site_key) %>
   <%# END add reCAPTCHA %>
   <%# START add reCAPTCHA %>
-  <%= flash[:recaptcha_error] %>
-  <%= recaptcha_tags %>
+  <%= flash[:recaptcha_error] if !Rails.env.development? %>
+  <%= recaptcha_tags if !Rails.env.development?%>
   <%# END add reCAPTCHA %>
   </div>
   <%= f.submit t('.sign_in', :default => "Войти"), class: "btn btn-primary" %>

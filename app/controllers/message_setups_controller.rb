@@ -1,6 +1,7 @@
 class MessageSetupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_message_setup, only: [:show, :edit, :update, :destroy]
+  before_action :set_message_setup, only: %i[show edit update destroy]
+
 
   # GET /message_setups
   def index
