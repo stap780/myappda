@@ -21,6 +21,9 @@ class EventMailer < ApplicationMailer
         if @user && @user.has_smtp_settings?
             mail.delivery_method.settings.merge!(@user.smtp_settings)
         end
+        if @user && !@user.has_smtp_settings?
+            mail.delivery_method.settings.merge!(User.default_smtp_settings)
+        end
     end
       
 end

@@ -66,6 +66,8 @@ gem 'wkhtmltopdf-binary', '~> 0.12.3.1'
 gem 'puma'
 gem 'rexml', '~> 3.2', '>= 3.2.6'
 gem "recaptcha"
+# Use Redis for Action Cable
+gem "redis", "~> 4.0"
 
 
 group :development, :test do
@@ -87,5 +89,3 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
-# Use Redis for Action Cable
-gem "redis", "~> 4.0"

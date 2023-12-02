@@ -7,7 +7,7 @@ class Case < ApplicationRecord
 
   before_save :normalize_data_white_space
   # after_create :add_restock
-  after_commit :do_event_action, on: :create # for 'order' & 'abandoned_cart' & 'preorder'
+  # after_commit :do_event_action, on: :create # for 'order' & 'abandoned_cart' & 'preorder' # отключил, так как работало некоректно и добавил это действие в конце каждого запроса в insint
 
   CASETYPE = [['Заказ','order'],['Сообщить о поступлении','restock'],['Брошенная корзина','abandoned_cart'],['Предзаказ','preorder']].freeze
   STATUS = [['Новый','new'],['В работе','take'],['Завершили','finish']].freeze
@@ -46,18 +46,20 @@ class Case < ApplicationRecord
 
   # for 'order' & 'abandoned_cart' & 'preorder'
   def do_event_action
+    user = User.find_by_subdomain(Apartment::Tenant.current)
+
     if self.casetype == 'order' || self.casetype == 'abandoned_cart' || self.casetype == 'preorder'
-      puts "Case do_event_action start"
+      puts "########## Case do_event_action start - #{self.casetype}"
       events = Event.active.where(casetype: self.casetype)
-      if events.present?
-        puts "case do_event_action"
-        user = User.find_by_subdomain(Apartment::Tenant.current)
+      if events.size > 0
+        puts "case do_event_action events.size > 0 and count = #{events.size}"
         events.each do |event|
           EventActionService.do_action(user, event, self)
         end
       end
-      puts "Case do_event_action finish"
+      puts "########## Case do_event_action finish"
     end
+
   end
 
   def self.restock_update_cases(client)

@@ -153,8 +153,27 @@ class User < ApplicationRecord
     end
   end
 
-
-	def self.current
+  def self.default_smtp_settings
+    user = User.where(role: 'admin').first
+    Apartment::Tenant.switch(user.subdomain) do
+      smtp = EmailSetup.first
+      if smtp
+      smtp_settings = {
+        tls: smtp.tls,
+        enable_starttls_auto: true,
+        openssl_verify_mode: "none",
+        address: smtp.address,
+        port: smtp.port,
+        domain: smtp.domain,
+        authentication: smtp.authentication,
+        user_name: smtp.user_name,
+        password: smtp.user_password.to_s
+        }
+      end
+    end
+  end
+	
+  def self.current
     Thread.current[:user]
   end
 
