@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :check_email]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :check_email, :add_message_setup_ability]
   before_action :authenticate_admin!, only: [:index], except: [:stop_impersonating]
 
 
@@ -66,6 +66,15 @@ class UsersController < ApplicationController
 
   def check_email
     notice = @user.check_email.present? ? 'Почта настроена верно и тестовое сообщение отправили' : 'Не работает Почта!'
+    respond_to do |format|
+      format.js do
+        flash.now[:notice] = notice
+      end
+    end
+  end
+
+  def add_message_setup_ability
+    notice = @user.add_message_setup_ability.present? ? 'Добавили две недели' : 'Не добавили Сегодня не последний день'
     respond_to do |format|
       format.js do
         flash.now[:notice] = notice

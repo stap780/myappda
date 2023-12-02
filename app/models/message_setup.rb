@@ -5,8 +5,8 @@ class MessageSetup < ApplicationRecord
   validates :handle, uniqueness: true
   before_save :normalize_data_white_space
   # before_save :set_valid_until_for_free_payplan_new, if: [:create] #убираем тарифы из сервисов и разрываем логическую связь с ними
-  after_create :create_order_webhook_and_xml
-  after_commit :create_invoice, on: [:create, :update]
+  # after_create :create_order_webhook_and_xml
+  # after_commit :create_invoice, on: [:create, :update]
 
   HANDLE = "message"
   TITLE = "Тригеры (Сообщения и api по заказам)"
@@ -43,6 +43,10 @@ class MessageSetup < ApplicationRecord
         self.save
       end
     end
+  end
+
+  def add_two_week_ability
+    self.update(valid_until: Date.today + 2.week) if self.valid_until.present? &&  self.valid_until <= Date.today
   end
 
   private

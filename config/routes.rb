@@ -101,6 +101,7 @@ Rails.application.routes.draw do
     post :stop_impersonating, on: :collection
     collection do
       get '/:id/check_email', action: 'check_email', as: 'check_email'
+      get '/:id/add_message_setup_ability', action: 'add_message_setup_ability', as: 'add_message_setup_ability'
       delete '/:id/images/:image_id', action: 'delete_image', as: 'delete_image'
     end
   end

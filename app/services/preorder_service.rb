@@ -23,7 +23,7 @@ class PreorderService
                 v_data['quantity'] = line.quantity
                 variants_for_update.push(v_data)
             end
-            order_status = service.create_or_find_custom_status.system_status
+            # order_status = service.create_or_find_custom_status.system_status
             service.variants_group_update(variants_for_update) #нужно товарам (вариантам) проставить кол-во чтобы сделать заказ
 
             client = {'name' => mycase.client.name,'surname' => mycase.client.name, 'email' => mycase.client.email, 'phone' => mycase.client.phone, "consent_to_personal_data" => true}
@@ -40,8 +40,9 @@ class PreorderService
                                                     payment_gateway_id )
             
             # в инсалес должен быть создан кастомный статус в группе Новый с названием - 'preorder'
-            order_custom_status_permalink = service.create_or_find_custom_status.permalink
-            service.set_order_custom_status(order_insales.id, order_custom_status_permalink) if order_custom_status_permalink
+            order_custom_status_permalink = service.create_or_find_custom_status.present? ? service.create_or_find_custom_status.permalink : 'preorder'
+            set_status = service.set_order_custom_status(order_insales.id, order_custom_status_permalink) if order_custom_status_permalink
+            mycase.update(status: "finish") if set_status
         end
     end
 end

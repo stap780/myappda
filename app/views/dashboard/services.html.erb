@@ -48,7 +48,7 @@
               <%= @message_setup.payplan.title if @message_setup && @message_setup.payplan %></br>
               <%= @message_setup.status ? "Состояние: Вкл" : "Состояние: Выкл" if @message_setup %>
             </td>
-            <td><%= @message_setup.present? && @message_setup.valid_until.present? ? @message_setup.valid_until.strftime("%d/%m/%Y") : "бесплатно" %></td>
+            <td><%= current_user.message_setup_valid_until ? current_user.message_setup_valid_until.strftime("%d/%m/%Y") : "бесплатно" %></td>
             <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @message_setup, method: :delete, data: { confirm: 'Are you sure?' } if @message_setup %></td>
           </tr>
         </tbody>

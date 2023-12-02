@@ -441,6 +441,7 @@ class InsintsController < ApplicationController
 
         end
         mycase.add_preorder
+        mycase.do_event_action
 
         render json: { success: true, message: 'Информация сохранена в cases preorder'}
       else

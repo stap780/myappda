@@ -21,7 +21,10 @@ class AbandonedService
     end
 
     def do_action
-        EventMailer.with(@email_data).send_action_email.deliver_now
+        send_email = EventMailer.with(@email_data).send_action_email.deliver_now
+        Apartment::Tenant.switch(@tenant) do
+            Case.find(@mycase_id).update(status: "finish") if send_email
+        end
     end
-    
+
 end

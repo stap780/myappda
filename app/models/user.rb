@@ -105,11 +105,11 @@ class User < ApplicationRecord
     end
   end
 
-  def restock_setup_status
-    Apartment::Tenant.switch(self.subdomain) do
-      RestockSetup.first.present? && RestockSetup.first.status ? "Вкл" : "Выкл"
-    end
-  end
+  # def restock_setup_status
+  #   Apartment::Tenant.switch(self.subdomain) do
+  #     RestockSetup.first.present? && RestockSetup.first.status ? "Вкл" : "Выкл"
+  #   end
+  # end
   
   def message_setup_status
     Apartment::Tenant.switch(self.subdomain) do
@@ -120,6 +120,13 @@ class User < ApplicationRecord
   def message_setup_valid_until
     Apartment::Tenant.switch(self.subdomain) do
       MessageSetup.first.present? && MessageSetup.first.status ? MessageSetup.first.valid_until : ''
+    end
+  end
+
+  def add_message_setup_ability
+    Apartment::Tenant.switch(self.subdomain) do
+      ms = MessageSetup.first.add_two_week_ability
+      ms.present? ? true : false
     end
   end
   

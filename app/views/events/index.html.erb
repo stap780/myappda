@@ -40,7 +40,7 @@
       <th>#</th>
       <th>Тип заявки</th>
       <th>Статус</th>
-      <th>Фин Статус</th>
+      <th>Статусы Ins</th>
       <th>Действие</th>
       <th></th>
     </tr>
@@ -52,11 +52,11 @@
         <td><%= check_box_tag "event_ids[]", event.id %></td>
         <td><%= event.id %></td>
         <td><%= event.casetype_value %></td>
-        <td><%= event.custom_status %></td>
-        <td><%= event.fin_status %></td>
+        <td><%= event.active %></td>
+        <td><%= event.custom_status %><br>Фин: <%= event.fin_status %></td>
         <td><%= event.action_title %>
-            <% if event.pause_text %><br><%= event.pause_text %><% end %>
-            <% if event.timetable_text %><br><%= event.timetable_text %><% end %>
+            <br><%= event.pause_text if event.pause_text %>
+            <br><%= event.timetable_text if event.timetable_text %>
         </td>
         <td>
         <span class="d-flex">
