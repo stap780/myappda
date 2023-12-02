@@ -9,6 +9,10 @@ class Payplan < ApplicationRecord
   Services = ["extra","favorite", "restock","message"]
   Period = ["1", "3", "6","12","no limit"]
 
+  def self.ransackable_attributes(auth_object = nil)
+   Payplan.attribute_names
+ end
+
   def self.favorite_free_id
      Payplan.where(service_handle: "favorite", price: 0 ).first.id
   end
