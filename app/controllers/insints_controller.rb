@@ -322,7 +322,7 @@ class InsintsController < ApplicationController
     # insint = Insint.find_by_insales_account_id(784184)
     saved_subdomain = insint.user.subdomain
     Apartment::Tenant.switch(saved_subdomain) do
-      if MessageSetup.check_ability && params["lines"].presence
+      if MessageSetup.check_ability && params["lines"].presence && params["contacts"]["email"]).presence
         number = params["id"]
         search_client = Client.find_by_email(params["contacts"]["email"]).present? ?  Client.find_by_email(params["contacts"]["email"]) : 
                                                                                       Client.find_by_phone(params["contacts"]["phone"])
@@ -334,7 +334,9 @@ class InsintsController < ApplicationController
         mycase = search_mycase.present? ? search_mycase : Case.create!( number: number, casetype: 'abandoned_cart', client_id: client.id, status: "new")
         
         puts "insint abandoned_cart mycase => "+mycase.inspect.to_s
-        
+
+        mycase.lines.delete_all #this we need to have last cart data if user change cart after several time
+
         params["lines"].each do |o_line|
           product = Product.find_by_insid(o_line["productId"].to_i).present? ? Product.find_by_insid(o_line["productId"].to_i) : 
                                                                         Product.create!(insid: o_line["productId"].to_i)
