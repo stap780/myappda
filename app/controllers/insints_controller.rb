@@ -322,7 +322,7 @@ class InsintsController < ApplicationController
     # insint = Insint.find_by_insales_account_id(784184)
     saved_subdomain = insint.user.subdomain
     Apartment::Tenant.switch(saved_subdomain) do
-      # if MessageSetup.check_ability && params["lines"].presence
+      if MessageSetup.check_ability && params["lines"].presence
         number = params["id"]
         search_client = Client.find_by_email(params["contacts"]["email"]).present? ?  Client.find_by_email(params["contacts"]["email"]) : 
                                                                                       Client.find_by_phone(params["contacts"]["phone"])
@@ -349,10 +349,10 @@ class InsintsController < ApplicationController
         end
         mycase.do_event_action
         render json: { success: true, message: 'Информация сохранена в cases abandoned_cart'}
-      # else
-      #   render json: { error: true, message: 'не смогли добавить запись в cases abandoned_cart Сервис не включен' }
+      else
+        render json: { error: true, message: 'не смогли добавить запись в cases abandoned_cart Сервис не включен' }
       end
-    # end
+    end
   end
 
   def restock
