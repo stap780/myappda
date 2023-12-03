@@ -1,3 +1,4 @@
+#  encoding : utf-8
 class RestockService
 
     def initialize(user, client, events, product_xml)
@@ -19,6 +20,15 @@ class RestockService
             timetable_time = action.timetable_time
             receiver = @client.email if action.template.receiver == 'client'
             receiver = @user.email if action.template.receiver == 'manager'
+            
+            wait = pause == true && pause_time.present? ? pause_time : 1
+            table_hour = timetable == true && timetable_time.present? ? timetable_time.to_i/60 : 12
+            periods = Array.new((23/table_hour)+1){|e| table_hour*e }.reject(&:blank?)
+            now_hour = Time.now.strftime('%H')
+
+            if periods.include?(now_hour.to_i)
+                load_products_xml
+                restocks_update_status_for_inform # we set status READY
 
             subject_template = Liquid::Template.parse(action.template.subject)
             content_template = Liquid::Template.parse(action.template.content)
@@ -35,15 +45,8 @@ class RestockService
                 content: content, 
                 receiver: receiver
             }
-            wait = pause == true && pause_time.present? ? pause_time : 1
-            table_hour = timetable == true && timetable_time.present? ? timetable_time.to_i/60 : 12
-            periods = Array.new((23/table_hour)+1){|e| table_hour*e }.reject(&:blank?)
-            now_hour = Time.now.strftime('%H')
 
-            if periods.include?(now_hour.to_i)
-                load_products_xml
-                restocks_update_status_for_inform # we set status READY
-                if @client.restocks.for_inform.present?
+            if @client.restocks.for_inform.present?
                     EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes) if channel == 'email'
                     @client.restocks.for_inform.update_all(status: "send")
                     Case.restock_update_cases(@client)

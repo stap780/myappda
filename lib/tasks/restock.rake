@@ -23,3 +23,12 @@ namespace :restock do
     end
   
   end
+
+  # testing
+  # tenant = 'teletri'
+  # Apartment::Tenant.switch!(tenant)
+  # user = User.find_by_subdomain(tenant)
+  # product_xml = MessageSetup.first.product_xml
+  # client = Client.find 13
+  # events = Event.active.where(casetype: 'restock')
+  # RestockService.new(user, client, events, product_xml).do_action
