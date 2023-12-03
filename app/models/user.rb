@@ -137,6 +137,13 @@ class User < ApplicationRecord
     end
   end
 
+  def restock_count
+    Apartment::Tenant.switch(self.subdomain) do
+      "All: "+Restock.all.count.to_s+"(Wait: #{Restock.status_wait.count})"
+    end
+  end
+
+
   def has_smtp_settings?
     self.smtp_settings.present?
   end
