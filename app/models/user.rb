@@ -139,7 +139,7 @@ class User < ApplicationRecord
 
   def restock_count
     Apartment::Tenant.switch(self.subdomain) do
-      "All: "+Restock.all.count.to_s+"(Wait: #{Restock.status_wait.count})"
+      "All: "+Restock.all.count.to_s+"(Wait: #{Restock.status_wait.count.to_s})"
     end
   end
 

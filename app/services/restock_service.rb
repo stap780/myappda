@@ -26,27 +26,27 @@ class RestockService
             periods = Array.new((23/table_hour)+1){|e| table_hour*e }.reject(&:blank?)
             now_hour = Time.now.strftime('%H')
 
-            if periods.include?(now_hour.to_i)
+            if periods.include?(now_hour.to_i) && check_product_xml_link
                 load_products_xml
                 restocks_update_status_for_inform # we set status READY
 
-            subject_template = Liquid::Template.parse(action.template.subject)
-            content_template = Liquid::Template.parse(action.template.content)
-            
-            client_drop = Drops::Client.new(@client)
-            restock_drop = Drops::Client.new(@client.restocks)
+	            subject_template = Liquid::Template.parse(action.template.subject)
+	            content_template = Liquid::Template.parse(action.template.content)
+	            
+	            client_drop = Drops::Client.new(@client)
+	            restock_drop = Drops::Client.new(@client.restocks)
+	
+	            subject = subject_template.render('client' => client_drop)
+	            content = content_template.render('client' => client_drop, 'restocks' => restock_drop)
+	            
+	            email_data = {
+	                user: @user, 
+	                subject: subject, 
+	                content: content, 
+	                receiver: receiver
+	            }
 
-            subject = subject_template.render('client' => client_drop)
-            content = content_template.render('client' => client_drop, 'restocks' => restock_drop)
-            
-            email_data = {
-                user: @user, 
-                subject: subject, 
-                content: content, 
-                receiver: receiver
-            }
-
-            if @client.restocks.for_inform.present?
+            	if @client.restocks.for_inform.present?
                     EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes) if channel == 'email'
                     @client.restocks.for_inform.update_all(status: "send")
                     Case.restock_update_cases(@client)
@@ -62,19 +62,35 @@ class RestockService
 
     def load_products_xml
         File.delete(@download_path) if File.file?(@download_path).present?
-    
+		puts "load_products_xml @product_xml => "+@product_xml.to_s
         RestClient.get( @product_xml ) { |response, request, result, &block|
+	        puts response.code
+# 	        puts response
                 case response.code
                 when 200
                     f = File.new(@download_path, "wb")
                     f << response.body
                     f.close
                     puts "Restock load and write products xml file - user id => #{@user.id}.to_s"
+                when 301
                 else
                     response.return!(&block)
                 end
             }
     end
+    
+	
+	def check_product_xml_link
+		check = true
+		response = RestClient.get(@product_xml)
+		rescue SocketError => e
+		  puts "In Socket errror"
+		  puts e
+		  check = false
+		rescue => e
+		  puts (e.class.inspect)
+    end
+	
 
     def restocks_update_status_for_inform
         if File.file?(@download_path).present?
