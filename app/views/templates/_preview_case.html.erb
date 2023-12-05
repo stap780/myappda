@@ -12,7 +12,7 @@
     <div><span class="h6">Тема письма:</span> <%= subject_template.render('case' => case_drop, 'client' => client_drop)%></div>
     
     <div class="h6">Содержание письма:</div> 
-    <div><%= content_template.render('case' => case_drop, 'client' => client_drop, 'user' => user_drop).html_safe%></div>
+    <%= content_template.render('case' => case_drop, 'client' => client_drop, 'user' => user_drop).html_safe%>
     </code>
     </pre>
 </div>

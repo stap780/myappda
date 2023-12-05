@@ -6,8 +6,10 @@
   </head>
   <body class="<%= current_page_path_as_class %> d-flex flex-column h-100">
     <% if user_signed_in? %>
-      <header>
+      <header class="bg-444444">
+        <div class="container">
         <%= render 'layouts/navigation' %>
+        </div>
       </header>
     <% end %>
     <main class="flex-shrink-0">
@@ -19,9 +21,9 @@
         <%= yield %>
       </div>
     </main>
-      <%= render partial: "/layouts/footer" if check_current_page_show_this_part? %>
-      <%= render partial: "/layouts/zammad"%>
-      <%= render partial: "/layouts/messengers"%>
-      <%= render partial: "/layouts/modal"%>
+    <%= render partial: "/layouts/footer" if check_current_page_show_this_part? %>
+    <%= render partial: "/layouts/zammad"%>
+    <%= render partial: "/layouts/messengers"%>
+    <%= render partial: "/layouts/modal"%>
     </body>
   </html>

@@ -51,3 +51,8 @@ body {    overflow-x: hidden;}
 #our_flash {
   z-index: $zindex-fixed;
 }
+.bg-444444 {
+  --bs-bg-opacity: 1;
+  --bs-444444: 68, 68, 68;
+  background-color: rgba(var(--bs-444444), var(--bs-bg-opacity)) !important;
+}
