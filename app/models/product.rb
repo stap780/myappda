@@ -98,7 +98,8 @@ class Product < ApplicationRecord
     service = ApiInsales.new(user.insints.first)
     product = service.get_product_data(self.insid)
     product_data = {
-      title: product.title
+      title: product.title,
+      image_link: product.images.present? ? product.images.first.original_url : ''
     }
     self.update!(product_data)
     puts "finish product get_ins_api_data"

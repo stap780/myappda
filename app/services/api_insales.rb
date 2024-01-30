@@ -145,7 +145,7 @@ class ApiInsales
             puts "e.response => "+e.response.to_s if e.response
             puts "e.response.body => "+e.response.body.to_s if e.response && e.response.body
         end
-end
+    end
 
     def client(insales_client_id)
         begin

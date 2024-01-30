@@ -1,0 +1,10 @@
+<tr>
+<!-- <td><%# check_box_tag "product_ids[]", product.id %></td> -->
+<td><%= product.id %></td>
+<td><%= product.insid %></td>
+<td><img src="<%= product.image_link %>" style="width: 100px;"/></td>
+<td><%= product.title %></td>
+<td><%= link_to '<span class="oi oi-eye"></span>'.html_safe, product if product.variants.present? %></td>
+<td><%= product.price %></td>
+<td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>
