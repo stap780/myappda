@@ -51,6 +51,7 @@ class RestockService
                     @client.restocks.for_inform.update_all(status: "send")
                     Case.restock_update_cases(@client)
                     puts "client have restocks and we inform it"
+                    puts "client id => "+@client.id.to_s
                 else
                     puts "don't have restocks to inform client"
                 end

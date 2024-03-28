@@ -1,5 +1,5 @@
 class MessageSetup < ApplicationRecord
-  belongs_to :payplan
+  belongs_to :payplan, optional: true # это убирает проверку presence: true , которая стоит по дефолту
 
   validates :title, presence: true
   validates :handle, uniqueness: true
@@ -11,6 +11,11 @@ class MessageSetup < ApplicationRecord
   HANDLE = "message"
   TITLE = "Тригеры (Сообщения и api по заказам)"
   DESCRIPTION = "уведомлений клиентов и менеджеров интернет-магазина при смене статусов заказов с помощью InsalesApi, SMS, Email сообщений, а так же Брошенная корзина, Предзаказ, Сообщить о поступлении"
+
+  def self.ransackable_attributes(auth_object = nil)
+    MessageSetup.attribute_names
+  end
+
 
   def self.check_ability #проверяем тариф и определяем как будет обрабатываться запрос
     payplan_ability = false
@@ -46,7 +51,7 @@ class MessageSetup < ApplicationRecord
   end
 
   def add_two_week_ability
-    self.update(valid_until: Date.today + 2.week) if self.valid_until.present? &&  self.valid_until <= Date.today
+    self.update!(valid_until: Date.today + 2.week) if self.valid_until.present? &&  self.valid_until <= Date.today
   end
 
   private

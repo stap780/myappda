@@ -41,6 +41,7 @@ class InsintsController < ApplicationController
       if @insint.save
         service = ApiInsales.new(@insint)
         service.work? ? @insint.update!(status: true) : @insint.update!(status: false)
+        @insint.update_and_email if service.work?
         notice = service.work? == true ? 'Интеграция insales создана. Интеграция работает!' : 'Интеграция insales создана. Не работает!'
         format.html { redirect_to dashboard_url, notice: notice }
         format.json { render :show, status: :created, location: @insint }

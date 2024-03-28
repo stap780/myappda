@@ -5,7 +5,7 @@ validates :subdomen, uniqueness: true
 validates :subdomen, presence: true
 validates :password, presence: true
 validates :inskey, presence: true
-after_create :update_and_email 
+# after_create :update_and_email  # 
 
 def self.ransackable_attributes(auth_object = nil)
   Insint.attribute_names

@@ -6,7 +6,6 @@ ruby '3.2.0'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-# gem 'rails', '~> 5.2.4', '>= 5.2.4.4'
 gem "rails", "~> 7.0.5.1"
 
 # Use postgresql as the database for Active Record
@@ -44,7 +43,6 @@ gem 'insales_api', git: 'https://github.com/stap780/insales_api.git', branch: 's
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'liquid'
-gem 'mini_magick'
 gem 'nokogiri'
 gem 'phonelib'
 gem 'rack-cors'
@@ -58,7 +56,6 @@ gem 'rest-client'
 gem 'rubyzip'
 gem 'sidekiq', '~> 7.0.3'
 gem 'simple_form'
-# gem 'unicorn'
 gem 'whenever', require: false
 gem 'wicked_pdf'
 gem 'will_paginate', '~> 4.0'
@@ -68,6 +65,7 @@ gem 'rexml', '~> 3.2', '>= 3.2.6'
 gem "recaptcha"
 # Use Redis for Action Cable
 gem "redis", "~> 4.0"
+gem "bootsnap", require: false
 
 
 group :development, :test do
@@ -76,9 +74,10 @@ group :development, :test do
 end
 
 group :development do
-  gem 'capistrano-rails'
-  gem 'capistrano-rvm'
-  # gem 'capistrano3-unicorn'
+  gem "capistrano", require: false
+  gem "capistrano-rails", require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma', require: false
   gem 'capistrano-rails-console'
   gem 'capistrano-sidekiq'

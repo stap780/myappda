@@ -92,4 +92,8 @@ class Drops::InsalesOrder < Liquid::Drop
         @order.client.phone
     end
 
+    def manager_comment
+        @order.manager_comment
+    end
+
 end

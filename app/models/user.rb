@@ -200,7 +200,7 @@ class User < ApplicationRecord
       user: self, 
       subject: 'Test subject', 
       content: 'Test content', 
-      receiver: 'info@k-comment.ru'
+      receiver: 'info@ketago.com'
     }
     # check_email = EventMailer.with(email_data).send_action_email.deliver_later(wait: '1'.to_i.minutes)
     check_email = EventMailer.with(email_data).send_action_email.deliver_now
