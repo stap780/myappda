@@ -1,35 +1,42 @@
-<td><%= link_to user.id, edit_user_path(user) %>
-</td>
-<td>
-<%= link_to '<span class="oi oi-transfer"></span>'.html_safe, impersonate_user_path(user), method: :post %>
-</td>
-<td><b>Имя</b> <%= user.name %> <b>Логин</b> <%= user.subdomain %><br>
-    <b>Email</b> <%= user.email %><br>
-    <b>Phone</b> <%= user.phone %><br>
-    <b></b> <%= link_to 'Сайт', "http://"+user.insints.first.subdomen.to_s, target: "_blank" if user.insints.present? %>
-</td>
-<td><b>Создан</b> <%= user.created_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ).to_s%><br>
-    <b>Последний вход</b> <%= user.last_sign_in_at.present? ? user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : '' %><br>
-    <b>Действует до</b> <%= user.valid_until.present? ? user.valid_until.strftime("%d-%m-%Y") : ''%>
-</td>
-    <td><% insint = user.insints.first %>
-    <%= link_to "Проверить Интег", check_insints_path(insint), remote: true, method: :get, class: "btn btn-outline-info btn-sm" if insint %>
-    <br>
-    <%= link_to "Проверить Почту", check_email_users_path(user), :remote => true, :method => :get, class: "btn btn-outline-info btn-sm" %>
+<tr id="<%= dom_id user %>">
+    <td><%= link_to user.id, edit_user_path(user) %>
     </td>
-<td>
-    <span type="button" data-bs-toggle= "tooltip" data-bs-trigger= "click" data-bs-html= "true" 
-          data-bs-placement= "left" data-bs-title="<span><%=user.last_client_data.to_s%></span>">
-      <%= user.clients_count %>
-    </span>
-</td>
-<td><%= user.products_count %></td>
-<td><%= user.izb_count %></td>
-<td><%= user.restock_count %></td>
-<td><%= user.favorite_setup_status %><br>
-    Действует до - <%= user.favorite_setup_valid_until %> </td>
-<td><%= user.message_setup_status %><br>
-    Действует до - <%= user.message_setup_valid_until %><br>
-    <%= link_to "Add 2 week", add_message_setup_ability_users_path(user), :remote => true, :method => :get, class: "btn btn-outline-info btn-sm" %>
-</td>
-<td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, user, method: :delete, data: { confirm: 'Are you sure?' }  if current_admin %></td>
+    <td>
+    <%= link_to '<span class="oi oi-transfer"></span>'.html_safe, impersonate_user_path(user), method: :post %>
+    </td>
+    <td>
+        <b>Имя</b> <%= user.name %> <b>Логин</b> <%= user.subdomain %><br>
+        <b>Email</b> <%= user.email %><br>
+        <b>Phone</b> <%= user.phone %><br>
+        <b></b> <%= link_to 'Сайт', "http://"+user.insints.first.subdomen.to_s, target: "_blank" if user.insints.present? %>
+    </td>
+    <td>
+        <b>Создан</b> <%= user.created_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ).to_s%><br>
+        <b>Последний вход</b> <%= user.last_sign_in_at.present? ? user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : '' %><br>
+        <b>Действует до</b> <%= user.valid_until.present? ? user.valid_until.strftime("%d-%m-%Y") : ''%>
+    </td>
+        <td>
+            <% insint = user.insints.first %>
+            <div class="btn-group-vertical" role="group" aria-label="button setup">
+                <%= link_to '<i class="bi bi-arrow-left-right"></i> API'.html_safe, check_insints_path(insint), remote: true, method: :get, class: "btn btn-outline-info btn-sm" if insint %>
+                <%= link_to '<i class="bi bi-envelope"></i> Email'.html_safe, check_email_users_path(user), remote: true, method: :get, class: "btn btn-outline-info btn-sm" %>
+                <%= link_to '<i class="bi bi-arrow-up"></i> Add Order WebHook'.html_safe, add_insales_order_webhook_users_path(user), remote: true, method: :get, class: "btn btn-outline-info btn-sm" if insint %>
+            </div>
+        </td>
+    <td>
+        <span type="button" data-bs-toggle= "tooltip" data-bs-trigger= "click" data-bs-html= "true" 
+            data-bs-placement= "left" data-bs-title="<span><%=user.last_client_data.to_s%></span>">
+            <%= user.clients_count %>
+        </span>
+    </td>
+    <td><%= user.products_count %></td>
+    <td><%= user.izb_count %></td>
+    <td><%= user.restock_count %></td>
+    <td><%= user.favorite_setup_status %><br>
+        Действует до - <%= user.favorite_setup_valid_until %> </td>
+    <td><%= user.message_setup_status %><br>
+        Действует до - <%= user.message_setup_valid_until %><br>
+        <%= link_to "Add 2 week", add_message_setup_ability_users_path(user), :remote => true, :method => :get, class: "btn btn-outline-info btn-sm" %>
+    </td>
+    <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, user, method: :delete, data: { confirm: 'Are you sure?' }  if current_admin %></td>
+</tr>

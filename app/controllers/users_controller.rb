@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :check_email, :add_message_setup_ability]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :check_email, :add_message_setup_ability, :add_insales_order_webhook]
   before_action :authenticate_admin!, only: [:index], except: [:stop_impersonating]
 
 
@@ -81,6 +81,18 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  def add_insales_order_webhook
+    service = ApiInsales.new(@user.insints.first)
+    message = service.add_order_webhook
+    # service.delete_order_webhook if @user.status == false
+    respond_to do |format|
+      format.js do
+        flash.now[:notice] = message
+      end
+    end
+  end
+
 
   def impersonate
     user = User.find(params[:id])

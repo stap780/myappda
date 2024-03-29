@@ -10,7 +10,7 @@ class EventActionService
         timetable = action.timetable
         timetable_time = action.timetable_time
         receiver = mycase.client.email if action.template.receiver == 'client'
-        receiver = user.email if action.template.receiver == 'manager'
+        receiver = action.template.receiver if action.template.receiver != 'client'
         insint = user.insints.first
         wait = pause == true && pause_time.present? ? pause_time : 1
 

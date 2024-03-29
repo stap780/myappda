@@ -15,12 +15,13 @@ class UseraccountsController < ApplicationController
   # GET /useraccounts/1
   # GET /useraccounts/1.json
   def show
+    redirect_to dashboard_path, alert: 'Access denied.' unless @user == current_user || current_admin
   end
 
   # GET /useraccounts/new
   def new
-    #@useraccount = Useraccount.new
-    redirect_to dashboard_path, alert: 'Access denied.' unless @user == current_user || current_admin
+    @useraccount = Useraccount.new
+    # redirect_to dashboard_path, alert: 'Access denied.' unless @user == current_user || current_admin
   end
 
   # GET /useraccounts/1/edit
@@ -34,7 +35,8 @@ class UseraccountsController < ApplicationController
 
     respond_to do |format|
       if @useraccount.save
-        format.html { redirect_to @useraccount, notice: 'Useraccount was successfully created.' }
+        format.turbo_stream { flash.now[:success] = t(".success") }
+        format.html { redirect_to dashboard_path, notice: 'Пользователь was successfully created.' }
         format.json { render :show, status: :created, location: @useraccount }
       else
         format.html { render :new }
@@ -48,7 +50,8 @@ class UseraccountsController < ApplicationController
   def update
     respond_to do |format|
       if @useraccount.update(useraccount_params)
-        format.html { redirect_to @useraccount, notice: 'Useraccount was successfully updated.' }
+        format.turbo_stream { flash.now[:success] = t(".success") }
+        format.html { redirect_to dashboard_path, notice: 'Пользователь was successfully updated.' }
         format.json { render :show, status: :ok, location: @useraccount }
       else
         format.html { render :edit }
@@ -62,7 +65,7 @@ class UseraccountsController < ApplicationController
   def destroy
     @useraccount.destroy
     respond_to do |format|
-      format.html { redirect_to useraccounts_url, notice: 'Useraccount was successfully destroyed.' }
+      format.html { redirect_to dashboard_path, notice: 'Пользователь was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

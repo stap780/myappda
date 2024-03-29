@@ -56,3 +56,8 @@ body {    overflow-x: hidden;}
   --bs-444444: 68, 68, 68;
   background-color: rgba(var(--bs-444444), var(--bs-bg-opacity)) !important;
 }
+
+.form-control.disabled {
+  background-color: #e9ecef;
+  opacity: 1;
+}

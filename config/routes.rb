@@ -102,6 +102,7 @@ Rails.application.routes.draw do
     collection do
       get '/:id/check_email', action: 'check_email', as: 'check_email'
       get '/:id/add_message_setup_ability', action: 'add_message_setup_ability', as: 'add_message_setup_ability'
+      get '/:id/add_insales_order_webhook', action: 'add_insales_order_webhook', as: 'add_insales_order_webhook'
       delete '/:id/images/:image_id', action: 'delete_image', as: 'delete_image'
     end
   end

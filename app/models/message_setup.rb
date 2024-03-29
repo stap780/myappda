@@ -36,9 +36,6 @@ class MessageSetup < ApplicationRecord
   def create_order_webhook_and_xml
     user = User.find_by_subdomain(Apartment::Tenant.current)
     if user.insints.last.status
-      service = ApiInsales.new(user.insints.first)
-      service.add_order_webhook
-      # service.delete_order_webhook if self.status == false
       xml = service.create_xml
       if xml
         self.product_xml = xml.url
@@ -53,6 +50,7 @@ class MessageSetup < ApplicationRecord
   def add_two_week_ability
     self.update!(valid_until: Date.today + 2.week) if self.valid_until.present? &&  self.valid_until <= Date.today
   end
+
 
   private
 

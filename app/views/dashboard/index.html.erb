@@ -53,28 +53,27 @@
       </table>
       <%= link_to 'Добавить компанию', new_company_path, class: 'btn btn-outline-primary mb-3' %>
       <h3>Пользователи</h3>
-      <table class="table">
-        <thead class="thead-light">
-          <tr>
-            <th>Имя</th>
-            <th>Email</th>
-            <th>Магазин</th>
-            <th>id в магазине</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% Useraccount.all.order(:id).each do |useraccount| %>
-            <tr>
-              <td><%= useraccount.name %></td>
-              <td><%= useraccount.email %></td>
-              <td><%= useraccount.shop %></td>
-              <td><%= useraccount.insuserid %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+<%= link_to "<i class='bi bi-plus'></i> пользователь".html_safe, 
+    new_useraccount_path, class: "btn btn-primary float-end mt-n1", data: {turbo_frame: dom_id(Useraccount.new) } %>
         <%# link_to 'Добавить пользователя магазина', new_useraccount_path, class: 'btn btn-outline-primary mb-3' %>
+
+            <%= turbo_frame_tag Useraccount.new %>
+
+        <div class="col-12 list-group list-group-striped">
+          <div class="row py-2 px-4">
+            <%= tag.div('Имя', class: 'col-3 fw-semibold')%> 
+            <%= tag.div('Email', class: 'col-2 fw-semibold')%>
+            <%= tag.div( 'Магазин', class: 'col-2 fw-semibold' )%>
+            <%= tag.div( 'id в магазине', class: 'col-2 fw-semibold' )%>
+            <%= tag.div('', class: 'col-1 fw-semibold')%>
+          </div>
+          <%= turbo_frame_tag 'useraccounts', data: { } do %>
+              <% Useraccount.all.each do |useraccount|%>
+                <%= render partial: "useraccounts/useraccount", locals: {useraccount: useraccount} %>
+              <% end %>
+          <% end %>
+        </div>
+
     </div>
   </div>
   <div class="row mt-2">

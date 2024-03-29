@@ -96,4 +96,7 @@ class Drops::InsalesOrder < Liquid::Drop
         @order.manager_comment
     end
 
+    def key
+        @order.key 
+    end
 end

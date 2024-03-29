@@ -143,6 +143,21 @@ class User < ApplicationRecord
     end
   end
 
+  def email_receivers
+    emails = []
+    Apartment::Tenant.switch(self.subdomain) do
+      if Useraccount.count > 0
+        Useraccount.all.each do |useraccount|
+          emails.push(useraccount.email)
+        end 
+      end
+    end
+    if emails.size > 0
+      emails
+    else
+      emails[user.email]
+    end
+  end
 
   def has_smtp_settings?
     self.smtp_settings.present?

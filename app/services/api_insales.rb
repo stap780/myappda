@@ -52,6 +52,7 @@ class ApiInsales
     end
 
     def account
+        account = nil
         begin
             account = InsalesApi::Account.find
             rescue ActiveResource::ResourceNotFound
@@ -62,6 +63,8 @@ class ApiInsales
             puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
             rescue ActiveResource::UnauthorizedAccess
             puts "Failed.  Response code = 401.  Response message = Unauthorized"
+            rescue ActiveResource::ForbiddenAccess
+            puts "Failed.  Response code = 403.  Response message = Forbidden."
         else
             account
         end
@@ -119,6 +122,7 @@ class ApiInsales
     end
 
     def add_order_webhook
+        message = []
         data_webhook_order_create = {
             address: "https://myappda.ru/insints/order",
             topic: "orders/create",
@@ -127,10 +131,16 @@ class ApiInsales
         webhook_order_create = InsalesApi::Webhook.new(webhook: data_webhook_order_create)
         begin
         webhook_order_create.save
+        rescue SocketError
+            message.push("webhook_order_create SocketError port 80")
         rescue StandardError => e
+            message.push('Error webhook_order_create => ')
             puts "StandardError => "+e.to_s
             puts "e.response => "+e.response.to_s if e.response
             puts "e.response.body => "+e.response.body.to_s if e.response && e.response.body
+            message.push(e.to_s)
+        else
+            message.push('All Good webhook_order_create')
         end
         data_webhook_order_update = {
             address: "https://myappda.ru/insints/order",
@@ -140,11 +150,18 @@ class ApiInsales
         webhook_order_update = InsalesApi::Webhook.new(webhook: data_webhook_order_update)
         begin
         webhook_order_update.save
+        rescue SocketError
+            message.push("webhook_order_update SocketError port 80")
         rescue StandardError => e
+            message.push('Error webhook_order_update => ')
             puts "StandardError => "+e.to_s
             puts "e.response => "+e.response.to_s if e.response
             puts "e.response.body => "+e.response.body.to_s if e.response && e.response.body
+            message.push(e.to_s)
+        else
+            message.push('All Good webhook_order_create')
         end
+        message.join(', ')
     end
 
     def client(insales_client_id)
@@ -158,6 +175,8 @@ class ApiInsales
             puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
             rescue ActiveResource::UnauthorizedAccess
             puts "Failed.  Response code = 401.  Response message = Unauthorized"
+            rescue ActiveResource::ForbiddenAccess
+            puts "Failed.  Response code = 403.  Response message = Forbidden."
         else
             client
         end        
@@ -265,6 +284,8 @@ class ApiInsales
                 puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
             rescue ActiveResource::UnauthorizedAccess
                 puts "Failed.  Response code = 401.  Response message = Unauthorized"
+            rescue ActiveResource::ForbiddenAccess
+                puts "Failed.  Response code = 403.  Response message = Forbidden."    
         else
             product
         end        
@@ -281,6 +302,8 @@ class ApiInsales
                 puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
             rescue ActiveResource::UnauthorizedAccess
                 puts "Failed.  Response code = 401.  Response message = Unauthorized"
+            rescue ActiveResource::ForbiddenAccess
+                puts "Failed.  Response code = 403.  Response message = Forbidden."    
         else
             variants
         end        

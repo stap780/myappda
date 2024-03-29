@@ -1,0 +1,11 @@
+<%= turbo_frame_tag useraccount, class: "d-flex list-group-item py-2 border-start-0 border-end-0 row", data: {}  do %>
+    <%= tag.div(useraccount.name, class: "col-3") %>
+    <%= tag.div(useraccount.email, class: "col-2") %>
+    <%= tag.div(useraccount.shop, class: "col-2") %>
+    <%= tag.div(useraccount.insuserid, class: "col-2") %>
+
+    <div class= "col-1 d-flex justify-content-end gap-2 align-items-center">
+        <%= link_to '<i class="bi bi-pencil"></i>'.html_safe, edit_useraccount_path(useraccount), class: '' %>
+        <%= link_to '<i class="bi bi-trash"></i>'.html_safe, useraccount,  method: :delete, data: { confirm: 'Are you sure?' }, class:"" if Useraccount.all.count > 1 %>
+    </div>
+<% end %>
