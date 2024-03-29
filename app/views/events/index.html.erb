@@ -52,8 +52,8 @@
         <td><%= check_box_tag "event_ids[]", event.id %></td>
         <td><%= event.id %></td>
         <td><%= event.casetype_value %></td>
-        <td><%= event.active %></td>
-        <td><%= event.custom_status %><br>Фин: <%= event.fin_status %></td>
+        <td><%if event.active %><i class="bi bi-check-circle"></i><%else%><i class="bi bi-x-circle"></i><%end%></td>
+        <td><%= event.custom_status %><br><%= "Фин: "+event.fin_status if event.fin_status.present? %></td>
         <td><%= event.action_title %>
             <br><%= event.pause_text if event.pause_text %>
             <br><%= event.timetable_text if event.timetable_text %>

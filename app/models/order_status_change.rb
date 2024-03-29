@@ -4,7 +4,9 @@ class OrderStatusChange < ApplicationRecord
   before_save :normalize_data_white_space
   # after_commit :do_event_action, on: [:create]
   
-
+  def self.ransackable_attributes(auth_object = nil)
+    OrderStatusChange.attribute_names
+  end
 
 private
 

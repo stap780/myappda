@@ -11,8 +11,8 @@ function set_operation(element){
 }
 
 function check_type(element){
-    var searchType = element.value;
-    //console.log(searchType);
+    var searchType = element; //element.value;
+    // console.log(searchType);
     if ( searchType === 'order' ) {
         $('.event_custom_status').removeClass('d-none');
         $('.event_financial_status').removeClass('d-none');
@@ -35,7 +35,9 @@ function check_type(element){
 }
 
 $(document).ready(function() {
-    $('#event_casetype').each(function(e){
-        check_type(e);
-    });
+    var selectedCasetype = $('#event_casetype').find(":selected").val(); //document.getElementById("event_casetype").value;
+    console.log(selectedCasetype)
+
+    check_type(selectedCasetype);
+
 });
