@@ -54,7 +54,7 @@ class Case < ApplicationRecord
       if events.size > 0
         puts "case do_event_action events.size > 0 and count = #{events.size}"
         events.each do |event|
-          EventActionService.do_action(user, event, self)
+          EventActionService.new(user, event, self).do_action
         end
       end
       puts "########## Case do_event_action finish"
