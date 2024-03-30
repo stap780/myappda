@@ -29,7 +29,7 @@
         <tbody>
           <% @case.lines.each do |line|%>
             <tr class="line_<%= line.id%>">
-            <td><img src="<%= line.product.title %>" style="width:100px;"/></td>
+            <td><img src="<%= line.product.image_link %>" style="width:100px;"/></td>
               <td><%= line.product.title %></td>
               <td><%= link_to "#{line.variant.insid.to_s }", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+line.variant.product.insid.to_s+"?variant_id="+line.variant.insid.to_s, target: "_blank" %>
                   <br>Артикул: <%= line.variant.sku.to_s  %></td>
