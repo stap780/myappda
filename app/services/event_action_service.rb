@@ -17,13 +17,13 @@ class EventActionService
         timetable_time = action.timetable_time
         receiver = @mycase.client.email if action.template.receiver == 'client'
         receiver = action.template.receiver if action.template.receiver != 'client'
-        insint = user.insints.first
+        insint = @user.insints.first
         wait = pause == true && pause_time.present? ? pause_time : 1
 
         subject_template = Liquid::Template.parse(action.template.subject)
         content_template = Liquid::Template.parse(action.template.content)
 
-        user_drop = Drops::User.new(user)
+        user_drop = Drops::User.new(@user)
 
         if channel == 'email'
             if @mycase.casetype != 'order'
