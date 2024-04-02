@@ -85,6 +85,7 @@ class TemplatesController < ApplicationController
     if success
       respond_to do |format|
         if @template.update(template_params)
+          flash.now[:notice] = "Шаблон обновлён"
           format.html { render :edit, notice: "Шаблон обновлён" }
           format.json { render :show, status: :ok, location: @template }
         else
