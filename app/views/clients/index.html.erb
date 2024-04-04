@@ -48,7 +48,7 @@
         <td><%= client.email %></td>
         <td><%= client.phone %></td>
         <% if Favorite.all.count > 0 %>
-        <td><%= link_to client.favorites.count.to_s+' шт', client_path(client) if client.favorites.count > 0 %> <%# link_to 'Email', emailizb_client_path(client), remote: true %></td>
+        <td><%= link_to client.favorites.uniq.count.to_s+' шт', client_path(client) if client.favorites.uniq.count > 0 %> <%# link_to 'Email', emailizb_client_path(client), remote: true %></td>
         <% end %>
          <% if Restock.all.count > 0 %>
         <td><%= link_to client.restocks.count.to_s+' шт', client_path(client) if client.restocks.count > 0 %></td>

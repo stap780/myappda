@@ -16,8 +16,7 @@ Rails.application.routes.draw do
   end
   resources :payplans
 
-  # root to: 'home#index'
-  root to: 'cases#index'
+  root to: 'home#index'
   get "/index-setup", to: "home#favorite" #нужно так как на сайте инсалес есть эта ссылка index-setup
   get "/documents", to: "home#documents"
   get "/favorite", to: "home#favorite"
