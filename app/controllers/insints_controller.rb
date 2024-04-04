@@ -268,7 +268,7 @@ class InsintsController < ApplicationController
                         name: params["client"]["name"], 
                         phone: params["client"]["phone"]
                       }
-        check_client.update!(client_data.except!(:email)) if check_client.present?
+        check_client.update(client_data.except!(:email)) if check_client.present?
         client = check_client.present? ? check_client : Client.create!(client_data)
 
         # создаём запись о том что произошло изменение в заказе
