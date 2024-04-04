@@ -15,7 +15,7 @@ class Event < ApplicationRecord
 
     def action_title
         action = self.event_actions
-        action.present? ? "Канал: #{action.first.channel}. Дейсвие: #{action.first.operation}. Шаблон: #{action.first.template.title}" : ''
+        action.present? ? "Канал: #{action.first.channel}. Действие: #{action.first.operation}. Шаблон: #{action.first.template.title}" : ''
     end
 
     def fin_status
