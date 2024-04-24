@@ -9,7 +9,8 @@ class EventAction < ApplicationRecord
   validates :operation, presence: true
 
   CHANNEL = [['Email','email'],['Insales API','insales_api']].freeze
-  OPERATION = [['Отправить сообщение','send_email','email'],['Отменить заказ','cancel_order','insales_api'],['Создать заказ-предзаказ','preorder_order','insales_api']].freeze
+  OPERATION = [['Отправить сообщение','send_email','email'],['Отменить заказ','cancel_order','insales_api'],
+              ['Создать заказ-предзаказ','preorder_order','insales_api'],['Сменить статус заказа (Новый)','change_order_status_to_new','insales_api']].freeze
   
   def normalize_data_white_space
     self.attributes.each do |key, value|

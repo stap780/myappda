@@ -11,16 +11,16 @@ function set_operation(element){
 }
 
 function check_type(element){
-    var searchType = element; //element.value;
+    var searchType = element.value; //element.value;
     // console.log(searchType);
-    if ( searchType === 'order' ) {
+    if ( searchType == 'order' ) {
         $('.event_custom_status').removeClass('d-none');
         $('.event_financial_status').removeClass('d-none');
     } else {
         $('.event_custom_status').addClass('d-none');
         $('.event_financial_status').addClass('d-none');
     }
-    if ( searchType === 'restock' ) {
+    if ( searchType == 'restock' ) {
         $('.event_event_actions_timetable').removeClass('d-none');
         $('.event_event_actions_timetable_time').removeClass('d-none');
         $('.event_event_actions_timetable input').prop( "checked", true );
@@ -34,9 +34,9 @@ function check_type(element){
 
 }
 
-$(document).ready(function() {
+$(document).ready(function() { 
     var selectedCasetype = $('#event_casetype').find(":selected").val(); //document.getElementById("event_casetype").value;
-    console.log(selectedCasetype)
+    // console.log(selectedCasetype)
 
     check_type(selectedCasetype);
 

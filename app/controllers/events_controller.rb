@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :toggle_casetype, :destroy]
 
   # GET /events
   def index
@@ -75,6 +75,18 @@ class EventsController < ApplicationController
     end
   end
 
+  def toggle_casetype
+    @event = Event.find(params[:id])
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          dom_id(@event),
+          partial: 'inboxes/inbox',
+          locals: { inbox: @inbox }
+        )
+      end
+    end
+  end
 
   private
     def set_event

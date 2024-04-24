@@ -1,33 +1,36 @@
+<%= turbo_frame_tag dom_id(@event) do %>
+  <%= simple_form_for(@event, data: {controller: "dropdown"}) do |f| %>
 
-<%= simple_form_for(@event) do |f| %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="row">
-    <div class="col-6">
+    <div class="row">
+      <div class="col-6">
 
-      <%= f.input :active, label: 'Вкл/выкл', wrapper_html: { class: "mt-2" }  %>
-      <%= f.input :casetype, label: "Тип заявки", collection: Case::CASETYPE, prompt: "Тип заявки", input_html: { class: "form-select", onchange: "check_type(this)"} %>
-      <% class_display = @event.casetype == 'order' ||  @event.casetype == 'restock' ? '' : 'd-none'%>
-      <% if Insint.present_work? %>
-      <%= f.input :custom_status, label: "Статус заказа", collection: ApiInsales.new(Insint.current).statuses, prompt: "Статус", 
-                                  input_html: { class: "form-select" }, wrapper_html: { class: class_display } %>
-      <% else %>
-      <%= f.input :custom_status, label: "Статус заказа", placeholder: "Статус",disabled: true, 
-                                  input_html: { class: "form-control" }, wrapper_html: { class: class_display }, hint: 'Не настроена интеграция Insales' %>
-      <% end %>
-      <%= f.input :financial_status,  label: "Фин Статус заказа", collection: Event::FIN_STATUS, prompt: "Фин Статус", 
-                                      input_html: { class: "form-select" }, wrapper_html: { class: class_display } %>
+        <%= f.input :active, label: 'Вкл/выкл', wrapper_html: { class: "mt-2" }  %>
+        <%= f.input :casetype, label: "Тип заявки", collection: Case::CASETYPE, prompt: '', input_html: { class: "form-select", onchange: "check_type(this)"} %>
+        <% class_display = @event.casetype == 'order' ||  @event.casetype == 'restock' ? '' : 'd-none'%>
+        <% if Insint.present_work? %>
+        <%= f.input :custom_status, label: "Статус заказа", collection: ApiInsales.new(Insint.current).statuses, prompt: "Статус", 
+                                    input_html: { class: "form-select" }, wrapper_html: { class: class_display } %>
+        <% else %>
+        <%= f.input :custom_status, label: "Статус заказа", placeholder: "Статус",disabled: true, 
+                                    input_html: { class: "form-control" }, wrapper_html: { class: class_display }, hint: 'Не настроена интеграция Insales' %>
+        <% end %>
+        <%= f.input :financial_status,  label: "Фин Статус заказа", collection: Event::FIN_STATUS, prompt: "Фин Статус", 
+                                        input_html: { class: "form-select" }, wrapper_html: { class: class_display } %>
+        
+        <%= f.fields_for :event_actions do |ff| %>
+          <%= render "event_actions/form_items", {f: ff, class_display: class_display} %>
+        <% end %>
       
-      <%= f.fields_for :event_actions do |ff| %>
-        <%= render "event_actions/form_items", {f: ff, class_display: class_display} %>
-      <% end %>
-    
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-2 btn-group mt-5">
-      <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
-      <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+    <div class="row">
+      <div class="col-2 btn-group mt-5">
+        <%= f.button :submit, 'Сохранить', class: 'btn btn-success', data: {turbo_frame: "_top"} %>
+        <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+      </div>
     </div>
-  </div>
+
+  <% end %>
 <% end %>

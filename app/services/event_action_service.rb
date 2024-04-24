@@ -60,6 +60,10 @@ class EventActionService
             CancelOrderJob.set(wait: wait.to_i.minutes).perform_later(@mycase.insales_order_id, operation, insint)
         end
 
+        if channel == 'insales_api' && operation == 'change_order_status_to_new'            
+            ChangeOrderStatusToNewJob.set(wait: wait.to_i.minutes).perform_later(@mycase.insales_order_id, operation, insint)
+        end
+
         if channel == 'insales_api' && operation == 'preorder_order'
             PreorderJob.set(wait: wait.to_i.minutes).perform_later(@mycase.id, operation, insint)
         end

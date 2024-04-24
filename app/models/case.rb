@@ -9,7 +9,7 @@ class Case < ApplicationRecord
   # after_create :add_restock
   # after_commit :do_event_action, on: :create # for 'order' & 'abandoned_cart' & 'preorder' # отключил, так как работало некоректно и добавил это действие в конце каждого запроса в insint
 
-  CASETYPE = [['Заказ','order'],['Сообщить о поступлении','restock'],['Брошенная корзина','abandoned_cart'],['Предзаказ','preorder']].freeze
+  CASETYPE = [['Заказ (insales)','order'],['Сообщить о поступлении','restock'],['Брошенная корзина','abandoned_cart'],['Предзаказ','preorder']].freeze
   STATUS = [['Новый','new'],['В работе','take'],['Завершили','finish']].freeze
   
   def self.ransackable_attributes(auth_object = nil)
@@ -59,7 +59,6 @@ class Case < ApplicationRecord
       end
       puts "########## Case do_event_action finish"
     end
-
   end
 
   def self.restock_update_cases(client)
