@@ -6,4 +6,4 @@ class InsalesClientJob < ApplicationJob
       puts "InsalesClientJob < ApplicationJob perform"
       Client::Insales.create_client(create_data, insint)
     end
-  end
+end

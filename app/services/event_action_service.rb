@@ -56,11 +56,11 @@ class EventActionService
             end
         end
 
-        if channel == 'insales_api' && operation == 'cancel_order'            
+        if channel == 'insales_api' && operation == 'cancel_order' && check_trigger
             CancelOrderJob.set(wait: wait.to_i.minutes).perform_later(@mycase.insales_order_id, operation, insint)
         end
 
-        if channel == 'insales_api' && operation == 'change_order_status_to_new'            
+        if channel == 'insales_api' && operation == 'change_order_status_to_new' && check_trigger
             ChangeOrderStatusToNewJob.set(wait: wait.to_i.minutes).perform_later(@mycase.insales_order_id, operation, insint)
         end
 

@@ -5,7 +5,7 @@ class ChangeOrderStatusToNewJob < ApplicationJob
       service = ApiInsales.new(insint)
       order = service.order(insales_order_id)
       order_status = "new"
-      service.set_order_status(insales_order_id, order_status) if order.financial_status == "paid"
+      service.set_order_status(insales_order_id, order_status)
     end
   
   

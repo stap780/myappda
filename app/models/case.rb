@@ -81,6 +81,11 @@ class Case < ApplicationRecord
     self.client ? self.client.fio.to_s+" - "+self.client.email.to_s+" - "+self.client.phone.to_s : ''
   end
 
+  def status_title
+    return '' unless status.present?
+    Case::STATUS.map{|a| a[0] if  a[1] == self.status}.compact.join
+  end
+
   private
 
   def normalize_data_white_space

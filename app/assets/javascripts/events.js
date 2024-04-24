@@ -34,10 +34,11 @@ function check_type(element){
 
 }
 
-$(document).ready(function() { 
-    var selectedCasetype = $('#event_casetype').find(":selected").val(); //document.getElementById("event_casetype").value;
+$(document).ready(function() {
+    $('#event_casetype').change();
+    // var selectedCasetype = $('#event_casetype').find(":selected").val(); //document.getElementById("event_casetype").value;
     // console.log(selectedCasetype)
 
-    check_type(selectedCasetype);
+    // check_type(selectedCasetype);
 
 });
