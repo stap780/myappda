@@ -129,7 +129,7 @@ class InsintsController < ApplicationController
   def addizb
     insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
-    if saved_subdomain != "mamamila" || saved_subdomain != "insales753667"
+    if saved_subdomain != "insales753667" #saved_subdomain != "mamamila" ||
       Apartment::Tenant.switch(saved_subdomain) do
         if FavoriteSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
@@ -179,7 +179,7 @@ class InsintsController < ApplicationController
   def getizb
     insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = insint.user.subdomain
-    if saved_subdomain != "mamamila" || saved_subdomain != "insales753667"
+    if saved_subdomain != "insales753667" # saved_subdomain != "mamamila" || 
       Apartment::Tenant.switch(saved_subdomain) do
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
@@ -199,7 +199,7 @@ class InsintsController < ApplicationController
   def deleteizb
     insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = insint.user.subdomain
-    if saved_subdomain != "mamamila" || saved_subdomain != "insales753667"
+    if saved_subdomain != "insales753667" #saved_subdomain != "mamamila" ||
       Apartment::Tenant.switch(saved_subdomain) do
         if FavoriteSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
@@ -225,7 +225,7 @@ class InsintsController < ApplicationController
   def emailizb
     insint = Insint.find_by_subdomen(params[:host])
     saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
-    if saved_subdomain != "mamamila" || saved_subdomain != "insales753667"
+    if saved_subdomain != "insales753667" #saved_subdomain != "mamamila" ||
       Apartment::Tenant.switch(saved_subdomain) do
         if FavoriteSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
