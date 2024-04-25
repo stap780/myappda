@@ -51,7 +51,7 @@
           <td><%= mycase.casetype_value %><%= "<br> (#{mycase.insales_order_id} )".html_safe if mycase.casetype == 'order' %></td>
           <td><%= mycase.number %></td>
           <td><%= mycase.client_data %></td>
-          <td><%= mycase.items_sum %></td>
+          <td><%= mycase.lines_sum %></td>
           <td>
             <span class="d-flex">
               <%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_case_path(mycase), class: "px-3" %>

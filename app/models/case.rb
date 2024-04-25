@@ -87,8 +87,8 @@ class Case < ApplicationRecord
     Case::STATUS.map{|a| a[0] if  a[1] == self.status}.compact.join
   end
 
-  def items_sum
-    return '' unless self.items.present?
+  def lines_sum
+    return '' unless self.lines.present?
     sum = self.items.map{|item| item.quantity*item.price }
     sum.sum
   end

@@ -48,7 +48,7 @@ class MessageSetup < ApplicationRecord
   end
 
   def add_two_week_ability
-    self.update!(valid_until: Date.today + 2.week) if self.valid_until.present? &&  self.valid_until <= Date.today
+    self.update!(valid_until: Date.today + 2.week) if self.valid_until.present? && self.valid_until <= Date.today
   end
 
 
