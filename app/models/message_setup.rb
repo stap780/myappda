@@ -7,6 +7,7 @@ class MessageSetup < ApplicationRecord
   # before_save :set_valid_until_for_free_payplan_new, if: [:create] #убираем тарифы из сервисов и разрываем логическую связь с ними
   # after_create :create_order_webhook_and_xml
   # after_commit :create_invoice, on: [:create, :update]
+  before_save :set_free_valid, if: :new_record?
 
   HANDLE = "message"
   TITLE = "Тригеры (Сообщения и api по заказам)"
@@ -57,6 +58,10 @@ class MessageSetup < ApplicationRecord
   # def set_valid_until_for_free_payplan_new
   #   self.valid_until = Date.today+14.days if new_record? if self.payplan_id == Payplan.message_free_id && self.status  == true
   # end
+
+  def set_free_valid
+    self.valid_until = Date.today + 4.week
+  end
 
   def create_invoice
     invoice_data = {

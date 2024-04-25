@@ -89,7 +89,7 @@ class Case < ApplicationRecord
 
   def lines_sum
     return '' unless self.lines.present?
-    sum = self.lines.map{|item| item.quantity*item.price }
+    sum = self.lines.map{|item| item.quantity.to_i*item.price.to_i }
     sum.sum
   end
 

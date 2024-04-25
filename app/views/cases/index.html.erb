@@ -48,7 +48,7 @@
           <td><%= check_box_tag "case_ids[]", mycase.id %></td>
           <td><%= mycase.id %></td>
           <td>Статус: <%= mycase.status_title %></br>Дата: <%= mycase.created_at.strftime("%d/%m/%Y %H:%M")%></td>
-          <td><%= mycase.casetype_value %><%= "<br> (#{mycase.insales_order_id} )".html_safe if mycase.casetype == 'order' %></td>
+          <td><%= mycase.casetype_value %><%= "<br> (#{mycase.insales_order_id})".html_safe if mycase.casetype == 'order' %></td>
           <td><%= mycase.number %></td>
           <td><%= mycase.client_data %></td>
           <td><%= mycase.lines_sum %></td>
