@@ -224,35 +224,35 @@ class ApiInsales
     end
 
     def set_order_status(insales_order_id, order_status)
-        order = InsalesApi::Order.find(insales_order_id)
-        order.fulfillment_status = order_status
-        begin
-            order.save
-        rescue StandardError => e
-            puts e #e.response.body
-        else
-            order
-        end
-        order
-        # url = "https://#{@k}:#{@p}@#{@d}/admin/orders/#{insales_order_id.to_s}.json"
-        # # puts url
-        # data = { "order": { "fulfillment_status": "declined" } }
-        # RestClient::Request.execute(method: :put, url: url, payload: data.to_json, verify_ssl: false,  headers: {'Content-Type': 'application/json'}, accept: :json)  { |response, request, result, &block|
-        #     # puts response.code
-        #     case response.code
-        #     when 200
-        #         puts 'we change status to declined'
-        #         # puts response
-        #     when 404
-        #         puts '404'
-        #         puts response
-        #     when 422
-        #         puts '422'
-        #         puts response
-        #     else
-        #         response.return!(&block)
-        #     end
-        # }  
+        # order = InsalesApi::Order.find(insales_order_id)
+        # order.fulfillment_status = order_status
+        # begin
+        #     order.save
+        # rescue StandardError => e
+        #     puts e #e.response.body
+        # else
+        #     order
+        # end
+        # order
+        url = "https://#{@k}:#{@p}@#{@d}/admin/orders/#{insales_order_id.to_s}.json"
+        # puts url
+        data = { "order": { "fulfillment_status": order_status } }
+        RestClient::Request.execute(method: :put, url: url, payload: data.to_json, verify_ssl: false,  headers: {'Content-Type': 'application/json'}, accept: :json)  { |response, request, result, &block|
+            # puts response.code
+            case response.code
+            when 200
+                puts 'we change status to declined'
+                # puts response
+            when 404
+                puts '404'
+                puts response
+            when 422
+                puts '422'
+                puts response
+            else
+                response.return!(&block)
+            end
+        }  
     end
 
     def set_order_custom_status(insales_order_id, order_custom_status_permalink)

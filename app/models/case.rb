@@ -21,7 +21,8 @@ class Case < ApplicationRecord
   end
 
   def casetype_value
-    Case::CASETYPE.select{|c| c if c[1] == self.casetype}.flatten[0]
+    return '' unless casetype.present?
+    Case::CASETYPE.select{|c| c[0] if c[1] == self.casetype}.compact.join
   end
 
   def add_restock
@@ -78,12 +79,18 @@ class Case < ApplicationRecord
   end
 
   def client_data
-    self.client ? self.client.fio.to_s+" - "+self.client.email.to_s+" - "+self.client.phone.to_s : ''
+    self.client ? "#{self.client.fio.to_s}<br>#{self.client.email.to_s}<br>#{self.client.phone.to_s}".html_safe : ''
   end
 
   def status_title
     return '' unless status.present?
     Case::STATUS.map{|a| a[0] if  a[1] == self.status}.compact.join
+  end
+
+  def items_sum
+    return '' unless self.items.present?
+    sum = self.items.map{|item| item.quantity*item.price }
+    sum.sum
   end
 
   private

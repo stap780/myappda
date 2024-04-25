@@ -204,8 +204,12 @@ class InsintsController < ApplicationController
         if FavoriteSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
+            #добавка после расширения функционала
             product = Product.find_by_insid(params[:product_id])
-            client.favorites.find_by_product_id(product.id).destroy if product.present? #добавка после расширения функционала
+            favorite = client.favorites.find_by_product_id(product.id)
+            if product.present? && favorite.present?
+              favorite.destroy
+            end
             totalcount = client.favorites.uniq.count.to_s
             render json: { success: true, message: 'товар удалён', totalcount: totalcount }
           end

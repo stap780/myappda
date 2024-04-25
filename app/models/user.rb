@@ -125,8 +125,13 @@ class User < ApplicationRecord
 
   def add_message_setup_ability
     Apartment::Tenant.switch(self.subdomain) do
-      ms = MessageSetup.first.add_two_week_ability
-      ms.present? ? true : false
+      ms = MessageSetup.first
+      if ms.present?
+        ms = MessageSetup.first.add_two_week_ability
+        ms.present? ? 'Добавили две недели' : 'Не добавили Сегодня не последний день'
+      else
+        'Сервис не включен'
+      end
     end
   end
   

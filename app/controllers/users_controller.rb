@@ -74,7 +74,7 @@ class UsersController < ApplicationController
   end
 
   def add_message_setup_ability
-    notice = @user.add_message_setup_ability.present? ? 'Добавили две недели' : 'Не добавили Сегодня не последний день'
+    notice = @user.add_message_setup_ability
     respond_to do |format|
       format.js do
         flash.now[:notice] = notice

@@ -40,7 +40,7 @@ class ClientsController < ApplicationController
     # check_status = true
     respond_to do |format|
       format.js do
-          flash.now[:notice] = "Файл создан <a href='/#{current_user_id.to_s}_clients_izb.csv'>Скачать</a>"
+          flash.now[:notice] = "Файл создан <a href='/#{current_user_id.to_s}_clients_izb.csv'>Скачать</a>".html_safe
       end
     end
   end
