@@ -1,4 +1,3 @@
-<script src="https://www.recaptcha.net/recaptcha/api.js" async="" defer=""></script>
 <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: "form", class: "form-signin", data: { turbo: false} }) do |f| %>
 <h2 class="form-signin-heading"><%= t('.sign_in', :default => "Вход в сервис") %></h2>
 <%= render "devise/shared/error_messages", resource: resource %>
@@ -23,7 +22,7 @@
   <%# END add reCAPTCHA %>
   <%# START add reCAPTCHA %>
   <%# flash[:recaptcha_error] if !Rails.env.development? %>
-  <%= recaptcha_tags( noscript: false ) %>
+    <%# recaptcha_tags( noscript: false ) %>
   <%# END add reCAPTCHA %>
   </div>
   <%= f.submit t('.sign_in', :default => "Войти"), class: "btn btn-primary" %>

@@ -1,6 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
-  # prepend_before_action :validate_recaptchas, only: [:create] # для версии 3
-  prepend_before_action :check_captcha, only: [:create] #if !Rails.env.development?
+  ## prepend_before_action :validate_recaptchas, only: [:create] # для версии 3
+  # prepend_before_action :check_captcha, only: [:create] #if !Rails.env.development?
   before_action :configure_sign_in_params, only: [:create]
   before_action :redirect_to_app_url, except: :destroy
 
@@ -9,19 +9,17 @@ class Users::SessionsController < Devise::SessionsController
     super
   end
 
-  def create
-      
-      ActiveRecord::Base.transaction do
-        @user = User.find_by_email(params[:user][:email])
-        if @user.present?
-          Apartment::Tenant.switch!(@user.subdomain)
-          sign_in(:user, @user)
-          redirect_to after_sign_in_path_for(@user), allow_other_host: true
-        else
-          render :action => 'new'
-        end
+  def create 
+    ActiveRecord::Base.transaction do
+      @user = User.find_by_email(params[:user][:email])
+      if @user.present?
+        Apartment::Tenant.switch!(@user.subdomain)
+        sign_in(:user, @user)
+        redirect_to after_sign_in_path_for(@user), allow_other_host: true
+      else
+        render :action => 'new'
       end
-
+    end
   end
 
   # DELETE /resource/sign_out
@@ -42,19 +40,20 @@ class Users::SessionsController < Devise::SessionsController
 
   private
 
-  # def validate_recaptchas оставил как пример для  v3 - но не сработало
-  #   v3_verify = verify_recaptcha(action: 'login', 
-  #                                minimum_score: 0.9, 
-  #                                secret_key: Rails.application.credentials.recaptcha_site_key)
-  #   return if v3_verify
 
-  #   self.resource = resource_class.new sign_in_params
-  #   respond_with_navigational(resource) { render :new }
-  # end
+  def validate_recaptchas #оставил как пример для  v3 - но не сработало
+    v3_verify = verify_recaptcha(action: 'login', 
+                                 minimum_score: 0.5, 
+                                 secret_key: Rails.application.credentials.recaptcha_secret_key_v3)
+    return if v3_verify
+
+    self.resource = resource_class.new sign_in_params
+    respond_with_navigational(resource) { render :new }
+  end
   
   
   def check_captcha
-    return if verify_recaptcha # verify_recaptcha(action: 'login') for v3
+    return if verify_recaptcha
 
     self.resource = resource_class.new sign_in_params
 

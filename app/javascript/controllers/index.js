@@ -4,3 +4,5 @@
 
 import { application } from "./application"
 
+import LoadRecaptchaV2Controller from "./load_recaptcha_v2_controller"
+application.register("load-recaptcha-v2", LoadRecaptchaV2Controller)
