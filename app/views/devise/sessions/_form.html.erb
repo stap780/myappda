@@ -7,22 +7,22 @@
 <%= f.label :password, class: "sr-only" %>
 <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Пароль" %>
 
-<% if devise_mapping.rememberable? %>
+<% if !devise_mapping.rememberable? %>
   <div class="checkbox">
     <%= f.label :remember_me do %>
-    <%= f.check_box :remember_me%>
-    <%= t('.remember_me', :default => "Запомнить меня") %>
-  <% end %>
+      <%= f.check_box :remember_me%>
+      <%= t('.remember_me', :default => "Запомнить меня") %>
+    <% end %>
 </div>
 <% end %>
   <div class="form-sign-help">
   <%# START add reCAPTCHA %>
     <%# flash[:recaptcha_error] %>
-    <%# recaptcha_v3(action: 'login', site_key: Rails.application.credentials.recaptcha_site_key) %>
+    <%# recaptcha_v3(action: 'login', site_key: Rails.application.credentials.recaptcha_site_key_v3) %>
   <%# END add reCAPTCHA %>
   <%# START add reCAPTCHA %>
-  <%= flash[:recaptcha_error] if !Rails.env.development? %>
-  <%= recaptcha_tags if !Rails.env.development?%>
+  <%# flash[:recaptcha_error] if !Rails.env.development? %>
+  <%= recaptcha_tags noscript: false %>
   <%# END add reCAPTCHA %>
   </div>
   <%= f.submit t('.sign_in', :default => "Войти"), class: "btn btn-primary" %>
