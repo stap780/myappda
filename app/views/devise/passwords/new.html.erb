@@ -5,8 +5,8 @@
   <%= f.input_field :email, autofocus: true , class: 'form-control', placeholder: "Email" %>
 
   <%# START add reCAPTCHA %>
-  <%= flash[:recaptcha_error] %>
-  <%= recaptcha_tags %>
+  <%# flash[:recaptcha_error] %>
+  <%# recaptcha_tags %>
   <%# END add reCAPTCHA %>
 
   <%= f.submit t('.sign_up', :default => "Отправить инструкции"), class: 'btn btn-success' %>
