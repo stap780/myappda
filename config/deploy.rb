@@ -1,4 +1,4 @@
-lock "~> 3.18.0"
+lock "~> 3.19.1"
 
 server '178.253.40.249', port: 22, roles: [:web, :app, :db], primary: true
 set :application, "myappda"
