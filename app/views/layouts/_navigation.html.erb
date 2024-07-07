@@ -12,7 +12,7 @@
       <%= render "/layouts/admin_navigation" if current_admin %>
       <%= render "/layouts/user_navigation" unless current_admin %>
       <li><% if current_user != true_user %>
-      <%= link_to "You (#{true_user.name }) are signed in as #{current_user.name }<br>Back to admin".html_safe, stop_impersonating_users_path, method: :post %>
+      <%= button_to "You (#{true_user.name }) are signed in as #{current_user.name }<br>Back to admin".html_safe, stop_impersonating_users_path, data: {turbo: false}, class: "btn text-white"  %>
       <% end %>
       </li>
     </ul>

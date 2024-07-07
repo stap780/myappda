@@ -2,7 +2,7 @@
     <td><%= link_to user.id, edit_user_path(user) %>
     </td>
     <td>
-    <%= link_to '<span class="oi oi-transfer"></span>'.html_safe, impersonate_user_path(user), method: :post %>
+    <%= button_to '<span class="oi oi-transfer"></span>'.html_safe, impersonate_user_path(user), data: {turbo: false}, class: "btn" %>
     </td>
     <td>
         <b>Имя</b> <%= user.name %> <b>Логин</b> <%= user.subdomain %><br>
