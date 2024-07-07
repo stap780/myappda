@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   has_many :lines
-  has_many :cases, through: :lines
+  has_many :mycases, through: :lines
   has_many :favorites, dependent: :destroy
   has_many :clients, through: :favorites
   has_many :variants, :dependent => :destroy

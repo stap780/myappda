@@ -23,7 +23,7 @@ class Event < ApplicationRecord
     end
 
     def casetype_value
-        Case::CASETYPE.select{|c| c if c[1] == self.casetype}.flatten[0]
+        Mycase::CASETYPE.select{|c| c if c[1] == self.casetype}.flatten[0]
     end
 
     def pause_text

@@ -19,24 +19,24 @@ class TemplatesController < ApplicationController
     service = ApiInsales.new(current_user.insints.first)
     @order = service.order(params[:insales_order_id])
     @client = service.client(@order.client.id)
-    respond_to do |format|
-      format.js
-    end
+    # respond_to do |format|
+    #   format.js
+    # end
   end
 
   def preview_case
-    @case = Case.find_by_id(params[:case_id])
+    @case = Mycase.find_by_id(params[:case_id])
     @client = @case.client
-    respond_to do |format|
-      format.js
-    end
+    # respond_to do |format|
+    #   format.js
+    # end
   end
 
   def preview_restock
     @client = Client.find_by_id(params[:client_id])
-    respond_to do |format|
-      format.js
-    end
+    # respond_to do |format|
+    #   format.js
+    # end
   end
 
   # GET /templates/new

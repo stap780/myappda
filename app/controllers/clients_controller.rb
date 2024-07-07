@@ -7,7 +7,7 @@ class ClientsController < ApplicationController
   def index
     @search = Client.ransack(params[:q])
     @search.sorts = 'id desc' if @search.sorts.empty?
-    @clients = @search.result.includes(:favorites, :restocks).paginate(page: params[:page], per_page: 50)
+    @clients = @search.result.includes(:favorites, :restocks).paginate(page: params[:page], per_page: 30)
   end
 
   # GET /clients/1
@@ -39,9 +39,15 @@ class ClientsController < ApplicationController
     Client.otchet(current_subdomain, current_user_id)
     # check_status = true
     respond_to do |format|
-      format.js do
-          flash.now[:notice] = "Файл создан <a href='/#{current_user_id.to_s}_clients_izb.csv'>Скачать</a>".html_safe
+      flash.now[:success] = "Файл создан <a href='/#{current_user_id.to_s}_clients_izb.csv'>Скачать</a>".html_safe
+      format.turbo_stream do
+        render turbo_stream: [
+          render_turbo_flash
+        ]
       end
+      # format.js do
+      #     flash.now[:notice] = "Файл создан <a href='/#{current_user_id.to_s}_clients_izb.csv'>Скачать</a>".html_safe
+      # end
     end
   end
 
@@ -96,11 +102,11 @@ class ClientsController < ApplicationController
     end
   end
 
-
   # это для модалки для загрузки файла
   def file_import_insales
     respond_to do |format|
-      format.js
+      format.turbo_stream
+      # format.js
     end
   end  
 

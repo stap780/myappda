@@ -6,7 +6,7 @@ module RescuableApartmentMiddleware
   def call(*args)
     begin
       # puts "args"
-    #   puts *args.to_s
+      puts *args.to_s
       # puts "args ==="
       super
     rescue Apartment::TenantNotFound

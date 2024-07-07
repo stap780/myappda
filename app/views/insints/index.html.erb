@@ -24,14 +24,14 @@
         <td><%= link_to "Проверить", check_insints_path(insint), :remote => true, :method => :get, class: "btn btn-outline-info btn-sm" %></td>
         <td><% status_icon = insint.status == false ? '<span class="oi oi-circle-x"></span>': '<span class="oi oi-circle-check"></span>' %>
         <%= status_icon.html_safe%></td>
-        <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_insint_path(insint) %></td>
-        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+        <td><%= link_to edit_icon, edit_insint_path(insint) %></td>
+        <td><%= link_to trash_icon, insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 </div>
 
-<div class="digg_pagination">
-  <%= will_paginate @insints if current_admin %>
-</div>
+
+<%= render 'shared/paginate', object: @insints if current_admin %>
+

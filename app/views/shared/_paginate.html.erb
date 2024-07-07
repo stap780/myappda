@@ -1,3 +1,1 @@
-<div class="digg_pagination d-flex justify-content-center">
-  <%= will_paginate @clients %>
-</div>
+<%= will_paginate @object, renderer: WillPaginate::ActionView::BootstrapLinkRenderer, list_classes: %w(pagination justify-content-end my-4) %>

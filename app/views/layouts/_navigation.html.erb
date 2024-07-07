@@ -28,7 +28,7 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu dropdown-user">
-            <li><%= link_to "Выйти", destroy_user_session_url, method: :delete %></li>
+            <li><%= link_to "Выйти", destroy_user_session_url, data: { turbo_method: :delete }, class: 'text-decoration-none' %></li>
             <!-- <li><%# link_to 'Back to Homepage', root_url %></li> -->
           </ul>
           <!-- /.dropdown-user -->

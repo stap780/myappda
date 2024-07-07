@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_30_131334) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_06_170343) do
+  create_schema "insales22810"
+  create_schema "ketago"
+  create_schema "support_ketago_com"
+  create_schema "teletri"
+  create_schema "test2"
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,18 +60,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_30_131334) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "cases", force: :cascade do |t|
-    t.string "number"
-    t.integer "client_id"
-    t.string "casetype"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "insales_custom_status_title"
-    t.string "insales_financial_status"
-    t.integer "insales_order_id"
-    t.string "status"
   end
 
   create_table "clients", id: :serial, force: :cascade do |t|
@@ -179,7 +173,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_30_131334) do
     t.decimal "price"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.integer "case_id"
+    t.integer "mycase_id"
   end
 
   create_table "message_setups", force: :cascade do |t|
@@ -192,6 +186,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_30_131334) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "product_xml"
+  end
+
+  create_table "mycases", force: :cascade do |t|
+    t.string "number"
+    t.integer "client_id"
+    t.string "casetype"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "insales_custom_status_title"
+    t.string "insales_financial_status"
+    t.integer "insales_order_id"
+    t.string "status"
   end
 
   create_table "order_status_changes", force: :cascade do |t|

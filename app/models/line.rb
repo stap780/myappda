@@ -1,5 +1,5 @@
 class Line < ApplicationRecord
-    belongs_to :case
+    belongs_to :mycase
     belongs_to :product
     belongs_to :variant
 

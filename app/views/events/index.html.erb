@@ -15,18 +15,15 @@
     </div>
     <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
       <div class="input-group input-group-sm">
-      <%= f.select :casetype_in, Case::CASETYPE, { :prompt => 'Тип заявки'}, class: "form-select", style: "max-width: 180px;" %>
+      <%= f.select :casetype_in, Mycase::CASETYPE, { :prompt => 'Тип заявки'}, class: "form-select", style: "max-width: 180px;" %>
         <% if Insint.present_work? %>
         <%= f.select :custom_status_eq, ApiInsales.new(Insint.current).statuses, {include_blank: false, prompt: 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
         <% else %>
         <%= f.search_field :custom_status_eq , placeholder: 'Статус', class: "form-control", style: "max-width: 180px;" %>
         <% end %>
         <%= f.select :financial_status_eq, Event::FIN_STATUS, { include_blank: false, prompt: 'Статус оплаты'}, class: "form-select", style: "max-width: 180px;" %>
-        <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
-          <span class="oi oi-magnifying-glass"></span>
-        <% end %>
-        <%= link_to '<span class="oi oi-reload"></span>'.html_safe, events_path, class: 'btn btn-outline-dark ' %>
-        <%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_events_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
+        <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
+        <%= link_to arrow_clockwise_icon, events_path, class: 'btn btn-outline-dark' %>
       </div>
     <% end %>
   </div>
@@ -60,8 +57,8 @@
         </td>
         <td>
         <span class="d-flex">
-             <br><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_event_path(event), class: "px-3" %>
-             <br><%= link_to '<span class="oi oi-trash"></span>'.html_safe, event, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <br><%= link_to edit_icon, edit_event_path(event), class: "px-3", data: {turbo_frame: "_top"}  %>
+          <br><%= link_to trash_icon, event,  data: { "turbo-method": :delete, 'turbo-confirm': 'Are you sure?' }, class:"" %>
         </span>
         </td>
       </tr>

@@ -3,7 +3,7 @@ class Variant < ApplicationRecord
   has_many :restocks
   has_many :preorders
   has_many :lines
-  has_many :cases, through: :lines
+  has_many :mycases, through: :lines
   
   validates :insid, presence: true
   validates :insid, uniqueness: true

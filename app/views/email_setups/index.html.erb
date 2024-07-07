@@ -30,8 +30,8 @@
         <td><%= email_setup.user_name %></td>
         <td><%= email_setup.user_password %></td>
         <td><%= email_setup.tls %></td>
-        <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_email_setup_path(email_setup) %></td>
-        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, email_setup, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to edit_icon, edit_email_setup_path(email_setup) %></td>
+        <td><%= link_to trash_icon, email_setup, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -39,6 +39,5 @@
 </div>
 
 
-<div class="apple_pagination">
-<%= will_paginate @email_setups %>
-</div>
+
+<%= render 'shared/paginate', object: @email_setups %>

@@ -15,14 +15,12 @@
   </div>
   <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
     <div class="input-group input-group-sm">
-            <%= f.search_field :title_eq , placeholder: 'Название шаблона', class: "form-control", style: "max-width: 180px;" %>
-            <%# f.search_field :subject_eq , placeholder: 'subject', class: "form-control", style: "max-width: 180px;" %>
-            <%# f.search_field :receiver_eq , placeholder: 'receiver', class: "form-control", style: "max-width: 180px;" %>
-            <%# f.search_field :content_eq , placeholder: 'content', class: "form-control", style: "max-width: 180px;" %>
-            <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
-        <span class="oi oi-magnifying-glass"></span>
-      <% end %>
-      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, templates_path, class: 'btn btn-outline-dark ' %>
+        <%= f.search_field :title_eq , placeholder: 'Название шаблона', class: "form-control", style: "max-width: 180px;" %>
+        <%# f.search_field :subject_eq , placeholder: 'subject', class: "form-control", style: "max-width: 180px;" %>
+        <%# f.search_field :receiver_eq , placeholder: 'receiver', class: "form-control", style: "max-width: 180px;" %>
+        <%# f.search_field :content_eq , placeholder: 'content', class: "form-control", style: "max-width: 180px;" %>
+        <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
+      <%= link_to arrow_clockwise_icon, templates_path, class: 'btn btn-outline-dark' %>
       <%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_templates_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
     </div>
   <% end %>
@@ -50,9 +48,8 @@
         <td><%= template.subject %></td>
         <td><%= template.receiver %></td>
         <td><%= template.content.truncate(40) if template.content %></td>
-        <%# link_to '<span class="oi oi-eye"></span>'.html_safe, template %>
-        <td><%= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_template_path(template) %></td>
-        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, template, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to edit_icon, edit_template_path(template) %></td>
+        <td><%= link_to trash_icon, template, data: { "turbo-method": :delete, 'turbo-confirm': 'Are you sure?' }%></td>
       </tr>
     <% end %>
   </tbody>

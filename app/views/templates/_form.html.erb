@@ -43,7 +43,7 @@
       <%= f.input :content, label: "Содержание письма", input_html: {id: "template-content", rows: "15", value: @validate_content.present? ? @validate_content : f.object.content} , wrapper_html: {class: "mt-4"}%>
       <div class="col-2 btn-group mt-5 mb-5">
         <%= f.button :submit, 'Сохранить', class: 'btn btn-success' %>
-        <%= link_to 'Назад', templates_path, class: 'btn btn-outline-primary' %>
+        <%= link_to close_icon, templates_path, class: 'btn btn-outline-primary' %>
       </div>
      
     <% end %>
@@ -51,25 +51,29 @@
     <div class="col-6">
     <% if Insint.present_work?%>
       <% if !@template.new_record? %>
-      <div class="h6">Заказ инсалес и данные из инсалес</div>
-        <%= form_with url: preview_ins_order_templates_path, method: :get, class: "input-group", local: false do |form| %>
+        <div class="h6">Заказ инсалес и данные из инсалес</div>
+        <div class="d-flex justify-content-beetwen align-items-center">
+        <%= form_with url: preview_ins_order_templates_path, method: :get, data: {turbo_stream: true}, class: "input-group", local: false do |form| %>
           <%= form.select :insales_order_id, @ten_orders, include_blank: "Выберите заказ", class: "form-select" %>
-          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
+          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %><%= play_icon%><% end %>
         <% end %>
-        <%= form_with url: preview_ins_order_templates_path, method: :get, class: "input-group", local: false do |form| %>
+        <%= form_with url: preview_ins_order_templates_path, method: :get, data: {turbo_stream: true}, class: "input-group", local: false do |form| %>
           <%= form.text_field :insales_order_id, placeholder: "или введите Id заказа из инсалес", class: "form-control" %>
-          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
+          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %><%= play_icon%><% end %>
         <% end %>
-        <div class="h6 mt-5">Заявки</div>
-        <%= form_with url: preview_case_templates_path, method: :get, class: "input-group", local: false do |form| %>
-          <%= form.select :case_id, Case.order(id: :desc).limit(10).pluck(:id), include_blank: "Выберите заявку", class: "form-select" %>
-          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
-        <% end %>
-        <%= form_with url: preview_case_templates_path, method: :get, class: "input-group", local: false do |form| %>
-          <%= form.text_field :case_id, placeholder: "или введите Id заявки", class: "form-control" %>
-          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %>Предпросмотр<% end %>
-        <% end %>
+        </div>
 
+        <div class="h6 mt-3">Заявки</div>
+        <div class="d-flex justify-content-beetwen align-items-center">
+        <%= form_with url: preview_case_templates_path, method: :get, data: {turbo_stream: true}, class: "input-group", local: false do |form| %>
+          <%= form.select :case_id, Mycase.order(id: :desc).limit(10).pluck(:id), include_blank: "Выберите заявку", class: "form-select" %>
+          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %><%= play_icon%><% end %>
+        <% end %>
+        <%= form_with url: preview_case_templates_path, method: :get, data: {turbo_stream: true}, class: "input-group", local: false do |form| %>
+          <%= form.text_field :case_id, placeholder: "или введите Id заявки", class: "form-control" %>
+          <%= button_tag(type: 'submit', class: "btn btn-outline-secondary") do %><%= play_icon%><% end %>
+        <% end %>
+        </div>
         <%# form_with url: preview_restock_templates_path, method: :get, class: "input-group mt-2", local: false do |form| %>
           <%# form.select :client_id, Client.order(:id).limit(10).pluck(:name,:id), include_blank: "Выберите клиента", class: "form-select" %>
           <%# button_tag(type: 'submit', class: "btn btn-outline-secondary") do %><%#Предпросмотр<%# end %>

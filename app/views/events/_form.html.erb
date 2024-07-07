@@ -1,4 +1,3 @@
-<%= turbo_frame_tag dom_id(@event) do %>
   <%= simple_form_for(@event, data: {controller: "dropdown"}) do |f| %>
 
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
@@ -7,7 +6,7 @@
       <div class="col-6">
 
         <%= f.input :active, label: 'Вкл/выкл', wrapper_html: { class: "mt-2" }  %>
-        <%= f.input :casetype, label: "Тип заявки", collection: Case::CASETYPE, prompt: '', input_html: { class: "form-select", onchange: "check_type(this)"} %>
+        <%= f.input :casetype, label: "Тип заявки", collection: Mycase::CASETYPE, prompt: '', input_html: { class: "form-select", onchange: "check_type(this)"} %>
         <% class_display = @event.casetype == 'order' ||  @event.casetype == 'restock' ? '' : 'd-none'%>
         <% if Insint.present_work? %>
         <%= f.input :custom_status, label: "Статус заказа", collection: ApiInsales.new(Insint.current).statuses, prompt: "Статус", 
@@ -27,10 +26,9 @@
     </div>
     <div class="row">
       <div class="col-2 btn-group mt-5">
-        <%= f.button :submit, 'Сохранить', class: 'btn btn-success', data: {turbo_frame: "_top"} %>
-        <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+        <%= f.button :submit, 'Сохранить', class: 'btn btn-success'%>
+        <%= link_to close_icon, :back, class: 'btn btn-outline-primary' %>
       </div>
     </div>
 
   <% end %>
-<% end %>

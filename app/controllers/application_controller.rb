@@ -12,6 +12,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_admin
   helper_method :authenticate_admin!
 
+
+  def render_turbo_flash
+    turbo_stream.update("our_flash", partial: "shared/flash")
+  end
+
   ## def allow_cross_domain_ajax
   ##     headers['Access-Control-Allow-Origin'] = '*'
   ##     headers['Access-Control-Request-Method'] = 'GET, POST, OPTIONS'
@@ -34,7 +39,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource_or_scope)
     puts resource_or_scope.subdomain + " - это из ApplicationController - after_sign_in_path_for"
-    cases_url(subdomain: resource_or_scope.subdomain)#dashboard_url(subdomain: resource_or_scope.subdomain)
+    mycases_url(subdomain: resource_or_scope.subdomain)#dashboard_url(subdomain: resource_or_scope.subdomain)
   end # after_sign_in_path_for
 
   def after_sign_out_path_for(resource_or_scope)

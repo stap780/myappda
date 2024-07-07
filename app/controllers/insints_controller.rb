@@ -282,12 +282,12 @@ class InsintsController < ApplicationController
                                               insales_financial_status: params["financial_status"])
         # конец запись о том что произошло изменение в заказе
         # проверяем заявку и создаём или обновляем
-        search_case = Case.where(client_id: client.id, insales_order_id: params["id"])
+        search_case = Mycase.where(client_id: client.id, insales_order_id: params["id"])
         puts "search_case.id => "+search_case.first.id.to_s if search_case.present?
         mycase = search_case.present? ? search_case.update( insales_custom_status_title: params["custom_status"]["title"], 
                                                                   insales_financial_status: params["financial_status"],
                                                                   status: "take")[0] : 
-                                        Case.create!( client_id: client.id, insales_order_id: params["id"], 
+                                        Mycase.create!( client_id: client.id, insales_order_id: params["id"], 
                                                       insales_custom_status_title: params["custom_status"]["title"],
                                                       insales_financial_status: params["financial_status"],
                                                       status: "new", casetype: "order", number: params["number"] )
@@ -336,8 +336,8 @@ class InsintsController < ApplicationController
         client = search_client.present? ? search_client : 
                                           Client.create!( email: params["contacts"]["email"], phone: params["contacts"]["phone"], 
                                                                                               name: "abandoned_"+number.to_s)
-        search_mycase = Case.find_by_number(number)
-        mycase = search_mycase.present? ? search_mycase : Case.create!( number: number, casetype: 'abandoned_cart', client_id: client.id, status: "new")
+        search_mycase = Mycase.find_by_number(number)
+        mycase = search_mycase.present? ? search_mycase : Mycase.create!( number: number, casetype: 'abandoned_cart', client_id: client.id, status: "new")
         
         puts "insint abandoned_cart mycase => "+mycase.inspect.to_s
 
@@ -386,8 +386,8 @@ class InsintsController < ApplicationController
         client_name = params["contacts"]["name"].present? ? params["contacts"]["name"] : "restock_"+number.to_s
         phone = params["contacts"]["phone"].present? ? params["contacts"]["phone"] : "+79011111111"
         client = search_client.present? ? search_client : Client.create!( email: params["contacts"]["email"], phone: phone, name: client_name)
-        mycase = Case.find_by_number(number).present? ? Case.find_by_number(number) : 
-                                                      Case.create!(number: number, casetype: 'restock', client_id: client.id, status: "new")
+        mycase = Mycase.find_by_number(number).present? ? Mycase.find_by_number(number) : 
+                                                      Mycase.create!(number: number, casetype: 'restock', client_id: client.id, status: "new")
         puts "insint restock mycase => "+mycase.to_s
         params["lines"].each do |o_line|
           product = Product.find_by_insid(o_line["productId"]).present? ? Product.find_by_insid(o_line["productId"]) : 
@@ -430,8 +430,8 @@ class InsintsController < ApplicationController
         client_name = params["contacts"]["name"].present? ? params["contacts"]["name"] : "preorder_"+number.to_s
         phone = params["contacts"]["phone"].present? ? params["contacts"]["phone"] : "+79011111111"
         client = search_client.present? ? search_client : Client.create!( email: params["contacts"]["email"], phone: phone, name: client_name)
-        mycase = Case.find_by_number(number).present? ? Case.find_by_number(number) : 
-                                                      Case.create!(number: number, casetype: 'preorder', client_id: client.id, status: "new")
+        mycase = Mycase.find_by_number(number).present? ? Mycase.find_by_number(number) : 
+                                                      Mycase.create!(number: number, casetype: 'preorder', client_id: client.id, status: "new")
         puts "insint preorder mycase => "+mycase.to_s
         params["lines"].each do |o_line|
           product = Product.find_by_insid(o_line["productId"]).present? ? Product.find_by_insid(o_line["productId"]) : 

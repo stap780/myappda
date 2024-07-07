@@ -48,7 +48,7 @@ Rails.application.routes.draw do
 
   constraints SubdomainConstraint do
     resources :lines
-    resources :cases
+    resources :mycases
     resources :order_status_changes
     resources :message_setups
     resources :event_actions

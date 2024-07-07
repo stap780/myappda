@@ -7,7 +7,7 @@ class Client < ApplicationRecord
   has_many :preorders, dependent: :destroy
   has_many :variants, -> { distinct }, through: :preorders
   has_many :order_status_changes
-  has_many :cases, dependent: :destroy
+  has_many :mycases, dependent: :destroy
   validates :phone, phone: { possible: true, allow_blank: true }
   before_validation :normalize_phone
   validates :email, presence: true, uniqueness: true

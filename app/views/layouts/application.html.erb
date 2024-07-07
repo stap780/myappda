@@ -11,18 +11,20 @@
         <%= render 'layouts/navigation' %>
         </div>
       </header>
+    <% else %>
+      <%= render partial: "/home/header"%>
     <% end %>
-    <main class="flex-shrink-0">
-      <div id="main-content" class="container-fluid">
-        <div id="our_flash" class="position-absolute start-50 translate-middle-x w-25" style="top: 20px;">
+    <main>
+      <div id="main-content" class="container-fluid ">
+        <%= render "shared/modal_wrap"%>
+        <div id="our_flash" class="position-fixed z-1 top-0 end-0 p-3 w-50">
           <%= render "shared/flash"%>
         </div>
-
         <%= yield %>
       </div>
     </main>
     <%= render partial: "/layouts/footer" if check_current_page_show_this_part? %>
-    <%= render partial: "/layouts/messengers"%>
-    <%= render partial: "/layouts/modal"%>
+    <%# render partial: "/layouts/messengers"%>
+    <%# render partial: "/layouts/modal"%>
     </body>
   </html>

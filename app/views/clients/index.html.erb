@@ -1,26 +1,23 @@
 <div class="row align-items-center mt-3 mb-3">
-  <div class="col-2">
-    <h2>Клиенты</h2><small>Всего - <%= Client.count%></small>
+  <div class="col-2 d-flex flex-column">
+    <div class="h2">Клиенты</div>
+    <div class="h6">Всего - <%= Client.count%></div>
   </div>
-  <div class="col-2 align-self-center">
-    <% if FavoriteSetup.all.present?%>
-      <%= link_to '<i class="fa fa-list"></i> Сохранить отчет Избранное'.html_safe, otchet_clients_path, title: "отчет Избранное", class: "btn btn-light", role:"button", remote: true%>
-    <% end %>
-  </div>
-  <%= search_form_for @search, html: {class: 'form-inline col-5 pl-0 pr-0'}  do |f|%>
+  <%= search_form_for @search, html: {class: 'form-inline col pl-0 pr-0'}  do |f|%>
     <div class="input-group input-group-sm">
       <%= f.search_field :clientid_cont_all, placeholder: 'ID', class: "form-control"%>
       <%= f.search_field :name_or_surname_cont_all, placeholder: 'ФИО', class: "form-control"%>
       <%= f.search_field :email_cont_all, placeholder: 'Email', class: "form-control"%>
       <%= f.search_field :phone_cont_all, placeholder: 'Телефон', class: "form-control"%>
-      <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
-      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, clients_path, class: 'btn btn-outline-dark' %>
+      <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
+      <%= link_to arrow_clockwise_icon, clients_path, class: 'btn btn-outline-dark' %>
     </div>
   <% end %>
-  <div class="col-3 align-self-center">
-    <%= link_to 'Импорт клиентов Insales <span class="oi oi-cloud-upload"></span>'.html_safe, file_import_insales_clients_path, remote: 'true', id: 'file_import', title: 'file import', 'data-bs-toggle' => "modal", 'data-bs-target' => '#modal-edit', class: 'btn btn-outline-info btn-sm' %>
-  </div>
 
+  <div class="col-2 gap-2 d-flex align-items-center justify-content-end">
+    <%= link_to upload_cloud_icon, file_import_insales_clients_path, id: 'file_import', title: 'Импорт клиентов Insales', data: {turbo_frame: "modal", turbo_stream: true}, class: 'btn btn-outline-info btn-sm' %>
+    <%= link_to export_file_icon, otchet_clients_path, title: "отчет Избранное", class: "btn btn-outline-info btn-sm", role:"button", data: {turbo_method: :get, turbo_stream: true} if FavoriteSetup.all.present? %>
+  </div>
 </div>
 
 <div class="table-responsive">
@@ -32,9 +29,9 @@
       <th>ФИО</th>
       <th>Email</th>
       <th>Phone</th>
-      <%=tag.th 'Избранное' if Favorite.all.count > 0 %>
-      <%=tag.th 'Сообщить о поступлении' if Restock.all.count > 0 %>
-      <%=tag.th 'Предзаказ' if Preorder.all.count > 0 %>
+      <%=tag.th '<i class="bi bi-heart"></i>'.html_safe, title: 'favorite' if Favorite.all.count > 0 %>
+      <%=tag.th '<i class="bi bi-arrow-repeat"></i>'.html_safe, title: 'restock' if Restock.all.count > 0 %>
+      <%=tag.th '<i class="bi bi-bell"></i>'.html_safe, title: 'preorder' if Preorder.all.count > 0 %>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -56,7 +53,9 @@
         <% if Preorder.all.count > 0 %>
         <td><%= link_to client.preorders.count.to_s+' шт', client_path(client) if client.preorders.count > 0 %></td>
         <% end %>       
-        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, client, method: :delete, data: { confirm: 'Вы уверенны?' } %></td>
+        <td>
+        <%= link_to trash_icon, client, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }, class:"" %>
+        </td>
       </tr>
     <% end %>
   </tbody>

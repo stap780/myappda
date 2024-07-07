@@ -1,3 +1,11 @@
+<style>
+  .header-wrap {
+    justify-content: center!important;
+    border-bottom: unset!important;
+    padding-top: 2rem!important;
+  }
+  .header-buttons, .nav {display:none;}
+</style>
 %h2 Resend unlock instructions
 = form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
   = devise_error_messages!

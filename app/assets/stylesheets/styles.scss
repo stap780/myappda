@@ -61,13 +61,7 @@ section {
 .authform fieldset {
   @extend .card;
 }
-#error_explanation:not(:empty) {
-  @extend .alert;
-  @extend .alert-danger;
-}
-#error_explanation h2 {
-  font-size: 16px;
-}
+
 .button-xs {
   @extend .btn;
   @extend .btn-primary;
@@ -199,9 +193,7 @@ section {
     margin: 0 auto;
 }
 
-.alert-devise {
-  position:absolute;top:5%;right:3%;max-width: 350px;z-index: 1;
-}
+
 
 .list-group img {
   max-width: 100%;
@@ -384,4 +376,75 @@ code {
 }
 .CodeMirror {
     background: #f8f9fa!important;
+}
+
+
+.logo_white {
+  max-height: 70px
+}
+
+@media (max-width: 580px) {
+  .logo_white {
+      max-height:70px
+  }
+}
+
+body {
+  overflow-x: hidden
+}
+
+.js-whatsapp {
+  padding: 0;
+  z-index: 999;
+  position: fixed;
+  width: 140px;
+  border: none;
+  bottom: 0.5rem;
+  box-sizing: border-box;
+  right: 0.5rem;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+  box-shadow: 0px 0px 5px #777777;
+  background-color: #1ebea5;
+  background-image: url(https://static.whatsapp.net/rsrc.php/yv/r/-r3j-x8ZnM7.svg);
+  background-repeat: no-repeat;
+  height: 40px
+}
+
+.messenger_icon {
+  z-index: 999;
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  max-width: 45px;
+  text-align: center
+}
+
+.messenger_icon a img {
+  cursor: pointer;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 3px
+}
+
+.messenger_icon .whatsapp img {
+  background-color: #64bb26
+}
+
+.messenger_icon .telegram img {
+  background-color: #55bef8
+}
+
+
+.bg-444444 {
+  --bs-bg-opacity: 1;
+  --bs-444444: 68, 68, 68;
+  background-color: rgba(var(--bs-444444), var(--bs-bg-opacity)) !important
+}
+
+.form-control.disabled {
+  background-color: #e9ecef;
+  opacity: 1
 }

@@ -1,0 +1,40 @@
+<div class="row align-items-center my-2">
+  <div class="col-2 d-flex flex-column">
+    <div class="h2">Заявки</div>
+    <div class="h6">Всего - <%= Mycase.count%></div>
+  </div>
+
+  <div class="col px-0">
+    <%= search_form_for @search, {class: 'form-inline px-0'} do |f| %>
+      <div class="input-group input-group-sm">
+        <%= f.select :status_eq , Mycase::STATUS, { :prompt => 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
+        <%= f.search_field :number_eq , placeholder: 'number', class: "form-control", style: "max-width: 180px;" %>
+        <%= f.search_field :client_name_or_client_surname_or_client_email_cont , placeholder: 'client fio, email', class: "form-control", style: "max-width: 180px;" %>
+        <%= f.select :casetype_in, Mycase::CASETYPE, { :prompt => 'Тип заявки'}, class: "form-select", style: "max-width: 180px;" %>
+        <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
+        <%= link_to arrow_clockwise_icon, mycases_path, class: 'btn btn-outline-dark d-flex justify-content-center align-items-center' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<div id="datatables-cases_wrapper">
+  <div class="col-12 list-group list-group-striped" data-controller="select-all">
+  <div class="row py-2 px-0 justify-content-start align-items-center">
+    <%= div_check_box_tag_all %>
+    <%= tag.div( 'Статус', class: 'col-2 fw-semibold' )%>
+    <%= tag.div( 'Тип заявки', class: 'col-2 fw-semibold' )%>
+    <%= tag.div( 'Клиент', class: 'col-3 fw-semibold' )%>
+    <%= tag.div( 'Сумма', class: 'col-1 fw-semibold' )%>
+    <%= tag.div('', class: 'col fw-semibold')%>
+  </div>
+  <%= turbo_stream_from [Apartment::Tenant.current, :mycases] %>
+  <%= turbo_frame_tag [Apartment::Tenant.current, :mycases], data: { } do %>
+    <%= render @mycases %>
+  <% end %>
+  </div>
+</div>
+
+<%= render 'shared/paginate', object: @mycases %>
+

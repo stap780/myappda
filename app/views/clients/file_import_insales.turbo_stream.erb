@@ -1,0 +1,7 @@
+<%= turbo_stream.update "modal", "" %>
+
+<%= turbo_stream.update "modal" do %>
+   <%= render partial: "file_import_insales" %>
+<% end%>
+
+<%= turbo_stream_action_tag :open_modal, targets: '.modal' %>

@@ -38,9 +38,12 @@ Rails.application.configure do
   # config.action_cable.mount_path = nil
   # config.action_cable.url = 'wss://example.com/cable'
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
+  config.action_cable.url = "wss://myappda.ru/cable"
+  config.action_cable.allowed_request_origins = ["https://myappda.ru"]
+
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  # config.force_ssl = true
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -108,7 +111,7 @@ Rails.application.configure do
   #   openssl_verify_mode: "none"
   # }
 
-    config.action_mailer.default_url_options = { host: 'https://k-comment.ru'}
+    config.action_mailer.default_url_options = { host: 'https://myappda.ru'}
 
 
     # Store uploaded files on the local file system (see config/storage.yml for options).
