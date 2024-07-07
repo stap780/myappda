@@ -57,8 +57,14 @@ class ClientsController < ApplicationController
     current_user_id = current_user.id
     Client.emailizb(current_subdomain, user_client_id, current_user_id)
     respond_to do |format|
-      format.js do
-          flash.now[:notice] = "Письмо с товарами отправлено"
+      # format.js do
+      #     flash.now[:notice] = "Письмо с товарами отправлено"
+      # end
+      flash.now[:success] = "Письмо с товарами отправлено"
+      format.turbo_stream do
+        render turbo_stream: [
+          render_turbo_flash
+        ]
       end
     end
   end

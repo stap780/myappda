@@ -67,8 +67,14 @@ class UsersController < ApplicationController
   def check_email
     notice = @user.check_email.present? ? 'Почта настроена верно и тестовое сообщение отправили' : 'Не работает Почта!'
     respond_to do |format|
-      format.js do
-        flash.now[:notice] = notice
+      # format.js do
+      #   flash.now[:notice] = notice
+      # end
+      flash.now[:success] = notice
+      format.turbo_stream do
+        render turbo_stream: [
+          render_turbo_flash
+        ]
       end
     end
   end
@@ -76,8 +82,14 @@ class UsersController < ApplicationController
   def add_message_setup_ability
     notice = @user.add_message_setup_ability
     respond_to do |format|
-      format.js do
-        flash.now[:notice] = notice
+      # format.js do
+      #   flash.now[:notice] = notice
+      # end
+      flash.now[:success] = notice
+      format.turbo_stream do
+        render turbo_stream: [
+          render_turbo_flash
+        ]
       end
     end
   end
@@ -87,12 +99,17 @@ class UsersController < ApplicationController
     message = service.add_order_webhook
     # service.delete_order_webhook if @user.status == false
     respond_to do |format|
-      format.js do
-        flash.now[:notice] = message
+      # format.js do
+      #   flash.now[:notice] = message
+      # end
+      flash.now[:success] = message
+      format.turbo_stream do
+        render turbo_stream: [
+          render_turbo_flash
+        ]
       end
     end
   end
-
 
   def impersonate
     user = User.find(params[:id])

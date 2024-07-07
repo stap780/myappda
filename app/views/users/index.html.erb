@@ -1,18 +1,14 @@
 <div class="row mt-3 mb-3">
-  <div class="col-3">
-    <h2>Users</h2>
-      <small>Всего - <%= User.count %></small>
-    <%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_citilinks_path, class: 'btn btn-secondary btn-sm', id: 'deleteAll', remote: true, data: { delete_url: delete_selected_citilinks_path } %>
+  <div class="col-2 d-flex flex-column">
+    <div class="h2">Users</div>
+    <div class="h6">Всего - <%= User.count%></div>
   </div>
-
-  <%= search_form_for @search, {class: 'form-inline col-6 pl-0 pr-0'} do |f| %>
+  <%= search_form_for @search, {class: 'form-inline col pl-0 pr-0'} do |f| %>
     <div class="input-group input-group-sm">
       <%= f.search_field :name_cont_all , placeholder: 'name', class: "form-control", style: "max-width: 180px;" %>
       <%= f.search_field :subdomain_cont_all , placeholder: 'subdomain(логин)', class: "form-control", style: "max-width: 180px;" %>
-      <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
-        <span class="oi oi-magnifying-glass"></span>
-      <% end %>
-      <%= link_to '<span class="oi oi-reload"></span>'.html_safe, users_path, class: 'btn btn-outline-dark ' %>
+      <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
+      <%= link_to arrow_clockwise_icon, users_path, class: 'btn btn-outline-dark' %>
     </div>
   <% end %>
 </div>
@@ -34,18 +30,16 @@
       <tr class="bg-success mt-0">
         <th>Clients</th>
         <th>Products</th>
-        <th>Favorites</th>
-        <th>Restock</th>
+        <%=tag.th '<i class="bi bi-heart"></i>'.html_safe, title: 'Favorites' %>
+        <%=tag.th '<i class="bi bi-arrow-repeat"></i>'.html_safe, title: 'Restock' %>
         <th>Избранное</th>
         <th colspan="2">Триггеры</th>
       </tr>
     </thead>
     <tbody class="align-middle">
-          <%= render @users %>
+      <%= render @users %>
     </tbody>
   </table>
 </div>
 
-<div class="apple_pagination">
-  <%= will_paginate @users %>
-</div>
+<%= render 'shared/paginate', object: @users %>

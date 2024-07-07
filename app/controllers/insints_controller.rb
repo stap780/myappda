@@ -249,8 +249,14 @@ class InsintsController < ApplicationController
     service = ApiInsales.new(@insint)
     notice = service.work? == true ? 'Интеграция работает!' : 'Не работает интеграция!'
     respond_to do |format|
-      format.js do
-        flash.now[:notice] = notice
+      # format.js do
+      #   flash.now[:notice] = notice
+      # end
+      flash.now[:success] = notice
+      format.turbo_stream do
+        render turbo_stream: [
+          render_turbo_flash
+        ]
       end
     end
   end
