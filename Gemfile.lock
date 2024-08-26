@@ -1,13 +1,4 @@
 GIT
-  remote: https://github.com/seuros/capistrano-puma.git
-  revision: 9cd5e5df4dec324d75493d24b498d91285ddea9e
-  specs:
-    capistrano3-puma (6.0.0.beta.1)
-      capistrano (~> 3.7)
-      capistrano-bundler
-      puma (>= 5.1, < 7.0)
-
-GIT
   remote: https://github.com/stap780/insales_api.git
   revision: ffd221742607949c1f8fccd015b1429a183d065e
   branch: stap780-patch-1
@@ -139,6 +130,10 @@ GEM
       capistrano (>= 3.9.0)
       capistrano-bundler
       sidekiq (>= 6.0)
+    capistrano3-puma (6.0.0.beta.1)
+      capistrano (~> 3.7)
+      capistrano-bundler
+      puma (>= 5.1, < 7.0)
     chronic (0.10.2)
     combine_pdf (1.0.26)
       matrix
@@ -162,7 +157,6 @@ GEM
     drb (2.2.1)
     ed25519 (1.3.0)
     erubi (1.13.0)
-    ffi (1.17.0)
     ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-aarch64-linux-musl)
     ffi (1.17.0-arm-linux-gnu)
@@ -229,9 +223,6 @@ GEM
     net-ssh (7.2.3)
     netrc (0.11.0)
     nio4r (2.7.3)
-    nokogiri (1.16.7)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.16.7-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.16.7-arm-linux)
@@ -409,7 +400,6 @@ PLATFORMS
   arm-linux-gnu
   arm-linux-musl
   arm64-darwin
-  ruby
   x86-linux
   x86-linux-gnu
   x86-linux-musl
@@ -430,7 +420,7 @@ DEPENDENCIES
   capistrano-rails-console
   capistrano-rvm
   capistrano-sidekiq
-  capistrano3-puma!
+  capistrano3-puma
   combine_pdf
   cssbundling-rails
   devise
