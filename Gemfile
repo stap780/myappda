@@ -1,9 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# ruby '2.6.0' #ruby '2.4.4'
 ruby '3.2.0'
-
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', "~> 7.1.1"
@@ -15,9 +13,6 @@ gem 'pg', '>= 0.18' #, '< 2.0'
 gem "sprockets-rails"
 
 gem "jsbundling-rails"
-
-# Use SCSS for stylesheets
-# gem 'sass-rails', '~> 5.0'
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
@@ -33,21 +28,20 @@ gem 'jbuilder', '~> 2.5'
 gem "gem-release"
 
 gem 'active_storage_validations'
-# gem 'apartment'
+
 gem 'ros-apartment', require: 'apartment'
 gem 'bcrypt'
 gem 'bcrypt_pbkdf', '< 2.0', :require => false
-# gem 'bootstrap', '~> 5.2.0'
-# gem 'cocoon'
+
 gem 'combine_pdf'
-# gem 'delayed_job_active_record'
+
 gem 'devise'
 gem "pretender"
 gem 'devise_date_restrictable'
 gem 'ed25519', '~> 1.2', '>= 1.2.4'
 gem 'image_processing'
 gem 'insales_api', git: 'https://github.com/stap780/insales_api.git', branch: 'stap780-patch-1'
-# gem 'jquery-rails'
+
 gem 'liquid'
 gem 'nokogiri'
 gem 'phonelib'
@@ -92,8 +86,4 @@ group :development do
 
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
-  # gem 'listen', '~> 3.0.5'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  # gem 'spring'
-
 end
