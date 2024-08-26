@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/seuros/capistrano-puma.git
+  revision: 9cd5e5df4dec324d75493d24b498d91285ddea9e
+  specs:
+    capistrano3-puma (6.0.0.beta.1)
+      capistrano (~> 3.7)
+      capistrano-bundler
+      puma (>= 5.1, < 7.0)
+
+GIT
   remote: https://github.com/stap780/insales_api.git
   revision: ffd221742607949c1f8fccd015b1429a183d065e
   branch: stap780-patch-1
@@ -130,9 +139,6 @@ GEM
       capistrano (>= 3.9.0)
       capistrano-bundler
       sidekiq (>= 6.0)
-    capistrano3-puma (1.2.1)
-      capistrano (~> 3.0)
-      puma (>= 2.6)
     chronic (0.10.2)
     combine_pdf (1.0.26)
       matrix
@@ -407,7 +413,7 @@ DEPENDENCIES
   capistrano-rails-console
   capistrano-rvm
   capistrano-sidekiq
-  capistrano3-puma
+  capistrano3-puma!
   combine_pdf
   cssbundling-rails
   devise
