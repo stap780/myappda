@@ -249,9 +249,6 @@ class InsintsController < ApplicationController
     service = ApiInsales.new(@insint)
     notice = service.work? == true ? 'Интеграция работает!' : 'Не работает интеграция!'
     respond_to do |format|
-      # format.js do
-      #   flash.now[:notice] = notice
-      # end
       flash.now[:success] = notice
       format.turbo_stream do
         render turbo_stream: [
@@ -466,10 +463,10 @@ class InsintsController < ApplicationController
 
   def extra_data
     data = {
-      "discount": 111,
-      "discount_type": "MONEY",
-      "title": "Ваша пошлина за заказ"
-      }
+            "discount": 111,
+            "discount_type": "MONEY",
+            "title": "Ваша пошлина за заказ"
+            }
 
       #render json: { success: true, data: data}
       render json: data
@@ -477,12 +474,10 @@ class InsintsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_insint
-  @insint = Insint.find(params[:id])
+    @insint = Insint.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def insint_params
     params.require(:insint).permit(:subdomen, :password, :insales_account_id, :user_id, :inskey, :status)
   end

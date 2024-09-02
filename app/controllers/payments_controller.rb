@@ -75,10 +75,15 @@ class PaymentsController < ApplicationController
   def success
     puts 'success here'
     @user = User.find(params[:CURRENT_USER])
-    Apartment::Tenant.switch(@user.subdomain) do
-      invoice = Invoice.find(params[:LMI_PAYMENT_NO])
-      invoice.update!(status: 'Оплачен')
-    end
+    payment = Payment.where(:user_id => params['CURRENT_USER'], :invoice_id => params['LMI_PAYMENT_NO'] ).take
+    payment.update!(:status => 'Оплачен', :paymentdate => params['LMI_SYS_PAYMENT_DATE'], :paymentid => params['LMI_SYS_PAYMENT_ID'] ) if payment.present?
+    
+    # switch off invoice update because have callback for update in payment
+    # Apartment::Tenant.switch(@user.subdomain) do
+    #   invoice = Invoice.find(params[:LMI_PAYMENT_NO])
+    #   invoice.update!(status: 'Оплачен')
+    # end
+    
     sign_in(:user, @user)
     redirect_to after_sign_in_path_for(@user)
   end

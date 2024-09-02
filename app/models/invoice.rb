@@ -5,8 +5,6 @@ class Invoice < ApplicationRecord
 
   before_create :set_data_if_new_record
   after_create :create_payment
-  after_commit :set_service_valid_after_update_invoice, on: [:update]
-  # before_destroy :update_service_before_destroy_invoice
 
   def self.ransackable_attributes(auth_object = nil)
     Invoice.attribute_names
@@ -14,7 +12,7 @@ class Invoice < ApplicationRecord
 
   def get_user
     current_subdomain = Apartment::Tenant.current
-    user = User.find_by_subdomain(current_subdomain)
+    User.find_by_subdomain(current_subdomain)
   end
 
   def get_payment
@@ -26,31 +24,14 @@ class Invoice < ApplicationRecord
     self.get_payment.present? ? self.get_payment.paymentdate.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : ''
   end
 
-  def set_service_valid
-    set_service_valid_after_update_invoice
-  end
+  # def set_service_valid
+  #   set_service_valid_after_update_invoice
+  # end
 
-private
-
-  def set_data_if_new_record
-    if new_record?
-      self.sum = self.payplan.price 
-      self.status = 'Не оплачен' if self.status.nil?
-    end
-  end
-
-  def create_payment
-    if !self.get_payment.present?
-      self.payments.create!( user_id: self.get_user.id, payplan_id: self.payplan.id, status: 'Не оплачен', paymenttype: self.paymenttype )
-    end
-  end
-
-  def set_service_valid_after_update_invoice
+  def set_service_valid_after_payment
     puts 'invoice saved_change_to_status? => '+saved_change_to_status?.to_s
     puts 'invoice saved_change_to_status => '+saved_change_to_status.to_s
     if !new_record? && saved_change_to_status?
-      # service_handle = self.service_handle
-      # payplan = Payplan.find_by_id(self.payplan_id)
       payplan = self.payplan
       service_handle = payplan.service_handle
       add_period = payplan.period
@@ -73,5 +54,19 @@ private
     end
   end
 
+
+private
+
+  def set_data_if_new_record
+    if new_record?
+      self.sum = self.payplan.price 
+      self.status = 'Не оплачен' if self.status.nil?
+    end
+  end
+
+  def create_payment
+    return if self.get_payment.present?
+    self.payments.create!( user_id: self.get_user.id, payplan_id: self.payplan.id, status: 'Не оплачен', paymenttype: self.paymenttype )
+  end
 
 end

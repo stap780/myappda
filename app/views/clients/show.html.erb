@@ -1,17 +1,28 @@
 <div class="row align-items-center g-2">
-  <div class="col-4 btn-group mt-5">
-    <%= link_to 'Назад', clients_path, class: 'btn btn-success' %>
-    <%= link_to 'Обновить данные клиента из инсалес', update_from_insales_path(@client), data: {turbo: false}, class: 'btn btn-outline-primary' if @client.clientid %>
+  <div class="col-1 btn-group mt-5">
+    <%= link_to 'Назад', clients_path, class: 'btn btn-outline-success btn-sm' %>
   </div>
 </div>
 <div class="row justify-content-center align-items-center g-2 mt-3">
-<p>
-  <strong>Client id:</strong> <%= @client.clientid %> <strong>ФИО:</strong> <%= @client.fio %> <strong>Email:</strong> <%= @client.email %> <strong>Phone:</strong> <%= @client.phone %>
-</p>
+<div class="d-flex flex-column mb-2">
+  <div class=""> 
+    <strong>Client id:</strong> <%= @client.clientid %> 
+    <strong>ФИО:</strong> <%= @client.fio %> 
+  </div>
+  <div class=""> 
+    <strong>Email:</strong> <%= @client.email %> <strong>Phone:</strong> <%= @client.phone %>
+  </div>
+  <div class="mt-1">
+    <%= link_to reload_icon+" данные из Insales", update_from_insales_path(@client), data: {turbo: false}, class: 'btn btn-outline-primary' if @client.clientid %>
+  </div>
+</div>
+</div>
 <% if @favorite_products.present? %>
   <div class="row align-items-center mt-3 mb-3">
-    <strong>Товары Избранное:</strong>
-    <%= link_to 'Отправить письмо с избранным'.html_safe, emailizb_client_path(@client.id), title: "Отправить письмо с избранным", class: "btn btn-light my-2", data: {turbo_method: :get, turbo_stream: true} %>
+    <div class="col-4 d-flex w-100 align-items-center mb-2">
+      <strong><%= heart_icon%> Избранное</strong>
+      <%= link_to mail_icon+' избранное'.html_safe, emailizb_client_path(@client.id), title: "Отправить письмо с избранным", class: "btn btn-light ms-auto", data: {turbo_method: :get, turbo_stream: true} %>
+    </div>
     <div class="table-responsive">
     <table class="table table-hover table-condensed table-sm">
       <thead class="thead-light">
@@ -38,7 +49,9 @@
 <% end %>
 <% if @client.restocks.present? %>
   <div class="row align-items-center mt-3 mb-3">
-    <strong>Товары Restock:</strong>
+    <div class="col-4 d-flex w-100 align-items-center mb-2">
+    <strong><%= reload_icon%> Сообщить о поступлении</strong>
+    </div>
     <div class="table-responsive">
     <table class="table table-hover table-condensed table-sm">
       <thead class="thead-light">
@@ -72,7 +85,9 @@
 <% end %>
 <% if @client.preorders.present? %>
   <div class="row align-items-center mt-3 mb-3">
-    <strong>Товары Предзаказ:</strong>
+    <div class="col-4 d-flex w-100 align-items-center mb-2">
+    <strong><%= bell_icon%> Предзаказ</strong>
+    </div>
     <div class="table-responsive">
     <table class="table table-hover table-condensed table-sm">
       <thead class="thead-light">
@@ -104,5 +119,3 @@
     </div>
   </div>
 <% end %>
-
-</div>

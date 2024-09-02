@@ -27,11 +27,10 @@
       <th>ID (INS)</th>
       <th>Создан</th>
       <th>ФИО</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <%=tag.th '<i class="bi bi-heart"></i>'.html_safe, title: 'favorite' if Favorite.all.count > 0 %>
-      <%=tag.th '<i class="bi bi-arrow-repeat"></i>'.html_safe, title: 'restock' if Restock.all.count > 0 %>
-      <%=tag.th '<i class="bi bi-bell"></i>'.html_safe, title: 'preorder' if Preorder.all.count > 0 %>
+      <th></th>
+      <%=tag.th heart_icon, title: 'Избранное' if Favorite.all.count > 0 %>
+      <%=tag.th reload_icon, title: 'Сообщить о поступлении' if Restock.all.count > 0 %>
+      <%=tag.th bell_icon, title: 'Предзаказ' if Preorder.all.count > 0 %>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -39,11 +38,10 @@
   <tbody>
     <% @clients.each do |client| %>
       <tr>
-        <td><%= client.id %><br>(<%= client.clientid%>)</td>
+        <td><%= client.id %><br><%= "(#{client.clientid})" if client.clientid %></td>
         <td><%= client.created_at.in_time_zone.strftime("%d/%m/%Y")%></td>
-        <td><%= client.fio%></td>
-        <td><%= client.email %></td>
-        <td><%= client.phone %></td>
+        <td><%= client.fio %></td>
+        <td><%="Телефон: #{client.phone}" if client.phone%></br><%="Email: #{client.email}" if client.email%></td>
         <% if Favorite.all.count > 0 %>
         <td><%= link_to client.favorites.uniq.count.to_s+' шт', client_path(client) if client.favorites.uniq.count > 0 %> <%# link_to 'Email', emailizb_client_path(client), remote: true %></td>
         <% end %>

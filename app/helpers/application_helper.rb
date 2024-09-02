@@ -42,8 +42,20 @@ def search_icon
   "<i class='bi bi-search'></i>".html_safe
 end
 
+def heart_icon
+  '<i class="bi bi-heart"></i>'.html_safe
+end
+
+def bell_icon
+  '<i class="bi bi-bell"></i>'.html_safe
+end
+
 def reload_icon
   "<i class='bi bi-arrow-repeat'></i>".html_safe
+end
+
+def mail_icon
+  "<i class='bi bi-envelope'></i>".html_safe
 end
 
 def arrow_right_icon

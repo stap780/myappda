@@ -17,9 +17,9 @@
   <div class="card bg-light text-center mt-3" id="paypal" style="width: 18rem;">
     <img class="card-img-top mt-3" src="/paypal.png" alt="Card image" style="max-height:100px;object-fit: contain;">
     <div class="card-body text-center">
-      <p><strong>Период продления:</strong><%= @invoice.payplan.period %></p>
-      <p><strong>Сумма счета:</strong><%= @invoice.sum %></p>
-      <p><strong>Статус счета:</strong><%= @invoice.status %></p>
+      <p><strong>Период продления: </strong><%= @invoice.payplan.period %></p>
+      <p><strong>Сумма счета: </strong><%= @invoice.sum %></p>
+      <p><strong>Статус счета: </strong><%= @invoice.status %></p>
       <% if @invoice.status == "Не оплачен" %>
       <a href="#" class="btn btn-primary stretched-link">Перейти к оплате</a>
       <% end %>
@@ -28,18 +28,33 @@
   <% end %>
 
 <% if @invoice.paymenttype == 'creditcard' %>
-<div class="card bg-light text-center mt-3" id="creditcard" style="width: 18rem;">
-  <img class="card-img-top mt-3" src="/visa-master.png" alt="Card image" style="max-height:100px;object-fit: contain;">
-  <div class="card-body text-center">
-    <p><strong>Период продления:</strong><%= @invoice.payplan.period %></p>
-    <p><strong>Сумма счета:</strong><%= @invoice.sum %></p>
-    <p><strong>Статус счета:</strong><%= @invoice.status %></p>
-    <% if @invoice.status == "Не оплачен" %>
-    <a href="https://paymaster.ru/ru-RU/Payment/Init?LMI_MERCHANT_ID=d59777c8-000a-4eac-829d-aadfc9ed639b&LMI_CURRENCY=RUB&LMI_PAYMENT_AMOUNT=<%=@invoice.sum%>&LMI_PAYMENT_DESC=<%=@invoice.payplan.title%>&LMI_PAYMENT_NO=<%=@invoice.id%>&CURRENT_USER=<%=current_user.id%>&LMI_OPEN_INVOICE=0&LMI_SIM_MODE=0" class="btn btn-primary stretched-link">Перейти к оплате</a>
-    <% end %>
+  <div class="card bg-light text-center mt-3" id="creditcard" style="width: 18rem;">
+    <img class="card-img-top mt-3" src="/visa-master.png" alt="Card image" style="max-height:100px;object-fit: contain;">
+    <div class="card-body text-center">
+      <p><strong>Период продления: </strong><%= @invoice.payplan.period %></p>
+      <p><strong>Сумма счета: </strong><%= @invoice.sum %></p>
+      <p><strong>Статус счета: </strong><%= @invoice.status %></p>
+      <% if @invoice.status == "Не оплачен" %>
+      <a href="https://paymaster.ru/ru-RU/Payment/Init?LMI_MERCHANT_ID=d59777c8-000a-4eac-829d-aadfc9ed639b&LMI_CURRENCY=RUB&LMI_PAYMENT_AMOUNT=<%=@invoice.sum%>&LMI_PAYMENT_DESC=<%=@invoice.payplan.title%>&LMI_PAYMENT_NO=<%=@invoice.id%>&CURRENT_USER=<%=current_user.id%>&LMI_OPEN_INVOICE=0&LMI_SIM_MODE=0" class="btn btn-primary stretched-link">Перейти к оплате</a>
+      <% end %>
+    </div>
   </div>
-</div>
 <% end %>
+
+<% if @invoice.paymenttype == 'sbp' %>
+  <div class="card bg-light text-center mt-3" id="sbp" style="width: 18rem;">
+    <div class="card-header text-center">СБП</div>
+    <div class="card-body text-center">
+      <p><strong>Период продления: </strong><%= @invoice.payplan.period %></p>
+      <p><strong>Сумма счета: </strong><%= @invoice.sum %></p>
+      <p><strong>Статус счета: </strong><%= @invoice.status %></p>
+      <% if @invoice.status == "Не оплачен" %>
+      <a href="https://paymaster.ru/ru-RU/Payment/Init?LMI_MERCHANT_ID=d59777c8-000a-4eac-829d-aadfc9ed639b&LMI_CURRENCY=RUB&LMI_PAYMENT_AMOUNT=<%=@invoice.sum%>&LMI_PAYMENT_DESC=<%=@invoice.payplan.title%>&LMI_PAYMENT_NO=<%=@invoice.id%>&CURRENT_USER=<%=current_user.id%>&LMI_OPEN_INVOICE=0&LMI_SIM_MODE=0" class="btn btn-primary stretched-link">Перейти к оплате</a>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
 </div>
 <div class="btn-group mt-5">
 <%= link_to 'Редактировать', edit_invoice_path(@invoice) , class: 'btn btn-success'  if current_admin %>

@@ -13,26 +13,26 @@ class UserMailer < ApplicationMailer
   end
 
   def service_end_email
-
     @user_email = @user.email
     @user_email_from = set_from_email
     @url  = 'https://myappda.ru/users/sign_in'
     mail(
       to: @user_email,
       from:  @user_email_from,
-      subject: 'Заканчивается срок оплаты сервиса')
-      
+      subject: 'Заканчивается срок оплаты сервиса'
+      )
   end
 
   def favorite_setup_service_email
-    @user_email =@user.email
+    @user_email = @user.email
     @user_email_from = set_from_email
     @client_count = @user.client_count
     @url  = 'https://myappda.ru/users/sign_in'
     mail(
       to: @user_email,
       from:  @user_email_from,
-      subject: 'Сервис Избранные товары не работает для ваших клиентов')
+      subject: 'Сервис Избранные товары не работает для ваших клиентов'
+      )
   end
 
   def insales_client_api_import
@@ -42,7 +42,8 @@ class UserMailer < ApplicationMailer
     mail(
       to: @user_email,
       from:  @user_email_from,
-      subject: 'Клиенты импортировались в ваш магазин')
+      subject: 'Клиенты импортировались в ваш магазин'
+      )
   end
 
     private

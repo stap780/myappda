@@ -1,29 +1,18 @@
-<div class="row align-items-center mt-3 mb-3">
+<div class="d-flex align-items-center mt-3 mb-3">
   <div class="col-2">
-  <div class="col-md-12 p-0">
     <div class="h3">Шаблоны</div>
   </div>
-  </div>
-  <div class="col-10 pl-0 pr-0 row">
-  <div class="col-2">
-    <div class="btn-group" role="group">
-      <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown">Действия</button>
-      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-        <%= link_to 'Создать', new_template_path, class: 'dropdown-item' %>
-      </div>
-    </div>
-  </div>
-  <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
-    <div class="input-group input-group-sm">
+  <div class="col-8 px-0 row justify-content-center">
+    <%= search_form_for @search, {class: 'form-inline col-10 pl-0 pr-0'} do |f| %>
+      <div class="input-group input-group-sm">
         <%= f.search_field :title_eq , placeholder: 'Название шаблона', class: "form-control", style: "max-width: 180px;" %>
-        <%# f.search_field :subject_eq , placeholder: 'subject', class: "form-control", style: "max-width: 180px;" %>
-        <%# f.search_field :receiver_eq , placeholder: 'receiver', class: "form-control", style: "max-width: 180px;" %>
-        <%# f.search_field :content_eq , placeholder: 'content', class: "form-control", style: "max-width: 180px;" %>
         <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
-      <%= link_to arrow_clockwise_icon, templates_path, class: 'btn btn-outline-dark' %>
-      <%# link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_templates_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true %>
-    </div>
-  <% end %>
+        <%= link_to arrow_clockwise_icon, templates_path, class: 'btn btn-outline-dark' %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-2 d-flex justify-content-end">
+    <%= link_to add_icon, new_template_path, class: "btn btn-secondary btn-sm" %>
   </div>
 </div>
 

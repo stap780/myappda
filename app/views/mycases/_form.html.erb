@@ -4,7 +4,7 @@
 
   <div class="row">
     <div class="col-12 h3 mt-3 mb-3"><%= page_title %></div>
-    <div class="col-5">
+    <div class="col-4">
       <%= f.input :status, collection: Mycase::STATUS, input_html: {class: "form-select" }%>
       <%= f.input :number, disabled: true %>
       <%= f.association :client, class: "form-select", input_html: {class: "form-select" } %>
@@ -12,7 +12,7 @@
       <%= f.input :insales_custom_status_title, label: "Статус Ins", disabled: true %>
       <%= f.input :insales_financial_status, label: "Фин Статус", disabled: true %>
     </div>
-    <div class="col-7">
+    <div class="col-8">
     <div class="table-responsive">
     <label for="line-table">Позиции заявки</label>
       <table class="table table-primary" id="line-table">

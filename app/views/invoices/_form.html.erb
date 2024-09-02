@@ -23,9 +23,9 @@
                                   value_method: :id,
                                   wrapper: :horizontal_collection,
                                   wrapper_html: {class: 'mt-4'}  %>
-      <% credit_text = '<img style="max-width: 120px;" src="/visa-master.png" alt="Visa master"></br>(Webmoney, Сбербанк Онлайн, Apple Pay, Яндекс.Деньги, Альфа-Клик)' %>
+      <% credit_text = '<img style="max-width: 120px;" src="/visa-master.png" alt="Visa master"></br>(МИР, СБП, Webmoney, Сбербанк Онлайн, Apple Pay, Яндекс.Деньги, Альфа-Клик)' %>
       <%= f.input :paymenttype, as: :radio_buttons, 
-                                collection: [['invoice', 'Счёт для юр лиц'],['creditcard', 'Кредитные карты'], ['paypal', 'Paypal']],
+                                collection: [['invoice', 'Счёт для юр лиц'],['creditcard', 'Кредитные карты'], ['sbp', 'СБП'], ['paypal', 'Paypal']],
                                 label: 'Выберите способ оплаты:',
                                 label_method: lambda { |paymenttype|
                                                         paymenttype[0] != 'creditcard' ? "#{paymenttype[1]}" : "#{credit_text}".html_safe
