@@ -1,3 +1,5 @@
+
+
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -7,7 +9,8 @@
 <meta name="description" content="MyAppDA - это сервис маркетинга для интернет-магазина (email, соц сети, мессенджеры, формы, статистика, аналитика). Избранные товары, Собщить о поступлении, Триггеры, маркетинг, рассылки"/>
 <%= favicon_link_tag asset_path("myappda_icon.png") %>
 
-<%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+<%# stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "application", "data-turbo-track": Rails.env.production? ? "reload" : "" %>
 <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
 <meta name="turbo-prefetch" content="false">
 
@@ -21,3 +24,6 @@
 -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/codemirror.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/codemirror.css"/>
+
+<%= action_cable_meta_tag %>
+<%= hotwire_livereload_tags if Rails.env.development? %>

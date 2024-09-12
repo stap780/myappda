@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get "/restock", to: "home#restock"
   get "/message", to: "home#message"
   get "/preorder", to: "home#preorder"
+  get "/abandoned_cart", to: "home#abandoned_cart"
   get "/oferta", to: "home#oferta"
   resources :insints do
     collection do

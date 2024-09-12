@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html class="h-100">
-  <head>
+<html class="h-100" id="hotwire-livereload">
+  <head <%= Rails.env.development? %>>
     <%= render partial: 'layouts/head' %>
     <%= render partial: 'layouts/metrics' %>
   </head>

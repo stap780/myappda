@@ -2,7 +2,7 @@
 <h1 class="display-4 text-center text-uppercase mt-5 mb-5">Сервис Избранное</h1>
 <section class="page-section price pt-0">
   <div class="row">
-      <div class="display-6 text-center text-uppercase mb-5">Основные возможности</div>
+      <div class="display-6 text-center text-uppercase mb-5 d-none">Основные возможности</div>
       <div class="col-xs-12 col-sm-6 col-md-3">
       <div class="card ml-0 mr-0">
           <div class="view overlay">
@@ -54,6 +54,8 @@
       </div>
   </div>
 </section>
+<%= render 'home/price_section'%>
+<!--
 <section class="page-section price pt-0">
     <div class="row justi">
         <div class="display-6 text-center text-uppercase mb-5">Стоимость</div>
@@ -104,7 +106,6 @@
                 </div>
                 <div class="card-body">
                     <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary btn-lg' %>
-                    
                 </div>
             </div>
         </div>
@@ -121,12 +122,12 @@
                 </div>
                 <div class="card-body">
                     <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary btn-lg' %>
-                    
                 </div>
             </div>
         </div>
     </div>
 </section>
+-->
 
 <section class="page-section price pt-0">
   <div class="container">

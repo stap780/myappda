@@ -52,7 +52,7 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.hosts << ".lvh.me"
+  config.hosts << ".lvh.me:3000"
   # config.hosts << "/.+\.lvh\.me:\d+/"
   # Make app the standard subdomain
   config.after_initialize do
@@ -87,5 +87,4 @@ Rails.application.configure do
 
     # Store uploaded files on the local file system (see config/storage.yml for options).
     config.active_storage.service = :local
-
 end
