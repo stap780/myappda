@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   def check_current_page_show_this_part?
-    not_show = ['users_sign_in','users_sign_up','users_password_new']
+    not_show = ['users','users_sign_in','users_sign_up','users_password_new']
     if not_show.include?( current_page_path_as_class )
       false
     else

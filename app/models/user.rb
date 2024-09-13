@@ -18,12 +18,10 @@ class User < ApplicationRecord
   before_save :normalize_phone
 
   validates :name, presence: true
-  validates :subdomain, presence: true, :uniqueness => true
+  validates :subdomain, presence: true, uniqueness: true
   validates_format_of :subdomain, with: /\A[a-z0-9_]+\Z/i, message: "- можно использовать только маленькие буквы и цифры (без точек)"
   validates_length_of :subdomain, maximum: 32, message: "максимальная длина 32 знака"
   validates_exclusion_of :subdomain, in: ['www', 'mail', 'ftp', 'admin', 'test', 'public', 'private', 'staging', 'app', 'web', 'net'], message: "эти слова использовать нельзя"
-  # validates :attribute, phone: { possible: true, allow_blank: true, types: [:voip, :mobile], country_specifier: -> phone { phone.country.try(:upcase) } }
-  #validates :image, attached: true
   validates :image, dimension: { width: { min: 100, max: 1200 } }, content_type: [:png, :jpg, :jpeg], size: { less_than: 2.megabytes , message: 'is not given between size' }
 
   Role = ['admin', 'user']
@@ -42,11 +40,11 @@ class User < ApplicationRecord
 
   def create_tenant
     Apartment::Tenant.create(subdomain)
-  end # create_tenant
+  end
 
   def delete_tenant
-    Apartment::Tenant.drop(subdomain)   
-  end # delete_tenant
+    Apartment::Tenant.drop(subdomain)
+  end
 
   def self.send_user_email
     user = User.current

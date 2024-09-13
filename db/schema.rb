@@ -11,11 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_07_06_170343) do
-  create_schema "insales22810"
-  create_schema "ketago"
-  create_schema "support_ketago_com"
-  create_schema "teletri"
-  create_schema "test2"
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"

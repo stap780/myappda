@@ -11,13 +11,15 @@ class Users::SessionsController < Devise::SessionsController
 
   def create 
     ActiveRecord::Base.transaction do
-      @user = User.find_by_email(params[:user][:email])
+      @user = User.find_by_email(params["user"]["email"])
       if @user.present?
         Apartment::Tenant.switch!(@user.subdomain)
         sign_in(:user, @user)
         redirect_to after_sign_in_path_for(@user), allow_other_host: true
       else
-        render :action => 'new'
+        # render :action => 'new'
+        # redirect_to root_url(subdomain: ''), allow_other_host: true
+        redirect_to new_user_url
       end
     end
   end
@@ -28,7 +30,7 @@ class Users::SessionsController < Devise::SessionsController
     redirect_to after_sign_out_path_for(current_user), allow_other_host: true
   end
 
-  # protected
+  protected
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_in_params

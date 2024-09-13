@@ -1,9 +1,9 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  prepend_before_action :check_captcha, only: [:create]
+  # prepend_before_action :check_captcha, only: [:create]
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
   after_action :set_user_valid_date, only: [:create]
-  after_action :send_admin_email, only: [:create]
+  # after_action :send_admin_email, only: [:create]
 
 
 
@@ -12,9 +12,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # # POST /resource
+  # POST /resource
   def create
-    super
+    build_resource(sign_up_params)
+
+    resource.save
+    yield resource if block_given?
+    if resource.persisted?
+      if resource.active_for_authentication?
+        set_flash_message! :notice, :signed_up
+        sign_up(resource_name, resource)
+        # respond_with resource, location: after_sign_up_path_for(resource)
+        redirect_to after_sign_up_path_for(resource), allow_other_host: true
+      else
+        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+        expire_data_after_sign_in!
+        respond_with resource, location: after_inactive_sign_up_path_for(resource), allow_other_host: true
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
   end
 
   # GET /resource/edit
@@ -41,7 +60,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
@@ -53,12 +72,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :email, :subdomain, :avatar, :phone, :admin ])
   end
 
-  # The path used after sign up.
+  # # The path used after sign up.
   def after_sign_up_path_for(resource)
-    dashboard_url(subdomain: resource.subdomain)
+    mycases_url(subdomain: resource.subdomain)
   end
 
-  # The path used after sign up for inactive accounts.
+  # # The path used after sign up for inactive accounts.
   def after_inactive_sign_up_path_for(resource)
     root_url(subdomain: resource.subdomain)
   end
@@ -66,7 +85,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def set_user_valid_date
     if current_user.present?
       current_user.valid_from = current_user.created_at
-      current_user.valid_until = 'Sat, 30 Dec 2024' #current_user.created_at + 30.days
+      current_user.valid_until = 'Sat, 30 Dec 2025' #current_user.created_at + 30.days
       current_user.save
     end
   end

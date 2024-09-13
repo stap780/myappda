@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
+  # rescue_from ActionController::Redirecting::UnsafeRedirectError do
+  #   redirect_to root_url
+  # end
   protect_from_forgery with: :null_session
   impersonates :user
 
@@ -38,20 +41,17 @@ class ApplicationController < ActionController::Base
   private
 
   def after_sign_in_path_for(resource_or_scope)
-    puts resource_or_scope.subdomain + " - это из ApplicationController - after_sign_in_path_for"
-    mycases_url(subdomain: resource_or_scope.subdomain)#dashboard_url(subdomain: resource_or_scope.subdomain)
-  end # after_sign_in_path_for
+    puts "#{resource_or_scope.subdomain} - ApplicationController - after_sign_in_path_for"
+    mycases_url(subdomain: resource_or_scope.subdomain)
+  end
 
   def after_sign_out_path_for(resource_or_scope)
-    # url = request.host_with_port.gsub("#{request.subdomain}.","")
-    # "http://"+url
     root_url(subdomain: '')
   end
 
   def invoice_path_for(resource_or_scope)
     invoices_url(subdomain: resource_or_scope.subdomain)
-  end # invoice_path_for
-
+  end
 
   # def redirect_to_subdomain
   #   puts "self.is_a?(DeviseController)"
