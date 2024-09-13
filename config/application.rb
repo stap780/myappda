@@ -4,7 +4,7 @@ require 'rails/all'
 
 Bundler.require(*Rails.groups)
 
-require 'apartment/custom_console'
+# require 'apartment/custom_console'
 
 module MyApp
   class Application < Rails::Application
