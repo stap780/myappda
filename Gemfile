@@ -68,7 +68,6 @@ gem "redis", "~> 4.0"
 gem "bootsnap", require: false
 gem 'will_paginate-bootstrap-style' #https://github.com/delef/will_paginate-bootstrap-style
 gem "requestjs-rails"
-gem 'pry-rails'
 
 
 group :development, :test do
