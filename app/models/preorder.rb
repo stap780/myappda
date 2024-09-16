@@ -10,6 +10,10 @@ class Preorder < ApplicationRecord
     scope :for_inform, -> { where(status: "ready") }
     scope :status_wait, -> { where(status: "wait") }
 
+    def self.ransackable_attributes(auth_object = nil)
+        Preorder.attribute_names
+    end
+
     def self.find_dups
         columns_that_make_record_distinct = [:client_id, :variant_id]
         distinct_ids = Preorder.select("MIN(id) as id").group(columns_that_make_record_distinct).map(&:id)

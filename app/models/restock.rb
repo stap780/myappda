@@ -10,6 +10,10 @@ class Restock < ApplicationRecord
   scope :for_inform, -> { where(status: "ready") }
   scope :status_wait, -> { where(status: "wait") }
 
+  def self.ransackable_attributes(auth_object = nil)
+    Restock.attribute_names
+  end
+
   # def self.check_quantity_and_change_status
   #   restocks = Restock.where(status: "Ждём поступления")
   #     restocks.each do |restock|
