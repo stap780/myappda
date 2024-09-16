@@ -17,6 +17,10 @@ class Product < ApplicationRecord
     Product.attribute_names
   end
 
+  def self.ransackable_associations(auth_object = nil)
+    ["clients", "favorites", "lines", "mycases", "preorders", "restocks", "variants"]
+  end
+
   def self.get_image(insid)
     puts "get_image"
     current_subdomain = Apartment::Tenant.current
