@@ -114,12 +114,10 @@ class MessageSetupsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_message_setup
       @message_setup = MessageSetup.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
     def message_setup_params
       params.require(:message_setup).permit(:title, :handle, :description, :status, :payplan_id, :valid_until, :product_xml)
     end

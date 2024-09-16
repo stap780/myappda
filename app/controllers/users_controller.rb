@@ -11,7 +11,6 @@ class UsersController < ApplicationController
     @favorite_setup = FavoriteSetup.first
     @restock_setup = RestockSetup.first
     @message_setup = MessageSetup.first
-    #flash.now[:alert] = "testtest"
   end
 
   def new
@@ -26,7 +25,6 @@ class UsersController < ApplicationController
     redirect_to dashboard_path, alert: 'Access denied.' unless @user == current_user || current_admin
   end
 
-  # PATCH/PUT /users/1 or /users/1.json
   def update
     @user.image.attach(params[:user][:image]) if params[:user][:image]
     respond_to do |format|
@@ -80,11 +78,8 @@ class UsersController < ApplicationController
   end
 
   def add_message_setup_ability
-    notice = @user.add_extra_ability
+    notice = @user.add_message_setup_ability
     respond_to do |format|
-      # format.js do
-      #   flash.now[:notice] = notice
-      # end
       flash.now[:success] = notice
       format.turbo_stream do
         render turbo_stream: [
@@ -99,9 +94,6 @@ class UsersController < ApplicationController
     message = service.add_order_webhook
     # service.delete_order_webhook if @user.status == false
     respond_to do |format|
-      # format.js do
-      #   flash.now[:notice] = message
-      # end
       flash.now[:success] = message
       format.turbo_stream do
         render turbo_stream: [

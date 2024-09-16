@@ -5,15 +5,19 @@
     <%= button_to '<span class="oi oi-transfer"></span>'.html_safe, impersonate_user_path(user), data: {turbo: false}, class: "btn" %>
     </td>
     <td>
-        <b>Имя</b> <%= user.name %> <b>Логин</b> <%= user.subdomain %><br>
-        <b>Email</b> <%= user.email %><br>
-        <b>Phone</b> <%= user.phone %><br>
-        <b></b> <%= link_to 'Сайт', "http://"+user.insints.first.subdomen.to_s, target: "_blank" if user.insints.present? %>
-    </td>
-    <td>
-        <b>Создан</b> <%= user.created_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ).to_s%><br>
-        <b>Последний вход</b> <%= user.last_sign_in_at.present? ? user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : '' %><br>
-        <b>Действует до</b> <%= user.valid_until.present? ? user.valid_until.strftime("%d-%m-%Y") : ''%>
+        <div class="d-flex flex-column">
+            <div>
+                <b>Имя</b> <%= user.name %> <b>Логин</b> <%= user.subdomain %><br>
+                <b>Email</b> <%= user.email %><br>
+                <b>Phone</b> <%= user.phone %><br>
+                <b></b> <%= link_to 'Сайт', "http://"+user.insints.first.subdomen.to_s, target: "_blank" if user.insints.present? %>
+            </div>
+        </div>
+        <div>
+            <b>Создан</b> <%= user.created_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ).to_s%><br>
+            <b>Последний вход</b> <%= user.last_sign_in_at.present? ? user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : '' %><br>
+            <b>Действует до</b> <%= user.valid_until.present? ? user.valid_until.strftime("%d-%m-%Y") : ''%>
+        </div>
     </td>
         <td>
             <% insint = user.insints.first %>
@@ -32,8 +36,6 @@
     <td><%= user.products_count %></td>
     <td><%= user.izb_count %></td>
     <td><%= user.restock_count %></td>
-    <td><%= user.favorite_setup_status %><br>
-        Действует до - <%= user.favorite_setup_valid_until %> </td>
     <td><%= user.message_setup_status %><br>
         Действует до - <%= user.message_setup_valid_until %><br>
         <%= link_to "Add 4 week", add_message_setup_ability_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" %>
