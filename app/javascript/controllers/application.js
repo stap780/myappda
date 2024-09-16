@@ -67,13 +67,16 @@ function check_type(elementValue){
 }
 
 document.addEventListener("turbo:load", () => {
-    document.querySelector("#event_casetype").addEventListener("change", (event) => {
-        check_type(event.target.value)
-    });
-
-    document.querySelectorAll(".event_event_actions_channel select").forEach( element => {
-        element.addEventListener('change', (event) => {
-            set_operation(event.target.value)
+    if (document.querySelector("#event_casetype")) {
+        document.querySelector("#event_casetype").addEventListener("change", (event) => {
+            check_type(event.target.value)
         });
-    });
+    }
+    if (document.querySelector(".event_event_actions_channel")) {
+        document.querySelectorAll(".event_event_actions_channel select").forEach( element => {
+            element.addEventListener('change', (event) => {
+                set_operation(event.target.value)
+            });
+        });
+    }
 });
