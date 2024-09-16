@@ -6,17 +6,19 @@
       <div class="col-6">
 
         <%= f.input :active, label: 'Вкл/выкл', wrapper_html: { class: "mt-2" }  %>
-        <%= f.input :casetype, label: "Тип заявки", collection: Mycase::CASETYPE, prompt: '', input_html: { class: "form-select", onchange: "check_type(this)"} %>
+        <%= f.input :casetype, label: "Тип заявки", collection: Mycase::CASETYPE, prompt: '', input_html: { class: "form-select" } %>
         <% class_display = @event.casetype == 'order' ||  @event.casetype == 'restock' ? '' : 'd-none'%>
-        <% if Insint.present_work? %>
-        <%= f.input :custom_status, label: "Статус заказа", collection: ApiInsales.new(Insint.current).statuses, prompt: "Статус", 
+        <% if Insint.work? %>
+        <%= f.input :custom_status, label: "Статус заказа (Insales)", collection: ApiInsales.new(Insint.current).statuses, prompt: "Статус", 
                                     input_html: { class: "form-select" }, wrapper_html: { class: class_display } %>
-        <% else %>
-        <%= f.input :custom_status, label: "Статус заказа", placeholder: "Статус",disabled: true, 
-                                    input_html: { class: "form-control" }, wrapper_html: { class: class_display }, hint: 'Не настроена интеграция Insales' %>
-        <% end %>
-        <%= f.input :financial_status,  label: "Фин Статус заказа", collection: Event::FIN_STATUS, prompt: "Фин Статус", 
+        <%= f.input :financial_status,  label: "Фин Статус заказа (Insales)", collection: Event::FIN_STATUS, prompt: "Фин Статус", 
                                         input_html: { class: "form-select" }, wrapper_html: { class: class_display } %>
+        <% else %>
+        <%= f.input :custom_status, label: "Статус заказа (Insales)", placeholder: "Статус",disabled: true, 
+                                    input_html: { class: "form-control" }, wrapper_html: { class: class_display }, hint: 'Не настроена интеграция Insales' %>
+        <%= f.input :financial_status,  label: "Фин Статус заказа (Insales)", collection: Event::FIN_STATUS, prompt: "Фин Статус", 
+                                        input_html: { class: "form-select" }, wrapper_html: { class: class_display }, hint: 'Не настроена интеграция Insales' %>
+        <% end %>
         
         <%= f.fields_for :event_actions do |ff| %>
           <%= render "event_actions/form_items", {f: ff, class_display: class_display} %>

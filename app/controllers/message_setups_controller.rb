@@ -78,6 +78,41 @@ class MessageSetupsController < ApplicationController
     end
   end
 
+  def api_create_restock_xml
+    if !MessageSetup.first.present?
+      if current_user.insints.present? && current_user.insints.last.status
+        ms = MessageSetup.create
+        ms.api_create_restock_xml
+        respond_to do |format|
+          flash.now[:success] = t(".success")
+          format.turbo_stream do
+            render turbo_stream: [
+              render_turbo_flash
+            ]
+          end
+        end
+      else
+        respond_to do |format|
+          flash.now[:error] = 'Настройте интеграцию с insales'
+          format.turbo_stream do
+            render turbo_stream: [
+              render_turbo_flash
+            ]
+          end
+        end
+      end
+    else
+      respond_to do |format|
+        flash.now[:error] = 'ссылка на файл уже прописана'
+        format.turbo_stream do
+          render turbo_stream: [
+            render_turbo_flash
+          ]
+        end
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_message_setup

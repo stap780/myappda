@@ -1,24 +1,17 @@
 
-<%= simple_form_for(@useraccount) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+<%= turbo_frame_tag useraccount do %>
+  <%= form_with(model: useraccount, class: "" ) do |f| %>
+    <%= render "shared/errors", object: useraccount %>
+    <div class="d-flex flex-row align-items-center">
+      <%= f.text_field :name, class: "col form-control", placeholder: 'name' %>
+      <%= f.text_field :email, class: "col form-control", placeholder: 'email'  %>
+      <%= f.text_field :shop, class: "disabled d-none", readonly: true %>
+      <%= f.text_field :insuserid, class: "disabled d-none", readonly: true %>
 
-  <div class="col-12">
-    <%= tag.div class: "col-4 p-0 m-0" do %>
-    <%= f.input :name %>
-    <% end %>
-    <%= tag.div class: "col-3 p-0 m-0" do %>
-    <%= f.input :email %>
-     <% end %>
-    <%= tag.div class: "col-2 p-0 m-0 d-none" do %>
-    <%= f.input :shop, class: "disabled", readonly: true %>
-     <% end %>
-    <%= tag.div class: "col-2 p-0 m-0 d-none" do %>
-    <%= f.input :insuserid, class: "disabled", readonly: true %>
-     <% end %>
-  </div>
-
-  <div class="form-actions my-4">
-    <%= f.button :submit, 'Создать', class: "btn btn-primary"  %>
-  </div>
+      <div class="col ms-2 form-actions">
+        <%= f.submit 'Создать', class: "btn btn-primary" %>
+        <%= link_to close_icon, :back, class: "btn btn-outline-primary" %>
+      </div>
+    </div>
+  <% end %>
 <% end %>

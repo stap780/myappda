@@ -36,7 +36,7 @@
         Действует до - <%= user.favorite_setup_valid_until %> </td>
     <td><%= user.message_setup_status %><br>
         Действует до - <%= user.message_setup_valid_until %><br>
-        <%= link_to "Add 2 week", add_message_setup_ability_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" %>
+        <%= link_to "Add 4 week", add_message_setup_ability_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" %>
     </td>
     <td><%= link_to trash_icon, user, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }  if current_admin %></td>
 </tr>

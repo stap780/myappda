@@ -1,0 +1,57 @@
+
+<%= simple_form_for(@message_setup, wrapper: :horizontal_form) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="row mt-3">
+    <div class="col-12 h4 mt-2"><%= page_title %></div>
+    <div class="col-12 h6 mt-3">Cервис: <%= MessageSetup::TITLE %></div>
+    <div class="col-9 h6">Описание: <%= MessageSetup::DESCRIPTION %></div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs mt-3" id="msTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="ms-main-tab" data-bs-toggle="tab" data-bs-target="#ms-main" type="button" role="tab" aria-controls="ms-main" aria-selected="true">Основные настройки</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="abandoned-cart-tab" data-bs-toggle="tab" data-bs-target="#abandoned-cart" type="button" role="tab" aria-controls="abandoned-cart" aria-selected="false">Брошенная корзина</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="restock-tab" data-bs-toggle="tab" data-bs-target="#restock" type="button" role="tab" aria-controls="restock" aria-selected="false">Сообщить о поступлении</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="order-tab" data-bs-toggle="tab" data-bs-target="#order" type="button" role="tab" aria-controls="order" aria-selected="false">Заказ</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="preorder-tab" data-bs-toggle="tab" data-bs-target="#preorder" type="button" role="tab" aria-controls="preorder" aria-selected="false">Предзаказ</button>
+      </li>
+    </ul>
+    
+    <!-- Tab panes -->
+    <div class="tab-content pt-3">
+      <div class="tab-pane active" id="ms-main" role="tabpanel" aria-labelledby="ms-main-tab">
+        <%= render 'main_tab', f: f %>
+      </div>
+      <div class="tab-pane" id="abandoned-cart" role="tabpanel" aria-labelledby="abandoned-cart-tab">
+        <%= render 'abandoned_tab', f: f %>
+      </div>
+      <div class="tab-pane" id="restock" role="tabpanel" aria-labelledby="restock-tab">
+        <%= render 'restock_tab', f: f%>
+      </div>
+      <div class="tab-pane" id="order" role="tabpanel" aria-labelledby="order-tab">
+        <%= render 'order_tab', f: f%>
+      </div>
+      <div class="tab-pane" id="preorder" role="tabpanel" aria-labelledby="preorder-tab">
+        <%= render 'preorder_tab', f: f%>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="row">
+    <div class="col-2 btn-group mt-5">
+      <%= f.button :submit, "Сохранить", class: 'btn btn-success' %>
+      <%= link_to 'Назад', :back, class: 'btn btn-outline-primary' %>
+    </div>
+  </div>
+<% end %>

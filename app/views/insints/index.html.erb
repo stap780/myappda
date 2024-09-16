@@ -21,11 +21,11 @@
         <td><%= insint.subdomen %></td>
         <td><%= insint.inskey %></td>
         <td><%= insint.password %></td>
-        <td><%= link_to "Проверить", check_insints_path(insint), :remote => true, :method => :get, class: "btn btn-outline-info btn-sm" %></td>
-        <td><% status_icon = insint.status == false ? '<span class="oi oi-circle-x"></span>': '<span class="oi oi-circle-check"></span>' %>
+        <td><%= link_to "Проверить", check_insints_path(insint), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" %></td>
+        <td><% status_icon = insint.status == false ? false_icon : true_icon %>
         <%= status_icon.html_safe%></td>
         <td><%= link_to edit_icon, edit_insint_path(insint) %></td>
-        <td><%= link_to trash_icon, insint, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+        <td><%= link_to trash_icon, insint, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' } %></td>
       </tr>
     <% end %>
   </tbody>

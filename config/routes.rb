@@ -51,7 +51,11 @@ Rails.application.routes.draw do
     resources :lines
     resources :mycases
     resources :order_status_changes
-    resources :message_setups
+    resources :message_setups do
+      collection do 
+        post :api_create_restock_xml
+      end
+    end
     resources :event_actions
     resources :templates do
       collection do

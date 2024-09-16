@@ -1,4 +1,4 @@
-<%= f.input :channel, label: 'Канал события', collection: EventAction::CHANNEL, input_html: { class: "form-select" , onchange: "set_operation(this)"}, wrapper_html: { class: "mt-1" }  %>
+<%= f.input :channel, label: 'Канал события', collection: EventAction::CHANNEL, input_html: { class: "form-select" }, wrapper_html: { class: "mt-1" }  %>
 <%= f.input :operation, label: "Действие", wrapper_html: { class: "mt-1" } do %>
     <%= f.select :operation, EventAction::OPERATION.map { |r| [r[0], r[1], { value2: r[2]}] }, { include_blank: true}, { class: "form-select" } %>
 <% end %>

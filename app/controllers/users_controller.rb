@@ -80,7 +80,7 @@ class UsersController < ApplicationController
   end
 
   def add_message_setup_ability
-    notice = @user.add_message_setup_ability
+    notice = @user.add_extra_ability
     respond_to do |format|
       # format.js do
       #   flash.now[:notice] = notice

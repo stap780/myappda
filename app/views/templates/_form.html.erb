@@ -36,7 +36,7 @@
                             value="client">
         <label class="btn btn-outline-success" for="client-outlined">Клиент</label>
       </div>
-      <%=f.input :receiver, label: false, input_html: { class: input_class, value: @validate_receiver.present? ? @validate_receiver : check_receiver, placeholder: "адреса через запятую", autocomplete: "off"}%>
+      <%=f.input :receiver, label: false, input_html: { class: input_class, value: @validate_receiver.present? ? @validate_receiver : check_receiver, placeholder: "адреса менеджеров через запятую", autocomplete: "off"}%>
       <%# f.input :receiver, label: "Получатель", collection: [['Клиент','client'],['Менеджер','manager']], prompt: false, input_html: { class: "form-select" }, wrapper_html: {class: "col-6"} %>
       
       <%= f.input :subject, label: "Тема письма", input_html: {value: @validate_subject.present? ? @validate_subject : f.object.subject}, wrapper_html: {class: "mt-4"} %>
@@ -49,7 +49,7 @@
     <% end %>
      </div>
     <div class="col-6">
-    <% if Insint.present_work?%>
+    <% if Insint.work?%>
       <% if !@template.new_record? %>
         <div class="h6">Заказ инсалес и данные из инсалес</div>
         <div class="d-flex justify-content-beetwen align-items-center">

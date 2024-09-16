@@ -17,7 +17,7 @@ def self.current
 end
 
 
-def self.present_work?
+def self.work?
   User.current.insints.present? && Insint.current.present? && Insint.current.status == true ? true : false
 end
 

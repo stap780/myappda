@@ -1,0 +1,25 @@
+<a class="logo col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" href="http://myappda.ru">
+  <%= image_tag "new_logo_myappda.svg", data: {src: "new_logo_myappda.svg", title: 'MyAppDa'}, class: 'logo logo_white w-100' %>
+</a>
+<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 ms-3 me-auto">
+  <li class="p-2 nav-item">
+    <a class="nav-link text-dark" href="/#about-app">О приложении</a>
+  </li>
+  <li class="p-2 nav-item dropdown">
+    <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Сервисы</a>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="/favorite">Избранные товары</a></li>
+      <li><a class="dropdown-item" href="/restock">Собщить о поступлении</a></li>
+      <li><a class="dropdown-item" href="/message">Триггеры</a></li>
+      <li><a class="dropdown-item" href="/preorder">Предзаказ</a></li>
+      <li><a class="dropdown-item" href="/abandoned_cart">Брошенная корзина</a></li>
+    </ul>
+  </li>
+  <li class="p-2 nav-item">
+    <a class="nav-link text-dark" href="/documents">Помощь</a>
+  </li>
+</ul>
+<div class="header-buttons col-md-3 text-end">
+  <%= link_to t('log_in'), new_session_path('user'), class: 'btn btn-outline-primary me-2' %>
+  <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-primary' %>
+</div>

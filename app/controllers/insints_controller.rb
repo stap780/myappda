@@ -41,7 +41,7 @@ class InsintsController < ApplicationController
       if @insint.save
         service = ApiInsales.new(@insint)
         service.work? ? @insint.update!(status: true) : @insint.update!(status: false)
-        @insint.update_and_email if service.work?
+        # @insint.update_and_email if service.work?
         notice = service.work? == true ? 'Интеграция insales создана. Интеграция работает!' : 'Интеграция insales создана. Не работает!'
         format.html { redirect_to dashboard_url, notice: notice }
         format.json { render :show, status: :created, location: @insint }
@@ -131,7 +131,8 @@ class InsintsController < ApplicationController
     saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
     if saved_subdomain != "insales753667" #saved_subdomain != "mamamila" ||
       Apartment::Tenant.switch(saved_subdomain) do
-        if FavoriteSetup.check_ability
+        # if FavoriteSetup.check_ability - we have now only one service
+        if MessageSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
             # izb_productid = client.izb_productid.split(',').push(params[:product_id]).uniq.join(',')
@@ -201,7 +202,8 @@ class InsintsController < ApplicationController
     saved_subdomain = insint.user.subdomain
     if saved_subdomain != "insales753667" #saved_subdomain != "mamamila" ||
       Apartment::Tenant.switch(saved_subdomain) do
-        if FavoriteSetup.check_ability
+        # if FavoriteSetup.check_ability - we have now only one service
+        if MessageSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
             #добавка после расширения функционала
@@ -227,7 +229,8 @@ class InsintsController < ApplicationController
     saved_subdomain = insint.inskey.present? ? insint.user.subdomain : 'insales' + insint.insales_account_id.to_s
     if saved_subdomain != "insales753667" #saved_subdomain != "mamamila" ||
       Apartment::Tenant.switch(saved_subdomain) do
-        if FavoriteSetup.check_ability
+        # if FavoriteSetup.check_ability - we have now only one service
+        if MessageSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
             Client.emailizb(saved_subdomain, client.id, insint.user.id)

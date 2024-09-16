@@ -1,0 +1,25 @@
+
+<%= simple_form_for(@useraccount) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="col-12">
+    <%= tag.div class: "col-4 p-0 m-0" do %>
+    <%= f.input :name %>
+    <% end %>
+    <%= tag.div class: "col-3 p-0 m-0" do %>
+    <%= f.input :email %>
+     <% end %>
+    <%= tag.div class: "col-2 p-0 m-0 d-none" do %>
+    <%= f.input :shop, class: "disabled", readonly: true %>
+     <% end %>
+    <%= tag.div class: "col-2 p-0 m-0 d-none" do %>
+    <%= f.input :insuserid, class: "disabled", readonly: true %>
+     <% end %>
+  </div>
+
+  <div class="form-actions my-4">
+    <%= f.button :submit, 'Создать', class: "btn btn-primary"  %>
+  </div>
+<% end %>
+

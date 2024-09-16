@@ -5,26 +5,22 @@
     <%= render partial: 'layouts/metrics' %>
   </head>
   <body class="<%= current_page_path_as_class %> d-flex flex-column h-100">
-    <% if user_signed_in? %>
-      <header class="bg-444444">
-        <div class="container">
-        <%= render 'layouts/navigation' %>
-        </div>
-      </header>
-    <% else %>
-      <%= render partial: "/home/header"%>
+    <%= tag.header(class: user_signed_in? ? 'bg-444444': '') do %>
+      <div class="header-wrap container d-flex align-items-center py-0">
+        <%= render 'layouts/navigation_for_sign_in' if user_signed_in? %>
+        <%= render 'layouts/navigation_not_for_sign_in' if !user_signed_in? %>
+      </div>
     <% end %>
     <main>
-      <div id="main-content" class="container-fluid ">
+      <%= tag.div(class: user_signed_in? ? 'container' : 'container-fluid', id: 'main-content') do %>
         <%= render "shared/modal_wrap"%>
-        <div id="our_flash" class="position-fixed z-1 top-0 end-0 p-3 w-50">
+        <%= tag.div(class: 'position-fixed z-1 top-0 end-0 p-3 w-50', id: 'our_flash') do %>
           <%= render "shared/flash"%>
-        </div>
+        <% end %>
         <%= yield %>
-      </div>
+      <% end %>
     </main>
     <%= render partial: "/layouts/footer" if check_current_page_show_this_part? %>
     <%# render partial: "/layouts/messengers"%>
-    <%# render partial: "/layouts/modal"%>
     </body>
   </html>

@@ -1,5 +1,5 @@
     <div class="col-md-9">
-      <% if Insint.present_work? %>
+      <% if Insint.work? %>
         <%= f.input :status, label: "Статус (вкл/выкл)", wrapper: :horizontal_collection, wrapper_html: {class: 'mt-4'}  %>
         <%= f.input :title, as: :hidden, input_html: { value: MessageSetup::TITLE } %>
         <%= f.input :handle, as: :hidden, input_html: { value: MessageSetup::HANDLE }  %>

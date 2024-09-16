@@ -1,0 +1,14 @@
+<%= turbo_frame_tag message_setup, class: "d-flex list-group-item my-4 gap-4 border-start-0 border-end-0 w-100 row", data: {}  do %>
+    <%= tag.div(message_setup.title, class: "col-3 d-none") %>
+    <%= tag.div(message_setup.handle, class: "col-2 d-none") %>
+    <%= tag.div(message_setup.description, class: "col-2 d-none") %>
+    <%= tag.div(message_setup.status, class: "col-2 d-none") %>
+    <%= tag.div(message_setup.payplan_id, class: "col-3 d-none") %>
+    <%= tag.div(message_setup.valid_until, class: "col-2 d-none") %>
+    <%= tag.div(message_setup.product_xml, class: "col-9") %>
+
+    <div class= "col-1 d-flex justify-content-end gap-2 align-items-center">
+        <%= link_to edit_icon, edit_message_setup_path(message_setup), class: '' %>
+        <%= link_to trash_icon, message_setup, data: { "turbo-method": :delete, 'turbo-confirm': 'Are you sure?' }, class:"" %>
+    </div>
+<% end %>

@@ -73,6 +73,9 @@ end
 def false_icon
   '<i class="bi bi-x-circle"></i>'.html_safe
 end
+def true_icon
+  '<i class="bi bi-check-circle"></i>'.html_safe
+end
 
 def more_icon
   '<i class="bi bi-three-dots"></i>'.html_safe

@@ -9,7 +9,7 @@
             <th>Состояние</th>
             <th>Настройка</th>
             <th>Тариф</th>
-            <th>Действует</th>
+            <th>Работа</th>
             <th></th>
           </tr>
         </thead>
@@ -29,8 +29,27 @@
               <%= @favorite_setup.payplan.title if @favorite_setup && @favorite_setup.payplan %></br>
               <%= @favorite_setup.status ? "Состояние: Вкл" : "Состояние: Выкл" if @favorite_setup %>
             </td>
-            <td><%= @favorite_setup.present? && @favorite_setup.valid_until.present? ? @favorite_setup.valid_until.strftime("%d/%m/%Y") : "бесплатно" %></td>
+            <td><%= @favorite_setup.present? && @favorite_setup.valid_until.present? ? @favorite_setup.valid_until : "бесплатно" %></td>
             <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @favorite_setup, method: :delete, data: { confirm: 'Are you sure?' } if @favorite_setup %></td>
+          </tr>
+
+          <tr classs="restock_setup">
+            <td><%= RestockSetup::TITLE %></td>
+            <td><%= RestockSetup::DESCRIPTION %></td>
+            <td>
+              <%= link_to 'Добавить', new_restock_setup_path, class: 'btn btn-dark' if !@restock_setup %>
+              <%= link_to 'Добавлен', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-outline-dark disabled', disabled: true if @restock_setup %>
+            </td>
+            <td>
+              <%= link_to 'Настроить', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-dark' if @restock_setup && !@restock_setup.status %>
+              <%= link_to 'Настроено', edit_restock_setup_path(@restock_setup.id), class: 'btn btn-outline-dark' if @restock_setup && @restock_setup.status %>
+            </td>
+            <td>
+              <%= @restock_setup.payplan.title if @restock_setup && @restock_setup.payplan %></br>
+              <%= @restock_setup.status ? "Состояние: Вкл" : "Состояние: Выкл" if @restock_setup %>
+            </td>
+            <td><%= @restock_setup.present? && @restock_setup.valid_until.present? ? @restock_setup.valid_until : "бесплатно" %></td>
+            <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @restock_setup, method: :delete, data: { confirm: 'Are you sure?' } if @restock_setup %></td>
           </tr>
 
           <tr classs="message_setup">
@@ -48,7 +67,7 @@
               <%= @message_setup.payplan.title if @message_setup && @message_setup.payplan %></br>
               <%= @message_setup.status ? "Состояние: Вкл" : "Состояние: Выкл" if @message_setup %>
             </td>
-            <td><%= current_user.message_setup_valid_until.present? ? current_user.message_setup_valid_until.strftime("%d/%m/%Y") : "бесплатно" %></td>
+            <td><%= @message_setup.present? && @message_setup.valid_until.present? ? @message_setup.valid_until : "бесплатно" %></td>
             <td><%# link_to '<span class="oi oi-trash"></span>'.html_safe, @message_setup, method: :delete, data: { confirm: 'Are you sure?' } if @message_setup %></td>
           </tr>
         </tbody>

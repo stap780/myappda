@@ -1,25 +1,69 @@
 <div class="row mt-3 mb-3">
-  <div class="col"><h1>Общая информация</h1></div>
+  <div class="h1">Общая информация</div>
 </div>
 <div class="row mt-3 mb-3">
-  <div class="col">
-    <p><b>Имя:</b> <%= link_to current_user.name, edit_user_path( current_user )%><small> (subdomain - <%= current_user.subdomain%>)</small></p>
-    <p><b>Оплачен до:</b>  <% if !@pay_period.nil?%><%= @pay_period %><%else%>Бесплатно<%end%></p>
-    <p><b>Работает до:</b>  <%= current_user.valid_until.strftime("%d-%m-%Y" ) if current_user.valid_until.present?  %></p>
-    <p><b>Название магазина: </b><%= @ins_account.title if @ins_account %></p>
-    <p><b>Телефон:</b> <%= @ins_account.phone if @ins_account%></p>
-    <p><b>Email:</b> <%= current_user.email %></p>
+  <div class="col d-flex flex-column">
+    <div class="">
+      <span class="fw-bold">Имя:</span>
+      <span><%= current_user.name%> <small> (subdomain - <%= current_user.subdomain%>)</small></span>
+      <span><%= link_to edit_icon, edit_user_path( current_user )%></span>
+    </div>
+    <div class="">
+      <span class="fw-bold">Оплачен до:</span>
+      <span><%= !@pay_period.nil? ? @pay_period :  'Бесплатно'%></span>
+    </div>
+    <div class="">
+      <span class="fw-bold">Работает до:</span>
+      <span><%= current_user.valid_until.strftime("%d-%m-%Y" ) if current_user.valid_until.present? %></span>
+    </div>
+    <div class="">
+      <span class="fw-bold">Название магазина:</span>
+      <span><%= @ins_account.title if @ins_account %></span>
+    </div>
+    <div class="">
+      <span class="fw-bold">Телефон:</span>
+      <span><%= @ins_account.phone if @ins_account%></span>
+    </div>
+    <div class="">
+      <span class="fw-bold">Email:</span>
+      <span><%= current_user.email %></span>
+    </div>
+    <div class="col d-flex flex-column mt-4">
+      <div class="h3">Последние счета</div>
+      <%= tag.table class:"table" do %>
+        <thead class="thead-light">
+          <tr>
+            <th>Номер счета</th>
+            <th>Период продления</th>
+            <th>Сумма</th>
+            <th>Статус</th>
+            <th>Оплачен</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% Invoice.all.order(:id).limit(5).each do |invoice| %>
+            <tr>
+              <td><%= link_to invoice.id , invoice %></td>
+              <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
+              <td><%= invoice.sum %></td>
+              <td><%= invoice.status %></td>
+              <td><%= render 'invoices/invoice_status', f: invoice%></td>
+            </tr>
+          <% end %>
+        </tbody>
+      <% end if Invoice.all.count > 0 %>
+      <%= link_to 'Новый счет', new_invoice_path, class: 'btn btn-outline-primary my-3 w-50' %>
+    </div>
   </div>
-  <div class="col">
-    <h3>Интеграция insales</h3>
+  <div class="col d-flex flex-column">
+    <div class="d-flex flex-column">
+      <div class="h3">Интеграция insales</div>
       <% int_present = current_user.insints.first.present? ? true : false %>
       <% integracia = current_user.insints.first if int_present %>
-      <p>Состояние:
-        <% if integracia %>настроена<% else %>не настроена<% end %>
-      </p>
+      <span>Состояние: <%= integracia ? 'настроена' : 'не настроена' %></span>
       <% if int_present %>
         <% if integracia.inskey.present? %>
-          <%= link_to 'Редактировать интеграцию', edit_insint_path(integracia.id), class: 'btn btn-outline-primary mb-3' %>
+          <%= link_to 'Редактировать интеграцию', edit_insint_path(integracia.id), class: 'btn btn-outline-primary my-3 w-50' %>
         <% else %>
           <% if integracia.subdomen.present? %>
             <p>Регистрация настроена автоматически</p>
@@ -28,10 +72,12 @@
           <% end %>
         <% end %>
       <% else %>
-        <%= link_to 'Добавить интеграцию', new_insint_path, class: 'btn btn-outline-primary mb-3' %>
+        <%= link_to 'Добавить интеграцию', new_insint_path, class: 'btn btn-outline-primary my-3 w-50' %>
       <% end %>
-      <h3>Юр лица</h3>
-      <table class="table">
+    </div>
+    <div class="d-flex flex-column">
+      <div class="h3">Юр лица</div>
+      <%= tag.table class:"table" do %>
         <thead class="thead-light">
           <tr>
             <th>Название</th>
@@ -50,59 +96,32 @@
             </tr>
           <% end %>
         </tbody>
-      </table>
-      <%= link_to 'Добавить компанию', new_company_path, class: 'btn btn-outline-primary mb-3' %>
-      <h3>Пользователи</h3>
-<%= link_to "<i class='bi bi-plus'></i> пользователь".html_safe, 
-    new_useraccount_path, class: "btn btn-primary float-end mt-n1", data: {turbo_frame: dom_id(Useraccount.new) } %>
-        <%# link_to 'Добавить пользователя магазина', new_useraccount_path, class: 'btn btn-outline-primary mb-3' %>
+      <% end if Company.all.count > 0 %>
+      <%= link_to 'Добавить компанию', new_company_path, class: 'btn btn-outline-primary my-3 w-50' %>
+    </div>
+    <div class="d-flex flex-column">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="h3">Пользователи</div>
+        <%= link_to add_icon, new_useraccount_path, class: "btn btn-outline-primary btn-sm float-end", data: {turbo_frame: dom_id(Useraccount.new) } %>
+      </div>
 
-            <%= turbo_frame_tag Useraccount.new %>
+      <%= turbo_frame_tag Useraccount.new %>
 
-        <div class="col-12 list-group list-group-striped">
-          <div class="row py-2 px-4">
-            <%= tag.div('Имя', class: 'col-3 fw-semibold')%> 
-            <%= tag.div('Email', class: 'col-2 fw-semibold')%>
-            <%= tag.div( 'Магазин', class: 'col-2 fw-semibold' )%>
-            <%= tag.div( 'id в магазине', class: 'col-2 fw-semibold' )%>
-            <%= tag.div('', class: 'col-1 fw-semibold')%>
-          </div>
-          <%= turbo_frame_tag 'useraccounts', data: { } do %>
-              <% Useraccount.all.each do |useraccount|%>
-                <%= render partial: "useraccounts/useraccount", locals: {useraccount: useraccount} %>
-              <% end %>
-          <% end %>
+      <div class="col-12 list-group list-group-striped">
+        <div class="row py-2 px-4">
+          <%= tag.div('Имя', class: 'col-3 fw-semibold')%> 
+          <%= tag.div('Email', class: 'col-2 fw-semibold')%>
+          <%= tag.div( 'Магазин', class: 'col-2 fw-semibold' )%>
+          <%= tag.div( 'id в магазине', class: 'col-2 fw-semibold' )%>
+          <%= tag.div('', class: 'col-1 fw-semibold')%>
         </div>
-
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-6">
-      <h3>Последние счета</h3>
-      <table class="table">
-        <thead class="thead-light">
-          <tr>
-            <th>Номер счета</th>
-            <th>Период продления</th>
-            <th>Сумма</th>
-            <th>Статус</th>
-            <th>Оплачен</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% Invoice.all.order(:id).limit(5).each do |invoice| %>
-            <tr>
-              <td><%= link_to invoice.id , invoice %></td>
-              <td><%= invoice.payplan.period if invoice.payplan != nil%></td>
-              <td><%= invoice.sum %></td>
-              <td><%= invoice.status %></td>
-              <td><%= render 'invoices/invoice_status', f: invoice%></td>
-            </tr>
+        <%= turbo_stream_from "useraccounts" %>    
+        <%= turbo_frame_tag 'useraccounts', data: { } do %>
+          <% Useraccount.all.each do |useraccount|%>
+            <%= render partial: "useraccounts/useraccount", locals: {useraccount: useraccount} %>
           <% end %>
-        </tbody>
-      </table>
-      <%= link_to 'Новый счет', new_invoice_path, class: 'btn btn-outline-primary mt-2' %>
+        <% end %>
+      </div>
     </div>
-    <div class="col"></div>
   </div>
+</div>

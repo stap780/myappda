@@ -5,7 +5,7 @@
     <%= tag.div(useraccount.insuserid, class: "col-2") %>
 
     <div class= "col-1 d-flex justify-content-end gap-2 align-items-center">
-        <%= link_to '<i class="bi bi-pencil"></i>'.html_safe, edit_useraccount_path(useraccount), class: '' %>
-        <%= link_to '<i class="bi bi-trash"></i>'.html_safe, useraccount,  method: :delete, data: { confirm: 'Are you sure?' }, class:"" if Useraccount.all.count > 1 %>
+        <%= link_to edit_icon, edit_useraccount_path(useraccount), class: '' %>
+        <%= link_to trash_icon, useraccount, data: { "turbo-method": :delete, 'turbo-confirm': 'Are you sure?' }, class:"" %>
     </div>
 <% end %>
