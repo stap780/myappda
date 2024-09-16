@@ -9,9 +9,9 @@ class MessageSetup < ApplicationRecord
   # after_commit :create_invoice, on: [:create, :update]
   # before_save :set_free_valid, if: :new_record?
 
-  after_create_commit { broadcast_prepend_to "message_setup" }
-  after_update_commit { broadcast_replace_to "message_setup" }
-  after_destroy_commit { broadcast_remove_to "message_setup" }
+  after_create_commit { broadcast_prepend_to "message_setups" }
+  after_update_commit { broadcast_replace_to "message_setups" }
+  after_destroy_commit { broadcast_remove_to "message_setups" }
 
 
   HANDLE = "message"
