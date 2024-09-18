@@ -20,9 +20,6 @@ class MessageSetup < ApplicationRecord
                                           partial: 'message_setups/message_setup', 
                                           locals: { message_setup: self, current_user: User.current}
   end
-  after_destroy_commit do
-    broadcast_remove_to :message_setups, target: dom_id(User.current, dom_id(self))
-  end
 
 
   HANDLE = "message"

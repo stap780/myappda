@@ -63,10 +63,10 @@ gem 'wkhtmltopdf-binary', '~> 0.12.3.1'
 gem 'puma', ">= 6.0"
 gem 'rexml', '~> 3.2', '>= 3.2.6'
 gem "recaptcha"
-# Use Redis for Action Cable
+
 gem "redis", "~> 4.0"
 gem "bootsnap", require: false
-gem 'will_paginate-bootstrap-style' #https://github.com/delef/will_paginate-bootstrap-style
+gem 'will_paginate-bootstrap-style'
 gem "requestjs-rails"
 
 
@@ -86,5 +86,6 @@ group :development do
 
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
-  # gem 'hotwire-livereload'
 end
+
+gem "hotwire-livereload", "~> 1.4", :group => :development

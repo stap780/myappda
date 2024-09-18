@@ -16,7 +16,5 @@ class Useraccount < ApplicationRecord
       partial: "useraccounts/useraccount",
       locals: {useraccount: self, current_user: User.current}
   end
-  after_destroy_commit do
-    broadcast_remove_to :useraccounts, target: dom_id(User.current, dom_id(self))
-  end
+
 end

@@ -74,14 +74,7 @@ class MessageSetupsController < ApplicationController
   def destroy
     @message_setup.destroy
     respond_to do |format|
-      flash.now[:success] = t(".success")
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.update("message_setup_buttons_user_#{current_user.id}", partial: 'message_setups/buttons', 
-          locals: { current_user: current_user}),
-          render_turbo_flash
-        ]
-      end
+      format.turbo_stream {flash.now[:success] = t(".success")}
       format.html { redirect_to dashboard_services_url, notice: "Message setup was successfully destroyed." }
       format.json { head :no_content }
     end

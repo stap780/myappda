@@ -1,0 +1,4 @@
+<%= turbo_stream.remove dom_id(current_user, dom_id(@message_setup)) %>
+<%= turbo_stream.update("message_setup_buttons_user_#{current_user.id}", partial: 'message_setups/buttons', 
+          locals: { current_user: current_user})%>
+<%= prepend_flash %>

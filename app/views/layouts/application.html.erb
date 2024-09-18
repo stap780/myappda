@@ -3,6 +3,7 @@
   <head <%= Rails.env.development? %>>
     <%= render partial: 'layouts/head' %>
     <%= render partial: 'layouts/metrics' %>
+    <%= hotwire_livereload_tags if Rails.env.development? %>
   </head>
   <body class="<%= current_page_path_as_class %> d-flex flex-column h-100">
     <%= tag.header(class: user_signed_in? ? 'bg-444444': '') do %>
@@ -22,5 +23,5 @@
     </main>
     <%= render partial: "/layouts/footer" if check_current_page_show_this_part? %>
     <%# render partial: "/layouts/messengers"%>
-    </body>
-  </html>
+  </body>
+</html>
