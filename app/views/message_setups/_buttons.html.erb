@@ -1,0 +1,2 @@
+<%= link_to add_icon, new_message_setup_path, class: "btn btn-outline-primary btn-sm", data: {turbo_frame: dom_id(current_user, dom_id(MessageSetup.new)) } if MessageSetup.count < 1 %>
+<%= link_to 'create xml by api', api_create_restock_xml_message_setups_path, class: "btn btn-outline-primary btn-sm", data: {turbo_method: :post } if MessageSetup.count < 1 %>

@@ -102,10 +102,10 @@
     <div class="d-flex flex-column">
       <div class="d-flex align-items-center justify-content-between">
         <div class="h3">Пользователи</div>
-        <%= link_to add_icon, new_useraccount_path, class: "btn btn-outline-primary btn-sm float-end", data: {turbo_frame: dom_id(Useraccount.new) } %>
+        <%= link_to add_icon, new_useraccount_path, class: "btn btn-outline-primary btn-sm float-end", data: {turbo_frame: dom_id(current_user, dom_id(Useraccount.new)) } %>
       </div>
 
-      <%= turbo_frame_tag Useraccount.new %>
+      <%= turbo_frame_tag dom_id(current_user, dom_id(Useraccount.new)) %>
 
       <div class="col-12 list-group list-group-striped">
         <div class="row py-2 px-4">
@@ -116,7 +116,7 @@
           <%= tag.div('', class: 'col-1 fw-semibold')%>
         </div>
         <%= turbo_stream_from "useraccounts" %>    
-        <%= turbo_frame_tag 'useraccounts', data: { } do %>
+        <%= turbo_frame_tag dom_id(current_user, :useraccounts), data: { } do %>
           <% Useraccount.all.each do |useraccount|%>
             <%= render partial: "useraccounts/useraccount", locals: {useraccount: useraccount} %>
           <% end %>

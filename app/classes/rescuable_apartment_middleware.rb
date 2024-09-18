@@ -3,6 +3,7 @@
 # (`TenantNotFound`), soll auf die Startseite umgeleitet werden.
 ##
 module RescuableApartmentMiddleware
+  
   def call(*args)
     begin
       # puts "args"
@@ -14,5 +15,6 @@ module RescuableApartmentMiddleware
       redirect_url = Rails.application.routes.url_helpers.url_for(controller: 'home', action: :index)
       return [ 301, { 'Location' => redirect_url }, [ 'redirect' ] ]
     end
-  end # call
-end # module
+  end
+
+end

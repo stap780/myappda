@@ -1,6 +1,6 @@
 class MessageSetup < ApplicationRecord
   belongs_to :payplan, optional: true # это убирает проверку presence: true , которая стоит по дефолту
-
+  include ActionView::RecordIdentifier
   # validates :title, presence: true
   # validates :handle, uniqueness: true
   before_save :normalize_data_white_space
@@ -9,9 +9,20 @@ class MessageSetup < ApplicationRecord
   # after_commit :create_invoice, on: [:create, :update]
   # before_save :set_free_valid, if: :new_record?
 
-  after_create_commit { broadcast_prepend_to "message_setups" }
-  after_update_commit { broadcast_replace_to "message_setups" }
-  after_destroy_commit { broadcast_remove_to "message_setups" }
+  after_create_commit do
+    broadcast_update_to :message_setups, target: dom_id(User.current, dom_id(MessageSetup.new)), html: ''
+    broadcast_append_to :message_setups,  target: dom_id(User.current, :message_setups), 
+                                          partial: 'message_setups/message_setup', 
+                                          locals: { message_setup: self, current_user: User.current}
+  end
+  after_update_commit do
+    broadcast_replace_to :message_setups, target: dom_id(User.current, dom_id(self)), 
+                                          partial: 'message_setups/message_setup', 
+                                          locals: { message_setup: self, current_user: User.current}
+  end
+  after_destroy_commit do
+    broadcast_remove_to :message_setups, target: dom_id(User.current, dom_id(self))
+  end
 
 
   HANDLE = "message"

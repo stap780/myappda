@@ -26,7 +26,6 @@ class UseraccountsController < ApplicationController
         flash.now[:success] = t(".success")
         format.turbo_stream do
           render turbo_stream: [
-            turbo_stream.update(Useraccount.new, ''),
             render_turbo_flash
           ]
         end
@@ -60,7 +59,12 @@ class UseraccountsController < ApplicationController
   def destroy
     @useraccount.destroy
     respond_to do |format|
-      format.turbo_stream { flash.now[:success] = t(".success") }
+      flash.now[:success] = t(".success")
+      format.turbo_stream do
+        render turbo_stream: [
+          render_turbo_flash
+        ]
+      end
       format.html { redirect_to dashboard_path, notice: 'Пользователь was successfully destroyed.' }
       format.json { head :no_content }
     end

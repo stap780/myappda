@@ -1,12 +1,22 @@
 class Useraccount < ApplicationRecord
-    validates :name, presence: true
-    validates :email, presence: true
-    validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP
+  include ActionView::RecordIdentifier
 
-    after_create_commit { broadcast_prepend_to "useraccounts" }
-    after_update_commit { broadcast_replace_to "useraccounts" }
-    after_destroy_commit { broadcast_remove_to "useraccounts" }
+  validates :name, presence: true
+  validates :email, presence: true
+  validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP
 
-
-
+  after_create_commit do
+    broadcast_update_to :useraccounts, target: dom_id(User.current, dom_id(Useraccount.new)), html: ''
+    broadcast_prepend_to :useraccounts, target: dom_id(User.current, :useraccounts),
+      partial: "useraccounts/useraccount",
+      locals: {useraccount: self, current_user: User.current}
+  end
+  after_update_commit do
+    broadcast_replace_to :useraccounts, target: dom_id(User.current, dom_id(self)),
+      partial: "useraccounts/useraccount",
+      locals: {useraccount: self, current_user: User.current}
+  end
+  after_destroy_commit do
+    broadcast_remove_to :useraccounts, target: dom_id(User.current, dom_id(self))
+  end
 end

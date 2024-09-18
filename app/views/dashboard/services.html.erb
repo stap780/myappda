@@ -75,16 +75,17 @@
         <div class="h4 card-title">Сообщить о поступлении <small>(restock)</small></div>
       </div>
       <div class="card-body">
-        <div class="card-text">  
+        <div class="card-text">
+          <%= turbo_stream_from :message_setups %>  
           <ul>
             <li>
               <span>Ссылка на файл с товарами <small>(проверьте чтобы в настройке выгрузки стояла галка  - все варианты)</small></span>
-              <%= link_to 'create xml by api', api_create_restock_xml_message_setups_path, class: "btn btn-outline-primary btn-sm float-end", data: {turbo_method: :post } if MessageSetup.count < 1 %>
-              <%= link_to add_icon, new_message_setup_path, class: "btn btn-outline-primary btn-sm float-end", data: {turbo_frame: dom_id(MessageSetup.new) } if MessageSetup.count < 1 %>
+              <span class="float-end" id='message_setup_buttons_user_<%= current_user.id%>'>
+                <%= render partial: 'message_setups/buttons'%>
+              </span>
             </li>
-            <%= turbo_frame_tag MessageSetup.new %>
-            <%= turbo_stream_from "message_setups" %>
-            <%= turbo_frame_tag 'message_setups', data: { } do %>
+            <%= turbo_frame_tag dom_id(current_user, dom_id(MessageSetup.new)) %>
+            <%= turbo_frame_tag dom_id(current_user, :message_setups), data: { } do %>
               <% MessageSetup.all.each do |message_setup|%>
                 <%= render partial: "message_setups/message_setup", locals: {message_setup: message_setup} %>
               <% end %>

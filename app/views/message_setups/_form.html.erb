@@ -1,5 +1,5 @@
 
-<%= turbo_frame_tag message_setup do %>
+<%= turbo_frame_tag dom_id(current_user, dom_id(message_setup)) do %>
   <%= form_with(model: message_setup, class: "my-4" ) do |f| %>
     <%= render "shared/errors", object: message_setup %>
     <div class="d-flex flex-row align-items-center">
@@ -12,8 +12,8 @@
         <%= f.text_field :product_xml, class: "col form-control", placeholder: 'ссылка' %>
 
       <div class="col ms-2 form-actions d-flex flex-row">
-        <%= f.submit 'Создать', class: "btn btn-primary" %>
-        <%= link_to close_icon, :back, class: "btn btn-outline-primary" %>
+        <%= f.submit t('save'), class: "btn btn-primary" %>
+        <%= link_to close_icon, :back, class: "btn btn-outline-secondary" %>
       </div>
     </div>
   <% end %>

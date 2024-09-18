@@ -46,7 +46,7 @@ class InsintsController < ApplicationController
         format.html { redirect_to dashboard_url, notice: notice }
         format.json { render :show, status: :created, location: @insint }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @insint.errors, status: :unprocessable_entity }
       end
     end

@@ -11,6 +11,8 @@ module ApplicationCable
     private
 
     def find_verified_user
+      # puts 'find_verified_user'
+      # puts env["warden"].user.inspect
       env["warden"].user # for Devise
     end
   end

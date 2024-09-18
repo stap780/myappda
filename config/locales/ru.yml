@@ -23,6 +23,7 @@ ru:
   hello: "Привет мир"
   log_in: "Войти"
   sign_up: "Регистрация"
+  save: 'Сохранить'
   will_paginate:
     previous_label: "Назад"
     next_label: "Вперёд"

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag message_setup, class: "d-flex list-group-item my-4 gap-4 border-start-0 border-end-0 w-100 row", data: {}  do %>
+<%= turbo_frame_tag dom_id(current_user, dom_id(message_setup)), class: "d-flex list-group-item my-4 gap-4 border-start-0 border-end-0 w-100 row", data: {}  do %>
     <%= tag.div(message_setup.title, class: "col-3 d-none") %>
     <%= tag.div(message_setup.handle, class: "col-2 d-none") %>
     <%= tag.div(message_setup.description, class: "col-2 d-none") %>

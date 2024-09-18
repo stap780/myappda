@@ -1,7 +1,7 @@
 class MessageSetupsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_message_setup, only: %i[show edit update destroy]
-
+  include ActionView::RecordIdentifier
 
   # GET /message_setups
   def index
@@ -34,6 +34,13 @@ class MessageSetupsController < ApplicationController
 
     respond_to do |format|
       if @message_setup.save
+        flash.now[:success] = t(".success")
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.update( "message_setup_buttons_user_#{current_user.id}", ''),
+            render_turbo_flash
+          ]
+        end
         format.html { redirect_to dashboard_services_url, notice: "Message setup was successfully created." }
         format.json { render :show, status: :created, location: @message_setup }
       else
@@ -48,6 +55,12 @@ class MessageSetupsController < ApplicationController
   def update
     respond_to do |format|
       if @message_setup.update(message_setup_params)
+        flash.now[:success] = t(".success")
+        format.turbo_stream do
+          render turbo_stream: [
+            render_turbo_flash
+          ]
+        end
         format.html { redirect_to dashboard_services_url, notice: "Настройки обновились." }
         format.json { render :show, status: :ok, location: @message_setup }
       else
@@ -61,6 +74,14 @@ class MessageSetupsController < ApplicationController
   def destroy
     @message_setup.destroy
     respond_to do |format|
+      flash.now[:success] = t(".success")
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.update("message_setup_buttons_user_#{current_user.id}", partial: 'message_setups/buttons', 
+          locals: { current_user: current_user}),
+          render_turbo_flash
+        ]
+      end
       format.html { redirect_to dashboard_services_url, notice: "Message setup was successfully destroyed." }
       format.json { head :no_content }
     end

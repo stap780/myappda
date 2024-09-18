@@ -1,5 +1,5 @@
 
-<%= turbo_frame_tag useraccount do %>
+<%= turbo_frame_tag dom_id(current_user, dom_id(useraccount)) do %>
   <%= form_with(model: useraccount, class: "" ) do |f| %>
     <%= render "shared/errors", object: useraccount %>
     <div class="d-flex flex-row align-items-center">
@@ -8,8 +8,8 @@
       <%= f.text_field :shop, class: "disabled d-none", readonly: true %>
       <%= f.text_field :insuserid, class: "disabled d-none", readonly: true %>
 
-      <div class="col ms-2 form-actions">
-        <%= f.submit 'Создать', class: "btn btn-primary" %>
+      <div class="col ms-2 form-actions d-flex">
+        <%= f.submit t('save'), class: "btn btn-primary" %>
         <%= link_to close_icon, :back, class: "btn btn-outline-primary" %>
       </div>
     </div>
