@@ -43,6 +43,19 @@ ru:
         restrict_dependent_destroy:
           has_one: 'Невозможно удалить запись, так как существует зависимость: %{record}'
           has_many: 'Невозможно удалить запись, так как существуют зависимости: %{record}'
+  useraccounts: &model_system_flash
+    create:
+      success: создали!
+    destroy:
+      success: удалили!
+    edit:
+      title: редактировать
+    update:
+      success: обновили!
+    remove_nested:
+      success: удалили!
+  message_setups:
+    <<: *model_system_flash
   date:
     abbr_day_names:
     - Вс

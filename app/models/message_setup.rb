@@ -9,17 +9,19 @@ class MessageSetup < ApplicationRecord
   # after_commit :create_invoice, on: [:create, :update]
   # before_save :set_free_valid, if: :new_record?
 
-  after_create_commit do
-    broadcast_update_to :message_setups, target: dom_id(User.current, dom_id(MessageSetup.new)), html: ''
-    broadcast_append_to :message_setups,  target: dom_id(User.current, :message_setups), 
-                                          partial: 'message_setups/message_setup', 
-                                          locals: { message_setup: self, current_user: User.current}
-  end
-  after_update_commit do
-    broadcast_replace_to :message_setups, target: dom_id(User.current, dom_id(self)), 
-                                          partial: 'message_setups/message_setup', 
-                                          locals: { message_setup: self, current_user: User.current}
-  end
+  # switch off callback and move turbo_stream to controller because it dificult debug
+  # after_create_commit do
+  #   broadcast_update_to :message_setups,  target: dom_id(User.current, dom_id(MessageSetup.new)),
+  #                                         html: ''
+  #   broadcast_append_to :message_setups,  target: dom_id(User.current, :message_setups),
+  #                                         partial: 'message_setups/message_setup', 
+  #                                         locals: { message_setup: self, current_user: User.current}
+  # end
+  # after_update_commit do
+  #   broadcast_replace_to :message_setups, target: dom_id(User.current, dom_id(self)),
+  #                                         partial: 'message_setups/message_setup', 
+  #                                         locals: { message_setup: self, current_user: User.current}
+  # end
 
 
   HANDLE = "message"

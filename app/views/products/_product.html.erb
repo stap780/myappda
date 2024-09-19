@@ -1,10 +1,21 @@
-<tr>
-<!-- <td><%# check_box_tag "product_ids[]", product.id %></td> -->
-<td><%= product.id %></td>
-<td><%= product.insid %></td>
-<td><img src="<%= product.image_link %>" style="width: 100px;"/></td>
-<td><%= product.title %></td>
-<td><%= link_to '<span class="oi oi-eye"></span>'.html_safe, product if product.variants.present? %></td>
-<td><%= product.price %></td>
-<td><%= link_to trash_icon, product, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }, class:"" %></td>
+<tr class="align-middle">
+    <!-- <td><%# check_box_tag "product_ids[]", product.id %></td> -->
+    <td><%= product.id %></td>
+    <td><%= product.insid %></td>
+    <td class="p-0">
+        <div class="img-ratio img-fit">
+            <div class="img-ratio__inner">
+                <a href="#" >
+                    <picture>
+                        <source srcset="<%= product.image_link %>" type="image/svg+xml">
+                        <img src="<%= product.image_link %>" class="img-fluid img-thumbnail" alt="...">
+                    </picture>
+                </a>
+            </div>
+        </div>
+    </td>
+    <td><%= product.title %></td>
+    <td><%= link_to '<span class="oi oi-eye"></span>'.html_safe, product if product.variants.present? %></td>
+    <td><%= product.price %></td>
+    <td><%= link_to trash_icon, product, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }, class:"" %></td>
 </tr>

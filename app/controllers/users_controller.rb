@@ -106,13 +106,11 @@ class UsersController < ApplicationController
   def impersonate
     user = User.find(params[:id])
     impersonate_user(user)
-    #redirect_to root_path
     redirect_to after_sign_in_path_for(user), allow_other_host: true
   end
 
   def stop_impersonating
     stop_impersonating_user
-    # redirect_to root_path
     redirect_to after_sign_in_path_for(User.where(role: 'admin').first), allow_other_host: true
   end
 
@@ -121,9 +119,8 @@ class UsersController < ApplicationController
   def set_user
     @user = User.find(params[:id])
   end
-    # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.require(:user).permit(:name, :email, :subdomain, :phone, :admin, :avatar, avatar_attachment_attributes: [:id, :_destroy])
-    end
+  def user_params
+    params.require(:user).permit(:name, :email, :subdomain, :phone, :admin, :avatar, avatar_attachment_attributes: [:id, :_destroy])
+  end
 
 end

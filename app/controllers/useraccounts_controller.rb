@@ -1,6 +1,7 @@
 class UseraccountsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_useraccount, only: [:show, :edit, :update, :destroy]
+  include ActionView::RecordIdentifier
 
   def index
     redirect_to dashboard_path
@@ -26,6 +27,8 @@ class UseraccountsController < ApplicationController
         flash.now[:success] = t(".success")
         format.turbo_stream do
           render turbo_stream: [
+            turbo_stream.update( dom_id(current_user, dom_id(Useraccount.new)), ''),
+            turbo_stream.prepend( dom_id(current_user, :useraccounts), partial: 'useraccounts/useraccount', locals: {useraccount: @useraccount, current_user: current_user} ),
             render_turbo_flash
           ]
         end
@@ -44,6 +47,7 @@ class UseraccountsController < ApplicationController
         flash.now[:success] = t(".success")
         format.turbo_stream do
           render turbo_stream: [
+            turbo_stream.update( dom_id(current_user, :useraccounts), partial: 'useraccounts/useraccount', locals: {useraccount: @useraccount, current_user: current_user} ),
             render_turbo_flash
           ]
         end

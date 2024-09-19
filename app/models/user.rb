@@ -8,7 +8,7 @@ class User < ApplicationRecord
   after_initialize :set_default_role, :if => :new_record?
   after_create :create_tenant
   after_destroy :delete_tenant
-  after_commit :create_nessage_setup, on: [:create]
+  # after_commit :message_setup, on: [:create]
   has_many	 :insints, :dependent => :destroy
   accepts_nested_attributes_for :insints, allow_destroy: true
   has_many	 :payments, :dependent => :destroy
@@ -47,9 +47,9 @@ class User < ApplicationRecord
     Apartment::Tenant.drop(subdomain)
   end
 
-  def create_nessage_setup
+  def message_setup
     Apartment::Tenant.switch(self.subdomain) do
-      MessageSetup.create!(status: true)
+      MessageSetup.create!(status: true, valid_until: Date.today+30.days)
     end
   end
 

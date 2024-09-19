@@ -58,6 +58,8 @@ class MessageSetupsController < ApplicationController
         flash.now[:success] = t(".success")
         format.turbo_stream do
           render turbo_stream: [
+            turbo_stream.replace( dom_id(current_user, dom_id(@message_setup)), partial: 'message_setups/message_setup', 
+                                                                                locals: { message_setup: @message_setup, current_user: current_user }),
             render_turbo_flash
           ]
         end

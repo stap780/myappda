@@ -2,9 +2,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # prepend_before_action :check_captcha, only: [:create]
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
-  after_action :set_user_valid_date, only: [:create]
+  after_action :set_user_valid_date_and_message_setup, only: [:create]
   # after_action :send_admin_email, only: [:create]
-
 
 
   # # # GET /resource/sign_up
@@ -82,11 +81,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     root_url(subdomain: resource.subdomain)
   end
 
-  def set_user_valid_date
+  def set_user_valid_date_and_message_setup
     if current_user.present?
       current_user.valid_from = current_user.created_at
       current_user.valid_until = 'Sat, 30 Dec 2025' #current_user.created_at + 30.days
       current_user.save
+      current_user.message_setup
     end
   end
 
