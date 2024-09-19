@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource_or_scope)
     puts "#{resource_or_scope.subdomain} - ApplicationController - after_sign_in_path_for"
-    mycases_url(subdomain: resource_or_scope.subdomain)
+    current_admin ? users_url(subdomain: resource_or_scope.subdomain) : mycases_url(subdomain: resource_or_scope.subdomain)
   end
 
   def after_sign_out_path_for(resource_or_scope)
@@ -76,11 +76,11 @@ class ApplicationController < ActionController::Base
   end
 
   def app_url
-    puts "request.subdomain.present? "+request.subdomain.present?.to_s
-    puts 'request.domain - '+request.domain.to_s
-    puts 'request.subdomain - '+request.subdomain.to_s
-    puts 'request.host_with_port '+request.host_with_port.to_s
-    puts 'request.path '+request.path.to_s
+    # puts "request.subdomain.present? "+request.subdomain.present?.to_s
+    # puts 'request.domain - '+request.domain.to_s
+    # puts 'request.subdomain - '+request.subdomain.to_s
+    # puts 'request.host_with_port '+request.host_with_port.to_s
+    # puts 'request.path '+request.path.to_s
 
     subdomain = 'app'
 

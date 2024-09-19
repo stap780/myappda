@@ -3,6 +3,8 @@
   <head <%= Rails.env.development? %>>
     <%= render partial: 'layouts/head' %>
     <%= render partial: 'layouts/metrics' %>
+
+    <%= action_cable_meta_tag if Rails.env.development? %>
     <%= hotwire_livereload_tags if Rails.env.development? %>
   </head>
   <body class="<%= current_page_path_as_class %> d-flex flex-column h-100">
