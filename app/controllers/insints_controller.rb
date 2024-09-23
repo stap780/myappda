@@ -136,6 +136,7 @@ class InsintsController < ApplicationController
       # if FavoriteSetup.check_ability - we have now only one service
       if MessageSetup.check_ability
         client = Client.find_by_clientid(params[:client_id])
+        
         if client.present?
           product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
           fav = Favorite.new(product_id: product.id, client_id: client.id, created_at: Time.now, updated_at: Time.now)
@@ -153,9 +154,9 @@ class InsintsController < ApplicationController
             phone: search_client.phone
           }
           # puts "new_client_data => "+new_client_data.to_s
-          new_client = Client.create!(new_client_data)
+          client = Client.find_by_email(search_client.email).present? ? Client.find_by_email(search_client.email).update!(new_client_data) : Client.create!(new_client_data)
           product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
-          fav = Favorite.new(product_id: product.id, client_id: new_client.id, created_at: Time.now, updated_at: Time.now)
+          fav = Favorite.new(product_id: product.id, client_id: client.id, created_at: Time.now, updated_at: Time.now)
           fav.save
           totalcount = new_client.favorites.uniq.count.to_s
           render json: {success: true, message: "\u0442\u043E\u0432\u0430\u0440 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D \u0432 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0435", totalcount: totalcount}

@@ -35,10 +35,10 @@
       </thead>
       <tbody>
       <% @favorite_products.each do |pr| %>
-        <tr>
+        <tr class="align-middle">
           <td><%=pr.insid%></td>
           <td><%= link_to "#{pr.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
-          <td class="p-0">
+          <td class="p-0 d-block w-75">
               <div class="img-ratio img-fit">
                   <div class="img-ratio__inner">
                       <a href="#" >
