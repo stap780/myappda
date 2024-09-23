@@ -34,7 +34,7 @@
         <thead class="thead-light">
           <tr>
             <th>Номер счета</th>
-            <th>Период продления</th>
+            <th>Период мсц</th>
             <th>Сумма</th>
             <th>Статус</th>
             <th>Оплачен</th>
@@ -109,11 +109,11 @@
 
       <div class="col-12 list-group list-group-striped">
         <div class="row py-2 px-4">
-          <%= tag.div('Имя', class: 'col-3 fw-semibold')%> 
-          <%= tag.div('Email', class: 'col-2 fw-semibold')%>
-          <%= tag.div( 'Магазин', class: 'col-2 fw-semibold' )%>
-          <%= tag.div( 'id в магазине', class: 'col-2 fw-semibold' )%>
-          <%= tag.div('', class: 'col-1 fw-semibold')%>
+          <%= tag.div('Имя', class: 'col-5 fw-semibold')%> 
+          <%= tag.div('Email', class: 'col-5 fw-semibold')%>
+          <%= tag.div( 'Магазин', class: 'col-2 fw-semibold d-none' )%>
+          <%= tag.div( 'id в магазине', class: 'col-2 fw-semibold d-none' )%>
+          <%= tag.div('', class: 'col-2 fw-semibold')%>
         </div>
         <%= turbo_stream_from "useraccounts" %>    
         <%= turbo_frame_tag dom_id(current_user, :useraccounts), data: { } do %>

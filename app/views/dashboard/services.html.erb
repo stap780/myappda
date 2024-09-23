@@ -10,7 +10,17 @@
           <li>Добавление и удаление товаров в/из избранного на любом устройстве для зарегистрированных клиентов магазина</li>
           <li>экспорт клиентом списка на почту</li>
           <li>триггеры</li>
-          <li>Скачать виджет или обратиться в поддержку для настройки</li>
+          <li>Скачать <%= link_to 'виджет', asset_url("/widgets/favorites.zip"), target: '_blank'%> или обратиться в поддержку для настройки</li>
+          <li>
+            проверить в карточке товара и каталоге есть информация об id варианта
+            <code>
+              EventBus.subscribe('change_variant:insales:product', (data) => {
+                var pr_node = $('[data-product-id="'+data.product_id+'"]');
+                pr_node.attr("data-variant-id", data.id);
+              });
+            </code>
+          </li>
+          <li>заменяем стандартный <code>data-ui-favorites-trigger="{{ product.id }}"</code> на <code>data-trigger-click="myappda-favorites-trigger:insales:site"  data-favorite-product="{{ product.id }}"</code></li>
         </ul>
       </div>
     </div>
@@ -52,6 +62,7 @@
         <ul>
           <li>Форма заявки на сайте для регистрации запроса на предзаказ товара</li>
           <li>в инсалес должен быть создан кастомный статус в группе Новый ('new') с названием - 'preorder'</li>
+          <li>удалить из Вне контента стандартный виджет Предзаказ</li>
           <li>перед созданием заказа со статусом Предзаказ проверяется кол-во у товара и если кол-во равно 0 то добавляется кол-во 1 и только тогда можно создать заказ</li>    
           <li>триггеры</li>
           <li>Скачать <%= link_to 'виджет', asset_url("/widgets/wt_preorder.zip"), target: '_blank'%> или обратиться в поддержку для настройки</li>
@@ -86,6 +97,13 @@
             <% end %>
           <% end %>
           <li>Скачать <%= link_to 'виджет', asset_url("/widgets/wt_restock.zip"), target: '_blank'%> или обратиться в поддержку для настройки</li>
+          <li>добавить кнопку в виджет товара
+            <code>
+              <a href="#" class="button button_size-m button_wide product__not-available" data-trigger-click="empty-product:insales:site">
+                <span class="product__not-available__label">подписаться</span>
+              </a>
+          </code>
+          </li>
         </ul>
       </div>
     </div>

@@ -85,7 +85,7 @@ class FavoriteService
             }).done(function( data ) {
               $(".js-favorts-count").text(data.totalcount);
               alert(data.message);
-       		_this.hide();
+       		    _this.hide();
               _this.next().show();
 
             }).fail(function( jqxhr, textStatus, error ) {
