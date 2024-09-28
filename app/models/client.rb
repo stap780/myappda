@@ -69,7 +69,7 @@ class Client < ApplicationRecord
       # fio = client.fio
       # email = client.email # arr_email.join
 
-      products = client.favorites.pluck(:product_id).reverse
+      products = self.favorites.pluck(:product_id).reverse
       # puts "products.count - " + products.count.to_s
       email_data = {
         user: user,
