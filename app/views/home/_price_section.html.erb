@@ -2,7 +2,7 @@
     <div class="display-6 text-center text-uppercase mb-5">Стоимость</div>
     <div class="card-group gap-sm-3 gap-md-2">
         <div class="card text-center ml-0 mr-0">
-            <div class="card-header">Бесплатно</div>
+            <div class="card-header text-white" style="background-color: #0e0906;">Бесплатно</div>
             <div class="card-body">
                 <h4 class="card-title ">30 дней</h4>
                 <ul class="list-group list-group-flush">
@@ -16,9 +16,11 @@
             </div>
         </div>
         <div class="card text-center ml-0 mr-0">
-            <div class="card-header text-white bg-success">Стандарт</div>
+            <div class="position-absolute top-0 end-0 translate-middle badge rounded-pill text-bg-danger p-2">-40%</div>
+            <div class="card-header text-black" style="background-color: #feefcf;">Стандарт</div>
             <div class="card-body">
-                <h4 class="card-title">2500 ₽/мес</h4>
+                <h6 class="text-decoration-line-through text-danger text-opacity-75">4000 ₽/мес</h6>
+                <h4 class="card-title">2400 ₽/мес</h4>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">консультации</li>
                     <li class="list-group-item">оплата за 1 мес</li>
@@ -26,15 +28,17 @@
                 </ul>
             </div>
             <div class="card-body">
-                <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-outline-primary btn-lg' %>
+                <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-our-color btn-lg'%>
             </div>
         </div>
         <div class="card text-center ml-0 mr-0">
-            <div class="card-header">Стандарт 6</div>
+            <div class="position-absolute top-0 end-0 translate-middle badge rounded-pill text-bg-danger p-2">-40%</div>
+            <div class="card-header text-black" style="background-color: #feefcf;">Стандарт 6</div>
             <div class="card-body">
-                <h4 class="card-title">2250 ₽/мес</h4>
+                <h6 class="text-decoration-line-through text-danger text-opacity-75">3600 ₽/мес</h6>
+                <h4 class="card-title">2160 ₽/мес</h4>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">скидка 10% (13500 ₽)</li>
+                    <li class="list-group-item">скидка 10% (12960 ₽)</li>
                     <li class="list-group-item">оплата за 6 мес</li>
                     <li class="list-group-item">полный функционал</li>
                 </ul>
@@ -44,11 +48,13 @@
             </div>
         </div>
         <div class="card text-center ml-0 mr-0">
-            <div class="card-header text-white bg-danger">Стандарт 12</div>
+            <div class="position-absolute top-0 end-0 translate-middle badge rounded-pill text-bg-danger p-2">-40%</div>
+            <div class="card-header text-black" style="background-color: #feefcf;">Стандарт 12</div>
             <div class="card-body">
-                <h4 class="card-title">2000 ₽/мес</h4>
+                <h6 class="text-decoration-line-through text-danger text-opacity-75">3200 ₽/мес</h6>
+                <h4 class="card-title">1920 ₽/мес</h4>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">скидка 20% (24000 ₽)</li>
+                    <li class="list-group-item">скидка 20% (23040 ₽)</li>
                     <li class="list-group-item">оплата за 12 мес</li>
                     <li class="list-group-item">полный функционал</li>
                 </ul>

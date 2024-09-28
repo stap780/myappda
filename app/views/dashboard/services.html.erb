@@ -14,14 +14,18 @@
           <li>Скачать <%= link_to 'виджет  страницы', asset_url("/widgets/wt_favorites_products_page.zip"), target: '_blank'%> или обратиться в поддержку для настройки</li>
           <li>
             проверить в карточке товара и каталоге есть информация об id варианта
-            <code>
-              EventBus.subscribe('change_variant:insales:product', (data) => {
-                var pr_node = $('[data-product-id="'+data.product_id+'"]');
-                pr_node.attr("data-variant-id", data.id);
-              });
-            </code>
+<pre>
+EventBus.subscribe('change_variant:insales:product', (data) => {
+  var pr_node = $('[data-product-id="'+data.product_id+'"]');
+  pr_node.attr("data-variant-id", data.id);
+});
+</pre>
           </li>
-          <li>заменяем стандартный <code>data-ui-favorites-trigger="{{ product.id }}"</code> на <code>data-trigger-click="myappda-favorites-trigger:insales:site"  data-favorite-product="{{ product.id }}"</code></li>
+          <li>заменяем стандартный
+<pre>data-ui-favorites-trigger="{{ product.id }}"</pre> на 
+<pre>data-trigger-click="myappda-favorites-trigger:insales:site" 
+  data-favorite-product="{{ product.id }}"</pre>
+          </li>
         </ul>
       </div>
     </div>
@@ -99,12 +103,13 @@
           <% end %>
           <li>Скачать <%= link_to 'виджет', asset_url("/widgets/wt_restock.zip"), target: '_blank'%> или обратиться в поддержку для настройки</li>
           <li>добавить кнопку в виджет товара
-            <code>
-              <a href="#" class="button button_size-m button_wide product__not-available" data-trigger-click="empty-product:insales:site">
-                <span class="product__not-available__label">подписаться</span>
-              </a>
-          </code>
+<pre><code>
+  &lt;a href="#" class="button button_size-m button_wide product__not-available" data-trigger-click="empty-product:insales:site"&gt;
+    &lt;span class="product__not-available__label"&gt;подписаться&lt;/span&gt;
+  &lt;/a&gt;
+</code></pre>
           </li>
+          <li>проверка происходит раз в час</li>
         </ul>
       </div>
     </div>

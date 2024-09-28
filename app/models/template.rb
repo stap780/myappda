@@ -10,9 +10,6 @@ class Template < ApplicationRecord
     Template.attribute_names
   end
 
-  def validate_receiver_field
-
-  end
 
   private
 

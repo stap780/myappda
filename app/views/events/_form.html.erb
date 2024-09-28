@@ -6,7 +6,7 @@
       <div class="col-6">
 
         <%= f.input :active, label: 'Вкл/выкл', wrapper_html: { class: "mt-2" }  %>
-        <%= f.input :casetype, label: "Тип заявки", collection: Mycase::CASETYPE, prompt: '', input_html: { class: "form-select" } %>
+        <%= f.input :casetype, label: "Тип события", collection: Event::TYPES, prompt: '', input_html: { class: "form-select" } %>
         <% class_display = @event.casetype == 'order' ||  @event.casetype == 'restock' ? '' : 'd-none'%>
         <% if Insint.work? %>
         <%= f.input :custom_status, label: "Статус заказа (Insales)", collection: ApiInsales.new(Insint.current).statuses, prompt: "Статус", 

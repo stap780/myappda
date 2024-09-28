@@ -8,6 +8,7 @@ class Event < ApplicationRecord
     scope :active, -> { where(active: true) }
 
     FIN_STATUS = [['Не оплачен','pending'],['Оплачен','paid']].freeze #["pending", "paid"]
+    TYPES = Mycase::CASETYPE #+ [['Избранное','favorite']]
 
     def self.ransackable_attributes(auth_object = nil)
         Event.attribute_names
@@ -23,7 +24,7 @@ class Event < ApplicationRecord
     end
 
     def casetype_value
-        Mycase::CASETYPE.select{|c| c if c[1] == self.casetype}.flatten[0]
+        Event::TYPES.select{|c| c if c[1] == self.casetype}.flatten[0]
     end
 
     def pause_text
@@ -33,14 +34,5 @@ class Event < ApplicationRecord
     def timetable_text
         self.event_actions.present? && self.event_actions.first.timetable ? "Выполняется каждые #{self.event_actions.first.timetable_time.to_i/60} час." : nil
     end
-
-
-    # def restock_job
-    #     user = User.find_by_subdomain(Apartment::Tenant.current)
-    #     timetable_time = self.timetable_time
-    #     if self.casetype == 'restock'
-    #       RestockJob.set(wait: wait.to_i.minutes).perform_later(self.insales_order_id, operation, insint)
-    #     end
-    # end
 
 end

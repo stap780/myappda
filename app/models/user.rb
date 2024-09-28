@@ -230,7 +230,7 @@ class User < ApplicationRecord
     # check_email = EventMailer.with(email_data).send_action_email.deliver_later(wait: '1'.to_i.minutes)
     check_email = EventMailer.with(email_data).send_action_email.deliver_now
 
-    check_email.present? ? true : false
+    check_email.present? ? [true, 'Почта настроена верно и тестовое сообщение отправили'] : [false, 'Не работает Почта! Проверьте настройки']
   end
   
   def image_data

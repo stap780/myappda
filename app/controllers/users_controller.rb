@@ -63,11 +63,8 @@ class UsersController < ApplicationController
   end
 
   def check_email
-    notice = @user.check_email.present? ? 'Почта настроена верно и тестовое сообщение отправили' : 'Не работает Почта!'
+    result, notice = @user.check_email
     respond_to do |format|
-      # format.js do
-      #   flash.now[:notice] = notice
-      # end
       flash.now[:success] = notice
       format.turbo_stream do
         render turbo_stream: [

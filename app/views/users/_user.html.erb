@@ -23,7 +23,7 @@
             <% insint = user.insints.first %>
             <div class="btn-group-vertical" role="group" aria-label="button setup">
                 <%= link_to '<i class="bi bi-arrow-left-right"></i> API'.html_safe, check_insints_path(insint), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" if insint %>
-                <%= link_to '<i class="bi bi-envelope"></i> Email'.html_safe, check_email_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" %>
+                <%= link_to mail_icon, check_email_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm", title: 'check user email setup work' %>
                 <%= link_to '<i class="bi bi-arrow-up"></i> Add Order WebHook'.html_safe, add_insales_order_webhook_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" if insint %>
             </div>
         </td>

@@ -18,27 +18,26 @@
       </div>
     <% end %>
   </div>
+</div>
 
-  <div class="table-responsive">
-    <table class="table table-hover table-condensed">
-      <thead>
-        <tr class="bg-success">
-          <!-- <th><%# check_box_tag 'selectAll', value: 'selectAll'%></th> -->
-          <th>#</th>
-          <th>Id товара</th>
-          <th>Img</th>
-          <th>Название</th>
-          <th>Варианты</th>
-          <th>Цены</th>
-          <th colspan="1"></th>
-        </tr>
-      </thead>
-      <tbody id="items_table">
-        <%= render @products %>
-      </tbody>
-    </table>
-  </div>
-
+<div class="table-responsive">
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr class="bg-success">
+        <!-- <th><%# check_box_tag 'selectAll', value: 'selectAll'%></th> -->
+        <th>#</th>
+        <th>Id товара</th>
+        <th>Img</th>
+        <th>Название</th>
+        <th>Варианты</th>
+        <th>Цены</th>
+        <th colspan="1"></th>
+      </tr>
+    </thead>
+    <tbody id="items_table">
+      <%= render @products %>
+    </tbody>
+  </table>
 </div>
 
 <%= render 'shared/paginate', object: @products %>

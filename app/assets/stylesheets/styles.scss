@@ -652,3 +652,13 @@ body {
   vertical-align: middle
 }
 /*** IMG ***/
+
+.btn-our-color {
+  border-color: #be3e09;
+  background-color: #be3e09;
+  color: white;
+}
+.btn-our-color:hover {
+  background-color: #{shade-color(#be3e09, 20%)}; ;
+  color: white;
+}

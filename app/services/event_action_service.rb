@@ -74,11 +74,8 @@ class EventActionService
 
     def check_trigger
         check = false
-        if @mycase.insales_custom_status_title == @event.custom_status &&
-            @mycase.insales_financial_status == @event.financial_status
-
+        if @mycase.insales_custom_status_title == @event.custom_status && @mycase.insales_financial_status == @event.financial_status
             check = true
-
         end
         check
     end
