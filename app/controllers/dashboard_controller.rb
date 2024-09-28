@@ -7,9 +7,6 @@ class DashboardController < ApplicationController
     service = current_user.insints.first.present? ? ApiInsales.new(current_user.insints.first) : nil
     @ins_account = service.present? && service.work? ? service.account : nil
 
-    # izb_product_string = clients.map(&:izb_productid).join(',')
-    # @count_izb = izb_product_string.split(',').count
-    # @clients_count = clients.count
     @clients_count = clients.count
     @count_izb = clients.map{|client| client.products.count}.sum
     respond_to do |format|
@@ -22,8 +19,6 @@ class DashboardController < ApplicationController
 
   def test_email
     User.service_end_email
-    # Client.emailizb('fishartel', 29250124, 64 ) #development test
-    # Client.emailizb('insales22810', 27968659, 20 ) #production test
     flash[:notice] = 'Отправили'
 		redirect_to dashboard_path
   end

@@ -55,25 +55,34 @@ class Client < ApplicationRecord
     end
   end
 
-  def self.emailizb(saved_subdomain, user_client_id, user_id)
-    Apartment::Tenant.switch(saved_subdomain) do
-      client = Client.find(user_client_id)
-      insint = User.find(user_id).insints.first
-      uri = insint.inskey.present? ? "http://#{insint.inskey}:#{insint.password}@#{insint.subdomen}" : "http://k-comment:#{insint.password}@#{insint.subdomen}"
-      response = RestClient.get(uri + "/admin/account.json")
-      data = JSON.parse(response)
-      shoptitle = data["title"]
-      shopemail = data["email"]
-      shopurl = "http://" + insint.subdomen
+  def emailizb(current_subdomain, user)
+    # Apartment::Tenant.switch(saved_subdomain) do
+      # client = Client.find(user_client_id)
+      # insint = User.find(user_id).insints.first
+      # uri = insint.inskey.present? ? "http://#{insint.inskey}:#{insint.password}@#{insint.subdomen}" : "http://k-comment:#{insint.password}@#{insint.subdomen}"
+      # response = RestClient.get(uri + "/admin/account.json")
+      # data = JSON.parse(response)
+      # shoptitle = data["title"]
+      # shopemail = data["email"]
+      # shopurl = "http://" + insint.subdomen
 
-      fio = client.fio
-      email = client.email # arr_email.join
+      # fio = client.fio
+      # email = client.email # arr_email.join
 
       products = client.favorites.pluck(:product_id).reverse
-      puts "products.count - " + products.count.to_s
+      # puts "products.count - " + products.count.to_s
+      email_data = {
+        user: user,
+        fio: self.fio,
+        current_subdomain: current_subdomain, 
+        receiver: self.email,
+        products: products
+      }
 
-      ClientMailer.emailizb(shoptitle, shopemail, shopurl, fio, email, products, saved_subdomain).deliver_now
-    end
+      check_email = ClientMailer.with(email_data).emailizb.deliver_now
+      # ClientMailer.emailizb(shoptitle, shopemail, shopurl, fio, email, products, saved_subdomain).deliver_now
+    # end
+    check_email.present? ? [true, 'Отправили письмо клиету с избранным'] : [false, 'Избранное Не работает Почта! Проверьте настройки']
   end
 
   def self.uniq_favorites_count

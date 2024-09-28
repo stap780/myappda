@@ -46,27 +46,16 @@ class ClientsController < ApplicationController
   end
 
   def emailizb
-    result, notice = current_user.check_email
-    if result
-      current_subdomain = Apartment::Tenant.current
-      current_user_id = current_user.id
-      Client.emailizb(current_subdomain, @client.id, current_user.id)
-      respond_to do |format|
-        flash.now[:success] = "Письмо с товарами отправлено"
-        format.turbo_stream do
-          render turbo_stream: [
-            render_turbo_flash
-          ]
-        end
-      end
-    else
-      respond_to do |format|
-        flash.now[:error] = notice
-        format.turbo_stream do
-          render turbo_stream: [
-            render_turbo_flash
-          ]
-        end
+    current_subdomain = Apartment::Tenant.current
+    current_user_id = current_user.id
+    # Client.emailizb(current_subdomain, @client.id, current_user.id)
+    result, notice = @client.emailizb(current_subdomain, current_user)
+    respond_to do |format|
+      flash.now[:success] = notice
+      format.turbo_stream do
+        render turbo_stream: [
+          render_turbo_flash
+        ]
       end
     end
   end
