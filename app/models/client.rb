@@ -56,33 +56,17 @@ class Client < ApplicationRecord
   end
 
   def emailizb(current_subdomain, user)
-    # Apartment::Tenant.switch(saved_subdomain) do
-      # client = Client.find(user_client_id)
-      # insint = User.find(user_id).insints.first
-      # uri = insint.inskey.present? ? "http://#{insint.inskey}:#{insint.password}@#{insint.subdomen}" : "http://k-comment:#{insint.password}@#{insint.subdomen}"
-      # response = RestClient.get(uri + "/admin/account.json")
-      # data = JSON.parse(response)
-      # shoptitle = data["title"]
-      # shopemail = data["email"]
-      # shopurl = "http://" + insint.subdomen
+    products = self.favorites.pluck(:product_id).reverse
+    email_data = {
+      user: user,
+      fio: self.fio,
+      current_subdomain: current_subdomain, 
+      receiver: self.email,
+      products: products
+    }
 
-      # fio = client.fio
-      # email = client.email # arr_email.join
-
-      products = self.favorites.pluck(:product_id).reverse
-      # puts "products.count - " + products.count.to_s
-      email_data = {
-        user: user,
-        fio: self.fio,
-        current_subdomain: current_subdomain, 
-        receiver: self.email,
-        products: products
-      }
-
-      check_email = ClientMailer.with(email_data).emailizb.deliver_now
-      # ClientMailer.emailizb(shoptitle, shopemail, shopurl, fio, email, products, saved_subdomain).deliver_now
-    # end
-    check_email.present? ? [true, 'Отправили письмо клиету с избранным'] : [false, 'Избранное Не работает Почта! Проверьте настройки']
+    check_email = ClientMailer.with(email_data).emailizb.deliver_now
+    check_email.present? ? [true, 'Отправили письмо клиенту с избранным'] : [false, 'Избранное Не работает Почта! Проверьте настройки']
   end
 
   def self.uniq_favorites_count

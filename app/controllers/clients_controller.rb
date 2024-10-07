@@ -48,7 +48,6 @@ class ClientsController < ApplicationController
   def emailizb
     current_subdomain = Apartment::Tenant.current
     current_user_id = current_user.id
-    # Client.emailizb(current_subdomain, @client.id, current_user.id)
     result, notice = @client.emailizb(current_subdomain, current_user)
     respond_to do |format|
       flash.now[:success] = notice

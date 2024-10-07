@@ -1,14 +1,11 @@
 class User < ApplicationRecord
   include Rails.application.routes.url_helpers
 
-  # Include default devise modules. Others available are:
-  # :recoverable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,:rememberable, :trackable, :validatable, :recoverable, :date_restrictable
 
   after_initialize :set_default_role, :if => :new_record?
   after_create :create_tenant
   after_destroy :delete_tenant
-  # after_commit :message_setup, on: [:create]
   has_many	 :insints, :dependent => :destroy
   accepts_nested_attributes_for :insints, allow_destroy: true
   has_many	 :payments, :dependent => :destroy
