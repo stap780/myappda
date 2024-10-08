@@ -48,7 +48,7 @@ class RestockService
         if @client.restocks.for_inform.present?
           EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes) if channel == "email"
           @client.restocks.for_inform.update_all(status: "send")
-          Case.restock_update_cases(@client)
+          Mycase.restock_update_cases(@client)
           puts "=======client have restocks and we inform it"
           puts "=======client id => " + @client.id.to_s
         else
@@ -65,8 +65,8 @@ class RestockService
     check = false
     puts "=======load_products_xml @product_xml => " + @product_xml.to_s
     RestClient.get(@product_xml) { |response, request, result, &block|
-        # puts response.code
-        # puts response
+      # puts response.code
+      # puts response
       case response.code
       when 200
         f = File.new(@download_path, "wb")
@@ -106,7 +106,7 @@ class RestockService
         Restock.status_wait.each do |res|
           ins_variant = all_offers.select { |offer| offer if offer["id"] == res.variant.insid.to_s }
           if ins_variant.present? && ins_variant[0]["available"] == "true"
-            puts "=======restocks_update_status_for_inform #{res}"
+            puts "=======restocks_update_status_for_inform #{res.inspect}"
             res.update!(status: "ready")
           end
         end

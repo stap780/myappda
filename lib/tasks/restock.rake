@@ -5,16 +5,17 @@ namespace :restock do
   task check_quantity_and_send_client_email: :environment do
     puts "start check_product_qt - время москва - #{Time.zone.now}"
     tenants = User.pluck(:subdomain)
-    puts "=======всего tenants - #{tenants.count.to_s}"
+    puts "=======всего tenants - #{tenants.count}"
     tenants.each do |tenant|
       Apartment::Tenant.switch(tenant) do
         user = User.find_by_subdomain(tenant)
+        puts "=======switch tenant - #{tenant}"
         if MessageSetup.all.count > 0
           product_xml = MessageSetup.first.product_xml
           if product_xml.present?
             events = Event.active.where(casetype: "restock")
             clients = Client.with_restocks
-            puts "=======start check clients / всего clients - #{clients.count.to_s}"
+            puts "=======start check clients / всего clients - #{clients.count}"
             uniq_records_ids = Restock.find_dups
             Restock.where.not(id: uniq_records_ids).delete_all
             clients.each do |client|
@@ -28,6 +29,7 @@ namespace :restock do
 
     puts "finish check_product_qt - время москва - #{Time.zone.now}"
   end
+  
 end
 
 # testing
