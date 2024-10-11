@@ -1,11 +1,11 @@
 #  encoding : utf-8
 class RestockService
-  def initialize(user, client, events, product_xml)
+  def initialize(user, client, events, xml_file)
     @user = user
     @client = client
     @events = events
-    @product_xml = product_xml
-    @download_path = Rails.env.development? ? "#{Rails.root}/public/#{@user.id}.xml" : "/var/www/myappda/shared/public/#{@user.id}.xml"
+    # @product_xml = product_xml
+    @download_path = xml_file #Rails.env.development? ? "#{Rails.root}/public/#{@user.id}.xml" : "/var/www/myappda/shared/public/#{@user.id}.xml"
   end
 
   def do_action # (user, client, events)
@@ -25,8 +25,8 @@ class RestockService
       periods = Array.new((23 / table_hour) + 1) { |e| table_hour * e }.reject(&:blank?)
       now_hour = Time.now.strftime("%H")
 
-      if periods.include?(now_hour.to_i) && check_product_xml_link
-        load_products_xml
+      if periods.include?(now_hour.to_i) # && check_product_xml_link
+        # load_products_xml
         restocks_update_status_for_inform # we set status READY
 
         subject_template = Liquid::Template.parse(action.template.subject)
@@ -60,44 +60,44 @@ class RestockService
     end
   end
 
-  def load_products_xml
-    File.delete(@download_path) if File.file?(@download_path).present?
-    check = false
-    puts "=======load_products_xml @product_xml => " + @product_xml.to_s
-    RestClient.get(@product_xml) { |response, request, result, &block|
-      # puts response.code
-      # puts response
-      case response.code
-      when 200
-        f = File.new(@download_path, "wb")
-        f << response.body
-        f.close
-        puts "Restock load and write products xml file - user id => #{@user.id}.to_s"
-        check = true
-      when 301
-        check = false
-      else
-        response.return!(&block)
-      end
-    }
-    check
-  end
+  # def load_products_xml
+  #   File.delete(@download_path) if File.file?(@download_path).present?
+  #   check = false
+  #   puts "=======load_products_xml @product_xml => " + @product_xml.to_s
+  #   RestClient.get(@product_xml) { |response, request, result, &block|
+  #     # puts response.code
+  #     # puts response
+  #     case response.code
+  #     when 200
+  #       f = File.new(@download_path, "wb")
+  #       f << response.body
+  #       f.close
+  #       puts "Restock load and write products xml file - user id => #{@user.id}.to_s"
+  #       check = true
+  #     when 301
+  #       check = false
+  #     else
+  #       response.return!(&block)
+  #     end
+  #   }
+  #   check
+  # end
 
-  def check_product_xml_link
-    check = true
-    begin
-      response = RestClient.get(@product_xml)
-    rescue SocketError => e
-      puts "In Socket errror"
-      puts e
-      check = false
-    rescue => e
-      puts(e.class.inspect)
-      check = false
-    else
-      check
-    end
-  end
+  # def check_product_xml_link
+  #   check = true
+  #   begin
+  #     response = RestClient.get(@product_xml)
+  #   rescue SocketError => e
+  #     puts "In Socket errror"
+  #     puts e
+  #     check = false
+  #   rescue => e
+  #     puts(e.class.inspect)
+  #     check = false
+  #   else
+  #     check
+  #   end
+  # end
 
   def restocks_update_status_for_inform
     if File.file?(@download_path).present?
@@ -113,4 +113,5 @@ class RestockService
       end
     end
   end
+
 end

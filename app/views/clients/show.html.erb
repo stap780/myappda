@@ -37,16 +37,16 @@
           <td><%=pr.insid%></td>
           <td><%= link_to "#{pr.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
           <td class="p-0 d-block w-75">
-              <div class="img-ratio img-fit">
+              <%=tag.div class="img-ratio img-fit" do %>
                   <div class="img-ratio__inner">
                       <a href="#" >
                           <picture>
                               <source srcset="<%= pr.image_link %>" type="image/svg+xml">
-                              <img src="<%= pr.image_link %>" class="img-fluid img-thumbnail" alt="...">
+                              <img src="<%= pr.image_link %>" class="img-fluid img-thumbnail">
                           </picture>
                       </a>
                   </div>
-              </div>
+              <% end if pr.image_link.present? %>
           </td>
           <td><%=pr.price%></td>
         </tr>

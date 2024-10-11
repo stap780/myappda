@@ -54,7 +54,10 @@ gem 'rbnacl', '< 5.0', :require => false
 gem 'rbnacl-libsodium', :require => false
 gem 'rest-client'
 gem 'rubyzip'
-gem 'sidekiq', '~> 7.1.3' 
+
+gem 'sidekiq', '~> 7.1.3'
+gem "sidekiq-scheduler"
+
 gem 'simple_form'
 gem 'whenever', require: false
 gem 'wicked_pdf'

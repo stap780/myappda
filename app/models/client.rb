@@ -42,7 +42,9 @@ class Client < ApplicationRecord
         headers = ["id \u0442\u043E\u0432\u0430\u0440\u0430", "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u0442\u043E\u0432\u0430\u0440\u0430", "\u0421\u0441\u044B\u043B\u043A\u0430", "\u041A\u0430\u0440\u0442\u0438\u043D\u043A\u0430", "\u0426\u0435\u043D\u0430", "\u041A\u043E\u043B-\u0432\u043E \u0443\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0439"]
         writer << headers
 
-        Product.all.each do |product|
+        pr_ids = Favorite.group(:product_id).count.map{|id, count| id}
+        products = Product.where(id: pr_ids)
+        products.each do |product|
           insid = product.insid
           title = product.title
           link = "http://#{insint.subdomen}/product_by_id/#{product.insid}"

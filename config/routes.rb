@@ -1,6 +1,7 @@
-Rails.application.routes.draw do
+require 'sidekiq/web'
+require "sidekiq-scheduler/web"
 
-  require 'sidekiq/web'
+Rails.application.routes.draw do
 
   authenticate :user, ->(user) { user.admin? } do
     mount Sidekiq::Web => '/sidekiq'

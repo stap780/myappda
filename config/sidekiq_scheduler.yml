@@ -1,0 +1,16 @@
+restock_send_email:
+  cron: "0 0 * * * *" #every hour
+  class: "RestockScheduler"
+  queue: "export"
+log_files:
+  cron: "45 23 * * *" #at 23-45
+  class: "CreateLogFilesScheduler"
+  queue: "default"
+# delete_unattached_blobs_every_day:
+#   cron: "15 23 * * *" #at 23-15
+#   class: "DeleteUnattachedBlobsScheduler"
+#   queue: "default"
+# import_product:
+#   cron: "00 06 * * *" #at 06-00
+#   class: "ImportProductScheduler"
+#   queue: "import_product"
