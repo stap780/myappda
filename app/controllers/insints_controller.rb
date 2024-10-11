@@ -136,7 +136,7 @@ class InsintsController < ApplicationController
       # if FavoriteSetup.check_ability - we have now only one service
       if MessageSetup.check_ability
         client = Client.find_by_clientid(params[:client_id])
-        
+
         if client.present?
           product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
           fav = Favorite.new(product_id: product.id, client_id: client.id, created_at: Time.now, updated_at: Time.now)
@@ -264,7 +264,7 @@ class InsintsController < ApplicationController
     saved_subdomain = insint.user.subdomain
     Apartment::Tenant.switch(saved_subdomain) do
       if MessageSetup.check_ability
-        InsintOrderJob.perform_later(saved_subdomain, params)
+        InsintOrderJob.perform_later(saved_subdomain, params.permit!)
         # check_client = Client.find_by_clientid(params["client"]["id"])
         # check_client = Client.find_by_email(params["client"]["email"])
         # client_data = {
