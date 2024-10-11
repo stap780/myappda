@@ -5,7 +5,7 @@ class Insint::Order < ApplicationService
   end
 
   def call
-    Apartment::Tenant.switch(saved_subdomain) do
+    Apartment::Tenant.switch(@tenant) do
       check_client = Client.find_by_email(@datas["client"]["email"])
       client_data = {
         clientid: @datas["client"]["id"],
