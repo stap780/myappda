@@ -25,27 +25,27 @@
 # очистить cron - bundle exec whenever --clear-crontab
 # сервер минус 2 часов (лето) и минус 3 (зима)
 
-env :PATH, ENV['PATH']
+env :PATH, ENV["PATH"]
 env "GEM_HOME", ENV["GEM_HOME"]
 set :output, "#{path}/log/cron.log"
-set :chronic_options, :hours24 => true
+set :chronic_options, hours24: true
 
-# every 1.day, :at => '20:25' do #
-#   rake "favorite_setup:check_valid_until"
+# # every 1.day, :at => '20:25' do #
+# #   rake "favorite_setup:check_valid_until"
+# # end
+
+# # every 1.day, :at => '20:45' do #
+# #   rake "favorite_setup:favorite_service_not_work_email"
+# # end
+
+# every 1.day, :at => '23:45' do #
+#   rake "file:copy_production_log_every_day"
 # end
 
-# every 1.day, :at => '20:45' do #
-#   rake "favorite_setup:favorite_service_not_work_email"
+# # every 1.day, :at => '08:25' do #
+# #   runner "User.service_end_email"
+# # end
+
+# every 1.hour do
+#   rake "restock:check_quantity_and_send_client_email"
 # end
-
-every 1.day, :at => '23:45' do #
-  rake "file:copy_production_log_every_day"
-end
-
-# every 1.day, :at => '08:25' do #
-#   runner "User.service_end_email"
-# end
-
-every 1.hour do 
-  rake "restock:check_quantity_and_send_client_email"
-end
