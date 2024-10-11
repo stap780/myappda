@@ -1,41 +1,40 @@
 class Insint::Order
-  def initialize(tenant, @params)
+  def initialize(tenant, datas)
     @tenant = tenant
-    @@params = @params
+    @datas = datas
   end
 
   def call
     Apartment::Tenant.switch(saved_subdomain) do
-  
-      check_client = Client.find_by_email(@params["client"]["email"])
+      check_client = Client.find_by_email(@datas["client"]["email"])
       client_data = {
-        clientid: @params["client"]["id"],
-        email: @params["client"]["email"],
-        name: @params["client"]["name"],
-        phone: @params["client"]["phone"]
+        clientid: @datas["client"]["id"],
+        email: @datas["client"]["email"],
+        name: @datas["client"]["name"],
+        phone: @datas["client"]["phone"]
       }
       check_client.update(client_data.except!(:email)) if check_client.present?
       client = check_client.present? ? check_client : Client.create!(client_data)
 
       # создаём запись о том что произошло изменение в заказе
-      client.order_status_changes.create!(insales_order_id: @params["id"],
-        insales_order_number: @params["number"],
-        insales_custom_status_title: @params["custom_status"]["title"],
-        insales_financial_status: @params["financial_status"])
+      client.order_status_changes.create!(insales_order_id: @datas["id"],
+        insales_order_number: @datas["number"],
+        insales_custom_status_title: @datas["custom_status"]["title"],
+        insales_financial_status: @datas["financial_status"])
       # конец запись о том что произошло изменение в заказе
-      # 
+      #
       # проверяем заявку и создаём или обновляем
-      search_case = Mycase.where(client_id: client.id, insales_order_id: @params["id"])
+      search_case = Mycase.where(client_id: client.id, insales_order_id: @datas["id"])
       # puts "search_case.id => " + search_case.first.id.to_s if search_case.present?
-      mycase = search_case.present? ? search_case.update(insales_custom_status_title: @params["custom_status"]["title"],
-        insales_financial_status: @params["financial_status"],status: "take")[0] :
-                                      Mycase.create!(client_id: client.id, insales_order_id: @params["id"],
-                                        insales_custom_status_title: @params["custom_status"]["title"],
-                                        insales_financial_status: @params["financial_status"],
-                                        status: "new", casetype: "order", number: @params["number"])
+      mycase = search_case.present? ? search_case.update(insales_custom_status_title: @datas["custom_status"]["title"],
+        insales_financial_status: @datas["financial_status"], status: "take")[0] :
+                                      Mycase.create!(client_id: client.id, insales_order_id: @datas["id"],
+                                        insales_custom_status_title: @datas["custom_status"]["title"],
+                                        insales_financial_status: @datas["financial_status"],
+                                        status: "new", casetype: "order", number: @datas["number"])
       puts "mycase => " + mycase.to_s
       puts mycase.is_a? Array
-      @params["order_lines"].each do |o_line|
+      @datas["order_lines"].each do |o_line|
         product = Product.find_by_insid(o_line["product_id"]).present? ? Product.find_by_insid(o_line["product_id"]) :
                                                                         Product.create!(insid: o_line["product_id"])
         puts "insint order product => " + product.inspect
@@ -57,5 +56,4 @@ class Insint::Order
   end
 
   private
-
 end
