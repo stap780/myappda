@@ -1,4 +1,4 @@
-class Insint::Order
+class Insint::Order < ApplicationService
   def initialize(tenant, datas)
     @tenant = tenant
     @datas = datas
