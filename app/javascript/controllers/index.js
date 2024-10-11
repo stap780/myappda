@@ -10,5 +10,8 @@ application.register("flash", FlashController)
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
 
+import OffcanvasController from "./offcanvas_controller"
+application.register("offcanvas", OffcanvasController)
+
 import SelectAllController from "./select_all_controller"
 application.register("select-all", SelectAllController)

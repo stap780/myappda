@@ -1,0 +1,39 @@
+
+<div class="row mt-3">
+<div class="col-12 mb-3">
+  (<%= @product.insid %>) <%= @product.title %> - <%= @product.price %>
+</div>
+
+<div class="col-6">
+  <div class="table-responsive">
+    <table class="table table-hover table-condensed">
+    <thead>
+      <tr class="bg-success">
+        <th>Id варианта</th>
+        <th>Артикул</th>
+        <th>Кол-во</th>
+        <th>Цена</th>
+      </tr>
+    </thead>
+
+    <tbody id="items_table">
+      <% @product.variants.each do |variant| %>
+      <tr>
+          <td><%= link_to "#{variant.insid }", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+variant.product.insid.to_s+"?variant_id="+variant.insid.to_s, target: "_blank" %></td>
+          <td><%= variant.sku %></td>
+          <td><%= variant.quantity %></td>
+          <td><%= variant.price %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+</div>
+
+<div class="row">
+  <div class="col-1 btn-group mt-5">
+    <%# link_to 'Back', products_path, class: 'btn btn-outline-success btn-sm' %>
+  </div>
+</div>

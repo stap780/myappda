@@ -20,13 +20,22 @@ class Client < ApplicationRecord
   end
 
   def self.with_restocks
-    cl_ids = Restock.all.pluck(:client_id).uniq
-    clients = Client.includes(:restocks).where("restocks.client_id" => cl_ids)
+    # cl_ids = Restock.all.pluck(:client_id).uniq
+    # clients = Client.includes(:restocks).where("restocks.client_id" => cl_ids)
+    ids = Restock.group(:client_id).count.map{|id, count| id}
+    clients = Client.where(id: ids)
   end
 
   def self.with_preoders
-    cl_ids = Preoder.all.pluck(:client_id).uniq
-    clients = Client.includes(:preorders).where("preorders.client_id" => cl_ids)
+    # cl_ids = Preoder.all.pluck(:client_id).uniq
+    # clients = Client.includes(:preorders).where("preorders.client_id" => cl_ids)
+    ids = Preoder.group(:client_id).count.map{|id, count| id}
+    clients = Client.where(id: ids)
+  end
+
+  def self.have_favorites
+    ids = Favorite.group(:client_id).count.map{|id, count| id}
+    clients = Client.where(id: ids)
   end
 
   def self.otchet(current_subdomain, current_user_id)

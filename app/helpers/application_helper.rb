@@ -28,6 +28,10 @@ def close_icon
   '<i class="bi bi-x"></i>'.html_safe
 end
 
+def eye_icon
+  '<i class="bi bi-eye"></i>'.html_safe
+end
+
 def div_check_box_tag_all
   content_tag :div, class: "col-1 d-flex self-content-start" do
     check_box_tag("selectAll", "selectAll", class: "checkboxes form-check-input", data: {select_all_target: "checkboxAll", action: "change->select-all#toggleChildren"})

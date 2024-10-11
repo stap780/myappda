@@ -51,13 +51,15 @@ class Variant < ApplicationRecord
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
     service = ApiInsales.new(user.insints.first)
-    variant = service.get_variant_data(self.product.insid, self.insid)
-    variant_data = {
-      price: variant.price,
-      sku: variant.sku,
-      quantity: variant.quantity
-    }
-    self.update!(variant_data)
+    if service.work?
+      variant = service.get_variant_data(self.product.insid, self.insid)
+      variant_data = {
+        price: variant.price,
+        sku: variant.sku,
+        quantity: variant.quantity
+      }
+      self.update!(variant_data)
+    end
     puts "finish variant get_ins_api_data"
   end
 

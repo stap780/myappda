@@ -7,7 +7,7 @@
     <% end %>
     <%= tag.div class: "col-2 d-flex flex-column" do %>
         <%=tag.div( "Статус: #{mycase.status_title }", class: '') %>
-        <%=tag.div( "Дата: #{mycase.created_at.strftime("%d/%m/%Y %H:%M")}") %>
+        <%=tag.div( "Дата: #{mycase.created_at.strftime('%d/%m/%Y %H:%M')}") %>
     <% end %>
     <%= tag.div class: "col-2 d-flex flex-column" do %>
         <%=tag.div( "#{mycase.casetype_value }", class: '') %>

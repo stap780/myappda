@@ -9,6 +9,7 @@
       <%= f.search_field :name_or_surname_cont_all, placeholder: 'ФИО', class: "form-control"%>
       <%= f.search_field :email_cont_all, placeholder: 'Email', class: "form-control"%>
       <%= f.search_field :phone_cont_all, placeholder: 'Телефон', class: "form-control"%>
+      <%= f.select :favorites_client_id_not_null, [['есть',true],['нет',false]], { prompt: 'Избранное'}, class: "form-select" %>
       <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
       <%= link_to arrow_clockwise_icon, clients_path, class: 'btn btn-outline-dark' %>
     </div>
@@ -24,38 +25,19 @@
   <table class="table table-hover table-condensed">
     <thead>
       <tr class="bg-success">
-        <th>ID (INS)</th>
+        <th># (INS)</th>
         <th>Создан</th>
         <th>ФИО</th>
         <th></th>
-        <%=tag.th heart_icon, title: 'Избранное' if Favorite.all.count > 0 %>
-        <%=tag.th reload_icon, title: 'Сообщить о поступлении' if Restock.all.count > 0 %>
-        <%=tag.th bell_icon, title: 'Предзаказ' if Preorder.all.count > 0 %>
+        <%=tag.th heart_icon, title: 'Избранное' %>
+        <%=tag.th reload_icon, title: 'Сообщить о поступлении' %>
+        <%=tag.th bell_icon, title: 'Предзаказ' %>
         <th colspan="1"></th>
       </tr>
     </thead>
 
     <tbody>
-      <% @clients.each do |client| %>
-        <tr>
-          <td><%= client.id %><br><%= "(#{client.clientid})" if client.clientid %></td>
-          <td><%= client.created_at.in_time_zone.strftime("%d/%m/%Y")%></td>
-          <td><%= client.fio %></td>
-          <td><%="Телефон: #{client.phone}" if client.phone%></br><%="Email: #{client.email}" if client.email%></td>
-          <% if Favorite.all.count > 0 %>
-          <td><%= link_to client.favorites.uniq.count.to_s+' шт', client_path(client) if client.favorites.uniq.count > 0 %> <%# link_to 'Email', emailizb_client_path(client), remote: true %></td>
-          <% end %>
-          <% if Restock.all.count > 0 %>
-          <td><%= link_to client.restocks.count.to_s+' шт', client_path(client) if client.restocks.count > 0 %></td>
-          <% end %>
-          <% if Preorder.all.count > 0 %>
-          <td><%= link_to client.preorders.count.to_s+' шт', client_path(client) if client.preorders.count > 0 %></td>
-          <% end %>       
-          <td>
-          <%= link_to trash_icon, client, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }, class:"" %>
-          </td>
-        </tr>
-      <% end %>
+      <%= render @clients %>
     </tbody>
   </table>
 </div>

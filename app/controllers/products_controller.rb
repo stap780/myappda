@@ -11,6 +11,9 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
+    respond_to do |format|
+      format.turbo_stream
+    end
   end
 
   # GET /products/new

@@ -1,0 +1,23 @@
+<tr class="align-middle">
+    <td>
+        <div class="d-flex flex-column">
+            <%=tag.div client.id %>
+            <%=tag.div( client.clientid, class: 'opacity-75 fw-lighter') if client.clientid %>
+        </div>
+    </td>
+    <td><%= client.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M')%></td>
+    <td><%= client.fio %></td>
+    <td><%="Телефон: #{client.phone}" if client.phone%></br><%="Email: #{client.email}" if client.email%></td>
+    <%=tag.td do %>
+        <%= link_to "#{client.favorites.count.to_s} шт", client_path(client) %>
+    <% end %>
+    <%=tag.td do %>
+        <%= link_to "#{client.restocks.count.to_s} шт", client_path(client)  %>
+    <% end %>
+     <%=tag.td do %>
+        <%= link_to "#{client.preorders.count.to_s} шт", client_path(client) %>
+    <% end %>       
+    <td>
+        <%= link_to trash_icon, client, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }, class:"" %>
+    </td>
+</tr>

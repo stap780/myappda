@@ -10,11 +10,12 @@
     <%= search_form_for @search, {class: 'form-inline col-12 pl-0 pr-0'} do |f| %>
       <div class="input-group input-group-sm">
         <%= f.search_field :title_cont , placeholder: 'Название', class: "form-control", style: "max-width: 180px;" %>
-        <%= f.select :restocks_status_eq, Restock::Status, { :prompt => 'Restock'}, class: "form-select input-sm" %>
-        <%= f.select :preorders_status_eq, Preorder::Status, { :prompt => 'Preorder'}, class: "form-select input-sm" %>
+        <%= f.select :restocks_status_eq, Restock::Status, { prompt: 'Restock'}, class: "form-select input-sm" %>
+        <%= f.select :preorders_status_eq, Preorder::Status, { prompt: 'Preorder'}, class: "form-select input-sm" %>
+        <%= f.select :favorites_client_id_not_null, [['есть',true],['нет',false]], { prompt: 'Избранное', blank: true }, class: "form-select" %>
         <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
         <%= link_to arrow_clockwise_icon, products_path, class: 'btn btn-outline-dark' %>
-        <%= link_to trash_icon, delete_selected_products_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true if current_admin%>
+        <%= link_to trash_icon, delete_selected_products_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true if current_admin %>
       </div>
     <% end %>
   </div>
@@ -24,10 +25,9 @@
   <table class="table table-hover table-condensed">
     <thead>
       <tr class="bg-success">
-        <!-- <th><%# check_box_tag 'selectAll', value: 'selectAll'%></th> -->
-        <th>#</th>
-        <th>Id товара</th>
-        <th>Img</th>
+        <th># (INS)</th>
+        <th>Создан</th>
+        <th></th>
         <th>Название</th>
         <th>Варианты</th>
         <th>Цены</th>

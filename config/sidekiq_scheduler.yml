@@ -1,7 +1,7 @@
 restock_send_email:
   cron: "0 0 * * * *" #every hour
   class: "RestockScheduler"
-  queue: "export"
+  queue: "restock_job"
 log_files:
   cron: "45 23 * * *" #at 23-45
   class: "CreateLogFilesScheduler"

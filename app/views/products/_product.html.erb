@@ -1,21 +1,25 @@
 <tr class="align-middle">
-    <!-- <td><%# check_box_tag "product_ids[]", product.id %></td> -->
-    <td><%= product.id %></td>
-    <td><%= product.insid %></td>
-    <td class="p-0">
+    <td>
+        <div class="d-flex flex-column">
+            <%=tag.div product.id %>
+            <%=tag.div( product.insid, class: 'opacity-75 fw-lighter') if product.insid %>
+        </div>
+    </td>    
+    <td><%= product.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M')%></td>
+    <td class="col-1 p-0">
         <div class="img-ratio img-fit">
             <div class="img-ratio__inner">
-                <a href="#" >
-                    <picture>
-                        <source srcset="<%= product.image_link %>" type="image/svg+xml">
-                        <img src="<%= product.image_link %>" class="img-fluid img-thumbnail" alt="...">
-                    </picture>
-                </a>
+                <picture>
+                    <source srcset="<%= product.image_link %>" type="image/svg+xml">
+                    <img src="<%= product.image_link %>" class="img-fluid img-thumbnail">
+                </picture>
             </div>
         </div>
     </td>
     <td><%= product.title %></td>
-    <td><%= link_to '<span class="oi oi-eye"></span>'.html_safe, product if product.variants.present? %></td>
+    <td><%= link_to eye_icon, product, data: { turbo_frame: "offcanvasProduct", turbo_stream: true }  %>
+        <%# link_to eye_icon, '/', data: { turbo_frame: "offcanvas_product" }  %>
+    </td>
     <td><%= product.price %></td>
     <td><%= link_to trash_icon, product, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }, class:"" %></td>
 </tr>
