@@ -181,7 +181,7 @@ class InsintsController < ApplicationController
       client = Client.find_by_clientid(params[:client_id])
       if client.present?
         favorite_product_ids = client.favorites.pluck(:product_id).uniq.reverse
-        ins_ids = client.products.where(id: favorite_product_ids).pluck(:insid).join(",")
+        ins_ids = Product.where(id: favorite_product_ids).pluck(:insid).join(",")
         totalcount = favorite_product_ids.count.to_s
         render json: {success: true, products: ins_ids, totalcount: totalcount}
       else
