@@ -6,7 +6,7 @@ class ProductsController < ApplicationController
   def index
     @search = Product.includes(:variants, :favorites, :preorders, :restocks).ransack(params[:q])
     @search.sorts = 'id desc' if @search.sorts.empty?
-    @products = @search.result(distinct: true).paginate(page: params[:page], per_page: 30)
+    @products = @search.result(distinct: true).paginate(page: params[:page], per_page: 50)
   end
 
   # GET /products/1
@@ -87,7 +87,7 @@ class ProductsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def product_params
-      params.require(:product).permit(:insid, :title, :price, :image_link, :variants_attributes =>[:id, :insid, :product_id, :sku, :quantity, :price, :_destroy])
+      params.require(:product).permit(:insid, :title, :price, :image_link, variants_attributes: [:id, :insid, :product_id, :sku, :quantity, :price, :_destroy])
     end
 
 end

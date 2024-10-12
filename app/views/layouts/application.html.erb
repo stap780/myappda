@@ -17,7 +17,7 @@
     <main class="<%= current_page_path_as_class%>">
       <%= tag.div(class: user_signed_in? ? 'container' : 'container-fluid px-0', id: 'main-content') do %>
         <%= render "shared/modal_wrap"%>
-        <%= render "shared/offcanvas_product" %>
+        <%= render "shared/offcanvas_wrap" %>
         <%= tag.div(class: 'position-fixed z-1 top-0 end-0 p-3 w-50', id: 'our_flash') do %>
           <%= render "shared/flash"%>
         <% end %>

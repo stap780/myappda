@@ -1,10 +1,10 @@
 class Client < ApplicationRecord
   has_many :favorites, dependent: :destroy
-  has_many :products, -> { distinct }, through: :favorites
   has_many :restocks, dependent: :destroy
-  has_many :variants, -> { distinct }, through: :restocks
   has_many :preorders, dependent: :destroy
-  has_many :variants, -> { distinct }, through: :preorders
+  # has_many :products, -> { distinct }, through: :favorites
+  # has_many :variants, -> { distinct }, through: :restocks
+  # has_many :variants, -> { distinct }, through: :preorders
   has_many :order_status_changes
   has_many :mycases, dependent: :destroy
   validates :phone, phone: {possible: true, allow_blank: true}

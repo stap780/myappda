@@ -5,12 +5,14 @@ class ClientsController < ApplicationController
   def index
     @search = Client.includes(:favorites, :restocks, :preorders).ransack(params[:q])
     @search.sorts = "id desc" if @search.sorts.empty?
-    @clients = @search.result(distinct: true).paginate(page: params[:page], per_page: 30)
+    @clients = @search.result(distinct: true).paginate(page: params[:page], per_page: 50)
   end
 
   def show
     @favorite_products = Product.where(id: @client.favorites.pluck(:product_id))
-    # @restock_products = Variant.where(id: @client.restocks.pluck(:variant_id))
+    respond_to do |format|
+      format.turbo_stream
+    end
   end
 
   def new

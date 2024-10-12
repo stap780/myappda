@@ -5,6 +5,6 @@ class RestockScheduler
 
   def perform
     Rails.application.load_tasks
-    Rake::Task["file:check_quantity_and_send_client_email"].invoke
+    Rake::Task["restock:check_quantity_and_send_client_email"].invoke
   end
 end

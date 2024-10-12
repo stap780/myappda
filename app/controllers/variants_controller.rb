@@ -69,7 +69,7 @@ class VariantsController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to variants_url, notice: "Variant was successfully destroyed." }
-      format.json { render json: { :status => "ok", :message => "destroyed" } }
+      format.json { render json: { status: "ok", message: "destroyed" } }
     end
   end
 

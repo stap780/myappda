@@ -1,0 +1,130 @@
+<div class="row justify-content-start align-items-center g-2 mt-3">
+  <div class="col-1 btn-group me-5">
+    <%# link_to 'Назад', clients_path, class: 'btn btn-outline-success btn-sm' %>
+  </div>
+  <div class="col-4 d-flex flex-column">
+    <div class=""> 
+      <strong>Client id:</strong> <%= @client.clientid %> 
+      <strong>ФИО:</strong> <%= @client.fio %> 
+    </div>
+    <div class=""> 
+      <strong>Email:</strong> <%= @client.email %> <strong>Phone:</strong> <%= @client.phone %>
+    </div>
+  </div>
+  <div class="col-2">
+    <%= link_to reload_icon+" данные из Insales", update_from_insales_path(@client), data: {turbo: false}, class: 'btn btn-outline-primary' if @client.clientid %>
+  </div>
+</div>
+<% if @favorite_products.present? %>
+  <div class="row align-items-center mt-3 mb-3">
+    <div class="col-4 d-flex w-100 align-items-center mb-2">
+      <strong><%= heart_icon %> Избранное</strong>
+      <%= link_to mail_icon+' избранное'.html_safe, emailizb_client_path(@client), title: "Отправить письмо с избранным", class: "btn btn-light ms-auto", data: {turbo_method: :get, turbo_stream: true} %>
+    </div>
+    <div class="table-responsive">
+    <table class="table table-hover table-condensed table-sm">
+      <thead class="thead-light">
+      <tr>
+        <th>Id товара</th>
+        <th>Название</th>
+        <th>Картинка</th>
+        <th>Цена</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @favorite_products.each do |pr| %>
+        <tr class="align-middle">
+          <td><%=pr.insid%></td>
+          <td><%= link_to "#{pr.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
+          <td class="p-0 d-block w-75">
+              <%=tag.div class: "img-ratio img-fit" do %>
+                  <div class="img-ratio__inner">
+                      <a href="#" >
+                          <picture>
+                              <source srcset="<%= pr.image_link %>" type="image/svg+xml">
+                              <img src="<%= pr.image_link %>" class="img-fluid img-thumbnail">
+                          </picture>
+                      </a>
+                  </div>
+              <% end if pr.image_link.present? %>
+          </td>
+          <td><%=pr.price%></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+<% end %>
+<% if @client.restocks.present? %>
+  <div class="row align-items-center mt-3 mb-3">
+    <div class="col-4 d-flex w-100 align-items-center mb-2">
+    <strong><%= reload_icon%> Сообщить о поступлении</strong>
+    </div>
+    <div class="table-responsive">
+    <table class="table table-hover table-condensed table-sm">
+      <thead class="thead-light">
+      <tr>
+        <th>Id товара</th>
+        <th>Id варианта</th>
+        <th>Название</th>
+        <th>Sku</th>
+        <th>Остаток</th>
+        <th>Цена</th>
+        <th>Статус</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @client.restocks.each do |res| %>
+        <tr>
+        <% var = res.variant%>
+          <td><%= var.product.insid %></td>
+          <td><%= var.insid %></td>
+          <td><%= link_to "#{var.product.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+var.product.insid.to_s+"?variant_id="+var.insid.to_s, target: "_blank" %></td>
+          <td><%= var.sku %></td>
+          <td><%= var.quantity %></td>
+          <td><%= var.price %></td>
+          <td><%= res.status %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+<% end %>
+<% if @client.preorders.present? %>
+  <div class="row align-items-center mt-3 mb-3">
+    <div class="col-4 d-flex w-100 align-items-center mb-2">
+    <strong><%= bell_icon%> Предзаказ</strong>
+    </div>
+    <div class="table-responsive">
+    <table class="table table-hover table-condensed table-sm">
+      <thead class="thead-light">
+      <tr>
+        <th>Id товара</th>
+        <th>Id варианта</th>
+        <th>Название</th>
+        <th>Sku</th>
+        <th>Остаток</th>
+        <th>Цена</th>
+        <th>Статус</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @client.preorders.each do |res| %>
+        <tr>
+        <% var = res.variant%>
+          <td><%= var.product.insid %></td>
+          <td><%= var.insid %></td>
+          <td><%= link_to "#{var.product.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+var.product.insid.to_s+"?variant_id="+var.insid.to_s, target: "_blank" %></td>
+          <td><%= var.sku %></td>
+          <td><%= var.quantity %></td>
+          <td><%= var.price %></td>
+          <td><%= res.status %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+<% end %>

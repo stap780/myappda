@@ -36,10 +36,13 @@ class Insint::Order < ApplicationService
       puts mycase.is_a? Array
       @datas["order_lines"].each do |o_line|
         product = Product.find_by_insid(o_line["product_id"]).present? ? Product.find_by_insid(o_line["product_id"]) :
-                                                                        Product.create!(insid: o_line["product_id"])
+                                                                        Product.create!(insid: o_line["product_id"], 
+                                                                                        title: o_line["title"])
         puts "insint order product => " + product.inspect
         variant = product.variants.where(insid: o_line["variant_id"]).present? ? product.variants.where(insid: o_line["variant_id"])[0] :
-                                                                              product.variants.create!(insid: o_line["variant_id"])
+                                                                              product.variants.create!( insid: o_line["variant_id"],
+                                                                                                        sku: o_line["sku"], 
+                                                                                                        price: o_line["sale_price"])
         line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
         if line.present?
           line.first.update!(quantity: o_line["quantity"], price: o_line["full_total_price"])

@@ -9,13 +9,13 @@
     <td><%= client.fio %></td>
     <td><%="Телефон: #{client.phone}" if client.phone%></br><%="Email: #{client.email}" if client.email%></td>
     <%=tag.td do %>
-        <%= link_to "#{client.favorites.count.to_s} шт", client_path(client) %>
+        <%= link_to client.favorites.count.to_s, client, data: { turbo_frame: "offcanvasWrap", turbo_stream: true }  %>
     <% end %>
     <%=tag.td do %>
-        <%= link_to "#{client.restocks.count.to_s} шт", client_path(client)  %>
+        <%= link_to{client.restocks.count.to_s, client, data: { turbo_frame: "offcanvasWrap", turbo_stream: true }   %>
     <% end %>
      <%=tag.td do %>
-        <%= link_to "#{client.preorders.count.to_s} шт", client_path(client) %>
+        <%= link_to client.preorders.count.to_s, client, data: { turbo_frame: "offcanvasWrap", turbo_stream: true }  %>
     <% end %>       
     <td>
         <%= link_to trash_icon, client, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }, class:"" %>
