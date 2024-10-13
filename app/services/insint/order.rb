@@ -6,12 +6,14 @@ class Insint::Order < ApplicationService
 
   def call
     Apartment::Tenant.switch(@tenant) do
-      check_client = Client.find_by_email(@datas["client"]["email"])
+      client_email = @datas["client"]["email"]
+      client_phone = @datas["client"]["phone"]
+      check_client = client_email.present? ? Client.find_by_email(client_email) : Client.find_by_phone(client_phone)
       client_data = {
         clientid: @datas["client"]["id"],
-        email: @datas["client"]["email"],
+        email: client_email.present? ? client_email : "#{@datas["client"]["id"].to_s}@mail.ru",
         name: @datas["client"]["name"],
-        phone: @datas["client"]["phone"]
+        phone: client_phone
       }
       check_client.update(client_data.except!(:email)) if check_client.present?
       client = check_client.present? ? check_client : Client.create!(client_data)
