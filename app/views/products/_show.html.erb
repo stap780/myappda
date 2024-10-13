@@ -44,7 +44,7 @@
 
     <tbody>
       <% @product.favorites.order(:created_at).each do |fav| %>
-      <tr>
+      <tr class="align-middle">
         <td><%= fav.client.fio %></td>
         <td><%= fav.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
       </tr>
@@ -60,7 +60,7 @@
   <div class="table-responsive">
     <table class="table table-hover table-condensed">
       <thead>
-        <tr class="bg-success">
+        <tr>
           <th>Клиент</th>
           <th>Дата добавления</th>
           <th>Вариант</th>
@@ -70,13 +70,13 @@
 
       <tbody>
         <% @product.restocks.order(:created_at).each do |rest| %>
-        <tr>
+        <tr class="align-middle">
           <td><%= rest.client.fio %></td>
           <td><%= rest.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
           <td>
             <div class="d-flex flex-column">
-              <span><%= preor.variant.sku %></span>
-              <span class="fs-8"><%= preor.variant.insid %></span>
+              <span><%= rest.variant.sku %></span>
+              <span class="fs-8"><%= rest.variant.insid %></span>
             </div>
           </td>
           <td><%= rest.status %></td>
@@ -93,7 +93,7 @@
   <div class="table-responsive">
     <table class="table table-hover table-condensed">
       <thead>
-        <tr class="bg-success">
+        <tr>
           <th>Клиент</th>
           <th>Дата добавления</th>
           <th>Вариант</th>
@@ -103,7 +103,7 @@
 
       <tbody>
         <% @product.preorders.order(:created_at).each do |preor| %>
-        <tr>
+        <tr class="align-middle">
           <td><%= preor.client.fio %></td>
           <td><%= preor.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
           <td>
