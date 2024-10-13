@@ -99,15 +99,17 @@ class Client < ApplicationRecord
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
     service = ApiInsales.new(user.insints.first)
-    client = service.client(clientid)
     if service.work?
-      client_data = {
-        name: client.name,
-        surname: client.surname,
-        email: client.email,
-        phone: client.phone
-      }
-      self.update!(client_data)
+      client = service.client(clientid)
+      if client.present?
+        client_data = {
+          name: client.name,
+          surname: client.surname,
+          email: client.email,
+          phone: client.phone
+        }
+        self.update!(client_data)
+      end
     end
     puts "finish get_ins_client_data"
   end

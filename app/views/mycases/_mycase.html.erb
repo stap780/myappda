@@ -1,4 +1,4 @@
-<%= turbo_frame_tag dom_id(mycase, Apartment::Tenant.current), class: "d-flex list-group-item py-2 border-start-0 border-end-0 row justify-content-start px-0" do %>
+<%= turbo_frame_tag dom_id(mycase, Apartment::Tenant.current), class: "d-flex list-group-item py-2 border-start-0 border-end-0 row justify-content-start align-items-center px-0" do %>
     <%= tag.div class: "col-1 d-flex flex-column" do %>
         <%=tag.div class: 'form-check' do %>
             <%= check_box_tag "mycase_ids[]", mycase.id, false, {class: 'checkboxes form-check-input', data: { 'select-all_target': 'checkbox', action: "change->selectall#toggleParent"}, form: :bulk_form } %>

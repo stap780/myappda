@@ -101,11 +101,13 @@ class Product < ApplicationRecord
     service = ApiInsales.new(user.insints.first)
     if service.work?
       product = service.get_product_data(insid)
-      product_data = {
-        title: product.title,
-        image_link: product.images.present? ? product.images.first.original_url : ""
-      }
-      update!(product_data)
+      if product.present?
+        product_data = {
+          title: product.title,
+          image_link: product.images.present? ? product.images.first.original_url : ""
+        }
+        update!(product_data)
+      end
     end
     puts "finish product get_ins_data"
   end

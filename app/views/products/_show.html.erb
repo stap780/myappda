@@ -30,7 +30,7 @@
   </div>
 </div>
 
-<div class="col-12 mb-3">Избранное</div>
+<div class="col-12 mb-3 h4">Избранное</div>
 
 <div class="col-12">
   <div class="table-responsive">
@@ -54,3 +54,58 @@
   </div>
 </div>
 
+<div class="col-12 mb-3 h4">Сообщить о поступлении</div>
+
+<div class="col-12">
+  <div class="table-responsive">
+    <table class="table table-hover table-condensed">
+      <thead>
+        <tr class="bg-success">
+          <th>Клиент</th>
+          <th>Дата добавления</th>
+          <th>Вариант</th>
+          <th>Статус</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @product.restocks.order(:created_at).each do |rest| %>
+        <tr>
+          <td><%= rest.client.fio %></td>
+          <td><%= rest.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
+          <td><%= rest.variant.sku %></td>
+          <td><%= rest.status %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="col-12 mb-3 h4">Предзаказ</div>
+
+<div class="col-12">
+  <div class="table-responsive">
+    <table class="table table-hover table-condensed">
+      <thead>
+        <tr class="bg-success">
+          <th>Клиент</th>
+          <th>Дата добавления</th>
+          <th>Вариант</th>
+          <th>Статус</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @product.preorders.order(:created_at).each do |preor| %>
+        <tr>
+          <td><%= preor.client.fio %></td>
+          <td><%= preor.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
+          <td><%= preor.variant.sku %></td>
+          <td><%= preor.status %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
