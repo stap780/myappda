@@ -2,10 +2,10 @@
     <td>
         <div class="d-flex flex-column">
             <%=tag.div product.id %>
-            <%=tag.div( product.insid, class: 'opacity-75 fw-lighter') if product.insid %>
+            <%=tag.div( product.insid, class: 'opacity-75 fs-8') if product.insid %>
         </div>
     </td>    
-    <td><%= product.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M')%></td>
+    <td class="fs-8"><%= product.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M')%></td>
     <td class="col-1 p-0">
         <div class="img-ratio img-fit">
             <div class="img-ratio__inner">

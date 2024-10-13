@@ -10,7 +10,7 @@ namespace :client do
       Apartment::Tenant.switch(tenant) do
         Client.order(:id).each do |client, i|
           sleep 60 if i == 100 || i == 200 || i == 300 || i == 400 || i == 500
-          client.get_ins_client_data
+          client.get_ins_data
         end
       end
     end

@@ -14,15 +14,6 @@ class Restock < ApplicationRecord
     Restock.attribute_names
   end
 
-  # def self.check_quantity_and_change_status
-  #   restocks = Restock.where(status: "Ждём поступления")
-  #     restocks.each do |restock|
-  #       variant = restock.variant
-  #       variant.get_ins_data
-  #       restock.update!(status: "Отправляется") if variant.quantity > 0
-  #     end
-  # end
-
   def self.find_dups
     columns_that_make_record_distinct = [:client_id, :variant_id]
     distinct_ids = Restock.select("MIN(id) as id").group(columns_that_make_record_distinct).map(&:id)

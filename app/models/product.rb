@@ -2,13 +2,12 @@ class Product < ApplicationRecord
   has_many :lines
   has_many :mycases, through: :lines
   has_many :favorites, dependent: :destroy
-  # has_many :clients, through: :favorites 
+  # has_many :clients, through: :favorites
   has_many :variants, dependent: :destroy
-  accepts_nested_attributes_for :variants, allow_destroy: true 
+  accepts_nested_attributes_for :variants, allow_destroy: true
   has_many :restocks, dependent: :destroy
   has_many :preorders, dependent: :destroy
-  after_commit :get_ins_api_data, on: [:create]
-
+  after_commit :get_ins_data, on: [:create]
 
   validates :insid, presence: true
   validates :insid, uniqueness: true
@@ -21,47 +20,47 @@ class Product < ApplicationRecord
     ["clients", "favorites", "lines", "mycases", "preorders", "restocks", "variants"]
   end
 
-  def self.get_image(insid)
-    puts "get_image"
-    current_subdomain = Apartment::Tenant.current
-    Apartment::Tenant.switch!(current_subdomain)
-    user = User.find_by_subdomain(current_subdomain)
-    insint = user.insints.first
-    if insint.inskey.present?
-      uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/#{insid}/images.json"
-    else
-      uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/#{insid}/images.json"
-    end
-    RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
-            case response.code
-            when 200
-              data = JSON.parse(response)
-              link = data.present? ? data[0]['compact_url'] : ''
-            when 404
-              puts "error 404 get_image"
-              link = ''
-            when 403
-              puts "error 403 get_image"
-              link = ''
-            else
-              response.return!(&block)
-            end
-            }
-  end
+  # def self.get_image(insid)
+  #   puts "get_image"
+  #   current_subdomain = Apartment::Tenant.current
+  #   Apartment::Tenant.switch!(current_subdomain)
+  #   user = User.find_by_subdomain(current_subdomain)
+  #   insint = user.insints.first
+  #   if insint.inskey.present?
+  #     uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/#{insid}/images.json"
+  #   else
+  #     uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/#{insid}/images.json"
+  #   end
+  #   RestClient.get( uri, :content_type => :json, :accept => :json) { |response, request, result, &block|
+  #           case response.code
+  #           when 200
+  #             data = JSON.parse(response)
+  #             link = data.present? ? data[0]['compact_url'] : ''
+  #           when 404
+  #             puts "error 404 get_image"
+  #             link = ''
+  #           when 403
+  #             puts "error 403 get_image"
+  #             link = ''
+  #           else
+  #             response.return!(&block)
+  #           end
+  #           }
+  # end
 
-  def self.get_image_api(insid)
-    puts "get_image"
-    current_subdomain = Apartment::Tenant.current
-    Apartment::Tenant.switch!(current_subdomain)
-    user = User.find_by_subdomain(current_subdomain)
-    insint = user.insints.first
-    if insint.inskey.present?
-      uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/#{insid}/images.json"
-    else
-      uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/#{insid}/images.json"
-    end
-    uri
-  end
+  # def self.get_image_api(insid)
+  #   puts "get_image"
+  #   current_subdomain = Apartment::Tenant.current
+  #   Apartment::Tenant.switch!(current_subdomain)
+  #   user = User.find_by_subdomain(current_subdomain)
+  #   insint = user.insints.first
+  #   if insint.inskey.present?
+  #     uri = "http://"+"#{insint.inskey}"+":"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/#{insid}/images.json"
+  #   else
+  #     uri = "http://k-comment:"+"#{insint.password}"+"@"+"#{insint.subdomen}"+"/admin/products/#{insid}/images.json"
+  #   end
+  #   uri
+  # end
 
   # def get_ins_product_data
   #   puts "get_ins_product_data"
@@ -95,22 +94,21 @@ class Product < ApplicationRecord
   #   end
   # end
 
-  def get_ins_api_data
-    puts "start product get_ins_api_data"
+  def get_ins_data
+    puts "start product get_ins_data"
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
     service = ApiInsales.new(user.insints.first)
     if service.work?
-      product = service.get_product_data(self.insid)
+      product = service.get_product_data(insid)
       product_data = {
         title: product.title,
-        image_link: product.images.present? ? product.images.first.original_url : ''
+        image_link: product.images.present? ? product.images.first.original_url : ""
       }
-      self.update!(product_data)
+      update!(product_data)
     end
-    puts "finish product get_ins_api_data"
+    puts "finish product get_ins_data"
   end
-
 
   # def do_restock_event_action
   #   events = Event.active.where(casetype: 'restock')
@@ -137,18 +135,17 @@ class Product < ApplicationRecord
   #         order_drop = Drops::InsalesOrder.new(order)
   #         client_drop = Drops::InsalesClient.new(client)
 
-
   #         subject = subject_template.render('order' => order_drop, 'client' => client_drop)
   #         content = content_template.render('order' => order_drop, 'client' => client_drop)
-          
+
   #         email_data = {
-  #           user: user, 
-  #           subject: subject, 
-  #           content: content, 
+  #           user: user,
+  #           subject: subject,
+  #           content: content,
   #           receiver: receiver
   #         }
   #         # puts "email_data => "+email_data.to_s
-          
+
   #         wait = pause == true && pause_time.present? ? pause_time : 1
   #         if channel == 'email'
   #           EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
@@ -160,5 +157,4 @@ class Product < ApplicationRecord
   #     end
   #   end
   # end
-
 end

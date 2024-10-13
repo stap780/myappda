@@ -2,10 +2,10 @@
     <td>
         <div class="d-flex flex-column">
             <%=tag.div client.id %>
-            <%=tag.div( client.clientid, class: 'opacity-75 fw-lighter') if client.clientid %>
+            <%=tag.div( client.clientid, class: 'opacity-75 fs-8') if client.clientid %>
         </div>
     </td>
-    <td><%= client.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M')%></td>
+    <td class="fs-8"><%= client.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M')%></td>
     <td><%= client.fio %></td>
     <td><%="Телефон: #{client.phone}" if client.phone%></br><%="Email: #{client.email}" if client.email%></td>
     <%=tag.td do %>

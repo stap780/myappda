@@ -43,7 +43,7 @@
     </thead>
 
     <tbody>
-      <% @product.favorites.each do |fav| %>
+      <% @product.favorites.order(:created_at).each do |fav| %>
       <tr>
         <td><%= fav.client.fio %></td>
         <td><%= fav.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>

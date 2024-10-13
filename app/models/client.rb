@@ -57,7 +57,7 @@ class Client < ApplicationRecord
           insid = product.insid
           title = product.title
           link = "http://#{insint.subdomen}/product_by_id/#{product.insid}"
-          pict = "" # Product.get_image(product.insid)
+          pict = ""
           price = product.price
           qt = product.clients.count
           writer << [insid, title, link, pict, price, qt]
@@ -92,7 +92,7 @@ class Client < ApplicationRecord
     name.to_s + " " + surname.to_s
   end
 
-  def get_ins_client_data
+  def get_ins_data
     puts "start get_ins_client_data"
     # Apartment::Tenant.switch(saved_subdomain) do
     # end
@@ -100,13 +100,15 @@ class Client < ApplicationRecord
     user = User.find_by_subdomain(current_subdomain)
     service = ApiInsales.new(user.insints.first)
     client = service.client(clientid)
-    client_data = {
-      name: client.name,
-      surname: client.surname,
-      email: client.email,
-      phone: client.phone
-    }
-    update!(client_data)
+    if service.work?
+      client_data = {
+        name: client.name,
+        surname: client.surname,
+        email: client.email,
+        phone: client.phone
+      }
+      self.update!(client_data)
+    end
     puts "finish get_ins_client_data"
   end
 

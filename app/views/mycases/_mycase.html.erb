@@ -7,11 +7,11 @@
     <% end %>
     <%= tag.div class: "col-2 d-flex flex-column" do %>
         <%=tag.div( "Статус: #{mycase.status_title }", class: '') %>
-        <%=tag.div( "Дата: #{mycase.created_at.strftime('%d/%m/%Y %H:%M')}") %>
+        <%=tag.div( "Дата: #{mycase.created_at.strftime('%d/%m/%Y %H:%M')}", class: "fs-7") %>
     <% end %>
     <%= tag.div class: "col-2 d-flex flex-column" do %>
         <%=tag.div( "#{mycase.casetype_value }", class: '') %>
-        <%=tag.div( "#{mycase.insales_order_id}".html_safe) if mycase.casetype == 'order' %>
+        <%=tag.div( "#{mycase.insales_order_id}".html_safe, class: "fw-lighter") if mycase.casetype == 'order' %>
     <% end %>
     <%= tag.div class: "col-3 d-flex flex-column" do %>
         <%= mycase.client_data %>

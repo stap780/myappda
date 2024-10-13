@@ -25,7 +25,7 @@ class ClientsController < ApplicationController
   end
 
   def update_from_insales
-    @client.get_ins_client_data
+    @client.get_ins_data
     redirect_to @client, notice: "\u041E\u0431\u043D\u043E\u0432\u0438\u043B\u0438 \u043A\u043B\u0438\u0435\u043D\u0442\u0430."
   end
 
