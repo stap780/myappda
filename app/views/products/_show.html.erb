@@ -73,7 +73,12 @@
         <tr>
           <td><%= rest.client.fio %></td>
           <td><%= rest.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
-          <td><%= rest.variant.sku %></td>
+          <td>
+            <div class="d-flex flex-column">
+              <span><%= preor.variant.sku %></span>
+              <span class="fs-8"><%= preor.variant.insid %></span>
+            </div>
+          </td>
           <td><%= rest.status %></td>
         </tr>
         <% end %>
@@ -101,7 +106,12 @@
         <tr>
           <td><%= preor.client.fio %></td>
           <td><%= preor.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
-          <td><%= preor.variant.sku %></td>
+          <td>
+            <div class="d-flex flex-column">
+              <span><%= preor.variant.sku %></span>
+              <span class="fs-8"><%= preor.variant.insid %></span>
+            </div>
+          </td>
           <td><%= preor.status %></td>
         </tr>
         <% end %>
