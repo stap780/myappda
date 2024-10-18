@@ -3,24 +3,18 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.0'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', "~> 7.1.1"
 
-# Use postgresql as the database for Active Record
-gem 'pg', '>= 0.18' #, '< 2.0'
+gem "pg", "~> 1.1"
 
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
 gem "jsbundling-rails"
 
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 
-# Bundle and process CSS [https://github.com/rails/cssbundling-rails]
 gem "cssbundling-rails"
 
 gem 'jbuilder', '~> 2.5'
