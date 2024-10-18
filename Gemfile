@@ -61,7 +61,7 @@ gem 'puma', ">= 6.0"
 gem 'rexml', '~> 3.2', '>= 3.2.6'
 gem "recaptcha"
 
-gem "redis", "~> 4.0"
+gem "redis"
 gem "bootsnap", require: false
 gem 'will_paginate-bootstrap-style'
 gem "requestjs-rails"
