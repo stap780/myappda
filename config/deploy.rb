@@ -6,7 +6,7 @@ set :application, "myappda"
 set :repo_url, "git@github.com:stap780/#{fetch(:application)}.git"
 
 set :user, "myappda"
-
+set :systemctl_user, :system
 set :branch, "master"
 set :pty, true
 set :stage, :production
