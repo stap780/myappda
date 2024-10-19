@@ -25,8 +25,8 @@ class EventActionService
 
     if channel == "email"
       if @mycase.casetype != "order"
-        case_drop = Drops::Mycase.new(mycase)
-        client_drop = Drops::Client.new(mycase.client)
+        case_drop = Drops::Mycase.new(@mycase)
+        client_drop = Drops::Client.new(@mycase.client)
       end
       if @mycase.casetype == "order"
         check_trigger
@@ -37,8 +37,8 @@ class EventActionService
         client_drop = Drops::InsalesClient.new(client)
       end
 
-      subject = subject_template.render("case" => case_drop, "client" => client_drop)
-      content = content_template.render("case" => case_drop, "client" => client_drop, "user" => user_drop)
+      subject = subject_template.render("mycase" => case_drop, "client" => client_drop)
+      content = content_template.render("mycase" => case_drop, "client" => client_drop, "user" => user_drop)
 
       email_data = {user: @user, subject: subject, content: content, receiver: receiver}
 
