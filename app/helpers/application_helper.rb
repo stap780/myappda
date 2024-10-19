@@ -1,18 +1,16 @@
 module ApplicationHelper
-
-
   def flash_class(level)
     case level
-      when 'info' then "alert alert-info"
-      when 'notice','success' then "alert alert-success"
-      when 'error' then "alert alert-danger"
-      when 'alert' then "alert alert-warning"
+    when "info" then "alert alert-info"
+    when "notice", "success" then "alert alert-success"
+    when "error" then "alert alert-danger"
+    when "alert" then "alert alert-warning"
     end
   end
 
   def check_current_page_show_this_part?
-    not_show = ['users','users_sign_in','users_sign_up','users_password_new']
-    if not_show.include?( current_page_path_as_class )
+    not_show = ["users", "users_sign_in", "users_sign_up", "users_password_new"]
+    if not_show.include?(current_page_path_as_class)
       false
     else
       true
@@ -20,9 +18,8 @@ module ApplicationHelper
   end
 
   def current_page_path_as_class
-    request.path.split("?").first[1..-1].gsub("/","_")
+    request.path.split("?").first[1..-1].tr("/", "_")
   end
-
 
   def close_icon
     '<i class="bi bi-x"></i>'.html_safe
@@ -77,6 +74,7 @@ module ApplicationHelper
   def false_icon
     '<i class="bi bi-x-circle"></i>'.html_safe
   end
+
   def true_icon
     '<i class="bi bi-check-circle"></i>'.html_safe
   end
@@ -102,32 +100,31 @@ module ApplicationHelper
   end
 
   def add_icon
-  "<i class='bi bi-plus'></i> #{t("add")}".html_safe
+    "<i class='bi bi-plus'></i> #{t("add")}".html_safe
   end
 
   def play_icon
-  '<i class="bi bi-play"></i>'.html_safe
+    '<i class="bi bi-play"></i>'.html_safe
   end
 
   def edit_icon
-  '<i class="bi bi-pencil"></i>'.html_safe
+    '<i class="bi bi-pencil"></i>'.html_safe
   end
 
   def trash_icon
-  '<i class="bi bi-trash3"></i>'.html_safe
+    '<i class="bi bi-trash3"></i>'.html_safe
   end
 
-  def td_tag_image(img_link ||= nil )
+  def td_tag_image(img_link = nil)
     content_tag :td, class: "p-0 d-block w-75" do
       content_tag :div, class: "img-ratio img-fit" do
         content_tag :div, class: "img-ratio__inner" do
           content_tag :picture do
-            content_tag :source, srcset: img_link, type: 'image/jpeg' if image_link.present?
+            content_tag :source, srcset: img_link, type: "image/jpeg" if image_link.present?
             content_tag :img, src: img_link, class: "img-fluid img-thumbnail" if image_link.present?
           end
         end
       end
     end
   end
-
 end
