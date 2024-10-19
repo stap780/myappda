@@ -1,20 +1,20 @@
-class Drops::Case < Liquid::Drop
+class Drops::Mycase < Liquid::Drop
 
     def initialize(mycase)
-        @case = mycase
+        @mycase = mycase
     end
 
     def id
-        @case.id
+        @mycase.id
     end
 
     def status
-        @case.status
+        @mycase.status
     end
 
     def items
-        #@case.lines.map{ |var| var.attributes }
-        @case.lines.map{    |line| { 
+        #@mycase.lines.map{ |var| var.attributes }
+        @mycase.lines.map{    |line| { 
                                     "title" => line.variant.product.title,
                                     "id" => line.variant.product.id,
                                     "insid" => line.variant.product.insid,
@@ -28,28 +28,28 @@ class Drops::Case < Liquid::Drop
     end
 
     def created_at
-        @case.created_at
+        @mycase.created_at
     end
 
     def number
-        @case.number
+        @mycase.number
     end
 
     def total_price
-        @case.lines.sum(:price)
+        @mycase.lines.sum(:price)
     end
 
 
     # def client_name
-    #     @case.client.name
+    #     @mycase.client.name
     # end
 
     # def client_email
-    #     @case.client.email
+    #     @mycase.client.email
     # end
 
     # def client_phone
-    #     @case.client.phone
+    #     @mycase.client.phone
     # end
 
 end
