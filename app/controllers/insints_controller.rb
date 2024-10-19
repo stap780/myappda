@@ -288,8 +288,8 @@ class InsintsController < ApplicationController
         number = params["id"]
         email = params["contacts"]["email"]
         phone = params["contacts"]["phone"]
-        name = params["contacts"]["name"].present? ? params["contacts"]["name"] : "abandoned_#{number.to_s}"
-        search_client = Client.find_by_email(email.present? ? Client.find_by_email(email) : Client.find_by_phone(phone)
+        name = params["contacts"]["name"].present? ? params["contacts"]["name"] : "abandoned_#{number}"
+        search_client = Client.find_by_email(email).present? ? Client.find_by_email(email) : Client.find_by_phone(phone)
 
         client = search_client.present? ? search_client : Client.create!(email: email, phone: phone, name: name)
         search_mycase = Mycase.find_by_number(number)
