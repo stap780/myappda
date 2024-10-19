@@ -20,13 +20,13 @@
     </div>
     <div class="table-responsive">
     <table class="table table-hover table-condensed table-sm">
-      <thead class="thead-light">
-      <tr>
-        <th>Id товара</th>
-        <th>Картинка</th>
-        <th>Название</th>
-        <th>Цена</th>
-      </tr>
+      <thead>
+        <tr class="align-middle">
+          <th>Id товара</th>
+          <th></th>
+          <th>Название</th>
+          <th>Цена</th>
+        </tr>
       </thead>
       <tbody>
       <% @favorite_products.each do |pr| %>
@@ -51,9 +51,9 @@
     <div class="table-responsive">
     <table class="table table-hover table-condensed table-sm">
       <thead class="thead-light">
-      <tr>
+      <tr class="align-middle">
         <th># ins</th>
-        <th>Картинка</th>
+        <th></th>
         <th>Название</th>
         <th>Sku</th>
         <th>Остаток</th>
@@ -64,7 +64,7 @@
       <tbody>
       <% @client.restocks.each do |res| %>
         <% var = res.variant%>
-        <tr>
+        <tr class="align-middle">
           <td>
             <div class="d-flex flex-column">
               <%=tag.div var.product.insid %>
@@ -92,20 +92,20 @@
     <div class="table-responsive">
     <table class="table table-hover table-condensed table-sm">
       <thead class="thead-light">
-      <tr>
-        <th># ins</th>
-        <th>Картинка</th>
-        <th>Название</th>
-        <th>Sku</th>
-        <th>Остаток</th>
-        <th>Цена</th>
-        <th>Статус</th>
-      </tr>
+        <tr class="align-middle">
+          <th># ins</th>
+          <th></th>
+          <th>Название</th>
+          <th>Sku</th>
+          <th>Остаток</th>
+          <th>Цена</th>
+          <th>Статус</th>
+        </tr>
       </thead>
       <tbody>
       <% @client.preorders.each do |res| %>
         <% var = res.variant%>
-        <tr>
+        <tr class="align-middle">
           <td>
             <div class="d-flex flex-column">
               <%=tag.div var.product.insid %>

@@ -4,16 +4,16 @@
             <%= check_box_tag "mycase_ids[]", mycase.id, false, {class: 'checkboxes form-check-input', data: { 'select-all_target': 'checkbox', action: "change->selectall#toggleParent"}, form: :bulk_form } %>
             <%=tag.label class: 'form-check-label' do %><%= tag.b( mycase.id ) %><% end %>
         <% end %>
+        <%=tag.div( "Дата: #{mycase.created_at.strftime('%d/%m/%Y %H:%M')}", class: "fs-8") %>
     <% end %>
     <%= tag.div class: "col-2 d-flex flex-column" do %>
-        <%=tag.div( "Статус: #{mycase.status_title }", class: '') %>
-        <%=tag.div( "Дата: #{mycase.created_at.strftime('%d/%m/%Y %H:%M')}", class: "fs-7") %>
+        <%=tag.div( mycase.status_title, class: '') %>
     <% end %>
     <%= tag.div class: "col-2 d-flex flex-column" do %>
         <%=tag.div( "#{mycase.casetype_value }", class: '') %>
         <%=tag.div( "#{mycase.insales_order_id}".html_safe, class: "fw-lighter") if mycase.casetype == 'order' %>
     <% end %>
-    <%= tag.div class: "col-3 d-flex flex-column" do %>
+    <%= tag.div class: "col-4 d-flex flex-column" do %>
         <%= mycase.client_data %>
     <% end %>
     <%= tag.div class: "col-1 d-flex flex-column" do %>

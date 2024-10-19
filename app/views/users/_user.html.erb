@@ -1,7 +1,5 @@
 <tr id="<%= dom_id user %>">
-    <td><%= link_to user.id, edit_user_path(user) %>
-    </td>
-    <td>
+    <td><%= link_to user.id, edit_user_path(user) %><br>
     <%= button_to '<span class="oi oi-transfer"></span>'.html_safe, impersonate_user_path(user), data: {turbo: false}, class: "btn" %>
     </td>
     <td>
@@ -9,7 +7,6 @@
             <div>
                 <b>Имя</b> <%= user.name %> <b>Логин</b> <%= user.subdomain %><br>
                 <b>Email</b> <%= user.email %><br>
-                <b>Phone</b> <%= user.phone %><br>
                 <b></b> <%= link_to 'Сайт', "http://"+user.insints.first.subdomen.to_s, target: "_blank" if user.insints.present? %>
             </div>
         </div>
@@ -37,7 +34,7 @@
     <td><%= user.izb_count %></td>
     <td><%= user.restock_count %></td>
     <td><%= user.message_setup_status %><br>
-        Действует до - <%= user.message_setup_valid_until %><br>
+        Действует до:<br> <%= user.message_setup_valid_until %><br>
         <%= link_to "Add 4 week", add_message_setup_ability_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" %>
     </td>
     <td><%= link_to trash_icon, user, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }  if current_admin %></td>

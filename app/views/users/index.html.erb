@@ -1,6 +1,6 @@
-<div class="row mt-3 mb-3">
+<div class="row mt-3 align-items-center">
   <div class="col-2 d-flex flex-column">
-    <div class="h2">Users</div>
+    <div class="h3">Пользователи</div>
     <div class="h6">Всего - <%= User.count%></div>
   </div>
   <%= search_form_for @search, {class: 'form-inline col pl-0 pr-0'} do |f| %>
@@ -19,7 +19,6 @@
     <thead class="align-middle">
       <tr class="bg-success">
         <th rowspan="2">#</th>
-        <th rowspan="2"></th>
         <th rowspan="2">Пользователь</th>
         <th rowspan="2">Настройки</th>
         <th colspan="4">Всего</th>
