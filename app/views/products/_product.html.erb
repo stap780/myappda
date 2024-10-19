@@ -6,16 +6,7 @@
         </div>
     </td>    
     <td class="fs-8"><%= product.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M')%></td>
-    <td class="col-1 p-0">
-        <div class="img-ratio img-fit">
-            <div class="img-ratio__inner">
-                <picture>
-                    <source srcset="<%= product.image_link %>" type="image/svg+xml">
-                    <img src="<%= product.image_link %>" class="img-fluid img-thumbnail">
-                </picture>
-            </div>
-        </div>
-    </td>
+     <%= td_tag_image(product.image_link)%>
     <td><%= product.title %></td>
     <td><%= link_to eye_icon, product, data: { turbo_frame: "offcanvasWrap", turbo_stream: true } %></td>
     <td><%= product.price %></td>

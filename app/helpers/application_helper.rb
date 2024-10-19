@@ -116,15 +116,13 @@ module ApplicationHelper
   end
 
   def td_tag_image(img_link = nil)
-    content_tag :td, class: "p-0 d-block w-75" do
+    content_tag :td, class: "p-0 d-block", style: "min-width:70px;" do
       content_tag :div, class: "img-ratio img-fit" do
         content_tag :div, class: "img-ratio__inner" do
-          content_tag :picture do
-            content_tag :source, srcset: img_link, type: "image/jpeg" if image_link.present?
-            content_tag :img, src: img_link, class: "img-fluid img-thumbnail" if image_link.present?
-          end
+          picture_tag([img_link], image: { class: "img-fluid img-thumbnail", loading: 'lazy' }) if img_link.present?
         end
       end
     end
   end
+
 end

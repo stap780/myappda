@@ -278,7 +278,7 @@ class InsintsController < ApplicationController
   def abandoned_cart
     number = params["id"]
     account_id = params["insales_account_id"]
-    puts "account_id => " + account_id.to_s
+    puts "account_id => " + account_id.to_ss
 
     insint = Insint.find_by_insales_account_id(account_id)
     # insint = Insint.find_by_insales_account_id(784184)
