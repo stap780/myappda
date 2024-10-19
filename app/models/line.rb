@@ -13,6 +13,3 @@ class Line < ApplicationRecord
     end
 
 end
-    
-    
-    
