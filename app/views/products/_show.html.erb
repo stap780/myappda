@@ -1,7 +1,7 @@
 
 
 <div class="col-12 mb-3">
-  (<%= @product.insid %>) <%= @product.title %> - <%= @product.price %>
+  <%= @product.title %>
 </div>
 
 <div class="col-12">
@@ -30,13 +30,16 @@
   </div>
 </div>
 
-<div class="col-12 mb-3 h4">Избранное</div>
-
-<div class="col-12">
-  <div class="table-responsive">
-    <table class="table table-hover table-condensed">
+<% if @favorite_products.present? %>
+  <div class="row align-items-center mt-3 mb-3">
+    <div class="col-4 d-flex w-100 align-items-center mb-2 h5">
+      <span><%= heart_icon %> Избранное</span>
+      <%= link_to mail_icon+' избранное'.html_safe, emailizb_client_path(@client), title: "Отправить письмо с избранным", class: "btn btn-light ms-auto", data: {turbo_method: :get, turbo_stream: true} %>
+    </div>
+    <div class="table-responsive">
+    <table class="table table-hover table-condensed table-sm">
     <thead>
-      <tr class="bg-success">
+      <tr class="align-middle">
         <th>Клиент</th>
         <th>Дата добавления</th>
       </tr>
@@ -50,17 +53,20 @@
       </tr>
       <% end %>
     </tbody>
-  </table>
+    </table>
+    </div>
   </div>
-</div>
+<% end %>
 
-<div class="col-12 mb-3 h4">Сообщить о поступлении</div>
-
-<div class="col-12">
-  <div class="table-responsive">
-    <table class="table table-hover table-condensed">
+<% if @client.restocks.present? %>
+  <div class="row align-items-center mt-3 mb-3">
+    <div class="col-4 d-flex w-100 align-items-center mb-2 h5">
+    <span><%= reload_icon%> Сообщить о поступлении</span>
+    </div>
+    <div class="table-responsive">
+    <table class="table table-hover table-condensed table-sm">
       <thead>
-        <tr>
+        <tr class="align-middle">
           <th>Клиент</th>
           <th>Дата добавления</th>
           <th>Вариант</th>
@@ -84,16 +90,19 @@
         <% end %>
       </tbody>
     </table>
+    </div>
   </div>
-</div>
+<% end %>
 
-<div class="col-12 mb-3 h4">Предзаказ</div>
-
-<div class="col-12">
-  <div class="table-responsive">
-    <table class="table table-hover table-condensed">
+<% if @client.preorders.present? %>
+  <div class="row align-items-center mt-3 mb-3">
+    <div class="col-4 d-flex w-100 align-items-center mb-2 h5">
+    <span><%= bell_icon%> Предзаказ</span>
+    </div>
+    <div class="table-responsive">
+    <table class="table table-hover table-condensed table-sm">
       <thead>
-        <tr>
+        <tr class="align-middle">
           <th>Клиент</th>
           <th>Дата добавления</th>
           <th>Вариант</th>
@@ -117,5 +126,6 @@
         <% end %>
       </tbody>
     </table>
+    </div>
   </div>
-</div>
+<% end %>

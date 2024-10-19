@@ -6,8 +6,7 @@
         <div class="d-flex flex-column">
             <div>
                 <b>Имя</b> <%= user.name %> <b>Логин</b> <%= user.subdomain %><br>
-                <b>Email</b> <%= user.email %><br>
-                <b></b> <%= link_to 'Сайт', "http://"+user.insints.first.subdomen.to_s, target: "_blank" if user.insints.present? %>
+                <b>Email</b> <%= user.email %> <%= link_to 'Сайт', "http://"+user.insints.first.subdomen.to_s, target: "_blank" if user.insints.present? %>
             </div>
         </div>
         <div>
