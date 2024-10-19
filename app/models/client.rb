@@ -16,7 +16,7 @@ class Client < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["cases", "favorites", "order_status_changes", "preorders", "products", "restocks", "variants"]
+    ["mycases", "favorites", "order_status_changes", "preorders", "products", "restocks", "variants"]
   end
 
   def self.with_restocks

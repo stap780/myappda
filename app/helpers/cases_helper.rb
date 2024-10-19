@@ -1,2 +1,2 @@
-module CasesHelper
+module MycasesHelper
 end
