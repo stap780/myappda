@@ -42,29 +42,25 @@ class EventActionService
             subject = subject_template.render('case' => case_drop, 'client' => client_drop)
             content = content_template.render('case' => case_drop, 'client' => client_drop, 'user' => user_drop)
 
-            email_data = {
-                            user: @user, 
-                            subject: subject,
-                            content: content,
-                            receiver: receiver
-                        }
-            if @mycase.casetype != 'abandoned_cart' && check_trigger == true
+            email_data = { user:  @user, subject: subject, content: content, receiver: receiver }
+
+            if @mycase.casetype != "abandoned_cart" && check_trigger == true
                 EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
             end
-            if @mycase.casetype == 'abandoned_cart'
+            if @mycase.casetype == "abandoned_cart"
                 AbandonedJob.set(wait: wait.to_i.minutes).perform_later(@mycase.id, insint, email_data)
             end
         end
 
-        if channel == 'insales_api' && operation == 'cancel_order' && check_trigger
+        if channel == "insales_api" && operation == "cancel_order" && check_trigger
             CancelOrderJob.set(wait: wait.to_i.minutes).perform_later(@mycase.insales_order_id, operation, insint)
         end
 
-        if channel == 'insales_api' && operation == 'change_order_status_to_new' && check_trigger
+        if channel == "insales_api" && operation == "change_order_status_to_new" && check_trigger
             ChangeOrderStatusToNewJob.set(wait: wait.to_i.minutes).perform_later(@mycase.insales_order_id, operation, insint)
         end
 
-        if channel == 'insales_api' && operation == 'preorder_order'
+        if channel == "insales_api" && operation == "preorder_order"
             PreorderJob.set(wait: wait.to_i.minutes).perform_later(@mycase.id, operation, insint)
         end
 

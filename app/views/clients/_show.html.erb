@@ -14,8 +14,8 @@
 </div>
 <% if @favorite_products.present? %>
   <div class="row align-items-center mt-3 mb-3">
-    <div class="col-4 d-flex w-100 align-items-center mb-2">
-      <strong><%= heart_icon %> Избранное</strong>
+    <div class="col-4 d-flex w-100 align-items-center mb-2 h5">
+      <span><%= heart_icon %> Избранное</span>
       <%= link_to mail_icon+' избранное'.html_safe, emailizb_client_path(@client), title: "Отправить письмо с избранным", class: "btn btn-light ms-auto", data: {turbo_method: :get, turbo_stream: true} %>
     </div>
     <div class="table-responsive">
@@ -23,8 +23,8 @@
       <thead class="thead-light">
       <tr>
         <th>Id товара</th>
-        <th>Название</th>
         <th>Картинка</th>
+        <th>Название</th>
         <th>Цена</th>
       </tr>
       </thead>
@@ -32,19 +32,8 @@
       <% @favorite_products.each do |pr| %>
         <tr class="align-middle">
           <td><%=pr.insid%></td>
+          <%= td_tag_image(pr.image_link)%>
           <td><%= link_to "#{pr.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
-          <td class="p-0 d-block w-75">
-              <%=tag.div class: "img-ratio img-fit" do %>
-                  <div class="img-ratio__inner">
-                      <a href="#" >
-                          <picture>
-                              <source srcset="<%= pr.image_link %>" type="image/svg+xml">
-                              <img src="<%= pr.image_link %>" class="img-fluid img-thumbnail">
-                          </picture>
-                      </a>
-                  </div>
-              <% end if pr.image_link.present? %>
-          </td>
           <td><%=pr.price%></td>
         </tr>
         <% end %>
@@ -53,17 +42,18 @@
     </div>
   </div>
 <% end %>
+
 <% if @client.restocks.present? %>
   <div class="row align-items-center mt-3 mb-3">
-    <div class="col-4 d-flex w-100 align-items-center mb-2">
-    <strong><%= reload_icon%> Сообщить о поступлении</strong>
+    <div class="col-4 d-flex w-100 align-items-center mb-2 h5">
+    <span><%= reload_icon%> Сообщить о поступлении</span>
     </div>
     <div class="table-responsive">
     <table class="table table-hover table-condensed table-sm">
       <thead class="thead-light">
       <tr>
-        <th>Id товара</th>
-        <th>Id варианта</th>
+        <th># ins</th>
+        <th>Картинка</th>
         <th>Название</th>
         <th>Sku</th>
         <th>Остаток</th>
@@ -73,10 +63,15 @@
       </thead>
       <tbody>
       <% @client.restocks.each do |res| %>
-        <tr>
         <% var = res.variant%>
-          <td><%= var.product.insid %></td>
-          <td><%= var.insid %></td>
+        <tr>
+          <td>
+            <div class="d-flex flex-column">
+              <%=tag.div var.product.insid %>
+              <%=tag.div( var.insid, class: 'opacity-75 fs-8')%>
+            </div>          
+          </td>
+          <%= td_tag_image(var.product.image_link)%>
           <td><%= link_to "#{var.product.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+var.product.insid.to_s+"?variant_id="+var.insid.to_s, target: "_blank" %></td>
           <td><%= var.sku %></td>
           <td><%= var.quantity %></td>
@@ -91,15 +86,15 @@
 <% end %>
 <% if @client.preorders.present? %>
   <div class="row align-items-center mt-3 mb-3">
-    <div class="col-4 d-flex w-100 align-items-center mb-2">
-    <strong><%= bell_icon%> Предзаказ</strong>
+    <div class="col-4 d-flex w-100 align-items-center mb-2 h5">
+    <span><%= bell_icon%> Предзаказ</span>
     </div>
     <div class="table-responsive">
     <table class="table table-hover table-condensed table-sm">
       <thead class="thead-light">
       <tr>
-        <th>Id товара</th>
-        <th>Id варианта</th>
+        <th># ins</th>
+        <th>Картинка</th>
         <th>Название</th>
         <th>Sku</th>
         <th>Остаток</th>
@@ -109,10 +104,15 @@
       </thead>
       <tbody>
       <% @client.preorders.each do |res| %>
-        <tr>
         <% var = res.variant%>
-          <td><%= var.product.insid %></td>
-          <td><%= var.insid %></td>
+        <tr>
+          <td>
+            <div class="d-flex flex-column">
+              <%=tag.div var.product.insid %>
+              <%=tag.div( var.insid, class: 'opacity-75 fs-8')%>
+            </div>          
+          </td>
+          <%= td_tag_image(var.product.image_link)%>
           <td><%= link_to "#{var.product.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+var.product.insid.to_s+"?variant_id="+var.insid.to_s, target: "_blank" %></td>
           <td><%= var.sku %></td>
           <td><%= var.quantity %></td>

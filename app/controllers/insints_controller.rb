@@ -135,17 +135,19 @@ class InsintsController < ApplicationController
     Apartment::Tenant.switch(saved_subdomain) do
       # if FavoriteSetup.check_ability - we have now only one service
       if MessageSetup.check_ability
-        client = Client.find_by_clientid(params[:client_id])
+        pr_id = params[:product_id]
+        client_id = params[:client_id]
+        client = Client.find_by_clientid(client_id)
+        product = Product.find_by(insid: pr_id).present? ? Product.find_by(insid: pr_id) : Product.create!(insid: pr_id)
 
         if client.present?
-          product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
           fav = Favorite.new(product_id: product.id, client_id: client.id, created_at: Time.now, updated_at: Time.now)
           fav.save
           totalcount = client.favorites.uniq.count.to_s
           render json: {success: true, message: "\u0442\u043E\u0432\u0430\u0440 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D \u0432 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0435", totalcount: totalcount}
         else
           service = ApiInsales.new(insint)
-          search_client = service.client(params[:client_id])
+          api_client = service.client(client_id)
           new_client_data = {
             clientid: params[:client_id],
             name: search_client.name,
@@ -154,8 +156,9 @@ class InsintsController < ApplicationController
             phone: search_client.phone
           }
           # puts "new_client_data => "+new_client_data.to_s
-          client = Client.find_by_email(search_client.email).present? ? Client.find_by_email(search_client.email).update!(new_client_data) : Client.create!(new_client_data)
-          product = Product.find_by(insid: params[:product_id]).present? ? Product.find_by(insid: params[:product_id]) : Product.create!(insid: params[:product_id])
+          check_client_from_api = Client.find_by_email(api_client.email)
+          check_client_from_api.update!(new_client_data) if check_client_from_api
+          client = check_client_from_api.present? ? check_client_from_api : Client.create!(new_client_data)
           fav = Favorite.new(product_id: product.id, client_id: client.id, created_at: Time.now, updated_at: Time.now)
           fav.save
           totalcount = new_client.favorites.uniq.count.to_s
@@ -283,12 +286,12 @@ class InsintsController < ApplicationController
     Apartment::Tenant.switch(saved_subdomain) do
       if MessageSetup.check_ability && params["lines"].presence && params["contacts"]["email"].presence
         number = params["id"]
-        search_client = Client.find_by_email(params["contacts"]["email"]).present? ? Client.find_by_email(params["contacts"]["email"]) :
-                                                                                      Client.find_by_phone(params["contacts"]["phone"])
+        email = params["contacts"]["email"]
+        phone = params["contacts"]["phone"]
+        name = params["contacts"]["name"].present? ? params["contacts"]["name"] : "abandoned_#{number.to_s}"
+        search_client = Client.find_by_email(email.present? ? Client.find_by_email(email) : Client.find_by_phone(phone)
 
-        client = search_client.present? ? search_client :
-                                          Client.create!(email: params["contacts"]["email"], phone: params["contacts"]["phone"],
-                                            name: "abandoned_" + number.to_s)
+        client = search_client.present? ? search_client : Client.create!(email: email, phone: phone, name: name)
         search_mycase = Mycase.find_by_number(number)
         mycase = search_mycase.present? ? search_mycase : Mycase.create!(number: number, casetype: "abandoned_cart", client_id: client.id, status: "new")
 

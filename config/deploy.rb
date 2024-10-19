@@ -6,7 +6,7 @@ set :application, "myappda"
 set :repo_url, "git@github.com:stap780/#{fetch(:application)}.git"
 
 set :user, "myappda"
-set :systemctl_user, :system
+set :systemctl_user, :system #this is livehack for 'capistrano3-puma', '6.0.0.beta.1'
 set :branch, "master"
 set :pty, true
 set :stage, :production

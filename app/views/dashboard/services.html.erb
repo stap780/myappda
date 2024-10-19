@@ -13,18 +13,19 @@
           <li>Скачать <%= link_to 'виджет  доб/уд', asset_url("/widgets/wt_favorites.zip"), target: '_blank'%> или обратиться в поддержку для настройки</li>
           <li>Скачать <%= link_to 'виджет  страницы', asset_url("/widgets/wt_favorites_products_page.zip"), target: '_blank'%> или обратиться в поддержку для настройки</li>
           <li>
-            проверить в карточке товара и каталоге есть информация об id варианта
+            проверить в карточке товара и каталоге есть ли информация об id варианта
 <pre>
 EventBus.subscribe('change_variant:insales:product', (data) => {
   var pr_node = $('[data-product-id="'+data.product_id+'"]');
   pr_node.attr("data-variant-id", data.id);
+  pr_node.find('[data-favorite-product]').attr("data-favorite-product", data.product_id);
 });
 </pre>
           </li>
           <li>заменяем стандартный
 <pre>data-ui-favorites-trigger="{{ product.id }}"</pre> на 
 <pre>data-trigger-click="myappda-favorites-trigger:insales:site" 
-  data-favorite-product="{{ product.id }}"</pre>
+data-favorite-product="{{ product.id }}"</pre>
           </li>
         </ul>
       </div>
@@ -43,9 +44,10 @@ EventBus.subscribe('change_variant:insales:product', (data) => {
     <div class="card-body">
       <div class="card-text">
         <ul>
-          <li>Работает на странице оформления заказа и собирает информацию из каждого заполненого поля</li>
-          <li>триггеры</li>         
+          <li>Работает на странице оформления заказа и собирает информацию из каждого заполненого поля: email, телефон, имя. В приложение поступает информация только если заполнено поле электронной почты.</li>
+          <li>триггеры: email</li>         
           <li>Скачать <%= link_to 'виджет', asset_url("/widgets/wt_abandoned_cart.zip"), target: '_blank'%> или обратиться в поддержку для настройки</li>
+          <li>Базовый сценарий: После появления заявки с брошенной корзиной происходит отправка письма клиенту по шаблону, если настроен Триггер для брошенной корзины и в нём включена отложенная отправка и указано время через которое происходит событие. </li>
         </ul>
       </div>
     </div>
@@ -66,11 +68,11 @@ EventBus.subscribe('change_variant:insales:product', (data) => {
       <div class="card-text">
         <ul>
           <li>Форма заявки на сайте для регистрации запроса на предзаказ товара</li>
-          <li>в инсалес должен быть создан кастомный статус в группе Новый ('new') с названием - 'preorder'</li>
-          <li>удалить из Вне контента стандартный виджет Предзаказ</li>
-          <li>перед созданием заказа со статусом Предзаказ проверяется кол-во у товара и если кол-во равно 0 то добавляется кол-во 1 и только тогда можно создать заказ</li>    
-          <li>триггеры</li>
+          <li>удалить из Вне контента стандартный виджет Предзаказ</li>  
+          <li>включить появление кнопки Предзаказ в Редактор - Настройка шаблона - Настройки покупки</li>
+          <li>триггеры: email (клиенту, менеджеру), api (в инсалес должен быть создан кастомный статус в группе Новый ('new') с названием - 'preorder'). перед созданием заказа со статусом Предзаказ проверяется кол-во у товара и если кол-во равно 0 то добавляется кол-во 1 и только тогда можно создать заказ</li>
           <li>Скачать <%= link_to 'виджет', asset_url("/widgets/wt_preorder.zip"), target: '_blank'%> или обратиться в поддержку для настройки</li>
+          <li>добавить виджет на сайт</li>
         </ul>
       </div>
     </div>
@@ -102,11 +104,20 @@ EventBus.subscribe('change_variant:insales:product', (data) => {
             <% end %>
           <% end %>
           <li>Скачать <%= link_to 'виджет', asset_url("/widgets/wt_restock.zip"), target: '_blank'%> или обратиться в поддержку для настройки</li>
-          <li>добавить кнопку в виджет товара
+          <li>добавить виджет на сайт</li>
+          <li>включить появление кнопки Предзаказ в Редактор - Настройка шаблона - Настройки покупки</li>
+          <li>создать параметр для товаров restock со значением 'да'. если парметр в товаре заполнен и значение 'да', то появляется кнопка Подписаться</li>
+          <li>добавить кнопку в виджет товара выше стандартной кнопки Предзаказ (обычно класс - product__preorder-btn)
 <pre><code>
-  &lt;a href="#" class="button button_size-m button_wide product__not-available" data-trigger-click="empty-product:insales:site"&gt;
-    &lt;span class="product__not-available__label"&gt;подписаться&lt;/span&gt;
-  &lt;/a&gt;
+{% if product.properties.restock.characteristics.first.handle == 'da' %}
+&lt;style&gt;
+  .product.is-available .myappda-restock-button {display:none;}
+  .product.not-available .product__preorder-btn {display:none!important;}
+&lt;/style&gt;
+&lt;a href="#" class="button button_size-m button_wide product__not-available" data-trigger-click="empty-product:insales:site"&gt;
+  &lt;span class="product__not-available__label"&gt;подписаться&lt;/span&gt;
+&lt;/a&gt;
+{% endif %}
 </code></pre>
           </li>
           <li>проверка происходит раз в час</li>
@@ -130,7 +141,7 @@ EventBus.subscribe('change_variant:insales:product', (data) => {
       <div class="card-text">
         <ul>
           <li>уведомление клиентов и менеджеров магазина при смене статусов заказов с помощью InsalesApi, SMS, Email сообщений</li>
-          <li>триггеры</li>
+          <li>триггеры: email (клиенту, менеджеру)</li>
           <li>скачать виджет или обратиться в поддержку для настройки</li>
         </ul>
       </div>

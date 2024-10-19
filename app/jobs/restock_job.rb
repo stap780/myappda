@@ -10,6 +10,7 @@ class RestockJob < ApplicationJob
           events = Event.active.where(casetype: "restock")
           clients = Client.with_restocks
           puts "=======start check clients / всего clients - #{clients.count}"
+          Variant.update_all(quantity: 0)
           uniq_records_ids = Restock.find_dups
           Restock.where.not(id: uniq_records_ids).delete_all
           xml_file = load_products_xml(product_xml)
@@ -46,7 +47,7 @@ class RestockJob < ApplicationJob
     filename = link.split("/").last
     download_path = Rails.env.development? ? "#{Rails.root}/public/#{filename}" : "/var/www/myappda/shared/public/#{filename}"
     File.delete(download_path) if File.file?(download_path).present?
-    file = ''
+    file = ""
     RestClient.get(product_xml) { |response, request, result, &block|
       # puts response.code
       # puts response
@@ -57,12 +58,11 @@ class RestockJob < ApplicationJob
         f.close
         file = download_path
       when 301
-        puts 'load_products_xml error 301'
+        puts "load_products_xml error 301"
       else
         response.return!(&block)
       end
     }
     file
   end
-
 end
