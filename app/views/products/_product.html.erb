@@ -10,5 +10,5 @@
     <td><%= product.title %></td>
     <td><%= link_to eye_icon, product, data: { turbo_frame: "offcanvasWrap", turbo_stream: true } %></td>
     <td><%= product.price %></td>
-    <td><%= link_to trash_icon, product, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }, class:"" %></td>
+    <td><%= link_to trash_icon, product, data: { "turbo-method": :delete, 'turbo-confirm': 'Будут удалены избранные, сообщить о поступлении, предзаказ связанные с этим товаром. Вы уверенны? ' }, class:"" %></td>
 </tr>
