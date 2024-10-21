@@ -8,6 +8,13 @@ module ApplicationHelper
     end
   end
 
+  def status_class(mycase_status)
+    case mycase_status
+    when 'new' then 'text-primary text-opacity-75'
+    when 'take' then 'text-secondary text-opacity-75'
+    when 'finish' then 'text-success text-opacity-75'
+  end
+
   def check_current_page_show_this_part?
     not_show = ["users", "users_sign_in", "users_sign_up", "users_password_new"]
     if not_show.include?(current_page_path_as_class)

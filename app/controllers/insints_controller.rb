@@ -1,3 +1,4 @@
+#  encoding : utf-8
 class InsintsController < ApplicationController
   before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb emailizb order abandoned_cart restock preorder extra_data]
   before_action :authenticate_admin!, only: %i[adminindex]
@@ -278,7 +279,7 @@ class InsintsController < ApplicationController
   def abandoned_cart
     number = params["id"]
     account_id = params["insales_account_id"]
-    puts "account_id => #{account_id.to_s}"
+    puts "account_id => #{account_id}"
 
     insint = Insint.find_by_insales_account_id(account_id)
     # insint = Insint.find_by_insales_account_id(784184)

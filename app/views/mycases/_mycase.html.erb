@@ -7,7 +7,7 @@
         <%=tag.div( mycase.created_at.strftime('%d/%m/%Y %H:%M'), class: "fs-8") %>
     <% end %>
     <%= tag.div class: "col-2 d-flex flex-column" do %>
-        <%=tag.div( mycase.status_title, class: '') %>
+        <%=tag.div( mycase.status_title, class: status_class(mycase.status)) %>
     <% end %>
     <%= tag.div class: "col-2 d-flex flex-column" do %>
         <%=tag.div( "#{mycase.casetype_value }", class: '') %>

@@ -58,7 +58,7 @@ class Restock::SendMessage < ApplicationService
                   mycase.update(status: "finish")
                 end
                 puts "=======client have restocks and we inform it"
-                puts "=======client id => " + @client.id.to_s
+                puts "=======client id => #{client.id.to_s}"
               else
                 puts "=======client didn't have restocks to inform"
               end
