@@ -18,9 +18,9 @@
         <td>
             <% insint = user.insints.first %>
             <div class="btn-group-vertical" role="group" aria-label="button setup">
-                <%= link_to "#{arrow_left_right_icon} check API", check_insints_path(insint), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" if insint %>
-                <%= link_to "#{mail_icon} check email", check_email_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm", title: 'check user email setup work' %>
-                <%= link_to "#{arrow_up} Order WebHook", add_insales_order_webhook_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" if insint %>
+                <%= link_to "#{arrow_left_right_icon} check API".html_safe, check_insints_path(insint), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" if insint %>
+                <%= link_to "#{mail_icon} check email".html_safe, check_email_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm", title: 'check user email setup work' %>
+                <%= link_to "#{arrow_up} Order WebHook".html_safe, add_insales_order_webhook_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" if insint %>
             </div>
         </td>
     <td>

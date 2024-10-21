@@ -22,7 +22,7 @@ class Restock::SendMessage < ApplicationService
   def send_message
     Apartment::Tenant.switch(@tenant) do
       events = Event.active.restocks
-      if events.exist?
+      if events.exists?
         Variant.update_all(quantity: 0)
         uniq_records_ids = Restock.find_dups
         Restock.where.not(id: uniq_records_ids).delete_all
