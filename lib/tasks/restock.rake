@@ -9,7 +9,7 @@ namespace :restock do
     tenants.each do |tenant|
       ms = MessageSetup.first
       restock_cases_group_by_client = Mycase.restocks.where(status: "new").group_by(&:client_id)
-      RestockJob.perform_now(tenant, restock_cases_group_by_client, ms.product_xml) if ms&.status && !ms&.product_xml.blank? && restock_cases.exists?
+      RestockJob.perform_later(tenant, restock_cases_group_by_client, ms.product_xml) if ms&.status && !ms&.product_xml.blank? && restock_cases_group_by_client.exists?
     end
 
     puts "finish check_product_qt - время москва - #{Time.zone.now}"
