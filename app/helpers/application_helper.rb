@@ -35,6 +35,10 @@ module ApplicationHelper
     end
   end
 
+  def arrow_left_right_icon
+    '<i class="bi bi-arrow-left-right"></i>'.html_safe
+  end
+
   def arrow_clockwise_icon
     "<i class='bi bi-arrow-clockwise'></i>".html_safe
   end
@@ -91,6 +95,10 @@ module ApplicationHelper
     '<i class="bi bi-file-arrow-down"></i>'.html_safe
   end
 
+  def arrow_up
+    '<i class="bi bi-arrow-up"></i>'.html_safe
+  end
+
   def upload_cloud_icon
     '<i class="bi bi-cloud-arrow-up"></i>'.html_safe
   end
@@ -105,6 +113,10 @@ module ApplicationHelper
 
   def play_icon
     '<i class="bi bi-play"></i>'.html_safe
+  end
+
+  def cart_icon
+    '<i class="bi bi-cart"></i>'.html_safe
   end
 
   def edit_icon

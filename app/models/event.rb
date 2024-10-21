@@ -6,6 +6,7 @@ class Event < ApplicationRecord
     validates :casetype, presence: true
 
     scope :active, -> { where(active: true) }
+    scope :restocks, -> { where(casetype: "restock") }
 
     FIN_STATUS = [['Не оплачен','pending'],['Оплачен','paid']].freeze #["pending", "paid"]
     TYPES = Mycase::CASETYPE #+ [['Избранное','favorite']]

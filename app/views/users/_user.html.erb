@@ -1,6 +1,6 @@
 <tr id="<%= dom_id user %>">
     <td><%= link_to user.id, edit_user_path(user) %><br>
-    <%= button_to '<span class="oi oi-transfer"></span>'.html_safe, impersonate_user_path(user), data: {turbo: false}, class: "btn" %>
+    <%= button_to '<span class="oi oi-transfer"></span>'.html_safe, impersonate_user_path(user), data: {turbo: false}, class: "btn px-0" %>
     </td>
     <td>
         <div class="d-flex flex-column">
@@ -11,16 +11,16 @@
         </div>
         <div>
             <b>Создан</b> <%= user.created_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ).to_s%><br>
-            <b>Последний вход</b> <%= user.last_sign_in_at.present? ? user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" ) : '' %><br>
-            <b>Действует до</b> <%= user.valid_until.present? ? user.valid_until.strftime("%d-%m-%Y") : ''%>
+            <%# user.last_sign_in_at.present? ? "Последний вход #{user.last_sign_in_at.in_time_zone.strftime("%d/%m/%Y %H:%M" )}" : '' %>
+            <%# user.valid_until.present? ? "Действует до #{user.valid_until.strftime("%d-%m-%Y")}" : ''%>
         </div>
     </td>
         <td>
             <% insint = user.insints.first %>
             <div class="btn-group-vertical" role="group" aria-label="button setup">
-                <%= link_to '<i class="bi bi-arrow-left-right"></i> API'.html_safe, check_insints_path(insint), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" if insint %>
-                <%= link_to mail_icon, check_email_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm", title: 'check user email setup work' %>
-                <%= link_to '<i class="bi bi-arrow-up"></i> Add Order WebHook'.html_safe, add_insales_order_webhook_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" if insint %>
+                <%= link_to "#{arrow_left_right_icon} check API", check_insints_path(insint), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" if insint %>
+                <%= link_to "#{mail_icon} check email", check_email_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm", title: 'check user email setup work' %>
+                <%= link_to "#{arrow_up} Order WebHook", add_insales_order_webhook_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" if insint %>
             </div>
         </td>
     <td>
@@ -32,6 +32,8 @@
     <td><%= user.products_count %></td>
     <td><%= user.izb_count %></td>
     <td><%= user.restock_count %></td>
+    <td></td>
+    <td></td>
     <td><%= user.message_setup_status %><br>
         Действует до:<br> <%= user.message_setup_valid_until %><br>
         <%= link_to "Add 4 week", add_message_setup_ability_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" %>

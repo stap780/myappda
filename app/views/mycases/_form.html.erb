@@ -1,11 +1,11 @@
 
+<div class="col-12 h3 mt-3 mb-3"><%= page_title %></div>
 <%= simple_form_for(@mycase) do |f| %>
-    <%= render 'shared/errors', object: @case%>
+  <%= render 'shared/errors', object: @mycase%>
 
-  <div class="row">
-    <div class="col-12 h3 mt-3 mb-3"><%= page_title %></div>
+  <div class="row gap-5">
     <div class="col-4">
-      <%= f.input :status, collection: Mycase::STATUS, input_html: {class: "form-select" }%>
+      <%= f.input :status, collection: Mycase::STATUS, input_html: {class: "form-select" }, disabled: true if @mycase.casetype == 'restock' || @mycase.casetype == 'preorder' %>
       <%= f.input :number, disabled: true %>
       <%= f.association :client, class: "form-select", input_html: {class: "form-select" } %>
       <%= f.input :casetype, collection: Mycase::CASETYPE, input_html: {class: "form-select" }%>
@@ -14,7 +14,7 @@
     </div>
     <div class="col-8">
     <div class="table-responsive">
-    <label for="line-table">Позиции заявки</label>
+      <div class="label">Позиции заявки</div>
       <table class="table table-primary" id="line-table">
         <thead>
           <tr>

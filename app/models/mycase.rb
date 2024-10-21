@@ -25,8 +25,14 @@ class Mycase < ApplicationRecord
     broadcast_remove_to [Apartment::Tenant.current, :mycases], target: dom_id(self, Apartment::Tenant.current)
   end
 
-  CASETYPE = [["\u0417\u0430\u043A\u0430\u0437 (insales)", "order"], ["\u0421\u043E\u043E\u0431\u0449\u0438\u0442\u044C \u043E \u043F\u043E\u0441\u0442\u0443\u043F\u043B\u0435\u043D\u0438\u0438", "restock"], ["\u0411\u0440\u043E\u0448\u0435\u043D\u043D\u0430\u044F \u043A\u043E\u0440\u0437\u0438\u043D\u0430", "abandoned_cart"], ["\u041F\u0440\u0435\u0434\u0437\u0430\u043A\u0430\u0437", "preorder"]].freeze
-  STATUS = [["\u041D\u043E\u0432\u044B\u0439", "new"], ["\u0412 \u0440\u0430\u0431\u043E\u0442\u0435", "take"], ["\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u043B\u0438", "finish"]].freeze
+
+  scope :orders, -> { where(casetype: "order") }
+  scope :restocks, -> { where(casetype: "restock") }
+  scope :abandoned_carts, -> { where(casetype: "abandoned_cart") }
+  scope :preorders, -> { where(casetype: "preorder") }
+
+  CASETYPE = [["Заказ (insales)", "order"], ["Сообщить о поступлении", "restock"], ["Брошенная корзина", "abandoned_cart"], ["Предзаказ", "preorder"]].freeze
+  STATUS = [["Новый", "new"], ["В работе", "take"], ["Завершили", "finish"]].freeze
 
   def self.ransackable_attributes(auth_object = nil)
     Mycase.attribute_names
@@ -38,7 +44,7 @@ class Mycase < ApplicationRecord
 
   def casetype_value
     return "" unless casetype.present?
-    Mycase::CASETYPE.select { |c| c[0] if c[1] == casetype }.compact.join(" ")
+    Mycase::CASETYPE.select { |c| c if c[1] == casetype }.flatten[0]
   end
 
   def add_restock

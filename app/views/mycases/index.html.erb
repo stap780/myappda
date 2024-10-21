@@ -6,7 +6,7 @@
 
   <div class="col px-0">
     <%= search_form_for @search, {class: 'form-inline px-0'} do |f| %>
-      <div class="input-group input-group-sm">
+        <%= f.search_field :created_at_datebegin, type: :date, placeholder: 'создан от', class: "form-control", autocomplete: "off", data: { controller: '' } %>
         <%= f.select :status_eq , Mycase::STATUS, { :prompt => 'Статус'}, class: "form-select", style: "max-width: 180px;" %>
         <%= f.search_field :number_eq , placeholder: 'number', class: "form-control", style: "max-width: 180px;" %>
         <%= f.search_field :client_name_or_client_surname_or_client_email_cont , placeholder: 'client fio, email', class: "form-control", style: "max-width: 180px;" %>

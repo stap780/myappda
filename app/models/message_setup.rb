@@ -32,18 +32,19 @@ class MessageSetup < ApplicationRecord
   end
 
   def self.check_ability
-    ms = MessageSetup.first
-    if ms
-      ms_status = ms.status == true
+    MessageSetup.first.status
+    # ms = MessageSetup.first
+    # if ms
+    #   ms_status = ms.status == true
 
-      valid_until_ability = (ms.valid_until.present? && Date.today <= ms.valid_until) ? true : false
+    #   valid_until_ability = (ms.valid_until.present? && Date.today <= ms.valid_until) ? true : false
 
-      puts "MessageSetup valid_until_ability => " + valid_until_ability.to_s
+    #   puts "MessageSetup valid_until_ability => " + valid_until_ability.to_s
 
-      check_work = (ms_status == true && valid_until_ability == true) ? true : false
-    else
-      false
-    end
+    #   check_work = (ms_status == true && valid_until_ability == true) ? true : false
+    # else
+    #   false
+    # end
   end
 
   def api_create_restock_xml
