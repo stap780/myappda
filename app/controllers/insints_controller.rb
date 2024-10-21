@@ -394,8 +394,6 @@ class InsintsController < ApplicationController
                                                                         Product.create!(insid: o_line["productId"])
           variant = product.variants.where(insid: o_line["variantId"]).present? ? product.variants.where(insid: o_line["variantId"])[0] :
                                                                                 product.variants.create!(insid: o_line["variantId"])
-          # our_line = mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
-
           line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
           if line.present?
             line.first.update!(quantity: o_line["quantity"], price: o_line["full_total_price"])

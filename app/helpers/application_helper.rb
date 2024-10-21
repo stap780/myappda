@@ -10,9 +10,10 @@ module ApplicationHelper
 
   def status_class(mycase_status)
     case mycase_status
-    when 'new' then 'text-primary text-opacity-75'
-    when 'take' then 'text-secondary text-opacity-75'
-    when 'finish' then 'text-success text-opacity-75'
+    when "new" then "text-primary text-opacity-75"
+    when "take" then "text-secondary text-opacity-75"
+    when "finish" then "text-success text-opacity-75"
+    end
   end
 
   def check_current_page_show_this_part?
