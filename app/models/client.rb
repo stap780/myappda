@@ -2,6 +2,7 @@ class Client < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :restocks, dependent: :destroy
   has_many :preorders, dependent: :destroy
+  has_many :abandoned_carts, dependent: :destroy
   # has_many :products, -> { distinct }, through: :favorites
   # has_many :variants, -> { distinct }, through: :restocks
   # has_many :variants, -> { distinct }, through: :preorders
@@ -16,21 +17,21 @@ class Client < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["mycases", "favorites", "order_status_changes", "preorders", "products", "restocks", "variants"]
+    ["mycases", "favorites", "order_status_changes", "preorders", "products", "restocks", "variants", "abandoned_carts"]
   end
 
   def self.with_restocks
-    ids = Restock.group(:client_id).count.map{|id, count| id}
+    ids = Restock.group(:client_id).count.map { |id, count| id }
     clients = Client.where(id: ids)
   end
 
   def self.with_preoders
-    ids = Preoder.group(:client_id).count.map{|id, count| id}
+    ids = Preoder.group(:client_id).count.map { |id, count| id }
     clients = Client.where(id: ids)
   end
 
   def self.have_favorites
-    ids = Favorite.group(:client_id).count.map{|id, count| id}
+    ids = Favorite.group(:client_id).count.map { |id, count| id }
     clients = Client.where(id: ids)
   end
 
@@ -47,7 +48,7 @@ class Client < ApplicationRecord
         headers = ["id \u0442\u043E\u0432\u0430\u0440\u0430", "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u0442\u043E\u0432\u0430\u0440\u0430", "\u0421\u0441\u044B\u043B\u043A\u0430", "\u041A\u0430\u0440\u0442\u0438\u043D\u043A\u0430", "\u0426\u0435\u043D\u0430", "\u041A\u043E\u043B-\u0432\u043E \u0443\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0439"]
         writer << headers
 
-        pr_ids = Favorite.group(:product_id).count.map{|id, count| id}
+        pr_ids = Favorite.group(:product_id).count.map { |id, count| id }
         products = Product.where(id: pr_ids)
         products.each do |product|
           insid = product.insid
@@ -63,17 +64,17 @@ class Client < ApplicationRecord
   end
 
   def emailizb(current_subdomain, user)
-    products = self.favorites.pluck(:product_id).reverse
+    products = favorites.pluck(:product_id).reverse
     email_data = {
       user: user,
-      fio: self.fio,
-      current_subdomain: current_subdomain, 
-      receiver: self.email,
+      fio: fio,
+      current_subdomain: current_subdomain,
+      receiver: email,
       products: products
     }
 
     check_email = ClientMailer.with(email_data).emailizb.deliver_now
-    check_email.present? ? [true, 'Отправили письмо клиенту с избранным'] : [false, 'Избранное Не работает Почта! Проверьте настройки']
+    check_email.present? ? [true, "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u043B\u0438 \u043F\u0438\u0441\u044C\u043C\u043E \u043A\u043B\u0438\u0435\u043D\u0442\u0443 \u0441 \u0438\u0437\u0431\u0440\u0430\u043D\u043D\u044B\u043C"] : [false, "\u0418\u0437\u0431\u0440\u0430\u043D\u043D\u043E\u0435 \u041D\u0435 \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442 \u041F\u043E\u0447\u0442\u0430! \u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"]
   end
 
   def self.uniq_favorites_count
@@ -104,7 +105,7 @@ class Client < ApplicationRecord
           email: client.email,
           phone: client.phone
         }
-        self.update!(client_data)
+        update!(client_data)
       end
     end
     puts "finish get_ins_client_data"

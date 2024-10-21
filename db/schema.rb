@@ -10,10 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_06_170343) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_21_165828) do
+  create_schema "demostore"
+  create_schema "demostore2"
+  create_schema "demostore3"
+  create_schema "ketago"
+  create_schema "littlebeam"
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "abandoned_carts", force: :cascade do |t|
+    t.bigint "variant_id", null: false
+    t.bigint "client_id", null: false
+    t.bigint "product_id", null: false
+    t.text "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_abandoned_carts_on_client_id"
+    t.index ["product_id"], name: "index_abandoned_carts_on_product_id"
+    t.index ["variant_id"], name: "index_abandoned_carts_on_variant_id"
+  end
 
   create_table "actions", force: :cascade do |t|
     t.string "type"
@@ -324,6 +341,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_06_170343) do
     t.index ["product_id"], name: "index_variants_on_product_id"
   end
 
+  add_foreign_key "abandoned_carts", "clients"
+  add_foreign_key "abandoned_carts", "products"
+  add_foreign_key "abandoned_carts", "variants"
   add_foreign_key "actions", "events"
   add_foreign_key "actions", "templates"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

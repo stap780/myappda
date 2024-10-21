@@ -7,6 +7,7 @@ class Product < ApplicationRecord
   accepts_nested_attributes_for :variants, allow_destroy: true
   has_many :restocks, dependent: :destroy
   has_many :preorders, dependent: :destroy
+  has_many :abandoned_carts, dependent: :destroy
   before_destroy :delete_relations, prepend: true
   after_commit :get_ins_data, on: [:create]
 
@@ -18,7 +19,7 @@ class Product < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["clients", "favorites", "lines", "mycases", "preorders", "restocks", "variants"]
+    ["clients", "favorites", "lines", "mycases", "preorders", "restocks", "variants", "abandoned_carts"]
   end
 
   def get_ins_data

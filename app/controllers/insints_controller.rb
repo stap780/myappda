@@ -134,7 +134,6 @@ class InsintsController < ApplicationController
     end
 
     Apartment::Tenant.switch(saved_subdomain) do
-      # if FavoriteSetup.check_ability - we have now only one service
       if MessageSetup.check_ability
         pr_id = params[:product_id]
         client_id = params[:client_id]
@@ -156,7 +155,6 @@ class InsintsController < ApplicationController
             email: search_client.email,
             phone: search_client.phone
           }
-          # puts "new_client_data => "+new_client_data.to_s
           check_client_from_api = Client.find_by_email(api_client.email)
           check_client_from_api.update!(new_client_data) if check_client_from_api
           client = check_client_from_api.present? ? check_client_from_api : Client.create!(new_client_data)
@@ -282,7 +280,6 @@ class InsintsController < ApplicationController
     puts "account_id => #{account_id}"
 
     insint = Insint.find_by_insales_account_id(account_id)
-    # insint = Insint.find_by_insales_account_id(784184)
     saved_subdomain = insint.user.subdomain
     Apartment::Tenant.switch(saved_subdomain) do
       if MessageSetup.check_ability && params["lines"].presence && params["contacts"]["email"].presence
@@ -306,7 +303,6 @@ class InsintsController < ApplicationController
           variant = product.variants.where(insid: o_line["variantId"].to_i).present? ? product.variants.where(insid: o_line["variantId"].to_i)[0] :
                                                                                   product.variants.create!(insid: o_line["variantId"].to_i)
 
-          # mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
           line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
           line_data = {
             product_id: product.id,
@@ -317,7 +313,8 @@ class InsintsController < ApplicationController
 
           line.present? ? line.first.update!(line_data) : mycase.lines.create!(line_data)
         end
-
+        
+        mycase.add_abandoned_cart
         mycase.do_event_action if !search_mycase.present?
 
         render json: {success: true, message: "\u0418\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0430 \u0432 cases abandoned_cart"}
@@ -333,7 +330,6 @@ class InsintsController < ApplicationController
     puts "account_id => " + account_id.to_s
 
     insint = Insint.find_by_insales_account_id(account_id)
-    # insint = Insint.find_by_insales_account_id(784184)
     saved_subdomain = insint.user.subdomain
     Apartment::Tenant.switch(saved_subdomain) do
       if MessageSetup.check_ability
@@ -351,8 +347,6 @@ class InsintsController < ApplicationController
                                                                         Product.create!(insid: o_line["productId"])
           variant = product.variants.where(insid: o_line["variantId"]).present? ? product.variants.where(insid: o_line["variantId"])[0] :
                                                                                 product.variants.create!(insid: o_line["variantId"])
-
-          # our_line = mycase.lines.create!(  product_id: product.id, variant_id: variant.id, quantity: o_line["quantity"], price: o_line["price"])
 
           line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
           if line.present?
@@ -376,7 +370,6 @@ class InsintsController < ApplicationController
     puts "account_id => " + account_id.to_s
 
     insint = Insint.find_by_insales_account_id(account_id)
-    # insint = Insint.find_by_insales_account_id(784184)
     saved_subdomain = insint.user.subdomain
     Apartment::Tenant.switch(saved_subdomain) do
       if MessageSetup.check_ability

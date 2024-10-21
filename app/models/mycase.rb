@@ -25,7 +25,6 @@ class Mycase < ApplicationRecord
     broadcast_remove_to [Apartment::Tenant.current, :mycases], target: dom_id(self, Apartment::Tenant.current)
   end
 
-
   scope :orders, -> { where(casetype: "order") }
   scope :restocks, -> { where(casetype: "restock") }
   scope :abandoned_carts, -> { where(casetype: "abandoned_cart") }
@@ -64,6 +63,16 @@ class Mycase < ApplicationRecord
         Preorder.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
       end
       puts "Case add_preorder finish"
+    end
+  end
+
+  def add_abandoned_cart
+    if casetype == "abandoned_cart"
+      puts "Case add_abandoned_cart start"
+      lines.each do |line|
+        AbandonedCart.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
+      end
+      puts "Case add_abandoned_cart finish"
     end
   end
 

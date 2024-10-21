@@ -3,7 +3,7 @@ class ClientsController < ApplicationController
   before_action :set_client, only: [:show, :edit, :update, :emailizb, :update_from_insales, :destroy]
 
   def index
-    @search = Client.includes(:favorites, :restocks, :preorders).ransack(params[:q])
+    @search = Client.includes(:favorites, :restocks, :preorders, :abandoned_carts).ransack(params[:q])
     @search.sorts = "id desc" if @search.sorts.empty?
     @clients = @search.result(distinct: true).paginate(page: params[:page], per_page: 50)
   end

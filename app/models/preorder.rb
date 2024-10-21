@@ -3,7 +3,7 @@ class Preorder < ApplicationRecord
     belongs_to :variant
     belongs_to :client
     before_save :set_status_if_new_record
-    validates_uniqueness_of :variant_id, :scope => :client_id
+    validates_uniqueness_of :variant_id, scope: :client_id
 
     Status = [["Ждём поступления","wait"],["Появился","ready"],["Сообщение отправлено","send"]]
 

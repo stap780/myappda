@@ -16,7 +16,10 @@
     <% end %>
      <%=tag.td do %>
         <%= link_to client.preorders.count.to_s, client, data: { turbo_frame: "offcanvasWrap", turbo_stream: true } %>
-    <% end %>       
+    <% end %> 
+     <%=tag.td do %>
+        <%= link_to client.abandoned_carts.count.to_s, client, data: { turbo_frame: "offcanvasWrap", turbo_stream: true } %>
+    <% end %>    
     <td>
         <%= link_to trash_icon, client, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }, class:"" %>
     </td>

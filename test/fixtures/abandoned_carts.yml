@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  variant: one
+  client: one
+  product: one
+  status: MyText
+
+two:
+  variant: two
+  client: two
+  product: two
+  status: MyText
