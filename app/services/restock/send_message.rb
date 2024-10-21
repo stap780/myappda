@@ -90,7 +90,7 @@ class Restock::SendMessage < ApplicationService
     download_path = Rails.env.development? ? "#{Rails.root}/public/#{filename}" : "/var/www/myappda/shared/public/#{filename}"
     File.delete(download_path) if File.file?(download_path).present?
     file = ""
-    RestClient.get(product_xml) { |response, request, result, &block|
+    RestClient.get(@product_xml) { |response, request, result, &block|
       # puts response.code
       # puts response
       case response.code
