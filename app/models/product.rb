@@ -47,4 +47,5 @@ class Product < ApplicationRecord
     restocks.delete_all
     preorders.delete_all
   end
+  
 end

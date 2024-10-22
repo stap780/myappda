@@ -27,7 +27,7 @@ class Restock::SendMessage < ApplicationService
         uniq_records_ids = Restock.find_dups
         Restock.where.not(id: uniq_records_ids).delete_all
         @restock_cases_group_by_client.each do |rcg| # this is clients iteration
-          client = Client.find(rcg[0])
+          client = Client.find(rcg[0].to_i)
           mycases = rcg[1]
           events.each do |event|
             user = User.find_by_subdomain(@tenant)
