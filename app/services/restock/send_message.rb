@@ -57,10 +57,9 @@ class Restock::SendMessage < ApplicationService
                 mycases.each do |mycase|
                   mycase.update(status: "finish")
                 end
-                puts "=======client have restocks and we inform it"
-                puts "=======client id => #{client.id.to_s}"
+                puts "   ====client have restocks and we inform it // client id => #{client.id.to_s}"
               else
-                puts "=======client didn't have restocks to inform"
+                puts "   ====client did not have restocks to inform"
               end
             end
           end
@@ -100,7 +99,7 @@ class Restock::SendMessage < ApplicationService
         f.close
         file = download_path
       when 301
-        puts "load_products_xml error 301"
+        puts "load_products_xml error 301 - это редирект у файла с технического домена на реальный домен. нужно в настройках поменять ссылку на файл"
       else
         response.return!(&block)
       end
@@ -115,7 +114,7 @@ class Restock::SendMessage < ApplicationService
         Restock.status_wait.each do |res|
           ins_variant = all_offers.select { |offer| offer if offer["id"] == res.variant.insid.to_s }
           if ins_variant.present? && ins_variant[0]["available"] == "true"
-            puts "=======restocks_update_status_for_inform #{res.inspect}"
+            # puts "=======restocks_update_status_for_inform #{res.inspect}"
             res.update!(status: "ready")
           end
         end
