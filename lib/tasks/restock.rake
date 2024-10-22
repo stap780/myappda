@@ -11,11 +11,10 @@ namespace :restock do
         puts "======="
         ms = MessageSetup.first
         client_ids = Mycase.restocks.status_new.group(:client_id).count.map { |id, count| id } # .group_by { |m| m.client_id.to_s }
-        clients = Client.where(id: client_ids)
-        puts "status #{ms&.status} // product_xml #{!ms&.product_xml.blank?} // restock_cases_group_by_client #{restock_cases_group_by_client.present?}"
+        puts "status #{ms&.status} // product_xml #{!ms&.product_xml.blank?} // client_ids #{client_ids.present?}"
         if ms&.status && !ms&.product_xml.blank? && clients.present?
           puts "запустили #{tenant}"
-          RestockJob.perform_later(tenant, clients, ms.product_xml)
+          RestockJob.perform_later(tenant, client_ids, ms.product_xml)
         else
           puts "не запустили #{tenant}"
         end
