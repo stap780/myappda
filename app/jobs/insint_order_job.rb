@@ -5,4 +5,5 @@ class InsintOrderJob < ApplicationJob
   def perform(tenant, datas)
     Insint::Order.call(tenant, datas)
   end
+  
 end

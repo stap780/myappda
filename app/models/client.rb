@@ -115,6 +115,7 @@ class Client < ApplicationRecord
   private
 
   def normalize_phone
+    return '' if phone.blank?
     if phone.include?("+7")
       p = phone
     elsif phone[0] == "8"
@@ -123,5 +124,3 @@ class Client < ApplicationRecord
     self.phone = p
   end
 end
-
-# Client.all.includes(:favorites).where(favorites: {product_id: p.id}).count

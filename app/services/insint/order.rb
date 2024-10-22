@@ -1,4 +1,5 @@
 class Insint::Order < ApplicationService
+  
     def initialize(tenant, datas)
       @tenant = tenant
       @datas = datas
@@ -59,4 +60,5 @@ class Insint::Order < ApplicationService
         # конец создаём заявку
       end
     end
+    
 end
