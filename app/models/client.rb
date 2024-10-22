@@ -1,3 +1,4 @@
+#  encoding : utf-8
 class Client < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :restocks, dependent: :destroy
@@ -45,7 +46,7 @@ class Client < ApplicationRecord
 
       # создаём файл со статичными данными
       CSV.open(file, "w") do |writer|
-        headers = ["id \u0442\u043E\u0432\u0430\u0440\u0430", "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u0442\u043E\u0432\u0430\u0440\u0430", "\u0421\u0441\u044B\u043B\u043A\u0430", "\u041A\u0430\u0440\u0442\u0438\u043D\u043A\u0430", "\u0426\u0435\u043D\u0430", "\u041A\u043E\u043B-\u0432\u043E \u0443\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0439"]
+        headers = ["id инсалес", "название", "ссылка", "картинка", "цена", "кол-во"]
         writer << headers
 
         pr_ids = Favorite.group(:product_id).count.map { |id, count| id }
