@@ -1,5 +1,5 @@
 class AddMycaseIdToAbandonedCarts < ActiveRecord::Migration[7.1]
   def change
-    add_reference :abandoned_carts, :mycase, null: false, foreign_key: true
+    add_column :abandoned_carts, :mycase_id, :integer
   end
 end

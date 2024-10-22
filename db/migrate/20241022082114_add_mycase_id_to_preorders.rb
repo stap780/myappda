@@ -1,5 +1,5 @@
 class AddMycaseIdToPreorders < ActiveRecord::Migration[7.1]
   def change
-    add_reference :preorders, :mycase, null: false, foreign_key: true
+    add_column :preorders, :mycase_id, :integer
   end
 end

@@ -1,5 +1,5 @@
 class AddMycaseIdToRestocks < ActiveRecord::Migration[7.1]
   def change
-    add_reference :restocks, :mycase, null: false, foreign_key: true
+    add_column :restocks, :mycase_id, :integer
   end
 end
