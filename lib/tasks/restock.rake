@@ -12,7 +12,7 @@ namespace :restock do
         ms = MessageSetup.first
         client_ids = Mycase.restocks.status_new.group(:client_id).count.map { |id, count| id } # .group_by { |m| m.client_id.to_s }
         puts "status #{ms&.status} // product_xml #{!ms&.product_xml.blank?} // client_ids #{client_ids.present?}"
-        if ms&.status && !ms&.product_xml.blank? && clients.present?
+        if ms&.status && !ms&.product_xml.blank? && client_ids.present?
           puts "запустили #{tenant}"
           RestockJob.perform_later(tenant, client_ids, ms.product_xml)
         else

@@ -3,8 +3,10 @@ class RestockJob < ApplicationJob
   sidekiq_options retry: 0
 
   def perform(tenant, client_ids, product_xml)
-    clients = Client.where(id: client_ids)
-    Restock::SendMessage.new(tenant, clients, product_xml).call
+    Apartment::Tenant.switch(tenant) do
+      clients = Client.where(id: client_ids)
+      Restock::SendMessage.new(tenant, clients, product_xml).call
+    end
 
     # Apartment::Tenant.switch(tenant) do
     #   if product_xml&.check_product_xml_work(product_xml)

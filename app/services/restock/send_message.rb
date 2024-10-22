@@ -26,7 +26,7 @@ class Restock::SendMessage < ApplicationService
         Variant.update_all(quantity: 0)
         uniq_records_ids = Restock.find_dups
         Restock.where.not(id: uniq_records_ids).delete_all
-        @clients.each do |client| # this is clients iteration
+        @clients.each do |client|
           events.each do |event|
             user = User.find_by_subdomain(@tenant)
             action = event.event_actions.first
@@ -119,4 +119,5 @@ class Restock::SendMessage < ApplicationService
       end
     end
   end
+  
 end
