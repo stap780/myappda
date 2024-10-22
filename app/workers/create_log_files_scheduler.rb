@@ -1,7 +1,8 @@
 require "sidekiq-scheduler"
 
 class CreateLogFilesScheduler
-  include Sidekiq::Worker
+  # include Sidekiq::Worker
+  include Sidekiq::Job
 
   def perform
     Rails.application.load_tasks
