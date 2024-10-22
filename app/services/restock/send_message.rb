@@ -2,9 +2,9 @@ class Restock::SendMessage < ApplicationService
   # We send messages to client.
   # Message have information about all client restocks from all mycases.
 
-  def initialize(tenant, restock_cases_group_by_client, product_xml)
+  def initialize(tenant, clients, product_xml)
     @tenant = tenant
-    @restock_cases_group_by_client = restock_cases_group_by_client
+    @clients = clients
     @product_xml = product_xml
     @xml_file = ""
   end
@@ -26,9 +26,7 @@ class Restock::SendMessage < ApplicationService
         Variant.update_all(quantity: 0)
         uniq_records_ids = Restock.find_dups
         Restock.where.not(id: uniq_records_ids).delete_all
-        @restock_cases_group_by_client.each do |rcg| # this is clients iteration
-          client = Client.find(rcg[0].to_i)
-          mycases = rcg[1]
+        @clients.each do |client| # this is clients iteration
           events.each do |event|
             user = User.find_by_subdomain(@tenant)
             action = event.event_actions.first
@@ -53,10 +51,10 @@ class Restock::SendMessage < ApplicationService
               }
               if client.restocks.for_inform.present?
                 EventMailer.with(email_data).send_action_email.deliver_later(wait: 1.minutes)
-                client.restocks.for_inform.update_all(status: "send")
-                mycases.each do |mycase|
-                  mycase.update(status: "finish")
+                client.restocks.for_inform.each do | res |
+                  res.mycase.update(status: "finish")
                 end
+                client.restocks.for_inform.update_all(status: "send")
                 puts "   ====client have restocks and we inform it // client id => #{client.id.to_s}"
               else
                 puts "   ====client did not have restocks to inform"

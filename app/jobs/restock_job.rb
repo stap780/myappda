@@ -2,9 +2,9 @@ class RestockJob < ApplicationJob
   queue_as :restock_job
   sidekiq_options retry: 0
 
-  def perform(tenant, restock_cases_group_by_client, product_xml)
+  def perform(tenant, clients, product_xml)
 
-    Restock::SendMessage.new(tenant, restock_cases_group_by_client, product_xml).call
+    Restock::SendMessage.new(tenant, clients, product_xml).call
 
     # Apartment::Tenant.switch(tenant) do
     #   if product_xml&.check_product_xml_work(product_xml)
