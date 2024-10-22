@@ -4,9 +4,9 @@ class Mycase < ApplicationRecord
   accepts_nested_attributes_for :lines, allow_destroy: true
   has_many :products, through: :lines
   has_many :variants, through: :lines
-  has_many :restocks
-  has_many :preorders
-  has_many :abandoned_carts
+  has_many :restocks, dependent: :destroy
+  has_many :preorders, dependent: :destroy
+  has_many :abandoned_carts, dependent: :destroy
 
   include ActionView::RecordIdentifier
 
