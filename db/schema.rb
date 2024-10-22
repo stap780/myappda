@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_21_165828) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_22_082256) do
   create_schema "demostore"
   create_schema "demostore2"
   create_schema "demostore3"
@@ -27,7 +27,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_21_165828) do
     t.text "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "mycase_id", null: false
     t.index ["client_id"], name: "index_abandoned_carts_on_client_id"
+    t.index ["mycase_id"], name: "index_abandoned_carts_on_mycase_id"
     t.index ["product_id"], name: "index_abandoned_carts_on_product_id"
     t.index ["variant_id"], name: "index_abandoned_carts_on_variant_id"
   end
@@ -253,6 +255,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_21_165828) do
     t.integer "product_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.bigint "mycase_id", null: false
+    t.index ["mycase_id"], name: "index_preorders_on_mycase_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -283,7 +287,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_21_165828) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "status"
     t.integer "product_id"
+    t.bigint "mycase_id", null: false
     t.index ["client_id"], name: "index_restocks_on_client_id"
+    t.index ["mycase_id"], name: "index_restocks_on_mycase_id"
     t.index ["variant_id"], name: "index_restocks_on_variant_id"
   end
 
@@ -342,6 +348,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_21_165828) do
   end
 
   add_foreign_key "abandoned_carts", "clients"
+  add_foreign_key "abandoned_carts", "mycases"
   add_foreign_key "abandoned_carts", "products"
   add_foreign_key "abandoned_carts", "variants"
   add_foreign_key "actions", "events"
@@ -352,7 +359,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_21_165828) do
   add_foreign_key "event_actions", "templates"
   add_foreign_key "favorites", "clients"
   add_foreign_key "favorites", "products"
+  add_foreign_key "preorders", "mycases"
   add_foreign_key "restocks", "clients"
+  add_foreign_key "restocks", "mycases"
   add_foreign_key "restocks", "variants"
   add_foreign_key "variants", "products"
 end

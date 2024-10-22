@@ -2,8 +2,9 @@ class Preorder < ApplicationRecord
     belongs_to :product
     belongs_to :variant
     belongs_to :client
+    belongs_to :mycase
     before_save :set_status_if_new_record
-    validates_uniqueness_of :variant_id, scope: :client_id
+    validates_uniqueness_of :variant_id, scope: [:client_id, :mycase_id]
 
     Status = [["Ждём поступления","wait"],["Появился","ready"],["Сообщение отправлено","send"]]
 
@@ -15,7 +16,7 @@ class Preorder < ApplicationRecord
     end
 
     def self.find_dups
-        columns_that_make_record_distinct = [:client_id, :variant_id]
+        columns_that_make_record_distinct = [:client_id, :variant_id, :mycase_id]
         distinct_ids = Preorder.select("MIN(id) as id").group(columns_that_make_record_distinct).map(&:id)
     end
 

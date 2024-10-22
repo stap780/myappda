@@ -10,7 +10,7 @@ namespace :restock do
       Apartment::Tenant.switch(tenant) do
         puts "======="
         ms = MessageSetup.first
-        restock_cases_group_by_client = Mycase.restocks.where(status: "new").group_by(&:client_id)
+        restock_cases_group_by_client = Mycase.restocks.status_new.group_by(&:client_id)
         puts "status #{ms&.status}"
         puts "product_xml #{!ms&.product_xml.blank?}"
         puts "restock_cases_group_by_client #{restock_cases_group_by_client.present?}"

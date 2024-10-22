@@ -35,7 +35,7 @@
                     <br>Артикул: <%= line.variant.sku.to_s  %></td>
                 <td><%= line.quantity %></td>
                 <td><%= line.price %></td>
-                <%= tag.td line.variant.restocks.first.status if @mycase.casetype == 'restock'%>
+                <%= tag.td line.variant.restocks.where(mycase_id: @mycase.id).first.status if @mycase.casetype == 'restock'%>
               </tr>
             <% end %>
           </tbody>

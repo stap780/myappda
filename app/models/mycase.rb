@@ -4,6 +4,9 @@ class Mycase < ApplicationRecord
   accepts_nested_attributes_for :lines, allow_destroy: true
   has_many :products, through: :lines
   has_many :variants, through: :lines
+  has_many :restocks
+  has_many :preorders
+  has_many :abandoned_carts
 
   include ActionView::RecordIdentifier
 
@@ -29,6 +32,7 @@ class Mycase < ApplicationRecord
   scope :restocks, -> { where(casetype: "restock") }
   scope :abandoned_carts, -> { where(casetype: "abandoned_cart") }
   scope :preorders, -> { where(casetype: "preorder") }
+  scope :status_new, -> { where(status: "new") }
 
   CASETYPE = [["Заказ (insales)", "order"], ["Сообщить о поступлении", "restock"], ["Брошенная корзина", "abandoned_cart"], ["Предзаказ", "preorder"]].freeze
   STATUS = [["Новый", "new"], ["В работе", "take"], ["Завершили", "finish"]].freeze
@@ -50,7 +54,7 @@ class Mycase < ApplicationRecord
     if casetype == "restock"
       puts "Case add_restock start"
       lines.each do |line|
-        Restock.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
+        self.restocks.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
       end
       puts "Case add_restock finish"
     end
@@ -60,7 +64,7 @@ class Mycase < ApplicationRecord
     if casetype == "preorder"
       puts "Case add_preorder start"
       lines.each do |line|
-        Preorder.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
+        self.reorders.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
       end
       puts "Case add_preorder finish"
     end
@@ -70,7 +74,7 @@ class Mycase < ApplicationRecord
     if casetype == "abandoned_cart"
       puts "Case add_abandoned_cart start"
       lines.each do |line|
-        AbandonedCart.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
+        self.abandoned_carts.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
       end
       puts "Case add_abandoned_cart finish"
     end
