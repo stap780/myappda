@@ -14,14 +14,14 @@ namespace :restock do
         puts "status #{ms&.status} // product_xml #{!ms&.product_xml.blank?} // client_ids #{client_ids.present?}"
         if ms&.status && !ms&.product_xml.blank? && client_ids.present?
           puts "запустили #{tenant}"
-          clients = Client.where(id: client_ids)
+          # clients = Client.where(id: client_ids)
           xml_file = Restock::GetFile.call(ms.product_xml)
           if xml_file.present?
             # Variant.update_all(quantity: 0)
             # uniq_records_ids = Restock.find_dups
             # Restock.where.not(id: uniq_records_ids).delete_all
-            clients.each do |client|
-              RestockSendMessageJob.perform_later(tenant, client, xml_file)
+            client_ids.each do |client_id|
+              RestockSendMessageJob.perform_later(tenant, client_id, xml_file)
             end
           end
         else
