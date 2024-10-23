@@ -15,7 +15,7 @@ namespace :restock do
         if ms&.status && !ms&.product_xml.blank? && client_ids.present?
           puts "запустили #{tenant}"
           clients = Client.where(id: client_ids)
-          xml_file = Restock::GetFile.call(product_xml)
+          xml_file = Restock::GetFile.call(ms.product_xml)
           if xml_file.present?
             # Variant.update_all(quantity: 0)
             # uniq_records_ids = Restock.find_dups

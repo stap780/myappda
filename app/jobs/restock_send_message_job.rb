@@ -3,7 +3,8 @@ class RestockSendMessageJob < ApplicationJob
   sidekiq_options retry: 0
 
   def perform(tenant, client, xml_file)
-    Restock::SendMessage.call(tenant, client, xml_file)
+    Apartment::Tenant.switch(tenant) do
+      Restock::SendMessage.call(tenant, client, xml_file)
+    end
   end
-  
 end
