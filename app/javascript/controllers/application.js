@@ -11,7 +11,7 @@ export { application }
 
 // take from old 
 function getActive(){
-	// console.log( document.querySelector('input[name="receiver-options"]:checked').value );
+	console.log( document.querySelector('input[name="receiver-options"]:checked').value );
     var receiverField = document.querySelector('#template_receiver');
     var value = document.querySelector('input[name="receiver-options"]:checked').value;
     if (value == "client"){
@@ -27,6 +27,7 @@ function getActive(){
 document.addEventListener("turbo:load", () => {
     document.querySelectorAll("input[name='receiver-options']").forEach( input => input.addEventListener('click', getActive) );
 });
+
 
 function set_operation(elementValue){
     var searchChannel = elementValue;//element.value;
@@ -80,6 +81,7 @@ document.addEventListener("turbo:load", () => {
         });
     }
 });
+
 
 
 const events = [

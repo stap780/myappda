@@ -34,7 +34,7 @@
                             value="client">
         <label class="btn btn-outline-success" for="client-outlined">Клиент</label>
       </div>
-      <%= f.input :receiver, label: false, input_html: { class: input_class, value: @validate_receiver.present? ? @validate_receiver : check_receiver, placeholder: "адреса менеджеров через запятую", type: "email", multiple: true}%>
+      <%= f.input :receiver, label: false, input_html: { class: input_class, value: @validate_receiver.present? ? @validate_receiver : check_receiver, placeholder: "адреса менеджеров через запятую"}%>
       <%# f.input :receiver, label: "Получатель", collection: [['Клиент','client'],['Менеджер','manager']], prompt: false, input_html: { class: "form-select" }, wrapper_html: {class: "col-6"} %>
       
       <%= f.input :subject, label: "Тема письма", input_html: {value: @validate_subject.present? ? @validate_subject : f.object.subject}, wrapper_html: {class: "mt-4"} %>

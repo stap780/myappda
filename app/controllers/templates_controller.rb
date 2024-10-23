@@ -134,7 +134,7 @@ class TemplatesController < ApplicationController
 
   def check_receiver
 
-    return [true,''] if params[:template][:receiver] == 'client'
+    return [true,''] if params['receiver-options'] == 'client' #params[:template][:receiver] == 'client'
 
     message = []
     emails = params[:template][:receiver].split(',')
