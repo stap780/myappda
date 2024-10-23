@@ -25,9 +25,12 @@ class Restock::SendMessage < ApplicationService
           channel = action.channel
           if channel == "email"
             action_receiver = action.template.receiver
-            receiver = @client.email if action_receiver == "client"
-            receiver = action_receiver.blank? && action_receiver != "client" ? user.email : action_receiver
-
+            if action_receiver == "client"
+              receiver = @client.email
+            end
+            if action_receiver != "client"
+              receiver = action_receiver.blank? ? user.email : action_receiver
+            end
             subject_template = Liquid::Template.parse(action.template.subject)
             content_template = Liquid::Template.parse(action.template.content)
             client_drop = Drops::Client.new(@client)
