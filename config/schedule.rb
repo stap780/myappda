@@ -38,14 +38,14 @@ set :chronic_options, hours24: true
 # #   rake "favorite_setup:favorite_service_not_work_email"
 # # end
 
-# every 1.day, at: "23:45" do #
-#   rake "file:copy_production_log_every_day"
-# end
+every 1.day, at: "23:45" do #
+  rake "file:copy_production_log_every_day"
+end
 
 # # every 1.day, :at => '08:25' do #
 # #   runner "User.service_end_email"
 # # end
 
-# every 1.hour do
-#   rake "restock:check_quantity_and_send_client_email"
-# end
+every 1.hour do
+  rake "restock:check_quantity_and_send_client_email"
+end

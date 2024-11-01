@@ -76,21 +76,22 @@ class InsintsController < ApplicationController
   end
 
   def install
-    # puts params[:insales_id]
-    @insint = Insint.find_by_insales_account_id(params[:insales_id])
-    if @insint.present?
-      puts "\u0435\u0441\u0442\u044C \u03B2\u03C5\u03BD\u03C4\u03B8\u03B7\u03C6\u03C2\u03B2\u03B6 insint"
-    else
-      save_subdomain = "insales" + params[:insales_id]
-      email = save_subdomain + "@mail.ru"
-      # puts save_subdomain
-      user = User.create(name: params[:insales_id], subdomain: save_subdomain, password: save_subdomain,
-        password_confirmation: save_subdomain, email: email, valid_from: Date.today, valid_until: "Sat, 30 Dec 2024")
-      secret_key = ENV["INS_APP_SECRET_KEY"]
-      password = Digest::MD5.hexdigest(params[:token] + secret_key)
-      Insint.create(subdomen: params[:shop], password: password, insales_account_id: params[:insales_id], user_id: user.id, status: true, inskey: "k-comment")
-      head :ok
-    end
+    # # puts params[:insales_id]
+    # @insint = Insint.find_by_insales_account_id(params[:insales_id])
+    # if @insint.present?
+    #   puts "\u0435\u0441\u0442\u044C \u03B2\u03C5\u03BD\u03C4\u03B8\u03B7\u03C6\u03C2\u03B2\u03B6 insint"
+    # else
+    #   save_subdomain = "insales" + params[:insales_id]
+    #   email = save_subdomain + "@mail.ru"
+    #   # puts save_subdomain
+    #   user = User.create(name: params[:insales_id], subdomain: save_subdomain, password: save_subdomain,
+    #     password_confirmation: save_subdomain, email: email, valid_from: Date.today, valid_until: "Sat, 30 Dec 2024")
+    #   secret_key = ENV["INS_APP_SECRET_KEY"]
+    #   password = Digest::MD5.hexdigest(params[:token] + secret_key)
+    #   Insint.create(subdomen: params[:shop], password: password, insales_account_id: params[:insales_id], user_id: user.id, status: true, inskey: "k-comment")
+    #   head :ok
+    # end
+    head :ok
   end
 
   def uninstall
@@ -313,7 +314,7 @@ class InsintsController < ApplicationController
 
           line.present? ? line.first.update!(line_data) : mycase.lines.create!(line_data)
         end
-        
+
         mycase.add_abandoned_cart
         mycase.do_event_action if !search_mycase.present?
 

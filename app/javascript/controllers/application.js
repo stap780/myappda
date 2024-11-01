@@ -104,8 +104,8 @@ const events = [
     "turbo:click"
   ]
   
-  events.forEach(e => {
+events.forEach(e => {
     addEventListener(e, () => {
-      console.log(e);
+        console.log(e);
     });
-  });
+});
