@@ -5,7 +5,7 @@ class RestockSendMessageJob < ApplicationJob
   def perform(tenant, client_id, xml_file)
     Apartment::Tenant.switch(tenant) do
       client = Client.find(client_id)
-      Restock::SendMessage.call(tenant, client, xml_file)
+      # Restock::SendMessage.call(tenant, client, xml_file)
     end
   end
 end
