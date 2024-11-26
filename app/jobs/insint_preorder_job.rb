@@ -1,4 +1,4 @@
-class InsintpreorderJob < ApplicationJob
+class InsintPreorderJob < ApplicationJob
   queue_as :insint_job
   sidekiq_options retry: 0
 
