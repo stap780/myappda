@@ -60,12 +60,22 @@ class User < ApplicationRecord
   end
 
   def self.service_end_email
-    puts "работает процесс service_end_email - " + Time.now.to_s
-    users = User.where(valid_until: Date.today + 2.day)
-    # puts users.count
-    users.each do |user|
-      puts "почта пользователя - " + user.email.to_s
-      UserMailer.with(user: user).service_end_email.deliver_later(wait: 1)
+    puts "работает процесс service_end_email => #{Time.now.to_s}"
+    # users = User.where(valid_until: Date.today + 2.day)
+    # users.each do |user|
+    #   puts "почта пользователя => #{user.email}"
+    #   UserMailer.with(user: user).service_end_email.deliver_later(wait: 1)
+    # end
+    
+    # we use valid_until from MessageSetup because User valid_until close enter to service
+    User.all.each do |user|
+      Apartment::Tenant.switch(user.subdomain) do
+        ms = MessageSetup.first
+        if ms.valid_until.present?
+          send_day = ms.valid_until - 2.day
+          UserMailer.with(user: user).service_end_email.deliver_later(wait: 1) if Date.taday == send_day
+        end
+      end
     end
   end
 
@@ -98,13 +108,13 @@ class User < ApplicationRecord
 
   def favorite_setup_status
     Apartment::Tenant.switch(subdomain) do
-      (FavoriteSetup.first.present? && FavoriteSetup.first.status) ? "Вкл" : "Выкл"
+      (FavoriteSetup.first.present? && FavoriteSetup.first.status) ? 'Вкл' : 'Выкл'
     end
   end
 
   def favorite_setup_valid_until
     Apartment::Tenant.switch(subdomain) do
-      (FavoriteSetup.first.present? && FavoriteSetup.first.status) ? FavoriteSetup.first.valid_until : ""
+      (FavoriteSetup.first.present? && FavoriteSetup.first.status) ? FavoriteSetup.first.valid_until : ''
     end
   end
 

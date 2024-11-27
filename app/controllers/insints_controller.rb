@@ -201,13 +201,13 @@ class InsintsController < ApplicationController
   end
 
   def deleteizb
-    # это переход с хоста на аккаунт ид
+    # это переход с хоста на аккаунт ид . у нас есть магазин где первый вариант 
     if params[:insales_account_id].present?
       insint = Insint.find_by_insales_account_id(params['insales_account_id'])
       saved_subdomain = insint.user.subdomain
     else
       insint = Insint.find_by_subdomen(params[:host])
-      saved_subdomain = insint.inskey.present? ? insint.user.subdomain : "insales #{insint.insales_account_id.to_s}"
+      saved_subdomain = insint.inskey.present? ? insint.user.subdomain : "insales#{insint.insales_account_id}"
     end
 
     Apartment::Tenant.switch(saved_subdomain) do
