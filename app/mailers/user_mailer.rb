@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  before_action { @user = params[:user] }
+  before_action { @user, @subject = params[:user], params[:subject] }
   before_action :set_from_email
   after_action :set_delivery_options
 
@@ -19,7 +19,7 @@ class UserMailer < ApplicationMailer
     mail(
       to: @user_email,
       from:  @user_email_from,
-      subject: 'Заканчивается срок оплаты сервиса'
+      subject:  @subject
       )
   end
 

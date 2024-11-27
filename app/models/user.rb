@@ -67,7 +67,11 @@ class User < ApplicationRecord
         ms = MessageSetup.first
         if ms.valid_until.present?
           send_day = ms.valid_until - 2.day
-          UserMailer.with(user: user).service_end_email.deliver_later(wait: 1) if Date.today == send_day
+          email_data = {
+            user: user,
+            subject: 'Заканчивается срок оплаты сервиса'
+          }
+          UserMailer.with(email_data).service_end_email.deliver_later(wait: 1) if Date.today == send_day
         end
       end
     end
