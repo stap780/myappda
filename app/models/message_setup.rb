@@ -3,7 +3,8 @@ class MessageSetup < ApplicationRecord
   include ActionView::RecordIdentifier
 
   before_save :normalize_data_white_space
-
+  before_save :set_valid_until_if_new_record
+  validates :valid_until, presence: true
 
   # switch off callback and move turbo_stream to controller because it dificult debug
   # after_create_commit do
@@ -57,6 +58,10 @@ class MessageSetup < ApplicationRecord
   end
 
   private
+
+  def set_valid_until_if_new_record
+    self.valid_until = Date.today + 30.days
+  end
 
   def normalize_data_white_space
     attributes.each do |key, value|

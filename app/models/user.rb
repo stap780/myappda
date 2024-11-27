@@ -18,19 +18,19 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :subdomain, presence: true, uniqueness: true
-  validates_format_of :subdomain, with: /\A[a-z0-9_]+\Z/i, message: "- можно использовать только маленькие буквы и цифры (без точек)"
-  validates_length_of :subdomain, maximum: 32, message: "максимальная длина 32 знака"
-  validates_exclusion_of :subdomain, in: ["www", "mail", "ftp", "admin", "test", "public", "private", "staging", "app", "web", "net"], message: "эти слова использовать нельзя"
-  validates :image, dimension: {width: {min: 100, max: 1200}}, content_type: [:png, :jpg, :jpeg], size: {less_than: 2.megabytes, message: "is not given between size"}
+  validates_format_of :subdomain, with: /\A[a-z0-9_]+\Z/i, message: '- можно использовать только маленькие буквы и цифры (без точек)'
+  validates_length_of :subdomain, maximum: 32, message: 'максимальная длина 32 знака'
+  validates_exclusion_of :subdomain, in: %w[www mail ftp admin test public private staging app web net], message: 'эти слова использовать нельзя'
+  validates :image, dimension: { width: {min: 100, max: 1200} }, content_type: [:png, :jpg, :jpeg], size: {less_than: 2.megabytes, message: 'is not given between size'}
 
-  Role = ["admin", "user"]
+  Role = ['admin', 'user']
 
   def admin?
-    role == "admin"
+    role == 'admin'
   end
 
   def set_default_role
-    self.role ||= "user"
+    self.role ||= 'user'
   end
 
   def self.ransackable_attributes(auth_object = nil)
@@ -102,7 +102,7 @@ class User < ApplicationRecord
 
   def last_client_data
     Apartment::Tenant.switch(subdomain) do
-      Client.last.present? ? Client.last.attributes.except("izb_productid", "updated_at") : ""
+      Client.last.present? ? Client.last.attributes.except('izb_productid', 'updated_at') : ''
     end
   end
 
@@ -112,27 +112,18 @@ class User < ApplicationRecord
     end
   end
 
-  def favorite_setup_valid_until
-    Apartment::Tenant.switch(subdomain) do
-      (FavoriteSetup.first.present? && FavoriteSetup.first.status) ? FavoriteSetup.first.valid_until : ''
-    end
-  end
-
-  # def restock_setup_status
-  #   Apartment::Tenant.switch(self.subdomain) do
-  #     RestockSetup.first.present? && RestockSetup.first.status ? "Вкл" : "Выкл"
-  #   end
-  # end
 
   def message_setup_status
     Apartment::Tenant.switch(subdomain) do
-      (MessageSetup.first.present? && MessageSetup.first.status) ? "Вкл" : "Выкл"
+      if MessageSetup.first.present?
+        MessageSetup.first.status == true ? 'Вкл' : 'Выкл'
+      end
     end
   end
 
   def message_setup_valid_until
     Apartment::Tenant.switch(subdomain) do
-      (MessageSetup.first.present? && MessageSetup.first.status) ? MessageSetup.first.valid_until : ""
+      MessageSetup.first.valid_until if MessageSetup.first.present?
     end
   end
 
@@ -141,16 +132,15 @@ class User < ApplicationRecord
       ms = MessageSetup.first
       if ms.present?
         ms = MessageSetup.first.add_extra_ability
-        ms.present? ? "\u0414\u043E\u0431\u0430\u0432\u0438\u043B\u0438 \u0447\u0435\u0442\u044B\u0440\u0435 \u043D\u0435\u0434\u0435\u043B\u0438" : "\u041D\u0435 \u0434\u043E\u0431\u0430\u0432\u0438\u043B\u0438 \u0421\u0435\u0433\u043E\u0434\u043D\u044F \u043D\u0435 \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0439 \u0434\u0435\u043D\u044C"
+        ms.present? ? 'Добавили четыре недели' : 'Не добавили Сегодня не последний день'
       else
-        "\u0421\u0435\u0440\u0432\u0438\u0441 \u043D\u0435 \u0432\u043A\u043B\u044E\u0447\u0435\u043D"
+        'Сервис не включен'
       end
     end
   end
 
   def izb_count
     Apartment::Tenant.switch(subdomain) do
-      # izb_count = Client.order(:id).map{|cl| cl.izb_productid.split(',').count}.sum.to_s
       Client.all_favorites_count
     end
   end
@@ -231,20 +221,20 @@ class User < ApplicationRecord
   def check_email
     email_data = {
       user: self,
-      subject: "Test subject",
-      content: "Test content",
-      receiver: "info@ketago.com"
+      subject: 'Test subject',
+      content: 'Test content',
+      receiver: 'info@ketago.com'
     }
     # check_email = EventMailer.with(email_data).send_action_email.deliver_later(wait: '1'.to_i.minutes)
     check_email = EventMailer.with(email_data).send_action_email.deliver_now
 
-    check_email.present? ? [true, "\u041F\u043E\u0447\u0442\u0430 \u043D\u0430\u0441\u0442\u0440\u043E\u0435\u043D\u0430 \u0432\u0435\u0440\u043D\u043E \u0438 \u0442\u0435\u0441\u0442\u043E\u0432\u043E\u0435 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435 \u043E\u0442\u043F\u0440\u0430\u0432\u0438\u043B\u0438"] : [false, "\u041D\u0435 \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442 \u041F\u043E\u0447\u0442\u0430! \u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"]
+    check_email.present? ? [true, 'Почта настроена верно и тестовое сообщение отправили'] : [false, 'Не работает Почта! Проверьте настройки']
   end
 
   def image_data
     return unless image.attached?
     image = self.image
-    image.blob.attributes.slice("filename", "byte_size", "id").merge(url: image_url(image))
+    image.blob.attributes.slice('filename', 'byte_size', 'id').merge(url: image_url(image))
   end
 
   def image_url(image)
@@ -264,7 +254,7 @@ class User < ApplicationRecord
   private
 
   def normalize_phone
-    self.phone = Phonelib.valid_for_country?(phone, "RU") ? Phonelib.parse(phone).full_e164.presence : Phonelib.parse(phone, "KZ").full_e164.presence
+    self.phone = Phonelib.valid_for_country?(phone, 'RU') ? Phonelib.parse(phone).full_e164.presence : Phonelib.parse(phone, 'KZ').full_e164.presence
   end
 end
 

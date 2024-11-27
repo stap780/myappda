@@ -8,8 +8,8 @@ class Restock < ApplicationRecord
 
   Status = [["Ждём поступления", "wait"], ["Появился", "ready"], ["Сообщение отправлено", "send"]]
 
-  scope :for_inform, -> { where(status: "ready") }
-  scope :status_wait, -> { where(status: "wait") }
+  scope :for_inform, -> { where(status: 'ready') }
+  scope :status_wait, -> { where(status: 'wait') }
 
   def self.ransackable_attributes(auth_object = nil)
     Restock.attribute_names
@@ -23,7 +23,7 @@ class Restock < ApplicationRecord
   private
 
   def set_status_if_new_record
-    self.status = "wait" if new_record?
+    self.status = 'wait' if new_record?
   end
 end
 # <Restock id: 4, variant_id: 2, client_id: 28, created_at: "2022-06-12 12:52:08", updated_at: "2022-06-12 12:52:08", status: "Ждём поступления", product_id: nil>
