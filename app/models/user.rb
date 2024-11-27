@@ -61,12 +61,6 @@ class User < ApplicationRecord
 
   def self.service_end_email
     puts "работает процесс service_end_email => #{Time.now.to_s}"
-    # users = User.where(valid_until: Date.today + 2.day)
-    # users.each do |user|
-    #   puts "почта пользователя => #{user.email}"
-    #   UserMailer.with(user: user).service_end_email.deliver_later(wait: 1)
-    # end
-    
     # we use valid_until from MessageSetup because User valid_until close enter to service
     User.all.each do |user|
       Apartment::Tenant.switch(user.subdomain) do

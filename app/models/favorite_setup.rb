@@ -21,9 +21,9 @@ def self.check_ability #проверяем тариф и определяем к
   fs_status = fs.status == true ? true : false
   payplan = Payplan.find_by_id(fs.payplan_id)
 
-  client_limit = 300 if payplan.handle == "favorite_free"
-  client_limit = 1000 if payplan.handle == "favorite_300"
-  client_limit = 10000 if payplan.handle == "favorite_1000"
+  client_limit = 300 if payplan.handle == 'favorite_free'
+  client_limit = 1000 if payplan.handle == 'favorite_300'
+  client_limit = 10000 if payplan.handle == 'favorite_1000'
 
   payplan_ability = true if client_favorite_count <= client_limit
 

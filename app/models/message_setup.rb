@@ -60,7 +60,7 @@ class MessageSetup < ApplicationRecord
   private
 
   def set_valid_until_if_new_record
-    self.valid_until = Date.today + 30.days
+    self.valid_until = Date.today + 30.days if new_record?
   end
 
   def normalize_data_white_space
