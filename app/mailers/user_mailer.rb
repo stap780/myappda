@@ -46,7 +46,7 @@ class UserMailer < ApplicationMailer
       )
   end
 
-    private
+  private
 
   def set_from_email
     @user && @user.has_smtp_settings? ? @user.smtp_settings[:user_name] : 'info@myappda.ru'
@@ -55,6 +55,9 @@ class UserMailer < ApplicationMailer
   def set_delivery_options
     if @user && @user.has_smtp_settings?
       mail.delivery_method.settings.merge!(@user.smtp_settings)
+    end
+    if @user && !@user.has_smtp_settings?
+        mail.delivery_method.settings.merge!(User.default_smtp_settings)
     end
   end
 

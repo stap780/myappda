@@ -106,7 +106,6 @@ class User < ApplicationRecord
     end
   end
 
-
   def message_setup_status
     Apartment::Tenant.switch(subdomain) do
       if MessageSetup.first.present?
@@ -166,10 +165,10 @@ class User < ApplicationRecord
   end
 
   def smtp_settings
-    Apartment::Tenant.switch(subdomain) do
+    Apartment::Tenant.switch(self.subdomain) do
       smtp = EmailSetup.first
       if smtp
-        smtp_settings = {
+        {
           tls: smtp.tls,
           enable_starttls_auto: true,
           openssl_verify_mode: "none",
@@ -185,14 +184,14 @@ class User < ApplicationRecord
   end
 
   def self.default_smtp_settings
-    user = User.where(role: "admin").first
+    user = User.where(role: 'admin').first
     Apartment::Tenant.switch(user.subdomain) do
       smtp = EmailSetup.first
       if smtp
-        smtp_settings = {
+        {
           tls: smtp.tls,
           enable_starttls_auto: true,
-          openssl_verify_mode: "none",
+          openssl_verify_mode: 'none',
           address: smtp.address,
           port: smtp.port,
           domain: smtp.domain,
@@ -241,7 +240,8 @@ class User < ApplicationRecord
   end
 
   def logo_url
-    return unless image.attached?
+    return '' unless image.attached?
+
     image_data[:url]
   end
 
