@@ -2,6 +2,7 @@
   <div class="col-2 d-flex flex-column">
     <div class="h3">Заявки</div>
     <div class="h6">Всего - <%= Mycase.count%></div>
+    <%=tag.div( page_entries_info @mycases, class: 'h6') if @search %>
   </div>
 
   <div class="col px-0">

@@ -3,6 +3,7 @@
 # We send messages to client.
 class Restock::SendMessage < ApplicationService
   # Message have information about all client restocks from all mycases.
+  # we send message only if client.restocks.for_inform.present? == true
 
   def initialize(tenant, client, xml_file)
     @tenant = tenant
@@ -25,7 +26,7 @@ class Restock::SendMessage < ApplicationService
           user = User.find_by_subdomain(@tenant)
           action = event.event_actions.first
           channel = action.channel
-          if channel == 'email' && @client.restocks.for_inform.present?
+          if channel == 'email'
             action_receiver = action.template.receiver
             receiver = action_receiver.blank? ? user.email : action_receiver
             receiver = @client.email if action_receiver == 'client'

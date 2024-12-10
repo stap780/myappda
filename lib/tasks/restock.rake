@@ -8,18 +8,14 @@ namespace :restock do
     puts "=======всего tenants - #{tenants.count}"
     tenants.each do |tenant|
       Apartment::Tenant.switch(tenant) do
-        puts "======="
+        puts '======='
         ms = MessageSetup.first
         client_ids = Mycase.restocks.status_new.group(:client_id).count.map { |id, count| id }
         puts "status #{ms&.status} // product_xml #{!ms&.product_xml.blank?} // client_ids #{client_ids.present?}"
         if ms&.status && !ms&.product_xml.blank? && client_ids.present?
           puts "запустили #{tenant}"
-          # clients = Client.where(id: client_ids)
           xml_file = Restock::GetFile.call(ms.product_xml)
           if xml_file.present?
-            # Variant.update_all(quantity: 0)
-            # uniq_records_ids = Restock.find_dups
-            # Restock.where.not(id: uniq_records_ids).delete_all
             client_ids.each do |client_id|
               RestockSendMessageJob.perform_later(tenant, client_id, xml_file)
             end
