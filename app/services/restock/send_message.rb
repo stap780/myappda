@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
+# We send messages to client.
 class Restock::SendMessage < ApplicationService
-  # We send messages to client.
   # Message have information about all client restocks from all mycases.
 
   def initialize(tenant, client, xml_file)
@@ -23,36 +25,31 @@ class Restock::SendMessage < ApplicationService
           user = User.find_by_subdomain(@tenant)
           action = event.event_actions.first
           channel = action.channel
-          if channel == "email"
+          if channel == 'email' && @client.restocks.for_inform.present?
             action_receiver = action.template.receiver
-            if action_receiver == "client"
-              receiver = @client.email
-            end
-            if action_receiver != "client"
-              receiver = action_receiver.blank? ? user.email : action_receiver
-            end
+            receiver = action_receiver.blank? ? user.email : action_receiver
+            receiver = @client.email if action_receiver == 'client'
+
             subject_template = Liquid::Template.parse(action.template.subject)
             content_template = Liquid::Template.parse(action.template.content)
             client_drop = Drops::Client.new(@client)
             restock_drop = Drops::Client.new(@client.restocks)
-            subject = subject_template.render("client" => client_drop)
-            content = content_template.render("client" => client_drop, "restocks" => restock_drop)
+            subject = subject_template.render('client' => client_drop)
+            content = content_template.render('client' => client_drop, 'restocks' => restock_drop)
             email_data = {
               user: user,
               subject: subject,
               content: content,
               receiver: receiver
             }
-            if @client.restocks.for_inform.present?
-              EventMailer.with(email_data).send_action_email.deliver_later(wait: 1.minutes)
-              @client.restocks.for_inform.each do |res|
-                res.mycase.update(status: "finish")
-              end
-              @client.restocks.for_inform.update_all(status: "send")
-              puts "   ====client have restocks and we inform it // client id => #{@client.id}"
-            else
-              puts "   ====client did not have restocks to inform"
+            EventMailer.with(email_data).send_action_email.deliver_later(wait: 1.minutes)
+            @client.restocks.for_inform.each do |res|
+              res.mycase.update(status: 'finish')
             end
+            @client.restocks.for_inform.update_all(status: 'send')
+            puts "   ====client have restocks and we inform it // client id => #{@client.id}"
+          else
+            puts '   ====client did not have restocks to inform'
           end
         end
       end
@@ -62,15 +59,16 @@ class Restock::SendMessage < ApplicationService
   def restocks_update_status_for_inform
     if File.file?(@xml_file).present?
       Apartment::Tenant.switch(@tenant) do
-        all_offers = Nokogiri::XML(File.open(@xml_file)).xpath("//offer")
+        all_offers = Nokogiri::XML(File.open(@xml_file)).xpath('//offer')
         Restock.status_wait.each do |res|
-          ins_variant = all_offers.select { |offer| offer if offer["id"] == res.variant.insid.to_s }
-          if ins_variant.present? && ins_variant[0]["available"] == "true"
+          ins_variant = all_offers.select { |offer| offer if offer['id'] == res.variant.insid.to_s }
+          if ins_variant.present? && ins_variant[0]['available'] == 'true'
             # puts "=======restocks_update_status_for_inform #{res.inspect}"
-            res.update!(status: "ready")
+            res.update!(status: 'ready')
           end
         end
       end
     end
   end
+
 end

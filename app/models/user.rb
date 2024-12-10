@@ -88,13 +88,13 @@ class User < ApplicationRecord
 
   def products_count
     Apartment::Tenant.switch(subdomain) do
-      products_count = Product.count.to_s
+      Product.count.to_s
     end
   end
 
   def clients_count
     Apartment::Tenant.switch(subdomain) do
-      clients_count = Client.count.to_s
+      Client.count.to_s
     end
   end
 
