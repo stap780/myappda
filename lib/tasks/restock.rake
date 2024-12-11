@@ -17,7 +17,8 @@ namespace :restock do
           xml_file = Restock::GetFile.call(ms.product_xml)
           if xml_file.present?
             client_ids.each do |client_id|
-              RestockSendMessageJob.perform_later(tenant, client_id, xml_file)
+              client = Client.find(client_id)
+              RestockSendMessageJob.perform_later(tenant, client, xml_file) if client.restocks.for_inform.present?
             end
           end
         else

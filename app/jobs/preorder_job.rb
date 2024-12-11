@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# job for send preorder message
 class PreorderJob < ApplicationJob
     queue_as :preorder_job
 

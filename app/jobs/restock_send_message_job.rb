@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
+# job for send restock message
 class RestockSendMessageJob < ApplicationJob
   queue_as :restock_job
   sidekiq_options retry: 0
 
-  def perform(tenant, client_id, xml_file)
-    Apartment::Tenant.switch(tenant) do
-      client = Client.find(client_id)
-      Restock::SendMessage.call(tenant, client, xml_file) if client.restocks.for_inform.present?
-    end
+  def perform(tenant, client, xml_file)
+    Restock::SendMessage.call(tenant, client, xml_file)
   end
+
 end
