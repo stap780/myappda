@@ -72,7 +72,6 @@
               <%=tag.div( var.insid, class: 'opacity-75 fs-8')%>
             </div>          
           </td>
-          <td><%= var.sku %></td>
           <%= td_tag_image(var.product.image_link)%>
           <td><%= link_to "#{var.product.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+var.product.insid.to_s+"?variant_id="+var.insid.to_s, target: "_blank" %></td>
           <td><%= var.sku %></td>
