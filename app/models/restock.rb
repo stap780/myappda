@@ -1,12 +1,15 @@
+# frozen_string_literal: true
+
+# Restock class
 class Restock < ApplicationRecord
   belongs_to :product
   belongs_to :variant
   belongs_to :client
   belongs_to :mycase
   before_save :set_status_if_new_record
-  validates_uniqueness_of :variant_id, scope: [:client_id, :mycase_id]
+  validates_uniqueness_of :variant_id, scope: %i[client_id mycase_id]
 
-  Status = [["Ждём поступления", "wait"], ["Появился", "ready"], ["Сообщение отправлено", "send"]]
+  Status = [['Ждём поступления', 'wait'], ['Появился', 'ready'], ['Сообщение отправлено', 'send']].freeze
 
   scope :for_inform, -> { where(status: 'ready') }
   scope :status_wait, -> { where(status: 'wait') }
@@ -16,8 +19,8 @@ class Restock < ApplicationRecord
   end
 
   def self.find_dups
-    columns_that_make_record_distinct = [:client_id, :variant_id, :mycase_id]
-    distinct_ids = Restock.select("MIN(id) as id").group(columns_that_make_record_distinct).map(&:id)
+    columns_that_make_record_distinct = %i[client_id variant_id mycase_id]
+    Restock.select('MIN(id) as id').group(columns_that_make_record_distinct).map(&:id)
   end
 
   private

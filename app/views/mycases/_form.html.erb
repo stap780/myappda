@@ -8,7 +8,7 @@
       <%= f.input :status, collection: Mycase::STATUS, input_html: {class: "form-select" }, disabled: true if @mycase.casetype == 'restock' || @mycase.casetype == 'preorder' %>
       <%= f.input :number, disabled: true %>
       <%#f.association :client, input_html: {class: "form-select" } %>
-      <%= f.input :client_id, collection: Client.all.limit(10), class: "form-select", input_html: { class: "form-select" }, disabled: true %>
+      <%= f.input :client_id, collection: Client.collection_for_select(f.object.client_id), class: "form-select", input_html: { class: "form-select" }, disabled: true %>
       <%= f.input :casetype, collection: Mycase::CASETYPE, input_html: { class: "form-select" }%>
       <%= f.input :insales_custom_status_title, label: "Статус Ins", disabled: true %>
       <%= f.input :insales_financial_status, label: "Фин Статус", disabled: true %>

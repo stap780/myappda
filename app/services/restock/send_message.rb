@@ -5,14 +5,12 @@ class Restock::SendMessage < ApplicationService
   # Message have information about all client restocks from all mycases.
   # we send message only if client.restocks.for_inform.present? == true
 
-  def initialize(tenant, client, xml_file)
+  def initialize(tenant, client)
     @tenant = tenant
     @client = client
-    @xml_file = xml_file
   end
 
   def call
-    restocks_update_status_for_inform
     send_message
   end
 
@@ -51,21 +49,6 @@ class Restock::SendMessage < ApplicationService
             puts "   ====client have restocks and we inform it // client id => #{@client.id}"
           else
             puts '   ====client did not have restocks to inform'
-          end
-        end
-      end
-    end
-  end
-
-  def restocks_update_status_for_inform
-    if File.file?(@xml_file).present?
-      Apartment::Tenant.switch(@tenant) do
-        all_offers = Nokogiri::XML(File.open(@xml_file)).xpath('//offer')
-        Restock.status_wait.each do |res|
-          ins_variant = all_offers.select { |offer| offer if offer['id'] == res.variant.insid.to_s }
-          if ins_variant.present? && ins_variant[0]['available'] == 'true'
-            # puts "=======restocks_update_status_for_inform #{res.inspect}"
-            res.update!(status: 'ready')
           end
         end
       end

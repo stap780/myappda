@@ -139,6 +139,11 @@ class InsintsController < ApplicationController
         client = Client.find_by_clientid(client_id)
         product = Product.find_by(insid: pr_id).present? ? Product.find_by(insid: pr_id) : Product.create!(insid: pr_id)
         resp_data = {}
+        # default
+        resp_data['success'] = false
+        resp_data['message'] = 'service not work'
+        resp_data['totalcount'] = 0
+        #
         if client.present?
           fav = Favorite.new(product_id: product.id, client_id: client.id, created_at: Time.now, updated_at: Time.now)
           fav.save
@@ -168,10 +173,6 @@ class InsintsController < ApplicationController
           resp_data['message'] = 'товар добавлен в избранное'
           resp_data['totalcount'] = fav_totalcount
         end
-      else
-        resp_data['success'] = false
-        resp_data['message'] = 'service not work'
-        resp_data['totalcount'] = 0
       end
       render json: resp_data
     end
@@ -184,18 +185,18 @@ class InsintsController < ApplicationController
       saved_subdomain = insint.user.subdomain
     else
       insint = Insint.find_by_subdomen(params[:host])
-      saved_subdomain = insint.inskey.present? ? insint.user.subdomain : "insales #{insint.insales_account_id.to_s}"
+      saved_subdomain = insint.inskey.present? ? insint.user.subdomain : "insales #{insint.insales_account_id}"
     end
 
     Apartment::Tenant.switch(saved_subdomain) do
       client = Client.find_by_clientid(params[:client_id])
       if client.present?
         favorite_product_ids = client.favorites.pluck(:product_id).uniq.reverse
-        ins_ids = Product.where(id: favorite_product_ids).pluck(:insid).join(",")
+        ins_ids = Product.where(id: favorite_product_ids).pluck(:insid).join(',')
         totalcount = favorite_product_ids.count.to_s
-        render json: {success: true, products: ins_ids, totalcount: totalcount}
+        render json: { success: true, products: ins_ids, totalcount: totalcount }
       else
-        render json: {error: false, message: 'нет такого клиента'}
+        render json: { error: false, message: 'нет такого клиента' }
       end
     end
   end
@@ -220,10 +221,10 @@ class InsintsController < ApplicationController
           favorite = client.favorites.find_by_product_id(product.id)
           favorite.destroy if product.present? && favorite.present?
           totalcount = client.favorites.uniq.count.to_s
-          render json: {success: true, message: 'товар удалён', totalcount: totalcount}
+          render json: { success: true, message: 'товар удалён', totalcount: totalcount }
         end
       else
-        render json: {success: true, message: 'Кол-во клиентов больше допустимого, товары не удаляются'}
+        render json: { success: true, message: 'Кол-во клиентов больше допустимого, товары не удаляются' }
       end
     end
   end

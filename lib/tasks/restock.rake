@@ -1,6 +1,6 @@
 #  encoding : utf-8
 namespace :restock do
-  desc "restock schedule update"
+  desc 'restock schedule update'
 
   task check_quantity_and_send_client_email: :environment do
     puts "###### start check_product_qt - время москва - #{Time.zone.now}"
@@ -13,14 +13,15 @@ namespace :restock do
         client_ids = Mycase.restocks.status_new.group(:client_id).count.map { |id, count| id }
         puts "status #{ms&.status} // product_xml #{!ms&.product_xml.blank?} // client_ids #{client_ids.present?}"
         if ms&.status && !ms&.product_xml.blank? && client_ids.present?
-          puts "запустили #{tenant}"
           xml_file = Restock::GetFile.call(ms.product_xml)
           if xml_file.present?
+            Restock::SetStatusForInform.call(tenant, xml_file)
             client_ids.each do |client_id|
               client = Client.find(client_id)
-              RestockSendMessageJob.perform_later(tenant, client, xml_file) if client.restocks.for_inform.present?
+              RestockSendMessageJob.perform_later(tenant, client) if client.restocks.for_inform.present?
             end
           end
+          puts "**** запустили #{tenant} ****"
         else
           puts "не запустили #{tenant}"
         end

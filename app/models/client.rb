@@ -9,16 +9,20 @@ class Client < ApplicationRecord
   # has_many :variants, -> { distinct }, through: :preorders
   has_many :order_status_changes
   has_many :mycases, dependent: :destroy
-  validates :phone, phone: {possible: true, allow_blank: true}
+  validates :phone, phone: { possible: true, allow_blank: true }
   before_validation :normalize_phone
   validates :email, presence: true, uniqueness: true
+
+  scope :first_five, -> { all.limit(5)}
+  scope :collection_for_select, ->(id) { where(id: id) + first_five }
+
 
   def self.ransackable_attributes(auth_object = nil)
     Client.attribute_names
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["mycases", "favorites", "order_status_changes", "preorders", "products", "restocks", "variants", "abandoned_carts"]
+    %w[mycases favorites order_status_changes preorders products restocks variants abandoned_carts]
   end
 
   def self.with_restocks

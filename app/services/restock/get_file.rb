@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Restock::GetFile class
 class Restock::GetFile < ApplicationService
 
   def initialize(product_xml)
@@ -7,11 +10,7 @@ class Restock::GetFile < ApplicationService
 
   def call
     load_products_xml if check_product_xml_work
-    if @file.present?
-      @file
-    else
-      false
-    end
+    @file.present? ? @file : false
   end
 
   private
@@ -33,16 +32,16 @@ class Restock::GetFile < ApplicationService
   end
 
   def load_products_xml
-    filename = @product_xml.split("/").last
+    filename = @product_xml.split('/').last
     download_path = Rails.env.development? ? "#{Rails.root}/public/#{filename}" : "/var/www/myappda/shared/public/#{filename}"
     File.delete(download_path) if File.file?(download_path).present?
-    file = ""
+    file = ''
     RestClient.get(@product_xml) { |response, request, result, &block|
       # puts response.code
       # puts response
       case response.code
       when 200
-        f = File.new(download_path, "wb")
+        f = File.new(download_path, 'wb')
         f << response.body
         f.close
         file = download_path
