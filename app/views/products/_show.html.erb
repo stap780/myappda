@@ -68,24 +68,25 @@
       <thead>
         <tr class="align-middle">
           <th>Клиент</th>
-          <th>Дата добавления</th>
           <th>Вариант</th>
           <th>Статус</th>
+          <th>Даты</th>
         </tr>
       </thead>
 
       <tbody>
-        <% @product.restocks.order(:created_at).each do |rest| %>
+        <% @product.restocks.order(:created_at).each do |res| %>
         <tr class="align-middle">
-          <td><%= rest.client.fio %></td>
-          <td><%= rest.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
+          <td><%= res.client.fio %></td>
           <td>
             <div class="d-flex flex-column">
-              <span><%= rest.variant.sku %></span>
-              <span class="fs-8"><%= rest.variant.insid %></span>
+              <span><%= res.variant.sku %></span>
+              <span class="fs-8"><%= res.variant.insid %></span>
             </div>
           </td>
-          <td><%= rest.status %></td>
+          <td><%= res.status %></td>
+          <td>Созд: <%= res.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></br>
+          Обн: <%= res.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
         </tr>
         <% end %>
       </tbody>
@@ -104,24 +105,25 @@
       <thead>
         <tr class="align-middle">
           <th>Клиент</th>
-          <th>Дата добавления</th>
           <th>Вариант</th>
           <th>Статус</th>
+          <th>Даты</th>
         </tr>
       </thead>
 
       <tbody>
-        <% @product.preorders.order(:created_at).each do |preor| %>
+        <% @product.preorders.order(:created_at).each do |res| %>
         <tr class="align-middle">
-          <td><%= preor.client.fio %></td>
-          <td><%= preor.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
+          <td><%= res.client.fio %></td>
           <td>
             <div class="d-flex flex-column">
-              <span><%= preor.variant.sku %></span>
-              <span class="fs-8"><%= preor.variant.insid %></span>
+              <span><%= res.variant.sku %></span>
+              <span class="fs-8"><%= res.variant.insid %></span>
             </div>
           </td>
-          <td><%= preor.status %></td>
+          <td><%= res.status %></td>
+          <td>Созд: <%= res.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></br>
+          Обн: <%= res.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
         </tr>
         <% end %>
       </tbody>
@@ -140,24 +142,25 @@
       <thead>
         <tr class="align-middle">
           <th>Клиент</th>
-          <th>Дата добавления</th>
           <th>Вариант</th>
           <th>Статус</th>
+          <th>Даты</th>
         </tr>
       </thead>
 
       <tbody>
-        <% @product.abandoned_carts.order(:created_at).each do |preor| %>
+        <% @product.abandoned_carts.order(:created_at).each do |res| %>
         <tr class="align-middle">
-          <td><%= preor.client.fio %></td>
-          <td><%= preor.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
+          <td><%= res.client.fio %></td>
           <td>
             <div class="d-flex flex-column">
-              <span><%= preor.variant.sku %></span>
-              <span class="fs-8"><%= preor.variant.insid %></span>
+              <span><%= res.variant.sku %></span>
+              <span class="fs-8"><%= res.variant.insid %></span>
             </div>
           </td>
-          <td><%= preor.status %></td>
+          <td><%= res.status %></td>
+          <td>Созд: <%= res.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></br>
+          Обн: <%= res.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
         </tr>
         <% end %>
       </tbody>

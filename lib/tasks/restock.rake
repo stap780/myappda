@@ -18,7 +18,7 @@ namespace :restock do
             Restock::SetStatusForInform.call(tenant, xml_file)
             client_ids.each do |client_id|
               client = Client.find(client_id)
-              RestockSendMessageJob.perform_later(tenant, client) if client.restocks.for_inform.present?
+              RestockSendMessageJob.perform_later(tenant, {client_id: client_id}) if client.restocks.for_inform.present?
             end
           end
           puts "**** запустили #{tenant} ****"
