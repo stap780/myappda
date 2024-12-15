@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
   def invoice_path_for(resource_or_scope)
     invoices_url(subdomain: resource_or_scope.subdomain)
   end
-  
+
   # redirect_to_subdomain
   def redirect_to_subdomain
     return if self.is_a?(DeviseController)
@@ -62,10 +62,9 @@ class ApplicationController < ActionController::Base
     if current_user.present? && request.subdomain != current_user.subdomain
       subdomain = current_user.subdomain
       host = request.host_with_port.sub!(request.subdomain.to_s, subdomain)
-      puts "=== host #{host} ==="
       redirect_to "http://#{host}#{request.path}", allow_other_host: true
     end
-  end 
+  end
 
   # redirect_to_app_url
   def redirect_to_app_url
@@ -73,7 +72,7 @@ class ApplicationController < ActionController::Base
 
     url = app_url
     redirect_to url, allow_other_host: true
-  end 
+  end
 
   # app_url
   def app_url
@@ -81,7 +80,7 @@ class ApplicationController < ActionController::Base
     host = request.host_with_port
     host = request.host_with_port.sub!("#{request.subdomain}.", '') if request.subdomain.present?
     "http://#{subdomain}.#{host}#{request.path}"
-  end 
+  end
 
   def current_admin
     current_user.admin? if current_user.present?

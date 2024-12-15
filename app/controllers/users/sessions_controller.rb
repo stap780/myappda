@@ -42,18 +42,19 @@ class Users::SessionsController < Devise::SessionsController
 
   private
 
-
   def validate_recaptchas #оставил как пример для  v3 - но не сработало
-    v3_verify = verify_recaptcha(action: 'login', 
-                                 minimum_score: 0.5, 
-                                 secret_key: Rails.application.credentials.recaptcha_secret_key_v3)
+    v3_verify = verify_recaptcha(
+      action: 'login',
+      minimum_score: 0.5,
+      secret_key: Rails.application.credentials.recaptcha_secret_key_v3
+    )
     return if v3_verify
 
     self.resource = resource_class.new sign_in_params
     respond_with_navigational(resource) { render :new }
   end
-  
-  
+
+
   def check_captcha
     return if verify_recaptcha
 

@@ -23,7 +23,8 @@ gem "gem-release"
 
 gem 'active_storage_validations'
 
-gem 'ros-apartment', require: 'apartment'
+gem 'ros-apartment', git: 'https://github.com/rails-on-services/apartment.git', branch: 'development', require: 'apartment'
+
 gem 'bcrypt'
 gem 'bcrypt_pbkdf', '< 2.0', :require => false
 
