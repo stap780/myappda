@@ -60,14 +60,14 @@ class Insint::Order < ApplicationService
           # product = Product.find_by_insid(o_line['product_id']).present? ? Product.find_by_insid(o_line['product_id']) :
           #                                                                 Product.create!(insid: o_line['product_id'],
           #                                                                   title: o_line['title'])
-          product = Product.where(insid: o_line['productId']).first_or_create!
+          product = Product.where(insid: o_line['product_id']).first_or_create!
           puts "insint order product => #{product.inspect}"
           # variant = product.variants.where(insid: o_line['variant_id']).present? ? product.variants.where(insid: o_line['variant_id'])[0] :
           #                                                                       product.variants.create!(insid: o_line['variant_id'],
           #                                                                         sku: o_line['sku'],
           #                                                                         price: o_line['sale_price'])
 
-          variant = Variant.where(insid: o_line['variantId'], product_id: product.id).first_or_create!
+          variant = Variant.where(insid: o_line['variant_id'], product_id: product.id).first_or_create!
 
           line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
           line_data = {
