@@ -50,7 +50,7 @@ class Insint::AbandonedCart < ApplicationService
       end
 
       mycase.add_abandoned_cart
-      mycase.do_event_action unless search_mycase.present?
+      mycase.do_event_action
     end
   end
 

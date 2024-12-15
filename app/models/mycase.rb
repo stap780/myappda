@@ -72,13 +72,13 @@ class Mycase < ApplicationRecord
 
   def add_abandoned_cart
     if casetype == "abandoned_cart"
-      puts "Case add_abandoned_cart start"
+      puts 'Case add_abandoned_cart start'
       lines.each do |line|
 	      data = {product_id: line.product.id, variant_id: line.variant.id, client_id: client.id, mycase_id: self.id}
 	      abandoned = AbandonedCart.where(data).first
 		    AbandonedCart.create!(data) if abandoned.present?
       end
-      puts "Case add_abandoned_cart finish"
+      puts 'Case add_abandoned_cart finish'
     end
   end
 
