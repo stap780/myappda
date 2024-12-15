@@ -1,6 +1,6 @@
 #  encoding : utf-8
 class InsintsController < ApplicationController
-  before_action :authenticate_user!, except: %i[install uninstall login addizb getizb deleteizb emailizb order abandoned_cart restock preorder extra_data]
+  before_action :authenticate_user!, except: %i[addizb getizb deleteizb emailizb order abandoned_cart restock preorder extra_data]
   before_action :authenticate_admin!, only: %i[adminindex]
   before_action :set_insint, only: %i[show edit update check destroy]
 

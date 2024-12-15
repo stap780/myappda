@@ -5,17 +5,18 @@ class Users::SessionsController < Devise::SessionsController
   before_action :redirect_to_app_url, except: :destroy
 
   # GET /resource/sign_in
-  def new
-    super
-  end
+  # def new
+  #   super
+  # end
 
   def create 
     ActiveRecord::Base.transaction do
-      @user = User.find_by_email(params["user"]["email"])
+      @user = User.find_by_email(params['user']['email'])
       if @user.present?
-        Apartment::Tenant.switch!(@user.subdomain)
-        sign_in(:user, @user)
-        redirect_to after_sign_in_path_for(@user), allow_other_host: true
+        Apartment::Tenant.switch(@user.subdomain) do
+          sign_in(:user, @user)
+          redirect_to after_sign_in_path_for(@user), allow_other_host: true
+        end
       else
         # render :action => 'new'
         # redirect_to root_url(subdomain: ''), allow_other_host: true
@@ -37,8 +38,7 @@ class Users::SessionsController < Devise::SessionsController
     devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   end
 
-  def check_sign_in_user
-  end
+  def check_sign_in_user; end
 
   private
 

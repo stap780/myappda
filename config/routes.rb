@@ -26,9 +26,9 @@ Rails.application.routes.draw do
   resources :insints do
     collection do
       get '/:id/check', action: 'check', as: 'check'
-      get :install
-      get :uninstall
-      get :login
+      # get :install
+      # get :uninstall
+      # get :login
       get :addizb
       get :getizb
       get :deleteizb
@@ -94,10 +94,10 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, controllers: {
-                                    registrations: 'users/registrations',
-                                    sessions: 'users/sessions',
-                                    passwords: 'users/passwords',
-                                  }
+    registrations: 'users/registrations',
+    sessions: 'users/sessions',
+    passwords: 'users/passwords',
+  }
   resources :users do
     post :impersonate, on: :member
     post :stop_impersonating, on: :collection
