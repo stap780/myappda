@@ -12,7 +12,7 @@ class Variant < ApplicationRecord
   after_commit :get_ins_data, on: [:create]
 
   def get_ins_data
-    puts "start variant get_ins_data"
+    puts 'start variant get_ins_data'
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
     service = ApiInsales.new(user.insints.first)
@@ -27,7 +27,7 @@ class Variant < ApplicationRecord
         update!(variant_data)
       end
     end
-    puts "finish variant get_ins_data"
+    puts 'finish variant get_ins_data'
   end
 
   

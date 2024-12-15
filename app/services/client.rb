@@ -1,7 +1,5 @@
 class Client
-
     class Import
-
         def initialize(file)
             puts "Client::Import initialize"
             @file = file
@@ -38,7 +36,6 @@ class Client
     end
 
     class Insales
-
         def self.create_client(create_data, insint)
             puts "Client::Insales create_client"
             client_lines = create_data[:client_lines]
@@ -68,7 +65,5 @@ class Client
                 sleep 0.6 if client_lines.count > 490
             end
         end
-
     end
-
 end

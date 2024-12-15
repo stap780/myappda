@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Insint::Order
 class Insint::Order < ApplicationService
-  
+
     def initialize(tenant, datas)
       @tenant = tenant
       @datas = datas
@@ -20,38 +23,66 @@ class Insint::Order < ApplicationService
         client = check_client.present? ? check_client : Client.create!(client_data)
 
         # создаём запись о том что произошло изменение в заказе
-        client.order_status_changes.create!(insales_order_id: @datas['id'],
+        client.order_status_changes.create!(
+          insales_order_id: @datas['id'],
           insales_order_number: @datas['number'],
           insales_custom_status_title: @datas['custom_status']['title'],
-          insales_financial_status: @datas['financial_status'])
+          insales_financial_status: @datas['financial_status']
+        )
         # конец запись о том что произошло изменение в заказе
         #
         # проверяем заявку и создаём или обновляем
-        search_case = Mycase.where(client_id: client.id, insales_order_id: @datas['id'])
+        # search_case = Mycase.where(client_id: client.id, insales_order_id: @datas['id'])
         # puts "search_case.id => " + search_case.first.id.to_s if search_case.present?
-        mycase = search_case.present? ? search_case.update(insales_custom_status_title: @datas['custom_status']['title'],
-          insales_financial_status: @datas['financial_status'], status: "take")[0] :
-                                        Mycase.create!(client_id: client.id, insales_order_id: @datas['id'],
-                                          insales_custom_status_title: @datas['custom_status']['title'],
-                                          insales_financial_status: @datas['financial_status'],
-                                          status: "new", casetype: "order", number: @datas['number'])
+        # 
+        mycase_data = {
+          client_id: client.id,
+          insales_order_id: @datas['id'],
+          insales_custom_status_title: @datas['custom_status']['title'],
+          insales_financial_status: @datas['financial_status'],
+          status: 'new',
+          casetype: 'order',
+          number: @datas['number']
+        }
+        # mycase = search_case.present? ? search_case.update(insales_custom_status_title: @datas['custom_status']['title'],
+        #   insales_financial_status: @datas['financial_status'], status: 'take')[0] :
+        #                                 Mycase.create!(client_id: client.id, insales_order_id: @datas['id'],
+        #                                   insales_custom_status_title: @datas['custom_status']['title'],
+        #                                   insales_financial_status: @datas['financial_status'],
+        #                                   status: 'new', casetype: 'order', number: @datas['number'])
+
+        mycase = Mycase.where(client_id: client.id, insales_order_id: @datas['id']).first_or_create!(mycase_data)
+
         puts "mycase => #{mycase.inspect}"
         puts mycase.is_a? Array
+
         @datas['order_lines'].each do |o_line|
-          product = Product.find_by_insid(o_line['product_id']).present? ? Product.find_by_insid(o_line['product_id']) :
-                                                                          Product.create!(insid: o_line['product_id'],
-                                                                            title: o_line['title'])
+          # product = Product.find_by_insid(o_line['product_id']).present? ? Product.find_by_insid(o_line['product_id']) :
+          #                                                                 Product.create!(insid: o_line['product_id'],
+          #                                                                   title: o_line['title'])
+          product = Product.where(insid: o_line['productId']).first_or_create!
           puts "insint order product => #{product.inspect}"
-          variant = product.variants.where(insid: o_line['variant_id']).present? ? product.variants.where(insid: o_line['variant_id'])[0] :
-                                                                                product.variants.create!(insid: o_line['variant_id'],
-                                                                                  sku: o_line['sku'],
-                                                                                  price: o_line['sale_price'])
+          # variant = product.variants.where(insid: o_line['variant_id']).present? ? product.variants.where(insid: o_line['variant_id'])[0] :
+          #                                                                       product.variants.create!(insid: o_line['variant_id'],
+          #                                                                         sku: o_line['sku'],
+          #                                                                         price: o_line['sale_price'])
+
+          variant = Variant.where(insid: o_line['variantId'], product_id: product.id).first_or_create!
+
           line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
-          if line.present?
-            line.first.update!(quantity: o_line['quantity'], price: o_line['full_total_price'])
-          else
-            mycase.lines.create!(product_id: product.id, variant_id: variant.id, quantity: o_line['quantity'], price: o_line['full_total_price'])
-          end
+          line_data = {
+            product_id: product.id,
+            variant_id: variant.id,
+            quantity: o_line['quantity'],
+            price: o_line['full_total_price']
+          }
+
+          # if line.present?
+          #   line.first.update!(quantity: o_line['quantity'], price: o_line['full_total_price'])
+          # else
+          #   mycase.lines.create!(product_id: product.id, variant_id: variant.id, quantity: o_line['quantity'], price: o_line['full_total_price'])
+          # end
+          line.present? ? line.first.update!(line_data) : mycase.lines.create!(line_data)
         end
 
         # конец проверяем заявку и создаём или обновляем

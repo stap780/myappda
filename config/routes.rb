@@ -1,12 +1,10 @@
 require 'sidekiq/web'
-require "sidekiq-scheduler/web"
+require 'sidekiq-scheduler/web'
 
 Rails.application.routes.draw do
-
   authenticate :user, ->(user) { user.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
-
   resources :payments do
     collection do
       post :success
@@ -16,16 +14,15 @@ Rails.application.routes.draw do
     end
   end
   resources :payplans
-
   root to: 'home#index'
-  get "/index-setup", to: "home#favorite" #нужно так как на сайте инсалес есть эта ссылка index-setup
-  get "/documents", to: "home#documents"
-  get "/favorite", to: "home#favorite"
-  get "/restock", to: "home#restock"
-  get "/message", to: "home#message"
-  get "/preorder", to: "home#preorder"
-  get "/abandoned_cart", to: "home#abandoned_cart"
-  get "/oferta", to: "home#oferta"
+  get '/index-setup', to: 'home#favorite'
+  get '/documents', to: 'home#documents'
+  get '/favorite', to: 'home#favorite'
+  get '/restock', to: 'home#restock'
+  get '/message', to: 'home#message'
+  get '/preorder', to: 'home#preorder'
+  get '/abandoned_cart', to: 'home#abandoned_cart'
+  get '/oferta', to: 'home#oferta'
   resources :insints do
     collection do
       get '/:id/check', action: 'check', as: 'check'
@@ -53,7 +50,7 @@ Rails.application.routes.draw do
     resources :mycases
     resources :order_status_changes
     resources :message_setups do
-      collection do 
+      collection do
         post :api_create_restock_xml
       end
     end
@@ -94,14 +91,13 @@ Rails.application.routes.draw do
     get '/dashboard', to: 'dashboard#index'
     get '/dashboard/test_email', to: 'dashboard#test_email'
     get '/dashboard/services', to: 'dashboard#services'
-  end # constraints
+  end
 
   devise_for :users, controllers: {
-    registrations:  'users/registrations',
-    sessions:       'users/sessions',
-    passwords:      'users/passwords',
-  }
-
+                                    registrations: 'users/registrations',
+                                    sessions: 'users/sessions',
+                                    passwords: 'users/passwords',
+                                  }
   resources :users do
     post :impersonate, on: :member
     post :stop_impersonating, on: :collection

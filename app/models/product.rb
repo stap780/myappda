@@ -1,3 +1,4 @@
+# Product
 class Product < ApplicationRecord
   has_many :lines
   has_many :mycases, through: :lines
@@ -19,11 +20,11 @@ class Product < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["clients", "favorites", "lines", "mycases", "preorders", "restocks", "variants", "abandoned_carts"]
+    %w[clients favorites lines mycases preorders restocks variants abandoned_carts]
   end
 
   def get_ins_data
-    puts "start product get_ins_data"
+    puts 'start product get_ins_data'
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
     service = ApiInsales.new(user.insints.first)
@@ -32,12 +33,12 @@ class Product < ApplicationRecord
       if product.present?
         product_data = {
           title: product.title,
-          image_link: product.images.present? ? product.images.first.original_url : ""
+          image_link: product.images.present? ? product.images.first.original_url : ''
         }
         update!(product_data)
       end
     end
-    puts "finish product get_ins_data"
+    puts 'finish product get_ins_data'
   end
 
   private
