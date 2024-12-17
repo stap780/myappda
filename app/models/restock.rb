@@ -2,10 +2,10 @@
 
 # Restock class
 class Restock < ApplicationRecord
-  belongs_to :product
-  belongs_to :variant
   belongs_to :client
   belongs_to :mycase
+  belongs_to :product
+  belongs_to :variant
   before_save :set_status_if_new_record
   validates_uniqueness_of :variant_id, scope: %i[client_id mycase_id]
 

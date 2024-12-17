@@ -51,7 +51,7 @@ Apartment.configure do |config|
   #
   config.tenant_names = lambda { User.pluck :subdomain }
 
-  config.tld_length = 2
+  # config.tld_length = 2
   #
   # ==> PostgreSQL only options
 

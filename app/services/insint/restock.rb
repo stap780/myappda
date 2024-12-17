@@ -30,7 +30,7 @@ class Insint::Restock < ApplicationService
         # variant = product.variants.where(insid: o_line['variantId']).present? ? product.variants.where(insid: o_line['variantId'])[0] :
         #                                                                       product.variants.create!(insid: o_line['variantId'])
         variant = Variant.where(insid: o_line['variantId'], product_id: product.id).first_or_create!
-        
+
         line = mycase.lines.where(product_id: product.id, variant_id: variant.id)
         line_data = {
           product_id: product.id,

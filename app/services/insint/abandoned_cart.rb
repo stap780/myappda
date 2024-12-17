@@ -15,7 +15,10 @@ class Insint::AbandonedCart < ApplicationService
       search_client = Client.find_by_email(email).present? ? Client.find_by_email(email) : Client.find_by_phone(phone)
 
       client = search_client.present? ? search_client : Client.create!(email: email, phone: phone, name: name)
-      # search_mycase = Mycase.find_by_number(number)
+
+      # this we need for check Mycase present because we have action only to new abandoned cart
+      check_case = Mycase.find_by_number(number)
+      ######
       mycase_data = {
         number: number,
         casetype: 'abandoned_cart',
@@ -25,10 +28,10 @@ class Insint::AbandonedCart < ApplicationService
       # mycase = search_mycase.present? ? search_mycase : Mycase.create!(mycase_data)
       mycase = Mycase.where(number: number).first_or_create!(mycase_data)
 
-
       puts "insint abandoned_cart mycase => #{mycase.inspect}"
 
-      mycase.lines.delete_all # this we need to have last cart data if user change cart after several time
+      # this we need to have last cart data if user change cart after several time
+      mycase.lines.delete_all 
 
       @datas['lines'].each do |o_line|
         # product = Product.find_by_insid(o_line['productId'].to_i).present? ? Product.find_by_insid(o_line['productId'].to_i) :
@@ -50,7 +53,7 @@ class Insint::AbandonedCart < ApplicationService
       end
 
       mycase.add_abandoned_cart
-      mycase.do_event_action
+      mycase.do_event_action unless check_case.present?
     end
   end
 
