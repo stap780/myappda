@@ -15,19 +15,10 @@ class Mycase < ApplicationRecord
   # after_commit :do_event_action, on: :create # for 'order' & 'abandoned_cart' & 'preorder' # отключил, так как работало некоректно и добавил это действие в конце каждого запроса в insint
 
   after_create_commit do
-    broadcast_prepend_to (
-      [Apartment::Tenant.current, :mycases],
-      target: "#{Apartment::Tenant.current}_mycases",
-      partial: 'mycases/mycase',
-      locals: {mycase: self}
-    )
+    broadcast_prepend_to [Apartment::Tenant.current, :mycases],target: "#{Apartment::Tenant.current}_mycases",partial: 'mycases/mycase',locals: {mycase: self}
   end
   after_update_commit do
-    broadcast_replace_to (
-      [Apartment::Tenant.current, :mycases], target: dom_id(self, Apartment::Tenant.current),
-      partial: 'mycases/mycase',
-      locals: {mycase: self}
-      )
+    broadcast_replace_to [Apartment::Tenant.current, :mycases], target: dom_id(self, Apartment::Tenant.current),partial: 'mycases/mycase',locals: {mycase: self}
   end
   after_destroy_commit do
     broadcast_remove_to [Apartment::Tenant.current, :mycases], target: dom_id(self, Apartment::Tenant.current)
