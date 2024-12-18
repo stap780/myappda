@@ -138,6 +138,14 @@ class Mycase < ApplicationRecord
     sum.sum
   end
 
+  def delete_lines_and_relation_abandoned
+    lines.each do |line|
+      data = {product_id: line.product.id, variant_id: line.variant.id, client_id: client.id, mycase_id: id}
+      AbandonedCart.where(data).first.destroy
+    end
+    lines.delete_all
+  end
+
   private
 
   def normalize_data_white_space
