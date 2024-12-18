@@ -8,8 +8,8 @@ class Preorder < ApplicationRecord
 
     Status = [["Ждём поступления","wait"],["Появился","ready"],["Сообщение отправлено","send"]]
 
-    scope :for_inform, -> { where(status: "ready") }
-    scope :status_wait, -> { where(status: "wait") }
+    scope :for_inform, -> { where(status: 'ready') }
+    scope :status_wait, -> { where(status: 'wait') }
 
     def self.ransackable_attributes(auth_object = nil)
         Preorder.attribute_names
@@ -17,13 +17,13 @@ class Preorder < ApplicationRecord
 
     def self.find_dups
         columns_that_make_record_distinct = [:client_id, :variant_id, :mycase_id]
-        distinct_ids = Preorder.select("MIN(id) as id").group(columns_that_make_record_distinct).map(&:id)
+        Preorder.select('MIN(id) as id').group(columns_that_make_record_distinct).map(&:id) #distinct_ids
     end
 
     private
 
     def set_status_if_new_record
-        self.status = "wait" if new_record?
+        self.status = 'wait' if new_record?
     end
 
 end

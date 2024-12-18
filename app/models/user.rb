@@ -60,7 +60,7 @@ class User < ApplicationRecord
   end
 
   def self.service_end_email
-    puts "работает процесс service_end_email => #{Time.now.to_s}"
+    puts "работает процесс service_end_email => #{Time.now}"
     # we use valid_until from MessageSetup because User valid_until close enter to service
     User.all.each do |user|
       Apartment::Tenant.switch(user.subdomain) do
@@ -78,12 +78,12 @@ class User < ApplicationRecord
   end
 
   def image_thumb
-    if image.attached?
-      # image.variant(combine_options: {auto_orient: true, thumbnail: '160x160', gravity: 'center', extent: '160x160' })
-      image.variant(resize_to_fill: [160, 160])
-    else
-      # "/default_avatar.png"
-    end
+    return '' unless image.attached?
+
+    # image.variant(combine_options: {auto_orient: true, thumbnail: '160x160', gravity: 'center', extent: '160x160' })
+    image.variant(resize_to_fill: [160, 160])
+
+    # "/default_avatar.png"
   end
 
   def products_count

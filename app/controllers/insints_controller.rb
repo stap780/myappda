@@ -108,18 +108,18 @@ class InsintsController < ApplicationController
   end
 
   def login
-    saved_subdomain = "insales #{params[:insales_id]}"
-    user = User.find_by_subdomain(saved_subdomain)
-    insint = user.insints.first
-    if user.present? && insint.present?
-      Apartment::Tenant.switch(saved_subdomain) do
-        user_account = Useraccount.find_by_insuserid(params[:user_id])
-        user_name = params[:user_id] + params[:shop]
-        Useraccount.create(shop: params[:shop], email: params[:user_email], name: user_name) unless user_account.present?
-      end
-      sign_in(:user, user)
-      redirect_to after_sign_in_path_for(user), allow_other_host: true
-    end
+    # saved_subdomain = "insales #{params[:insales_id]}"
+    # user = User.find_by_subdomain(saved_subdomain)
+    # insint = user.insints.first
+    # if user.present? && insint.present?
+    #   Apartment::Tenant.switch(saved_subdomain) do
+    #     user_account = Useraccount.find_by_insuserid(params[:user_id])
+    #     user_name = params[:user_id] + params[:shop]
+    #     Useraccount.create(shop: params[:shop], email: params[:user_email], name: user_name) unless user_account.present?
+    #   end
+    #   sign_in(:user, user)
+    #   redirect_to after_sign_in_path_for(user), allow_other_host: true
+    # end
   end
 
   def addizb
@@ -231,8 +231,8 @@ class InsintsController < ApplicationController
 
   def emailizb
     insint = Insint.find_by_subdomen(params[:host])
-    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : "insales #{insint.insales_account_id.to_s}"
-    if saved_subdomain != "insales753667" # saved_subdomain != "mamamila" ||
+    saved_subdomain = insint.inskey.present? ? insint.user.subdomain : "insales #{insint.insales_account_id}"
+    if saved_subdomain != 'insales753667' # saved_subdomain != "mamamila" ||
       Apartment::Tenant.switch(saved_subdomain) do
         # if FavoriteSetup.check_ability - we have now only one service
         if MessageSetup.check_ability
@@ -244,7 +244,7 @@ class InsintsController < ApplicationController
             render json: {error: false, message: 'нет такого клиента'}
           end
         else
-          render json: {error: false, message: "Кол-во клиентов больше допустимого, письма не отправляются"}
+          render json: {error: false, message: 'Кол-во клиентов больше допустимого, письма не отправляются'}
         end
       end
     else
@@ -255,7 +255,7 @@ class InsintsController < ApplicationController
   def check
     @insint = Insint.find(params[:id])
     service = ApiInsales.new(@insint)
-    notice = (service.work? == true) ? 'Интеграция работает!' : 'Не работает интеграция!'
+    notice = service.work? ? 'Интеграция работает!' : 'Не работает интеграция!'
     respond_to do |format|
       flash.now[:success] = notice
       format.turbo_stream do

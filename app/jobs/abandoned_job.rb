@@ -1,12 +1,13 @@
+# AbandonedJob
 class AbandonedJob < ApplicationJob
     queue_as :abandoned_job
 
-    def perform(mycase_id, insint, email_data)
-        abandoned = Abandoned.new(mycase_id, insint, email_data)
-        check_ability = abandoned.check_ability
-        abandoned.call if check_ability
+    def perform(mycase_id, tenant, email_data)
+        # abandoned = Abandoned.call(mycase_id, tenant, email_data)
+        # check_ability = abandoned.check_ability
+        # abandoned.call if check_ability
+        Abandoned.call(mycase_id, tenant, email_data)
     end
-
 
 end
 
