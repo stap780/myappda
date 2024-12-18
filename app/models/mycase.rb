@@ -91,7 +91,6 @@ class Mycase < ApplicationRecord
   # for 'order' & 'abandoned_cart' & 'preorder'
   def do_event_action
     user = User.find_by_subdomain(Apartment::Tenant.current)
-
     if casetype == 'order' || casetype == 'abandoned_cart' || casetype == 'preorder'
       puts "########## Case do_event_action start - #{casetype}"
       events = Event.active.where(casetype: casetype)

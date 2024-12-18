@@ -31,7 +31,7 @@ class Insint::AbandonedCart < ApplicationService
       puts "insint abandoned_cart mycase => #{mycase.inspect}"
 
       # this we need to have last cart data if user change cart after several time
-      mycase.delete_lines_and_relation_abandoned
+      mycase.delete_lines_and_relation_abandoned if mycase.lines.size.positive?
 
       @datas['lines'].each do |o_line|
         product = Product.where(insid: o_line['productId']).first_or_create!
