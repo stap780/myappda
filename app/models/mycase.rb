@@ -141,7 +141,8 @@ class Mycase < ApplicationRecord
   def delete_lines_and_relation_abandoned
     lines.each do |line|
       data = {product_id: line.product.id, variant_id: line.variant.id, client_id: client.id, mycase_id: id}
-      AbandonedCart.where(data).first.destroy
+      abandoned = AbandonedCart.where(data).first
+      abandoned.destroy if abandoned.present?
     end
     lines.delete_all
   end
