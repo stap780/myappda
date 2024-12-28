@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   resources :insints do
     collection do
       get '/:id/check', action: 'check', as: 'check'
-      # get :install
+      get :install # we use it for check service work when have request from clients json
       # get :uninstall
       # get :login
       get :addizb

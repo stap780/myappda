@@ -384,9 +384,9 @@ class ApiInsales
           new_market = InsalesApi::Marketplace.new(data)
           new_market.save
           rescue StandardError => e
-            puts "StandardError => "+e.to_s
-            puts "e.response => "+e.response.to_s if e.response
-            puts "e.response.body => "+e.response.body.to_s if e.response && e.response.body
+            puts "StandardError => #{e}"
+            puts "e.response  => #{e.response}"
+            puts "e.response.body => #{e.response.body}"
           rescue ActiveResource::ResourceNotFound
             puts  'not_found 404'
           rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
