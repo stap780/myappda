@@ -230,6 +230,7 @@ class User < ApplicationRecord
 
   def image_data
     return unless image.attached?
+
     image = self.image
     image.blob.attributes.slice('filename', 'byte_size', 'id').merge(url: image_url(image))
   end

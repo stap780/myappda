@@ -9,9 +9,9 @@
     - preorder_job
     - abandoned_job
     - insint_job
-:max_retries: 3
-# :scheduler:
-#   :dynamic: true
+# :max_retries: 3
+:scheduler:
+  :dynamic: true
 
 development:
   :concurrency: 5

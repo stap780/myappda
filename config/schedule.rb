@@ -23,7 +23,6 @@
 # сохранение и запуск cron в режиме девелопмент (писать в терминале) ->  whenever --set environment='development' --write-crontab или
 # RAILS_ENV=development whenever --write-crontab
 # очистить cron - bundle exec whenever --clear-crontab
-# сервер минус 2 часов (лето) и минус 3 (зима)
 
 env :PATH, ENV['PATH']
 env 'GEM_HOME', ENV['GEM_HOME']
@@ -38,17 +37,17 @@ set :chronic_options, hours24: true
 # #   rake "favorite_setup:favorite_service_not_work_email"
 # # end
 
-every 1.day, at: '23:45' do
-  rake 'file:copy_production_log_every_day'
-end
+# every 1.day, at: '23:45' do
+#   rake 'file:copy_production_log_every_day'
+# end
 
 every 1.day, at: '08:25' do
   runner 'User.service_end_email'
 end
 
-every 1.hour do
-  rake 'restock:check_quantity_and_send_client_email'
-end
+# every 1.hour do
+#   rake 'restock:check_quantity_and_send_client_email'
+# end
 
 every 1.day, at: '00:25' do
   runner 'MessageSetup.set_service_status'
