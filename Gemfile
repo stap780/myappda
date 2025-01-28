@@ -51,21 +51,21 @@ gem 'rest-client'
 gem 'rubyzip'
 
 gem 'sidekiq', '~> 7.1.3'
-gem "sidekiq-scheduler"
+gem 'sidekiq-scheduler'
 
 gem 'simple_form'
 gem 'whenever', require: false
-gem 'wicked_pdf'
-gem 'will_paginate' #, '~> 4.0'
-gem 'wkhtmltopdf-binary', '~> 0.12.3.1'
-gem 'puma', ">= 6.0"
+gem 'puma', '>= 6.0'
 gem 'rexml', '~> 3.2', '>= 3.2.6'
 gem "recaptcha"
 
-gem "redis"
-gem "bootsnap", require: false
+gem 'redis'
+gem 'bootsnap', require: false
+gem 'requestjs-rails'
 gem 'will_paginate-bootstrap-style'
-gem "requestjs-rails"
+gem 'will_paginate' #, '~> 4.0'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary', '~> 0.12.3.1'
 
 
 group :development, :test do
@@ -75,10 +75,10 @@ end
 
 group :development do
   gem "capistrano", require: false
-  gem "capistrano-rails", require: false
+  gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano3-puma', github: "seuros/capistrano-puma"
+  gem 'capistrano3-puma', github: 'seuros/capistrano-puma'
   gem 'capistrano-rails-console'
   gem 'capistrano-sidekiq'
 
@@ -86,4 +86,4 @@ group :development do
   gem 'web-console', '>= 3.3.0'
 end
 
-gem "hotwire-livereload", "~> 1.4", :group => :development
+gem 'hotwire-livereload', '~> 1.4', :group => :development
