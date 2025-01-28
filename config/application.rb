@@ -19,6 +19,6 @@ module MyApp
     config.eager_load_paths << Rails.root.join('app')
     config.eager_load_paths << Rails.root.join('lib')
     config.autoload_paths += %W[#{config.root}/services #{config.root}/app/services/drop #{config.root}/app/classes]
-
+    config.action_view.sanitized_allowed_tags = ['noscript']
   end
 end
