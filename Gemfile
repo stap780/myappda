@@ -50,6 +50,8 @@ gem 'rbnacl-libsodium', :require => false
 gem 'rest-client'
 gem 'rubyzip'
 
+gem 'stringio'
+
 gem 'sidekiq', '~> 7.1.3'
 gem 'sidekiq-scheduler'
 
