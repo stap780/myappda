@@ -75,3 +75,5 @@ namespace :deploy do
   after :finishing, :cleanup
   # after 'deploy:published', 'sidekiq:restart'
 end
+
+Rake::Task["deploy:assets:backup_manifest"].clear_actions
