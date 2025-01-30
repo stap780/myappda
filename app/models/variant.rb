@@ -11,6 +11,10 @@ class Variant < ApplicationRecord
 
   after_commit :get_ins_data, on: [:create]
 
+  def self.ransackable_attributes(auth_object = nil)
+    attribute_names
+  end
+  
   def get_ins_data
     puts 'start variant get_ins_data'
     current_subdomain = Apartment::Tenant.current

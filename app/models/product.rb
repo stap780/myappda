@@ -1,4 +1,4 @@
-# Product
+# Product < ApplicationRecord
 class Product < ApplicationRecord
   has_many :lines
   has_many :mycases, through: :lines
@@ -15,8 +15,14 @@ class Product < ApplicationRecord
   validates :insid, presence: true
   validates :insid, uniqueness: true
 
+  include ActionView::RecordIdentifier
+
+  after_update_commit do
+    broadcast_replace_to [Apartment::Tenant.current, :products], target: dom_id(self, Apartment::Tenant.current),partial: 'products/product',locals: {product: self}
+  end
+
   def self.ransackable_attributes(auth_object = nil)
-    Product.attribute_names
+    attribute_names
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -48,5 +54,5 @@ class Product < ApplicationRecord
     restocks.delete_all
     preorders.delete_all
   end
-  
+
 end

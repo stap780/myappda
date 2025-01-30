@@ -1,8 +1,8 @@
 <div class="row align-items-center my-2">
   <div class="col-2 d-flex flex-column">
-    <div class="h3">Заявки</div>
-    <div class="h6">Всего - <%= Mycase.count%></div>
-    <%=tag.div( class: 'h6') do %>
+    <div class="h3 m-0 small">Заявки</div>
+    <div class="h6 m-0 small">Всего - <%= Mycase.count%></div>
+    <%=tag.div( class: 'h6 m-0 small') do %>
       <%= page_entries_info @mycases %>
     <%end if @search.present? %>
   </div>

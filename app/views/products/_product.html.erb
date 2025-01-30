@@ -1,14 +1,23 @@
-<tr class="align-middle">
-    <td>
-        <div class="d-flex flex-column">
-            <%=tag.div product.id %>
-            <%=tag.div( product.insid, class: 'opacity-75 fs-8') if product.insid %>
-        </div>
-    </td>    
-    <td class="fs-8"><%= product.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M')%></td>
-     <%= td_tag_image(product.image_link)%>
-    <td><%= product.title %></td>
-    <td><%= link_to eye_icon, product, data: { turbo_frame: "offcanvasWrap", turbo_stream: true } %></td>
-    <td><%= product.price %></td>
-    <td><%= link_to trash_icon, product, data: { "turbo-method": :delete, 'turbo-confirm': 'Будут удалены избранные, сообщить о поступлении, предзаказ связанные с этим товаром. Вы уверенны? ' }, class:"" %></td>
-</tr>
+<%= turbo_frame_tag dom_id(mycase, Apartment::Tenant.current), class: "d-flex list-group-item py-2 border-start-0 border-end-0 row justify-content-start align-items-center px-0" do %>
+    <div class="col-2 d-flex flex-column">
+        <%=tag.div product.id %>
+        <%=tag.div( product.insid, class: 'opacity-75 fs-8') if product.insid %>
+    </div>
+    <%=tag.div( product.created_at.strftime('%d/%m/%Y %H:%M'), class: "col-2 fs-8") %>
+
+    <%=tag.div class: 'col-1 p-0 d-flex align-items-center justify-content-center' do %>
+        <% if product.image_link.present? %>
+            <%= image_block(product.image_link)%>
+        <% else %>
+            <%=link_to arrow_clockwise_icon, insales_info_products_path, class: "btn btn-primary", data: {turbo_stream: true}%>
+        <% end %>
+    <% end %>
+    <%=tag.div(product.title, class: 'col-4') %>
+    <%=tag.div class: 'col-1 p-0 d-flex align-items-center justify-content-center' do %>
+        <%= link_to eye_icon, product, data: { turbo_frame: "offcanvasWrap", turbo_stream: true } %>
+    <% end %>
+    <%=tag.div(product.price, class: 'col-1') %>
+    <%=tag.div class: 'col-1 p-0 d-flex align-items-center justify-content-center' do %>
+        <%= link_to trash_icon, product, data: { "turbo-method": :delete, 'turbo-confirm': 'Будут удалены избранные, сообщить о поступлении, предзаказ связанные с этим товаром. Вы уверенны? ' }, class:"" %>
+    <% end %>
+<% end %>

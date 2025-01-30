@@ -2,16 +2,17 @@
   <div class="col-2 ">
     <div class="col-md-12 p-0">
       <div class="h3">Товары</div>
-      <div class="h6">Всего - <%= Product.count %></div>
-      <div class="h6">Отфильтровано: <%=@products.count%></div>
+      <div class="h6 m-0 small">Всего - <%= Product.count %></div>
+      <div class="h6 m-0 small">Отфильтровано: <%=@products.count%></div>
     </div>
   </div>
-  <div class="col-8 pl-0 pr-0 row">
+  <div class="col-9 pl-0 pr-0 row">
     <%= search_form_for @search, {class: 'form-inline col-12 pl-0 pr-0'} do |f| %>
       <div class="input-group input-group-sm">
-        <%= f.search_field :title_cont , placeholder: 'Название', class: "form-control", style: "max-width: 180px;" %>
-        <%= f.select :restocks_status_eq, Restock::Status, { prompt: 'Restock'}, class: "form-select input-sm" %>
-        <%= f.select :preorders_status_eq, Preorder::Status, { prompt: 'Preorder'}, class: "form-select input-sm" %>
+        <%= f.search_field :title_cont , placeholder: 'Название', class: "form-control"%>
+        <%= f.search_field :insid_or_variants_insid_eq , placeholder: 'insid(товар, вариант)', class: "form-control" %>
+        <%= f.select :restocks_status_eq, Restock::Status, { prompt: 'Сообщить о поступлении'}, class: "form-select input-sm" %>
+        <%= f.select :preorders_status_eq, Preorder::Status, { prompt: 'Предзаказ'}, class: "form-select input-sm" %>
         <%= f.select :favorites_client_id_not_null, [['есть',true],['нет',false]], { prompt: 'Избранное', blank: true }, class: "form-select" %>
         <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
         <%= link_to arrow_clockwise_icon, products_path, class: 'btn btn-outline-dark' %>
@@ -21,23 +22,22 @@
   </div>
 </div>
 
-<div class="table-responsive">
-  <table class="table table-hover table-condensed">
-    <thead>
-      <tr class="bg-success">
-        <th># (INS)</th>
-        <th style="width:120px;">Создан</th>
-        <th></th>
-        <th>Название</th>
-        <th></th>
-        <th>Цены</th>
-        <th colspan="1"></th>
-      </tr>
-    </thead>
-    <tbody id="items_table">
+<div id="datatables-products_wrapper">
+  <div class="col-12 list-group list-group-striped" data-controller="select-all">
+    <div class="row py-2 px-0 justify-content-start align-items-center">
+      <%= tag.div( '# (INS)', class: 'col-2 fw-semibold' )%>
+      <%= tag.div( 'Создан', class: 'col-2 fw-semibold' )%>
+      <%= tag.div( '', class: 'col-1 fw-semibold' )%>
+      <%= tag.div( 'Название', class: 'col-4 fw-semibold' )%>
+      <%= tag.div( '', class: 'col-1 fw-semibold' )%>
+      <%= tag.div( 'Цены', class: 'col-1 fw-semibold' )%>
+      <%= tag.div('', class: 'col fw-semibold')%>
+    </div>
+    <%= turbo_stream_from [Apartment::Tenant.current, :products] %>
+    <%= turbo_frame_tag [Apartment::Tenant.current, :products], data: { } do %>
       <%= render @products %>
-    </tbody>
-  </table>
+    <% end %>
+  </div>
 </div>
 
 <%= render 'shared/paginate', object: @products %>

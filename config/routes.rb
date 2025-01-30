@@ -83,6 +83,7 @@ Rails.application.routes.draw do
     end
     resources :companies
     resources :products do
+      get :insales_info, on: :member
       collection do
         post :delete_selected
       end

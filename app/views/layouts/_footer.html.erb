@@ -5,13 +5,10 @@
       <div class="row">
         <ul class="list-unstyled text-small list-group list-group-horizontal justify-content-end">
           <li class="list-group-item border-0 bg-transparent d-none d-md-block">
-            <a class="text-muted" href="+74997042035">84997052117</a>
-          </li>
-          <li class="list-group-item border-0 bg-transparent d-none d-md-block">
-            <a class="text-muted" href="+74997042035">88123392235</a>
+            <a class="text-muted" href="+74997042035">84997042035</a>
           </li>
           <li class="list-group-item border-0 bg-transparent">
-            <a class="text-muted" href="mailto:myappda.ru">support@ketago.com</a>
+            <a class="text-muted" href="mailto:info@myappda.ru">info@myappda.ru</a>
           </li>
           <li class="list-group-item text-muted border-0 bg-transparent">MyAppDA<small> &copy; 2019-<%= Time.now.strftime("%Y" )%></small></li>
         </ul>
@@ -19,16 +16,13 @@
         </div>
     <% else %>
     <div class="container">
-      <div class="row">
+      <div class="row gap-2">
         <div class="col-12 col-sm-3 text-center text-md-start">
           <h5>MyAppDA</h5>
           <h6>это сервис маркетинга для интернет-магазина (email, соц сети, мессенджеры, формы, статистика, аналитика)</h6>
           <ul class="list-unstyled text-small">
             <li>
-              <a class="text-muted" href="+74997042035">84997052117</a>
-            </li>
-            <li>
-              <a class="text-muted" href="+74997042035">88123392235</a>
+              <a class="text-muted" href="+74997042035">84997042035</a>
             </li>
             <li>
               <a class="text-muted" href="mailto:info@myappda.ru">info@myappda.ru</a>
@@ -37,25 +31,13 @@
         </div>
         <div class="col-3 col-md d-none d-md-block">
           <h5>Меню</h5>
+          <% menu_array = [['#about-app','О приложении'],['favorite','Избранные товары'],['restock','Собщить о поступлении'],['message','Триггеры'],['documents','Настройка'],['oferta','Оферта']]%>
           <ul class="list-unstyled text-small">
+            <% menu_array.each do |link, text|%>
             <li>
-              <a class="text-muted" href="/#about-app">О приложении</a>
+              <a class="text-muted text-decoration-none" href="/<%= link %>"><%= text %></a>
             </li>
-            <li>
-              <a class="text-muted" href="/favorite">Избранные товары</a>
-            </li>
-            <li>
-              <a class="text-muted" href="/restock">Собщить о поступлении</a>
-            </li>
-            <li>
-              <a class="text-muted" href="/message">Триггеры</a>
-            </li>
-            <li>
-              <a class="text-muted" href="/documents">Настройка</a>
-            </li>
-            <li>
-              <a class="text-muted" href="/oferta">Оферта</a>
-            </li>
+            <% end %>
           </ul>
         </div>
         <div class="col-3 col-md d-none d-md-block">

@@ -1,4 +1,6 @@
 #  encoding : utf-8
+
+# User < ApplicationRecord
 class User < ApplicationRecord
   include Rails.application.routes.url_helpers
 
@@ -106,15 +108,17 @@ class User < ApplicationRecord
 
   def favorite_setup_status
     Apartment::Tenant.switch(subdomain) do
-      (FavoriteSetup.first.present? && FavoriteSetup.first.status) ? 'Вкл' : 'Выкл'
+      return 'Выкл' unless FavoriteSetup.first.present? && FavoriteSetup.first.status
+
+      'Вкл'
     end
   end
 
   def message_setup_status
     Apartment::Tenant.switch(subdomain) do
-      if MessageSetup.first.present?
-        MessageSetup.first.status == true ? 'Вкл' : 'Выкл'
-      end
+      return 'Выкл' unless MessageSetup.first.present?
+
+      MessageSetup.first.status == true ? 'Вкл' : '<span class="text-warning bg-dark">Выкл</span>'.html_safe
     end
   end
 
@@ -151,17 +155,14 @@ class User < ApplicationRecord
   def email_receivers
     emails = []
     Apartment::Tenant.switch(subdomain) do
-      if Useraccount.count > 0
-        Useraccount.all.each do |useraccount|
-          emails.push(useraccount.email)
-        end
+      next unless Useraccount.count.positive?
+
+      Useraccount.all.each do |useraccount|
+        emails.push(useraccount.email)
       end
     end
-    if emails.size > 0
-      emails
-    else
-      emails[user.email]
-    end
+
+    emails.size.positive? ? emails : emails[user.email]
   end
 
   def has_smtp_settings?
@@ -169,13 +170,13 @@ class User < ApplicationRecord
   end
 
   def smtp_settings
-    Apartment::Tenant.switch(self.subdomain) do
+    Apartment::Tenant.switch(subdomain) do
       smtp = EmailSetup.first
       if smtp
         {
           tls: smtp.tls,
           enable_starttls_auto: true,
-          openssl_verify_mode: "none",
+          openssl_verify_mode: 'none',
           address: smtp.address,
           port: smtp.port,
           domain: smtp.domain,
@@ -241,6 +242,7 @@ class User < ApplicationRecord
 
   def logo_file_name
     return unless image.attached?
+
     image_data[:filename]
   end
 

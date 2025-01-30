@@ -1,7 +1,7 @@
 <div class="row align-items-center mt-3 mb-3">
   <div class="col-2 d-flex flex-column">
-    <div class="h3">Клиенты</div>
-    <div class="h6">Всего - <%= Client.count%></div>
+    <div class="h3 m-0 small">Клиенты</div>
+    <div class="h6 m-0 small">Всего - <%= Client.count%></div>
   </div>
   <%= search_form_for @search, html: {class: 'form-inline col pl-0 pr-0'}  do |f|%>
     <div class="input-group input-group-sm">

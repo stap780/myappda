@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 lock "~> 3.19.1"
 
 server "178.253.40.249", roles: %w[app db web]
