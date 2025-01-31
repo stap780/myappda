@@ -1,3 +1,4 @@
+# Insint::Restock < ApplicationService
 class Insint::Restock < ApplicationService
   
   def initialize(tenant, datas)
