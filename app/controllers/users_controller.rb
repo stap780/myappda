@@ -1,6 +1,7 @@
+# UsersController < ApplicationController
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :check_email, :add_message_setup_ability, :add_insales_order_webhook]
+  before_action :set_user, only: %i[show edit update destroy check_email add_message_setup_ability add_insales_order_webhook]
   before_action :authenticate_admin!, only: [:index], except: [:stop_impersonating]
 
 
@@ -8,8 +9,6 @@ class UsersController < ApplicationController
     @search = User.ransack(params[:q])
     @search.sorts = 'id asc' if @search.sorts.empty?
     @users = @search.result.paginate(page: params[:page], per_page: 30)
-    @favorite_setup = FavoriteSetup.first
-    @restock_setup = RestockSetup.first
     @message_setup = MessageSetup.first
   end
 
@@ -30,7 +29,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update(user_params)
         redirect_path = @user == current_user ? dashboard_path : users_url
-        format.html { redirect_to redirect_path, notice: "User was successfully updated."}
+        format.html { redirect_to redirect_path, notice: 'User was successfully updated.'}
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -55,7 +54,7 @@ class UsersController < ApplicationController
     ActiveStorage::Attachment.where(id: params[:image_id])[0].purge
     respond_to do |format|
       #format.html { redirect_to edit_product_path(params[:id]), notice: 'Image was successfully deleted.' }
-      format.json { render json: { :status => "ok", :message => "destroyed" } }
+      format.json { render json: { status: 'ok', message: 'destroyed' } }
       format.js do
         flash.now[:notice] = 'Image was successfully deleted.'
       end

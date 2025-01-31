@@ -21,6 +21,10 @@ class Product < ApplicationRecord
     broadcast_replace_to [Apartment::Tenant.current, :products], target: dom_id(self, Apartment::Tenant.current),partial: 'products/product',locals: {product: self}
   end
 
+  after_destroy_commit do
+    broadcast_remove_to [Apartment::Tenant.current, :mycases], target: dom_id(self, Apartment::Tenant.current)
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     attribute_names
   end

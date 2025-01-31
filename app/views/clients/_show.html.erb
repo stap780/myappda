@@ -22,19 +22,31 @@
     <table class="table table-hover table-condensed table-sm">
       <thead>
         <tr class="align-middle">
-          <th>Id товара</th>
+          <th># ins</th>
           <th></th>
           <th>Название</th>
+          <th>Sku</th>
+          <th>Остаток</th>
           <th>Цена</th>
+          <th>Даты</th>
         </tr>
       </thead>
       <tbody>
-        <% @favorite_products.each do |pr| %>
+        <% @client.favorites.each do |fav| %>
+         <% pr = fav.product%>
         <tr class="align-middle">
-          <td><%=pr.insid%></td>
+          <td><%=pr.insid%>
+            <div class="d-flex flex-column">
+              <%=tag.div pr.insid %>
+            </div>        
+          </td>
           <%= td_tag_image(pr.image_link)%>
           <td><%= link_to "#{pr.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
+          <td></td>
+          <td></td>
           <td><%=pr.price%></td>
+          <td>Созд: <%= fav.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></br>
+          Обн: <%= fav.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
         </tr>
         <% end %>
       </tbody>

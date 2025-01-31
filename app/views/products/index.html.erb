@@ -23,14 +23,14 @@
 </div>
 
 <div id="datatables-products_wrapper">
-  <div class="col-12 list-group list-group-striped" data-controller="select-all">
+  <div class="col-12 list-group list-group-striped">
     <div class="row py-2 px-0 justify-content-start align-items-center">
-      <%= tag.div( '# (INS)', class: 'col-2 fw-semibold' )%>
-      <%= tag.div( 'Создан', class: 'col-2 fw-semibold' )%>
+      <%= tag.div( '# (INS)', class: 'col-1 fw-semibold' )%>
+      <%= tag.div( 'Создан', class: 'col-1 fw-semibold' )%>
       <%= tag.div( '', class: 'col-1 fw-semibold' )%>
-      <%= tag.div( 'Название', class: 'col-4 fw-semibold' )%>
+      <%= tag.div( 'Название', class: 'col-5 fw-semibold' )%>
       <%= tag.div( '', class: 'col-1 fw-semibold' )%>
-      <%= tag.div( 'Цены', class: 'col-1 fw-semibold' )%>
+      <%= tag.div( 'Цены', class: 'col-2 fw-semibold' )%>
       <%= tag.div('', class: 'col fw-semibold')%>
     </div>
     <%= turbo_stream_from [Apartment::Tenant.current, :products] %>

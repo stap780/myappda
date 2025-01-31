@@ -1,4 +1,6 @@
 #  encoding : utf-8
+ 
+# Client < ApplicationRecord
 class Client < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :restocks, dependent: :destroy
@@ -15,9 +17,8 @@ class Client < ApplicationRecord
   scope :first_five, -> { all.limit(5)}
   scope :collection_for_select, ->(id) { where(id: id) + first_five }
 
-
   def self.ransackable_attributes(auth_object = nil)
-    Client.attribute_names
+    attribute_names
   end
 
   def self.ransackable_associations(auth_object = nil)

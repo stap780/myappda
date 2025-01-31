@@ -121,7 +121,7 @@ class Mycase < ApplicationRecord
   end
 
   def client_data
-    client ? "#{client.fio}<br>#{client.email}<br>#{client.phone}".html_safe : ''
+    client ? "#{client.fio}<br>#{client.email} #{client.phone}".html_safe : ''
   end
 
   def status_title

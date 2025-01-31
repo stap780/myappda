@@ -30,7 +30,7 @@
   </div>
 </div>
 
-<% if @favorite_products.present? %>
+<% if @product.favorites.present? %>
   <div class="row align-items-center mt-3 mb-3">
     <div class="col-4 d-flex w-100 align-items-center mb-2 h5">
       <span><%= heart_icon %> Избранное</span>
@@ -48,7 +48,7 @@
     <tbody>
       <% @product.favorites.order(:created_at).each do |fav| %>
       <tr class="align-middle">
-        <td><%= fav.client.fio %></td>
+        <td><%= fav.client.fio.truncate(30) %></td>
         <td><%= fav.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
       </tr>
       <% end %>
@@ -77,7 +77,7 @@
       <tbody>
         <% @product.restocks.order(:created_at).each do |res| %>
         <tr class="align-middle">
-          <td><%= res.client.fio %></td>
+          <td><%= res.client.fio.truncate(30) %></td>
           <td>
             <div class="d-flex flex-column">
               <span><%= res.variant.sku %></span>
@@ -114,7 +114,7 @@
       <tbody>
         <% @product.preorders.order(:created_at).each do |res| %>
         <tr class="align-middle">
-          <td><%= res.client.fio %></td>
+          <td><%= res.client.fio.truncate(30) %></td>
           <td>
             <div class="d-flex flex-column">
               <span><%= res.variant.sku %></span>
@@ -151,7 +151,7 @@
       <tbody>
         <% @product.abandoned_carts.order(:created_at).each do |res| %>
         <tr class="align-middle">
-          <td><%= res.client.fio %></td>
+          <td><%= res.client.fio.truncate(30) %></td>
           <td>
             <div class="d-flex flex-column">
               <span><%= res.variant.sku %></span>

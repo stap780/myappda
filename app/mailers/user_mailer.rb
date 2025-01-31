@@ -1,3 +1,4 @@
+# UserMailer
 class UserMailer < ApplicationMailer
   before_action { @user, @subject = params[:user], params[:subject] }
   before_action :set_from_email
@@ -6,10 +7,12 @@ class UserMailer < ApplicationMailer
   def test_welcome_email
     @user_email = @user.email
     @user_email_from = set_from_email
-    mail(to: "panaet80@gmail.com, info@two-g.ru",
-        reply_to: @user_email,
-        from:  @user_email_from,
-        subject: 'Новая регистрация в приложении myappda')
+    mail(
+      to: 'info@myappda.ru',
+      reply_to: @user_email,
+      from:  @user_email_from,
+      subject: 'Новая регистрация в приложении myappda'
+    )
   end
 
   def service_end_email
@@ -20,7 +23,7 @@ class UserMailer < ApplicationMailer
       to: @user_email,
       from:  @user_email_from,
       subject:  @subject
-      )
+    )
   end
 
   def favorite_setup_service_email
@@ -32,7 +35,7 @@ class UserMailer < ApplicationMailer
       to: @user_email,
       from:  @user_email_from,
       subject: 'Сервис Избранные товары не работает для ваших клиентов'
-      )
+    )
   end
 
   def insales_client_api_import
@@ -43,21 +46,21 @@ class UserMailer < ApplicationMailer
       to: @user_email,
       from:  @user_email_from,
       subject: 'Клиенты импортировались в ваш магазин'
-      )
+    )
   end
 
   private
 
   def set_from_email
-    @user && @user.has_smtp_settings? ? @user.smtp_settings[:user_name] : 'info@myappda.ru'
+    @user&.has_smtp_settings? ? @user.smtp_settings[:user_name] : 'info@myappda.ru'
   end
 
   def set_delivery_options
-    if @user && @user.has_smtp_settings?
+    if @user&.has_smtp_settings?
       mail.delivery_method.settings.merge!(@user.smtp_settings)
     end
     if @user && !@user.has_smtp_settings?
-        mail.delivery_method.settings.merge!(User.default_smtp_settings)
+      mail.delivery_method.settings.merge!(User.default_smtp_settings)
     end
   end
 

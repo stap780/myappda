@@ -49,7 +49,7 @@ class Restock::SendMessage < ApplicationService
             receiver: receiver
           }
 
-          EventMailer.with(email_data).send_action_email.deliver_now #.deliver_later(wait: 1.minutes)
+          EventMailer.with(email_data).send_action_email.deliver_later(wait: 1.minutes)
           @client.restocks.for_inform.each do |res|
             res.mycase.update(status: 'finish')
           end

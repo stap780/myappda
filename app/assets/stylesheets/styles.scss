@@ -596,7 +596,7 @@ body {
 
 /*** IMG ***/
 .img-ratio {
-  --img-ratio: 1.2;
+  --img-ratio: 1.5;
   height: 0;
   position: relative;
   padding-top: calc(100%/(var(--img-ratio, 1)))

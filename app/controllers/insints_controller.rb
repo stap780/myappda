@@ -213,7 +213,6 @@ class InsintsController < ApplicationController
     end
 
     Apartment::Tenant.switch(saved_subdomain) do
-      # if FavoriteSetup.check_ability - we have now only one service
       if MessageSetup.check_ability
         client = Client.find_by_clientid(params[:client_id])
         if client.present?
@@ -235,7 +234,6 @@ class InsintsController < ApplicationController
     saved_subdomain = insint.inskey.present? ? insint.user.subdomain : "insales #{insint.insales_account_id}"
     if saved_subdomain != 'insales753667' # saved_subdomain != "mamamila" ||
       Apartment::Tenant.switch(saved_subdomain) do
-        # if FavoriteSetup.check_ability - we have now only one service
         if MessageSetup.check_ability
           client = Client.find_by_clientid(params[:client_id])
           if client.present?
@@ -326,7 +324,7 @@ class InsintsController < ApplicationController
         InsintPreorderJob.perform_later(saved_subdomain, params.permit!)
         render json: {success: true, message: 'Информация сохранена в cases preorder'}
       else
-        render json: {error: false, message: 'не смогли добавить запись в cases preorder Сервис не включен'}
+        render json: {error: true, message: 'не смогли добавить запись в cases preorder Сервис не включен'}
       end
     end
   end
@@ -340,6 +338,22 @@ class InsintsController < ApplicationController
 
     # render json: { success: true, data: data}
     render json: data
+  end
+
+  def discount
+    account_id = params['insales_account_id']
+    puts "account_id => #{account_id}"
+
+    insint = Insint.find_by_insales_account_id(account_id)
+    if insint
+      saved_subdomain = insint.user.subdomain
+      success, message = Insint::Discount.call(saved_subdomain, params.permit!)
+      if success
+        render json: {success: true, result: message}
+      else
+        render json: {error: true, message: message}
+      end
+    end
   end
 
   private

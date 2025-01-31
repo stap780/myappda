@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       get :emailizb
       get :addrestock
       post :extra_data
+      post :discount
       post :order
       post :abandoned_cart
       post :restock
@@ -64,8 +65,6 @@ Rails.application.routes.draw do
     end
     resources :events
     resources :email_setups
-    resources :favorite_setups
-    resources :restock_setups
     resources :useraccounts
     get '/clients/:id/emailizb', to: 'clients#emailizb', as: 'emailizb_client'
     put '/clients/:id/update_from_insales', to: 'clients#update_from_insales', as: 'update_from_insales'

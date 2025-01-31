@@ -1,7 +1,6 @@
 class Payplan < ApplicationRecord
   has_many :payments
   has_many :invoices
-  has_many :favorite_setups
   has_many :message_setups
   validates :handle, presence: true
 

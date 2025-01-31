@@ -1,3 +1,4 @@
+# ClientMailer
 class ClientMailer < ApplicationMailer
 
   before_action { @user, @fio, @current_subdomain, @receiver, @products = params[:user], params[:fio], params[:current_subdomain], params[:receiver], params[:products] }
@@ -35,16 +36,16 @@ class ClientMailer < ApplicationMailer
   private
 
   def set_from_email
-      @user && @user.has_smtp_settings? ? email_address_with_name(@user.smtp_settings[:user_name], @user.name.to_s) : 'info@myappda.ru'
+    @user&.has_smtp_settings? ? email_address_with_name(@user.smtp_settings[:user_name], @user.name.to_s) : 'info@myappda.ru'
   end
 
   def set_delivery_options
-      if @user && @user.has_smtp_settings?
-        mail.delivery_method.settings.merge!(@user.smtp_settings)
-      end
-      if @user && !@user.has_smtp_settings?
-        mail.delivery_method.settings.merge!(User.default_smtp_settings)
-      end
+    if @user&.has_smtp_settings?
+      mail.delivery_method.settings.merge!(@user.smtp_settings)
+    end
+    if @user && !@user.has_smtp_settings?
+      mail.delivery_method.settings.merge!(User.default_smtp_settings)
+    end
   end
 
 end

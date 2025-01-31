@@ -1,7 +1,11 @@
 <div class="row mt-3 align-items-center">
   <div class="col-2 d-flex flex-column">
-    <div class="h3">Пользователи</div>
-    <div class="h6">Всего - <%= User.count%></div>
+    <div class="h4">Пользователи</div>
+    <div class="h6 m-0 small">Всего - <%= User.count%></div>
+    <%=tag.div( class: 'h6 m-0 small') do %>
+      <% info = page_entries_info @Users%>
+      <%= info.gsub('User','').gsub('пользователи','') %>
+    <%end if @search.present? %>
   </div>
   <%= search_form_for @search, {class: 'form-inline col pl-0 pr-0'} do |f| %>
     <div class="input-group input-group-sm">

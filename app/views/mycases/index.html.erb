@@ -1,9 +1,10 @@
 <div class="row align-items-center my-2">
   <div class="col-2 d-flex flex-column">
-    <div class="h3 m-0 small">Заявки</div>
+    <div class="h4 m-0">Заявки</div>
     <div class="h6 m-0 small">Всего - <%= Mycase.count%></div>
     <%=tag.div( class: 'h6 m-0 small') do %>
-      <%= page_entries_info @mycases %>
+      <% info = page_entries_info @mycases%>
+      <%= info.gsub('Mycase','').gsub('заявки','') %>
     <%end if @search.present? %>
   </div>
 
@@ -25,9 +26,9 @@
   <div class="col-12 list-group list-group-striped" data-controller="select-all">
     <div class="row py-2 px-0 justify-content-start align-items-center">
       <%= div_check_box_tag_all %>
-      <%= tag.div( 'Статус', class: 'col-2 fw-semibold' )%>
+      <%= tag.div( 'Статус', class: 'col-1 fw-semibold' )%>
       <%= tag.div( 'Тип заявки', class: 'col-2 fw-semibold' )%>
-      <%= tag.div( 'Клиент', class: 'col-4 fw-semibold' )%>
+      <%= tag.div( 'Клиент', class: 'col-5 fw-semibold' )%>
       <%= tag.div( 'Сумма', class: 'col-1 fw-semibold' )%>
       <%= tag.div('', class: 'col fw-semibold')%>
     </div>

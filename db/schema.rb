@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_22_082256) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_31_144854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,7 +71,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_22_082256) do
 
   create_table "clients", id: :serial, force: :cascade do |t|
     t.string "clientid"
-    t.string "izb_productid"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "name"
@@ -129,17 +128,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_22_082256) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "casetype"
     t.boolean "active", default: true
-  end
-
-  create_table "favorite_setups", force: :cascade do |t|
-    t.string "title"
-    t.string "handle"
-    t.string "description"
-    t.boolean "status"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "payplan_id"
-    t.date "valid_until"
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -259,17 +247,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_22_082256) do
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "restock"
     t.string "image_link"
-  end
-
-  create_table "restock_setups", force: :cascade do |t|
-    t.string "title"
-    t.string "handle"
-    t.string "description"
-    t.boolean "status"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.date "valid_until"
-    t.integer "payplan_id"
   end
 
   create_table "restocks", force: :cascade do |t|

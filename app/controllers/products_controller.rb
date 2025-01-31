@@ -1,8 +1,9 @@
 # ProductsController < ApplicationController
 class ProductsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_product, only: [:show, :edit, :update, :destroy, :insales_info]
+  include ActionView::RecordIdentifier
+  
   def index
     @search = Product.includes(:variants, :favorites, :preorders, :abandoned_carts, :restocks).ransack(params[:q])
     @search.sorts = 'id desc' if @search.sorts.empty?
@@ -52,14 +53,6 @@ class ProductsController < ApplicationController
 
   def insales_info
     @product.get_ins_data
-    respond_to do |format|
-      flash.now[:success] = "#{t('.success')}"
-      format.turbo_stream do
-        render turbo_stream: [
-          render_turbo_flash
-        ]
-      end
-    end
   end
 
   def destroy
