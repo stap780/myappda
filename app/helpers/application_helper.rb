@@ -153,3 +153,13 @@ module ApplicationHelper
     end
   end
 end
+
+def sortable_icon
+  '<i class="bi bi-arrows-move js-sort-handle fs-3"></i>'.html_safe
+end
+
+def sortable_with_badge(position)
+  content_tag :i, class: 'bi bi-arrows-move js-sort-handle fs-3 position-relative me-2 pt-1 pe-0' do
+    content_tag(:span, position, class: 'badge bg-info fs-7 p-2 rounded-circle position-absolute top-0 start-50 translate-middle border border-light','data-sortable-target':'position')
+  end
+end

@@ -1,0 +1,40 @@
+<%= form_with(model: discount) do |f| %>
+  <%=tag.div(class: 'card') do %>
+
+    <%=tag.div(class: 'card-header') do %>
+      <%=tag.div(class: 'h3') do %><%= f.object.new_record? ? 'Создать' : 'Редактировать'%><%end%>
+    <%end%>
+
+    <%=tag.div(class: 'card-body py-0') do %>
+      <%= render 'shared/errors', object: discount %>
+      <%=tag.div class: "row py-3" do %>
+        <%=tag.div class: "col-12 mb-3" do %>
+          <%= f.label :rule, class: "form-label" %>
+          <%= f.select :rule, Discount::RULES, {include_blank: true}, {class: "form-select px-1"} %>
+        <%end%>
+        <%=tag.div class: "col-4 mb-3" do %> 
+          <%= f.label :move, class: "form-label" %>
+          <%= f.select :move, [['-','minus'],['+','plus']], {include_blank: false}, {class: "form-select px-1"} %>
+        <%end%>
+        <%=tag.div class: "col-4 mb-3" do %> 
+          <%= f.label :shift, class: "form-label" %>
+          <%= f.text_field :shift, {type: "number", class: "form-control px-1", min: "0"} %>
+        <%end%>
+        <%=tag.div class: "col-4 mb-3" do %> 
+          <%= f.label :points, class: "form-label" %>
+          <%= f.select :points, [['%','percent'], ['ед.','money']], {include_blank: false}, {class: "form-select px-1"} %>
+        <%end%>
+        <%=tag.div class: "col-12 mb-3" do %>
+          <%= f.label :notice, class: "form-label" %>
+          <%= f.text_field :notice, class: "form-control px-1" %>
+        <%end%>
+      <%end%>
+
+      <%=tag.div(class: "my-3 col-12 d-flex justify-content-end gap-2 align-items-center") do %>
+        <%= f.submit t('save'), class: "btn btn-primary" %>
+      <%end %> 
+
+    <% end %>
+
+  <%end%>
+<%end %>

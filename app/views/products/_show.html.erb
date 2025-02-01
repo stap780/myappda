@@ -34,7 +34,6 @@
   <div class="row align-items-center mt-3 mb-3">
     <div class="col-4 d-flex w-100 align-items-center mb-2 h5">
       <span><%= heart_icon %> Избранное</span>
-      <%= link_to mail_icon+' избранное'.html_safe, emailizb_client_path(@client), title: "Отправить письмо с избранным", class: "btn btn-light ms-auto", data: {turbo_method: :get, turbo_stream: true} %>
     </div>
     <div class="table-responsive">
     <table class="table table-hover table-condensed table-sm">

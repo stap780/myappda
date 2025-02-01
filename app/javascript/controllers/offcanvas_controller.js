@@ -8,9 +8,9 @@ export default class extends Controller {
     console.log('offcanvas load')
     this.offcanvas = new Offcanvas(this.element)
     
-    if (!this.offcanvas.isOpened) {
-      this.offcanvas.show()
-    }
+    // if (!this.offcanvas.isOpened) {
+    //   this.offcanvas.show()
+    // }
 
   }
 

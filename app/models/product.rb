@@ -22,7 +22,7 @@ class Product < ApplicationRecord
   end
 
   after_destroy_commit do
-    broadcast_remove_to [Apartment::Tenant.current, :mycases], target: dom_id(self, Apartment::Tenant.current)
+    broadcast_remove_to [Apartment::Tenant.current, :products], target: dom_id(self, Apartment::Tenant.current)
   end
 
   def self.ransackable_attributes(auth_object = nil)

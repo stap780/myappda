@@ -15,3 +15,6 @@ application.register("offcanvas", OffcanvasController)
 
 import SelectAllController from "./select_all_controller"
 application.register("select-all", SelectAllController)
+
+import SortableController from "./sortable_controller"
+application.register("sortable", SortableController)

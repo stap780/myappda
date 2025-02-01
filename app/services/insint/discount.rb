@@ -5,31 +5,41 @@ class Insint::Discount < ApplicationService
     @user = User.find_by_subdomain(saved_subdomain)
     @saved_subdomain = saved_subdomain
     @datas = datas
-    @discounts = nil
     @error = []
   end
 
   def apply_discount
-    get_discount_rules
-    discount_amount = calculate_discount
+    data = calculate_discount
     if @error.count.positive?
       [false, @error.join(' ')]
     else
-      [true, discount_amount]
+      [true, data]
     end
   end
 
   private
 
-  def get_discount_rules
+  def calculate_discount
     Apartment::Tenant.switch(@saved_subdomain) do
-      @discounts = Discount.all
+      data = {
+        'discount': nil,
+        'discount_type': nil,
+        'title': nil
+      }
+      Discount.order(position: :asc).each do |discount|
+        if @datas['order_lines'].count == 2 && discount.rule == '2_items'
+          data['discount'] = discount.shift
+          data['discount_type'] = discount.points.upcase
+          data['title'] = discount.notice
+        end
+        if @datas['order_lines'].count == 3 && discount.rule == '3_items'
+          data['discount'] = discount.shift
+          data['discount_type'] = discount.points.upcase
+          data['title'] = discount.notice
+        end
+      end
+      data
     end
   end
 
-  def calculate_discount
-    Apartment::Tenant.switch(@saved_subdomain) do
-    end
-  end
-  
 end

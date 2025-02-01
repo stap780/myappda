@@ -122,6 +122,9 @@ GEM
       mutex_m
       securerandom (>= 0.3)
       tzinfo (~> 2.0)
+    acts_as_list (1.2.4)
+      activerecord (>= 6.1)
+      activesupport (>= 6.1)
     airbrussh (1.5.3)
       sshkit (>= 1.6.1, != 1.7.0)
     base64 (0.2.0)
@@ -457,6 +460,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_storage_validations
+  acts_as_list
   bcrypt
   bcrypt_pbkdf (< 2.0)
   bootsnap

@@ -1,0 +1,37 @@
+<div class="row align-items-center mt-3 mb-3">
+  <div class="col-2 ">
+    <div class="h3">Сценарии</div>
+    <div class="h6 m-0 small">Всего - <%= Discount.count %></div>
+  </div>
+  <div class="col-4 pl-0 pr-0 row">
+    <%= search_form_for @search, {class: 'form-inline col-12 pl-0 pr-0'} do |f| %>
+      <div class="input-group input-group-sm">
+        <%= f.search_field :rule_cont , placeholder: 'правило', class: "form-control"%>
+        <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
+        <%= link_to arrow_clockwise_icon, discounts_path, class: 'btn btn-outline-dark' %>
+      </div>
+    <% end %>
+  </div>
+  <%=tag.div class: 'col-6' do %>
+    <%= link_to add_icon, new_discount_path, class: "btn btn-outline-primary btn-sm float-end", data: { turbo_frame: "offcanvas_wrap", turbo_stream: true } %>
+  <% end %>
+</div>
+
+<div id="datatables-discounts_wrapper">
+  <div class="col-12 list-group list-group-striped">
+    <div class="row py-2 px-0 justify-content-start align-items-center">
+      <%= tag.div( '#', class: 'col-1 fw-semibold' )%>
+      <%= tag.div( '', class: 'col-1 fw-semibold' )%>
+      <%= tag.div( 'Название', class: 'col-3 fw-semibold' )%>
+      <%= tag.div( 'Значение', class: 'col-3 fw-semibold' )%>
+      <%= tag.div('Текст', class: 'col-3 fw-semibold')%>
+      <%= tag.div('', class: 'col fw-semibold')%>
+    </div>
+    <%= turbo_stream_from [:discounts, Apartment::Tenant.current] %>
+    <%= turbo_frame_tag [:discounts, Apartment::Tenant.current], data: { controller: "sortable toast", action: "sortable:move->toast#show"} do %>
+      <%= render @discounts %>
+    <% end %>
+  </div>
+</div>
+
+<%= render 'shared/paginate', object: @discounts %>

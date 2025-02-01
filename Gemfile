@@ -89,3 +89,4 @@ group :development do
 end
 
 gem 'hotwire-livereload', '~> 1.4', :group => :development
+gem 'acts_as_list'

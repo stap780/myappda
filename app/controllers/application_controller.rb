@@ -1,3 +1,4 @@
+# ApplicationController < ActionController::Base
 class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   # rescue_from ActionController::Redirecting::UnsafeRedirectError do
@@ -8,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
   before_action :set_current_user
-  
+
   # Every logged in user should be redirected to their own subdomain
   before_action :redirect_to_subdomain
   ## before_action :allow_cross_domain_ajax

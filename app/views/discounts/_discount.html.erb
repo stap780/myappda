@@ -1,0 +1,17 @@
+
+<%= turbo_frame_tag dom_id(discount, Apartment::Tenant.current), 
+class: "d-flex list-group-item py-0 border-start-0 border-end-0 row justify-content-start align-items-center px-0", 
+data: {sort_url: sort_discount_path(discount.id), sort_item_id: discount.id } do %>
+  <div class="col-1 d-flex flex-column">
+    <%= sortable_with_badge(discount.position)%>
+    <%=tag.div discount.id %>
+  </div>
+  <%=tag.div( discount.created_at.strftime('%d/%m/%Y %H:%M'), class: "col-1 fs-8") %>
+  <%=tag.div( discount.title, class: 'col-3') %>
+  <%=tag.div( discount.value, class: 'col-3') %>
+  <%=tag.div( discount.notice, class: 'col-3') %>
+  <%=tag.div class: 'col-1 p-0 d-flex align-items-center justify-content-center' do %>
+    <%= link_to edit_icon, edit_discount_path(discount), data: { turbo_frame: "offcanvas_wrap", turbo_stream: true } %>
+    <%= link_to trash_icon, discount, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны? ' }, class:"ms-2" %>
+  <% end %>
+<% end %>

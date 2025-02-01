@@ -2,6 +2,7 @@ require 'sidekiq/web'
 require 'sidekiq-scheduler/web'
 
 Rails.application.routes.draw do
+
   authenticate :user, ->(user) { user.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
@@ -47,6 +48,11 @@ Rails.application.routes.draw do
   end
 
   constraints SubdomainConstraint do
+    resources :discounts do
+      member do
+        patch :sort
+      end
+    end
     resources :lines
     resources :mycases
     resources :order_status_changes
@@ -66,9 +72,11 @@ Rails.application.routes.draw do
     resources :events
     resources :email_setups
     resources :useraccounts
-    get '/clients/:id/emailizb', to: 'clients#emailizb', as: 'emailizb_client'
-    put '/clients/:id/update_from_insales', to: 'clients#update_from_insales', as: 'update_from_insales'
     resources :clients do
+      member do
+        get :emailizb
+        put :update_from_insales
+      end
       collection do
         get :otchet
         get :file_import_insales
@@ -98,6 +106,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     passwords: 'users/passwords',
   }
+  
   resources :users do
     post :impersonate, on: :member
     post :stop_impersonating, on: :collection

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag dom_id(product, Apartment::Tenant.current), class: "d-flex list-group-item py-2 border-start-0 border-end-0 row justify-content-start align-items-center px-0" do %>
+<%= turbo_frame_tag dom_id(product, Apartment::Tenant.current), class: "d-flex list-group-item py-0 border-start-0 border-end-0 row justify-content-start align-items-center px-0" do %>
     <div class="col-1 d-flex flex-column">
         <%=tag.div product.id %>
         <%=tag.div( product.insid, class: 'opacity-75 fs-8') if product.insid %>
