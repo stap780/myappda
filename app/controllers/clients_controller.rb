@@ -11,12 +11,7 @@ class ClientsController < ApplicationController
     @clients = @search.result(distinct: true).paginate(page: params[:page], per_page: 50)
   end
 
-  def show
-    # @favorite_products = Product.where(id: @client.favorites.pluck(:product_id))
-    respond_to do |format|
-      format.turbo_stream
-    end
-  end
+  def show; end
 
   def new
     redirect_to clients_url, notice: t('clients.created_in_insales')
@@ -35,7 +30,6 @@ class ClientsController < ApplicationController
     current_subdomain = Apartment::Tenant.current
     current_user_id = current_user.id
     Client.otchet(current_subdomain, current_user_id)
-    # check_status = true
     respond_to do |format|
       flash.now[:success] = "Файл создан <a href='/#{current_user_id}_clients_izb.csv'>Скачать</a>".html_safe
       format.turbo_stream do
@@ -43,9 +37,6 @@ class ClientsController < ApplicationController
           render_turbo_flash
         ]
       end
-      # format.js do
-      #     flash.now[:notice] = "Файл создан <a href='/#{current_user_id.to_s}_clients_izb.csv'>Скачать</a>".html_safe
-      # end
     end
   end
 

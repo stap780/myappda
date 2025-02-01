@@ -8,7 +8,7 @@ class Insint::Discount < ApplicationService
     @error = []
   end
 
-  def apply_discount
+  def call
     data = calculate_discount
     if @error.count.positive?
       [false, @error.join(' ')]
@@ -21,11 +21,7 @@ class Insint::Discount < ApplicationService
 
   def calculate_discount
     Apartment::Tenant.switch(@saved_subdomain) do
-      data = {
-        'discount': nil,
-        'discount_type': nil,
-        'title': nil
-      }
+      data = {}
       Discount.order(position: :asc).each do |discount|
         if @datas['order_lines'].count == 2 && discount.rule == '2_items'
           data['discount'] = discount.shift

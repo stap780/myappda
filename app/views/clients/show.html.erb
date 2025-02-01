@@ -1,1 +1,3 @@
-<%= render partial: 'clients/show' %>
+<%= turbo_frame_tag "offcanvas_wrap" do %>
+  <%= render partial: "clients/show" %>
+<% end %>

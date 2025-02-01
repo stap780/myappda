@@ -14,7 +14,7 @@
     <% end %>
     <%=tag.div(product.title, class: 'col-5') %>
     <%=tag.div class: 'col-1 p-0 d-flex align-items-center justify-content-center' do %>
-        <%= link_to eye_icon, product, data: { turbo_frame: "offcanvasWrap", turbo_stream: true } %>
+        <%= link_to eye_icon, product, data: { turbo_frame: "offcanvas_wrap", turbo_stream: true } %>
     <% end %>
     <%=tag.div(product.price, class: 'col-2') %>
     <%=tag.div class: 'col-1 p-0 d-flex align-items-center justify-content-center' do %>

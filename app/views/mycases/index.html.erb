@@ -4,7 +4,7 @@
     <div class="h6 m-0 small">Всего - <%= Mycase.count%></div>
     <%=tag.div( class: 'h6 m-0 small') do %>
       <% info = page_entries_info @mycases%>
-      <%= info.gsub('Mycase','').gsub('заявки','') %>
+      <%= info %>
     <%end if @search.present? %>
   </div>
 

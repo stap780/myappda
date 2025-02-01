@@ -347,11 +347,11 @@ class InsintsController < ApplicationController
     insint = Insint.find_by_insales_account_id(account_id)
     if insint
       saved_subdomain = insint.user.subdomain
-      success, message = Insint::Discount.call(saved_subdomain, params.permit!)
+      success, data = Insint::Discount.call(saved_subdomain, params.permit!)
       if success
-        render json: {success: true, result: message}
+        render json: data.to_json
       else
-        render json: {error: true, message: message}
+        render json: data.to_json
       end
     end
   end

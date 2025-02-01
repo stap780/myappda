@@ -3,18 +3,14 @@ class ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_product, only: [:show, :edit, :update, :destroy, :insales_info]
   include ActionView::RecordIdentifier
-  
+
   def index
     @search = Product.includes(:variants, :favorites, :preorders, :abandoned_carts, :restocks).ransack(params[:q])
     @search.sorts = 'id desc' if @search.sorts.empty?
     @products = @search.result(distinct: true).paginate(page: params[:page], per_page: 50)
   end
 
-  def show
-    respond_to do |format|
-      format.turbo_stream
-    end
-  end
+  def show; end
 
   def new
     redirect_to products_url, notice: 'товары создаются в InSales'

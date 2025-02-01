@@ -4,7 +4,7 @@
     <div class="h6 m-0 small">Всего - <%= Client.count%></div>
     <%=tag.div( class: 'h6 m-0 small') do %>
       <% info = page_entries_info @clients%>
-      <%= info.gsub('Client','').gsub('клиенты','') %>
+      <%= info %>
     <%end if @search.present? %>
   </div>
   <%= search_form_for @search, html: {class: 'form-inline col pl-0 pr-0'}  do |f|%>
