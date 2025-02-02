@@ -10,7 +10,11 @@
       <%=tag.div class: "row py-3" do %>
         <%=tag.div class: "col-12 mb-3" do %>
           <%= f.label :rule, class: "form-label" %>
-          <%= f.select :rule, Discount::RULES, {include_blank: true}, {class: "form-select px-1"} %>
+          <% if !@service.work? %>
+            <%= f.select :rule, Discount::RULES, {include_blank: true}, {class: "form-select px-1"} %>
+          <% else %>
+            <%= f.text_area :rule, class: "form-control px-1" , rows: 10 %>
+          <% end %>
         <%end%>
         <%=tag.div class: "col-4 mb-3" do %> 
           <%= f.label :move, class: "form-label" %>

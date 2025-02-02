@@ -1,4 +1,4 @@
-# Abandoned
+# Abandoned < ApplicationService
 class Abandoned < ApplicationService
 
   def initialize(mycase_id, tenant, email_data)
