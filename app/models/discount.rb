@@ -16,17 +16,13 @@ class Discount < ApplicationRecord
     broadcast_remove_to [:discounts, Apartment::Tenant.current], target: dom_id(self, Apartment::Tenant.current)
   end
 
+  # this is for default use untill insales API start work
   RULES = [['2 товара','2_items'], ['3 товара','3_items']]
 
   def self.ransackable_attributes(auth_object = nil)
     attribute_names
   end
 
-  def title
-    RULES.each do |rule|
-      return rule.first if rule.last == self.rule
-    end
-  end
 
   def value
     "#{move} - #{shift} - #{points}"

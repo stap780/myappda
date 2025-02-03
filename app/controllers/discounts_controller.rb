@@ -74,7 +74,7 @@ class DiscountsController < ApplicationController
   end
 
   def discount_params
-    params.require(:discount).permit(:rule, :move, :position, :shift, :points, :notice)
+    params.require(:discount).permit(:title, :rule, :move, :position, :shift, :points, :notice)
   end
 
 end
