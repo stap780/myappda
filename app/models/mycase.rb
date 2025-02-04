@@ -59,11 +59,11 @@ class Mycase < ApplicationRecord
   def add_restock
     return '' unless casetype == 'restock'
 
-    puts 'Case add_restock start'
+    puts 'MyCase add_restock start'
     lines.each do |line|
       self.restocks.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
     end
-    puts 'Case add_restock finish'
+    puts 'MyCase add_restock finish'
   end
 
   def add_preorder

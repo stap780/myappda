@@ -9,6 +9,7 @@
     - preorder_job
     - abandoned_job
     - insint_job
+    - bulk_delete
 # :max_retries: 3
 :scheduler:
   :dynamic: true

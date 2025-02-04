@@ -3,23 +3,27 @@
     <div class="col-md-12 p-0">
       <div class="h3">Товары</div>
       <div class="h6 m-0 small">Всего - <%= Product.count %></div>
-      <div class="h6 m-0 small">Отфильтровано: <%=@products.count%></div>
+      <%=tag.div( class: 'h6 m-0 small') do %>
+        <%= page_entries_info(@products).to_s.gsub('Product','').html_safe %>
+      <% end %>
     </div>
   </div>
-  <div class="col-9 pl-0 pr-0 row">
-    <%= search_form_for @search, {class: 'form-inline col-12 pl-0 pr-0'} do |f| %>
-      <div class="input-group input-group-sm">
-        <%= f.search_field :title_cont , placeholder: 'Название', class: "form-control"%>
-        <%= f.search_field :insid_or_variants_insid_eq , placeholder: 'insid(товар, вариант)', class: "form-control" %>
-        <%= f.select :restocks_status_eq, Restock::Status, { prompt: 'Сообщить о поступлении'}, class: "form-select input-sm" %>
-        <%= f.select :preorders_status_eq, Preorder::Status, { prompt: 'Предзаказ'}, class: "form-select input-sm" %>
-        <%= f.select :favorites_client_id_not_null, [['есть',true],['нет',false]], { prompt: 'Избранное', blank: true }, class: "form-select" %>
-        <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
-        <%= link_to arrow_clockwise_icon, products_path, class: 'btn btn-outline-dark' %>
-        <%= link_to trash_icon, delete_selected_products_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true if current_admin %>
-      </div>
-    <% end %>
-  </div>
+  <%= search_form_for @search, {class: 'form-inline col pl-0 pr-0'} do |f| %>
+    <div class="input-group input-group-sm">
+      <%= f.search_field :title_cont , placeholder: 'Название', class: "form-control"%>
+      <%= f.search_field :insid_or_variants_insid_eq , placeholder: 'insid(товар, вариант)', class: "form-control" %>
+      <%= f.select :restocks_status_eq, Restock::Status, { prompt: 'Сообщить о поступлении'}, class: "form-select input-sm" %>
+      <%= f.select :preorders_status_eq, Preorder::Status, { prompt: 'Предзаказ'}, class: "form-select input-sm" %>
+      <%= f.select :favorites_client_id_not_null, [['есть',true],['нет',false]], { prompt: 'Избранное', blank: true }, class: "form-select" %>
+      <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
+      <%= link_to arrow_clockwise_icon, products_path, class: 'btn btn-outline-dark' %>
+      <%= link_to trash_icon, delete_selected_products_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true if current_admin %>
+    </div>
+  <% end %>
+  <%= form_with url: csv_export_products_path, method: :post, id: :bulk_action_form , class: 'col-1 ms-1' do |f| %>
+    <%# f.button "#{button_print} CSV" , type: :submit, class: "btn btn-outline-primary" %>
+    <%= render 'shared/bulk_delete_buttons', f: f, object: Product.new %>
+  <% end %>
 </div>
 
 <div id="datatables-products_wrapper">

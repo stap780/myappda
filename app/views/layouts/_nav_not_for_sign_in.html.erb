@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light px-1 px-md-0 py-3 py-lg-0 w-100">
+    <div class="header-wrap container-fluid px-4 d-flex align-items-center py-0">
+        <a href="http://myappda.ru" class="navbar-brand p-0 m-0">
+            <%= image_tag "new_logo_myappda.svg", data: {src: "new_logo_myappda.svg", title: 'MyAppDa'}, class: 'logo logo_white w-100' %>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <i class="bi bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="/#about-app" class="nav-item nav-link">О приложении</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Сервисы</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="/favorite" class="dropdown-item">Избранные товары</a>
+                        <a href="/restock" class="dropdown-item">Собщить о поступлении</a>
+                        <a href="/message" class="dropdown-item">Триггеры</a>
+                        <a href="/preorder" class="dropdown-item">Предзаказ</a>
+                        <a href="/abandoned_cart" class="dropdown-item">Брошенная корзина</a>
+                    </div>
+                </div>
+                <a href="/documents" class="nav-item nav-link">Помощь</a>
+            </div>
+            <%= link_to t('log_in'), new_session_path('user'), class: 'btn btn-light border border-primary rounded-pill text-primary py-2 px-4 me-4' %>
+            <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-primary rounded-pill text-white py-2 px-4' %>
+        </div>
+    </div>
+</nav>

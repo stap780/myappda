@@ -13,11 +13,11 @@ class DiscountsController < ApplicationController
 
   def new
     @discount = Discount.new
-    @service = ApiInsales.new(current_user.insints.first)
+    # @service = ApiInsales.new(current_user.insints.first)
   end
 
   def edit
-    @service = ApiInsales.new(current_user.insints.first)
+    # @service = ApiInsales.new(current_user.insints.first)
   end
 
   def create

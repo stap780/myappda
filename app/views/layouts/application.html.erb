@@ -8,11 +8,9 @@
     <%= hotwire_livereload_tags if Rails.env.development? %>
   </head>
   <body class="<%= current_page_path_as_class %> d-flex flex-column h-100">
-    <%= tag.header(class: user_signed_in? ? 'bg-444444': '') do %>
-      <div class="header-wrap container-fluid px-4 d-flex align-items-center py-0">
-        <%= render 'layouts/navigation_for_sign_in' if user_signed_in? %>
-        <%= render 'layouts/navigation_not_for_sign_in' if !user_signed_in? %>
-      </div>
+    <%= tag.header do %>
+      <%= render 'layouts/nav_for_sign_in' if user_signed_in? %>
+      <%= render 'layouts/nav_not_for_sign_in' if !user_signed_in? %>
     <% end %>
     <main class="<%= current_page_path_as_class%>">
       <%= tag.div(class: user_signed_in? ? 'container-fluid px-4' : 'container-fluid px-0', id: 'main-content') do %>

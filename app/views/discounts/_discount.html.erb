@@ -2,11 +2,11 @@
 <%= turbo_frame_tag dom_id(discount, Apartment::Tenant.current), 
 class: "d-flex list-group-item py-0 border-start-0 border-end-0 row justify-content-start align-items-center px-0", 
 data: {sort_url: sort_discount_path(discount.id), sort_item_id: discount.id } do %>
-  <div class="col-1 d-flex flex-column">
-    <%= sortable_with_badge(discount.position)%>
+  <div class="col-1 d-flex">
     <%=tag.div discount.id %>
+    <%= sortable_with_badge(discount.position)%>
   </div>
-  <%=tag.div( discount.created_at.strftime('%d/%m/%Y %H:%M'), class: "col-1 fs-8") %>
+  <%=tag.div( discount.created_at.strftime('%d/%m/%Y %H:%M'), class: "col-1 fs-8 pe-1") %>
   <%=tag.div( discount.title, class: 'col-3') %>
   <%=tag.div( discount.value, class: 'col-3') %>
   <%=tag.div( discount.notice, class: 'col-3') %>

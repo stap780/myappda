@@ -3,20 +3,25 @@
     <div class="h4 m-0">Заявки</div>
     <div class="h6 m-0 small">Всего - <%= Mycase.count%></div>
     <%=tag.div( class: 'h6 m-0 small') do %>
-      <% info = page_entries_info @mycases%>
-      <%= info %>
-    <%end if @search.present? %>
+      <%= page_entries_info(@mycases).to_s.gsub('Mycase','').html_safe %>
+    <%end %>
   </div>
 
-  <div class="col px-0">
-    <%= search_form_for @search, {class: 'input-group px-0'} do |f| %>
-        <%= f.search_field :created_at_datebegin, type: :date, placeholder: 'создан от', class: "form-control", autocomplete: "off", data: { controller: '' } %>
-        <%= f.select :status_eq , Mycase::STATUS, { :prompt => 'Статус'}, class: "form-select" %>
-        <%= f.search_field :number_eq , placeholder: 'number', class: "form-control" %>
-        <%= f.search_field :client_name_or_client_surname_or_client_email_cont , placeholder: 'client fio, email', class: "form-control" %>
-        <%= f.select :casetype_in, Mycase::CASETYPE, { :prompt => 'Тип заявки'}, class: "form-select" %>
-        <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
-        <%= link_to arrow_clockwise_icon, mycases_path, class: 'btn btn-outline-dark d-flex justify-content-center align-items-center' %>
+  <%= search_form_for @search, {class: 'form-inline col pl-0 pr-0'} do |f| %>
+    <div class="input-group input-group-sm">
+      <%= f.select :casetype_in, Mycase::CASETYPE, { :prompt => 'Тип заявки'}, class: "form-select" %>
+      <%= f.select :status_eq , Mycase::STATUS, { :prompt => 'Статус заявки'}, class: "form-select" %>
+      <%= f.search_field :created_at_datebegin, type: :date, placeholder: 'создан от', class: "form-control", autocomplete: "off", data: { controller: '' } %>
+      <%= f.search_field :number_eq , placeholder: 'number', class: "form-control" %>
+      <%= f.search_field :client_name_or_client_surname_or_client_email_cont , placeholder: 'client fio, email', class: "form-control" %>
+      <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
+      <%= link_to arrow_clockwise_icon, mycases_path, class: 'btn btn-outline-dark d-flex justify-content-center align-items-center' %>
+    </div>
+  <% end %>
+  <div class="col-1 ms-1">
+    <%= form_with url: csv_export_mycases_path, method: :post, id: :bulk_action_form  do |f| %>
+      <%# f.button "#{button_print} CSV" , type: :submit, class: "btn btn-outline-primary" %>
+      <%= render 'shared/bulk_delete_buttons', f: f, object: Mycase.new %>
     <% end %>
   </div>
 </div>

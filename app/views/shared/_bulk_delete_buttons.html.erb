@@ -1,0 +1,8 @@
+<div class="btn-group" role="group">
+    <%= button_bulk_delete %>
+    <ul class="dropdown-menu">
+        <%= f.button 'Выбранное', type: :submit, class: "dropdown-item", formaction: polymorphic_path(object, action: 'bulk_delete', delete_type: :selected), data: { 'turbo-confirm': 'Are you sure?'}%>
+        <%= f.button 'Отфильтрованное', type: :submit, class: "dropdown-item", formaction: polymorphic_path(object, action: 'bulk_delete', delete_type: :filtered), data: { 'turbo-confirm': 'Are you sure?'}%>
+        <%# f.button 'Всё',type: :submit, class: "dropdown-item", formaction: polymorphic_path(object, action: 'bulk_delete', delete_type: :all)%>
+    </ul>
+</div>

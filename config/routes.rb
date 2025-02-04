@@ -54,7 +54,12 @@ Rails.application.routes.draw do
       end
     end
     resources :lines
-    resources :mycases
+    resources :mycases do
+      collection do
+        post :bulk_delete
+        post :csv_export
+      end
+    end
     resources :order_status_changes
     resources :message_setups do
       collection do
@@ -83,6 +88,8 @@ Rails.application.routes.draw do
         post :import
         post :import_insales_setup
         put :update_api_insales
+        post :csv_export
+        post :bulk_delete
       end
     end
     resources :invoices do
@@ -92,7 +99,8 @@ Rails.application.routes.draw do
     resources :products do
       get :insales_info, on: :member
       collection do
-        post :delete_selected
+        post :bulk_delete
+        post :csv_export
       end
     end
     resources :variants

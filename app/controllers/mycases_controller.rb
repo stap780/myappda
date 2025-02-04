@@ -1,6 +1,8 @@
 class MycasesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_mycase, only: [:show, :edit, :update, :destroy]
+  include SearchQueryRansack
+  include BulkDelete
 
   def index
     @search = Mycase.all.ransack(params[:q])
@@ -32,29 +34,41 @@ class MycasesController < ApplicationController
         format.json { render json: @mycase.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
   def update
     respond_to do |format|
-        if @mycase.update(mycase_params)
+      if @mycase.update(mycase_params)
         format.html { redirect_to mycases_url, notice: 'Mycase was successfully updated.' }
         format.json { render :show, status: :ok, location: @mycase }
-        else
+      else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @mycase.errors, status: :unprocessable_entity }
-        end
+      end
     end
   end
 
   def destroy
     @mycase.destroy
     respond_to do |format|
-        format.html { redirect_to mycases_url, notice: 'Mycase was successfully destroyed.' }
-        format.json { head :no_content }
+      format.html { redirect_to mycases_url, notice: 'Mycase was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
+  def csv_export
+    # if params[:product_ids]
+    #   ProductEtiketkiJob.perform_later(params[:product_ids], current_user.id)
+    #   render turbo_stream:
+    #     turbo_stream.update(
+    #       "modal",
+    #       template: "shared/pending_bulk"
+    #     )
+    # else
+    #   notice = 'Выберите товары'
+    #   redirect_to mycases_url, alert: notice
+    # end
+  end
 
   private
     def set_mycase

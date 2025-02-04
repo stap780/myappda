@@ -1,10 +1,10 @@
-<div class="offcanvas offcanvas-end offcanvas_product w-50" tabindex="-1" id="offcanvasWrap" aria-labelledby="offcanvasRightLabel" 
+<div class="offcanvas offcanvas-end offcanvas_product w-75" tabindex="-1" id="offcanvasWrap" aria-labelledby="offcanvasRightLabel" 
     data-bs-scroll="true" data-controller="offcanvas" data-action="turbo:frame-load->offcanvas#show turbo:submit-end->offcanvas#hide">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="offcanvasRightLabel"></h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <div class="offcanvas-body">
+  <div class="offcanvas-body pt-0">
     <%= turbo_frame_tag "offcanvas_wrap" %>
   </div>
 </div>

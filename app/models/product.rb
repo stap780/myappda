@@ -51,6 +51,23 @@ class Product < ApplicationRecord
     puts 'finish product get_ins_data'
   end
 
+  def create_variant_webhook
+    puts 'start product create_variant_webhook'
+    return if variants.count.positive?
+
+    current_subdomain = Apartment::Tenant.current
+    user = User.find_by_subdomain(current_subdomain)
+    service = ApiInsales.new(user.insints.first)
+    if service.work?
+      product = service.get_product_data(insid)
+      if product.present?
+        var_insid = product.variants.first.id
+        product.variants.create(insid: var_insid)
+      end
+    end
+    puts 'finish product create_variant_webhook'
+  end
+
   private
 
   def delete_relations

@@ -1,4 +1,4 @@
-<div class="row justify-content-start align-items-center g-2 mt-3">
+<div class="row justify-content-start align-items-center g-2 mt-0">
   <div class="col-8 d-flex flex-column">
     <div class=""> 
       <strong>Client id:</strong> <%= @client.clientid %> 
@@ -12,7 +12,7 @@
     <%= link_to reload_icon+" данные из Insales", update_from_insales_client_path(@client), data: {turbo: false}, class: 'btn btn-outline-primary' if @client.clientid %>
   </div>
 </div>
-<% if @favorite_products.present? %>
+<% if @client.favorites.present? %>
   <div class="row align-items-center mt-3 mb-3">
     <div class="col-4 d-flex w-100 align-items-center mb-2 h5">
       <span><%= heart_icon %> Избранное</span>
@@ -33,16 +33,16 @@
       </thead>
       <tbody>
         <% @client.favorites.each do |fav| %>
-         <% pr = fav.product%>
+         <% pr = fav.product %>
         <tr class="align-middle">
-          <td><%=pr.insid%>
-            <div class="d-flex flex-column">
+          <td>
+            <div class="d-flex flex-column opacity-75 fs-8">
               <%=tag.div pr.insid %>
             </div>        
           </td>
-          <%= td_tag_image(pr.image_link)%>
+          <%= td_tag_image(pr.image_link) %>
           <td><%= link_to "#{pr.title}", "http://"+current_user.insints.first.subdomen+"/product_by_id/"+pr.insid.to_s, target: "_blank" %></td>
-          <td></td>
+          <td><%= pr.variants.first.sku if pr.variants.count.positive? %></td>
           <td></td>
           <td><%=pr.price%></td>
           <td class='opacity-75 fs-8'>Созд: <%= fav.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></br>
@@ -79,7 +79,7 @@
         <% var = res.variant%>
         <tr class="align-middle">
           <td>
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column opacity-75 fs-8">
               <%=tag.div var.product.insid %>
               <%=tag.div( var.insid, class: 'opacity-75 fs-8')%>
             </div>          
@@ -124,9 +124,9 @@
         <% var = res.variant%>
         <tr class="align-middle">
           <td>
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column opacity-75 fs-8">
               <%=tag.div var.product.insid %>
-              <%=tag.div( var.insid, class: 'opacity-75 fs-8')%>
+              <%=tag.div( var.insid, class: '')%>
             </div>          
           </td>
           <%= td_tag_image(var.product.image_link)%>
@@ -169,9 +169,9 @@
         <% var = res.variant%>
         <tr class="align-middle">
           <td>
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column opacity-75 fs-8">
               <%=tag.div var.product.insid %>
-              <%=tag.div( var.insid, class: 'opacity-75 fs-8')%>
+              <%=tag.div( var.insid, class: '')%>
             </div>          
           </td>
           <%= td_tag_image(var.product.image_link)%>

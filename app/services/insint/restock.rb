@@ -1,6 +1,6 @@
 # Insint::Restock < ApplicationService
 class Insint::Restock < ApplicationService
-  
+
   def initialize(tenant, datas)
     @tenant = tenant
     @datas = datas
@@ -20,16 +20,10 @@ class Insint::Restock < ApplicationService
         client_id: client.id,
         status: 'new'
       }
-      # mycase = Mycase.find_by_number(number).present? ? Mycase.find_by_number(number) :
-      #                                               Mycase.create!(number: number, casetype: "restock", client_id: client.id, status: "new")
       mycase = Mycase.where(number: number).first_or_create!(mycase_data)
       puts "insint restock mycase => #{mycase.inspect}"
       @datas['lines'].each do |o_line|
-        # product = Product.find_by_insid(o_line['productId']).present? ? Product.find_by_insid(o_line['productId']) :
-        #                                                               Product.create!(insid: o_line['productId'])
         product = Product.where(insid: o_line['productId']).first_or_create!
-        # variant = product.variants.where(insid: o_line['variantId']).present? ? product.variants.where(insid: o_line['variantId'])[0] :
-        #                                                                       product.variants.create!(insid: o_line['variantId'])
         variant = Variant.where(insid: o_line['variantId'], product_id: product.id).first_or_create!
 
         line = mycase.lines.where(product_id: product.id, variant_id: variant.id)

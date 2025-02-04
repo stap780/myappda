@@ -3,9 +3,8 @@
     <div class="h3 m-0">Клиенты</div>
     <div class="h6 m-0 small">Всего - <%= Client.count%></div>
     <%=tag.div( class: 'h6 m-0 small') do %>
-      <% info = page_entries_info @clients%>
-      <%= info %>
-    <%end if @search.present? %>
+      <%= page_entries_info(@clients).to_s.gsub('Client','').html_safe %>
+    <% end %>
   </div>
   <%= search_form_for @search, html: {class: 'form-inline col pl-0 pr-0'}  do |f|%>
     <div class="input-group input-group-sm">
@@ -19,8 +18,11 @@
       <%= link_to arrow_clockwise_icon, clients_path, class: 'btn btn-outline-dark' %>
     </div>
   <% end %>
-
   <div class="col-2 gap-2 d-flex align-items-center justify-content-end">
+    <%= form_with url: csv_export_clients_path, method: :post, id: :bulk_action_form , class: '' do |f| %>
+      <%# f.button "#{button_print} CSV" , type: :submit, class: "btn btn-outline-primary" %>
+      <%= render 'shared/bulk_delete_buttons', f: f, object: Product.new %>
+    <% end %>
     <%= link_to upload_cloud_icon, file_import_insales_clients_path, id: 'file_import', title: 'Импорт клиентов Insales', data: {turbo_frame: "modal", turbo_stream: true}, class: 'btn btn-outline-info btn-sm' %>
     <%= link_to export_file_icon, otchet_clients_path, title: "отчет Избранное", class: "btn btn-outline-info btn-sm", role:"button", data: {turbo_method: :get, turbo_stream: true} if Favorite.count.positive? %>
   </div>

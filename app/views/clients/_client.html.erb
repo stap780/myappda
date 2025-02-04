@@ -1,8 +1,10 @@
 <tr class="align-middle">
     <td>
         <div class="d-flex flex-column">
-            <%=tag.div client.id %>
-            <%=tag.div( client.clientid, class: 'opacity-75 fs-8') if client.clientid %>
+            <%=tag.div class: 'form-check' do %>
+                <%= check_box_tag "client_ids[]", client.id, false, {class: 'checkboxes form-check-input', data: { 'select-all_target': 'checkbox', action: "change->selectall#toggleParent"}, form: :bulk_action_form } %>
+                <%=tag.div( client.clientid, class: 'opacity-75 fs-8') if client.clientid %>
+            <% end %>
         </div>
     </td>
     <td class="fs-8"><%= client.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M')%></td>

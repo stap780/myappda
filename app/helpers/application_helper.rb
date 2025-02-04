@@ -136,7 +136,7 @@ module ApplicationHelper
   end
 
   def td_tag_image(img_link = nil)
-    content_tag :td, class: 'p-0 d-flex align-items-center justify-content-center' do
+    content_tag :td, class: '' do
       content_tag :div, class: 'img-ratio img-fit', style: 'width:80px;' do
         content_tag :div, class: 'img-ratio__inner' do
           picture_tag([img_link], image: {class: 'img-fluid m-0 p-2', loading: 'lazy'}) if img_link.present?
@@ -159,7 +159,16 @@ def sortable_icon
 end
 
 def sortable_with_badge(position)
-  content_tag :i, class: 'bi bi-arrows-move js-sort-handle fs-3 position-relative me-2 pt-1 pe-0' do
-    content_tag(:span, position, class: 'badge bg-info fs-7 p-2 rounded-circle position-absolute top-0 start-50 translate-middle border border-light','data-sortable-target':'position')
+  content_tag :i, class: 'bi bi-arrows-move js-sort-handle fs-6 position-relative me-2 pt-1 pe-0' do
+    content_tag(:span, position, class: 'badge bg-info fs-8 p-1 rounded-circle position-absolute top-0 start-100 translate-middle border border-light','data-sortable-target':'position')
   end
+end
+
+def button_print
+  '<button class="btn btn-outline-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-printer"></i></button>'.html_safe
+end
+
+
+def button_bulk_delete
+  '<button class="btn btn-outline-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-trash3"></i></button>'.html_safe
 end

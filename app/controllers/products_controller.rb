@@ -2,6 +2,8 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_product, only: [:show, :edit, :update, :destroy, :insales_info]
+  include SearchQueryRansack
+  include BulkDelete
   include ActionView::RecordIdentifier
 
   def index
@@ -58,18 +60,6 @@ class ProductsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  def delete_selected
-    @products = Product.find(params[:ids])
-    @products.each do |product|
-      product.destroy
-    end
-    respond_to do |format|
-      format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
-      format.json { render json: { status: 'ok', message: 'destroyed' } }
-    end
-  end
-
 
   private
 
