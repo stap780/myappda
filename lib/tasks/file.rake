@@ -1,6 +1,9 @@
 #  encoding : utf-8
+
+require 'zip'
+
 namespace :file do
-  desc "work file"
+  desc 'work file'
 
   task cut_file: :environment do
     puts "start cut_file - время москва - #{Time.zone.now}"
@@ -26,38 +29,25 @@ namespace :file do
     puts "finish cut_file - время москва - #{Time.zone.now}"
   end
 
-  task copy_production_log_every_day: :environment do
-    puts "start copy_production_log_every_day"
-      zipfile_name = "#{Rails.root}/log/production_#{Time.zone.now.strftime("%d_%m_%Y_%I_%M")}.zip"
-      filename = "production.log"
-      folder = "#{Rails.root}/log/"
+  task create_log_zip_every_day: :environment do
+    puts 'start copy_production_log_every_day'
+    folder = '/var/www/myappda/shared/log/'
+    file_names = ['cron.log','production.log','puma.access.log','puma.error.log'] #,'nginx.error.log','nginx.access.log']
+    zip_folder = '/var/www/myappda/shared/log/zip/'
+
+    file_names.each do |f_name|
+      time = Time.zone.now.strftime('%d_%m_%Y_%I_%M')
+      zipfile_name = "#{zip_folder}#{f_name}_#{time}.zip"
       Zip::File.open(zipfile_name, create: true) do |zipfile|
-        zipfile.add(filename, File.join(folder, filename))
+        zipfile.add(f_name, File.join(folder, f_name))
       end
 
-    	production_log_file = "#{Rails.root}/log/production.log"
-      production_copy_log_file = "#{Rails.root}/log/production_#{Time.zone.now.strftime("%d_%m_%Y_%I_%M")}.log"
-    	FileUtils.cp(production_log_file, production_copy_log_file)
-      File.open(production_log_file , 'w+') do |f|
+      log_file = "#{folder}#{f_name}"
+      File.open(log_file , 'w+') do |f|
         f.write("Time - #{Time.zone.now}")
       end
-
-    puts "finish copy_production_log_every_day"
-    # check_finish = []
-  	# File.open(production_log_file) do |file|
-    # 	lines = file.readlines
-    # 	puts "всего строк - #{lines.count.to_s}"
-    # 	puts lines[4]
-    # 	puts "last line - #{lines.last}"
-    # 	lines.each do |line|
-    # 		# if line.include?('finish')
-    # 		# 	check_finish << 'finish'
-    # 		# else
-    # 		# 	check_finish << 'no finish'
-    # 		# end
-    # 	end
-    # end
-  	# File.delete(file_copy) if File.exist?(file_copy)
+    end
+    puts 'finish copy_production_log_every_day'
   end
 
 end

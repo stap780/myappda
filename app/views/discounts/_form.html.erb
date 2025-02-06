@@ -56,18 +56,19 @@
   </div>
   <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
     <p>В результате проверок всех условий должна остаться фраза - do_work. Она должна присутствовать один раз в коде liquid.</p>
-    <p>discount.items - это "order_lines" из примера данных</p>
     <p>Примеры правил:</p>
-     <code><pre>{% if discount.items.size == 2 %}do_work{% else %}false{% endif %}</pre></code> 
-     <code><pre>{% if discount.items.size == 3 %}do_work{% else %}false{% endif %}</pre></code>
+     <code><pre>{% if order_lines.size == 2 %}do_work{% else %}false{% endif %}</pre></code> 
+     <code><pre>{% if order_lines.size == 3 %}do_work{% else %}false{% endif %}</pre></code>
      <code><pre>
 {% assign muj_coll_array = '' | split: '' %}
-{% for item in discount.items %}
-  {% if item.collections_titlies contains 'Мужская одежда' %}
+{% for item in order_lines %}
+  {% if item.colls contains 'Мужская одежда' %}
     {% assign muj_coll_array = 'true' | slice: forloop.index0 | concat: muj_coll_array %}
   {% endif %}
 {% endfor %}
-{% if discount.items.size == muj_coll_array.size %}do_work{% endif %}</pre></code>
+{% if order_lines.size == muj_coll_array.size %}do_work{% endif %}</pre></code>
+<p>Песочница где можно проверять условия - <a href="https://liquidjs.com/playground.html" target="_blank"></a>
+ В качестве данных Пример данных</p>
   </div>
     <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
       <%= render 'code_example' %>
