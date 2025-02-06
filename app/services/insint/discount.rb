@@ -29,6 +29,7 @@ class Insint::Discount < ApplicationService
   def get_discount
     Apartment::Tenant.switch(@saved_subdomain) do
       data = {}
+      # this is for future personal discount # @datas['client']['personal_discount'] = Client.find_by(clientid: @datas['client']['id'])&.discount || ''
       Discount.order(position: :asc).each do |discount|
         result = false
         template = Liquid::Template.parse(discount.rule)

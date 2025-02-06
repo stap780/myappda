@@ -34,7 +34,7 @@ class MessageSetup < ApplicationRecord
 
   def self.set_service_status
     ms = MessageSetup.first
-    ms.status = (ms.valid_until.present? && Date.today <= ms.valid_until) ? true : false
+    ms.status = ms&.valid_until.present? && Date.today <= ms.valid_until
     ms.save
   end
 
@@ -46,9 +46,6 @@ class MessageSetup < ApplicationRecord
       if xml
         self.product_xml = xml.url
         save
-        # else
-        #   self.product_xml = 'обратитесь в поддержку чтобы они прописали ссылку на файл с товарами'
-        #   self.save
       end
     end
   end

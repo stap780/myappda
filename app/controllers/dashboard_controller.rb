@@ -19,9 +19,7 @@ class DashboardController < ApplicationController
   end
 
   def services
-    @favorite_setup = FavoriteSetup.first
-    @restock_setup = RestockSetup.first
-    @message_setup = MessageSetup.first
+
   end
 
 

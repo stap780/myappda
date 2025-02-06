@@ -64,7 +64,7 @@ class User < ApplicationRecord
   def self.service_end_email
     puts "работает процесс service_end_email => #{Time.now}"
     # we use valid_until from MessageSetup because User valid_until close enter to service
-    User.each do |user|
+    User.order(:id).each do |user|
       Apartment::Tenant.switch(user.subdomain) do
         ms = MessageSetup.first
         if ms.valid_until.present?

@@ -31,7 +31,6 @@ gem 'bcrypt_pbkdf', '< 2.0', :require => false
 gem 'combine_pdf'
 
 gem 'devise'
-gem "pretender"
 gem 'devise_date_restrictable'
 gem 'ed25519', '~> 1.2', '>= 1.2.4'
 gem 'image_processing'
@@ -40,33 +39,33 @@ gem 'insales_api', git: 'https://github.com/stap780/insales_api.git', branch: 's
 gem 'liquid'
 gem 'nokogiri'
 gem 'phonelib'
+gem 'pretender'
 gem 'rack-cors'
 gem 'ransack'
-gem 'roo'
-gem 'roo-xls'
-gem 'ru_propisju'
 gem 'rbnacl', '< 5.0', :require => false
 gem 'rbnacl-libsodium', :require => false
 gem 'rest-client'
+gem 'roo'
+gem 'roo-xls'
 gem 'rubyzip'
+gem 'ru_propisju'
 
 gem 'stringio'
 
 gem 'sidekiq', '~> 7.1.3'
 gem 'sidekiq-scheduler'
 
+gem 'bootsnap', require: false
+gem 'puma', '>= 6.0'
+gem 'recaptcha'
+gem 'redis'
+gem 'requestjs-rails'
+gem 'rexml', '~> 3.2', '>= 3.2.6'
 gem 'simple_form'
 gem 'whenever', require: false
-gem 'puma', '>= 6.0'
-gem 'rexml', '~> 3.2', '>= 3.2.6'
-gem "recaptcha"
-
-gem 'redis'
-gem 'bootsnap', require: false
-gem 'requestjs-rails'
-gem 'will_paginate-bootstrap-style'
-gem 'will_paginate' #, '~> 4.0'
 gem 'wicked_pdf'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap-style'
 gem 'wkhtmltopdf-binary', '~> 0.12.3.1'
 
 

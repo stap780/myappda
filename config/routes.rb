@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/preorder', to: 'home#preorder'
   get '/abandoned_cart', to: 'home#abandoned_cart'
   get '/oferta', to: 'home#oferta'
+  get '/discount', to: 'home#discount'
   resources :insints do
     collection do
       get '/:id/check', action: 'check', as: 'check'
