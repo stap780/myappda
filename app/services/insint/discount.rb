@@ -10,7 +10,7 @@ class Insint::Discount < ApplicationService
   def call
     puts "Insint::Discount time now => #{Time.now}"
     add_collection_title_to_datas
-    sleep 0.3
+    sleep 0.5
     data = get_discount
     puts "Insint::Discount get_discount data => #{data}"
     puts "     data.present? => #{data.present?}"
@@ -35,6 +35,7 @@ class Insint::Discount < ApplicationService
         context = @datas.respond_to?(:deep_stringify_keys) ? @datas.deep_stringify_keys : @datas.to_hash
         # puts "check discount context => #{context}"
         html_as_string = template.render!(context, { strict_variables: true })
+        puts "check discount html_as_string => #{html_as_string}"
         check = html_as_string.squish if html_as_string.respond_to?(:squish)
         puts "check discount condition => #{check}"
         if check.include?('do_work')

@@ -1,4 +1,4 @@
-require "sidekiq-scheduler"
+require 'sidekiq-scheduler'
 
 class CreateLogFilesScheduler
   # include Sidekiq::Worker
@@ -6,6 +6,6 @@ class CreateLogFilesScheduler
 
   def perform
     Rails.application.load_tasks
-    Rake::Task["file:copy_production_log_every_day"].invoke
+    Rake::Task["file:create_log_zip_every_day"].invoke
   end
 end

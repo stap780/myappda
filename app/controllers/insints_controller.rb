@@ -1,4 +1,6 @@
 #  encoding : utf-8
+ 
+# InsintsController < ApplicationController
 class InsintsController < ApplicationController
   before_action :authenticate_user!, except: %i[install addizb getizb deleteizb emailizb order abandoned_cart restock preorder extra_data discount]
   before_action :authenticate_admin!, only: %i[adminindex]
@@ -19,7 +21,7 @@ class InsintsController < ApplicationController
   end
 
   def new
-    if current_user.insints.count == 0
+    if current_user.insints.count.zero?
       @insint = Insint.new
     else
       redirect_to dashboard_url, notice: 'У Вас уже есть интеграция'
@@ -70,7 +72,7 @@ class InsintsController < ApplicationController
   def destroy
     @insint.destroy
     respond_to do |format|
-      format.html { redirect_to insints_url, notice: "Insint was successfully destroyed." }
+      format.html { redirect_to insints_url, notice: 'Insint was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

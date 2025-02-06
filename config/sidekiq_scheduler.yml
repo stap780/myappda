@@ -2,11 +2,18 @@ restock_send_email:
   cron: "0 0 * * * *" #every hour
   class: "RestockScheduler"
   queue: "restock_job"
+user_service_end_email:
+  cron: "45 07 * * * *" #at 07-45
+  class: "UserScheduler"
+  queue: "default"
 log_files:
   cron: "45 23 * * *" #at 23-45
   class: "CreateLogFilesScheduler"
   queue: "default"
-
+message_service_set_service_status:
+  cron: "25 00 * * * *" #at 00-25
+  class: "MessageServiceScheduler"
+  queue: "default"
 
 #  
 # delete_unattached_blobs_every_day:
