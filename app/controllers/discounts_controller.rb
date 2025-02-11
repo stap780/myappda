@@ -1,7 +1,7 @@
 # DiscountsController < ApplicationController
 class DiscountsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_discount, only: %i[ show edit update destroy sort]
+  before_action :set_discount, only: [:show, :edit, :update, :destroy, :sort]
 
   def index
     @search = Discount.ransack(params[:q])
@@ -13,12 +13,9 @@ class DiscountsController < ApplicationController
 
   def new
     @discount = Discount.new
-    # @service = ApiInsales.new(current_user.insints.first)
   end
 
-  def edit
-    # @service = ApiInsales.new(current_user.insints.first)
-  end
+  def edit; end
 
   def create
     @discount = Discount.new(discount_params)

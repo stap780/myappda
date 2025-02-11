@@ -34,7 +34,7 @@ class MessageSetup < ApplicationRecord
 
   def self.set_service_status
     ms = MessageSetup.first
-    ms.status = ms&.valid_until.present? && Date.today <= ms.valid_until
+    ms.status = ms.present? && ms&.valid_until ? Date.today <= ms&.valid_until : false
     ms.save
   end
 

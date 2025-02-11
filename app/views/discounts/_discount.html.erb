@@ -12,6 +12,6 @@ data: {sort_url: sort_discount_path(discount.id), sort_item_id: discount.id } do
   <%=tag.div( discount.notice, class: 'col-3') %>
   <%=tag.div class: 'col-1 p-0 d-flex align-items-center justify-content-center' do %>
     <%= link_to edit_icon, edit_discount_path(discount), data: { turbo_frame: "offcanvas_wrap", turbo_stream: true } %>
-    <%= link_to trash_icon, discount, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны? ' }, class:"ms-2" %>
+    <%= link_to trash_icon, discount, data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, class: "ms-2" %>
   <% end %>
 <% end %>

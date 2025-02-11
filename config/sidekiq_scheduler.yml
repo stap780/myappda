@@ -3,15 +3,15 @@ restock_send_email:
   class: "RestockScheduler"
   queue: "restock_job"
 user_service_end_email:
-  cron: "45 07 * * * *" #at 07-45
+  cron: "55 23 * * *" #at 23-55
   class: "UserScheduler"
   queue: "default"
 log_files:
-  cron: "45 23 * * *" #at 23-45
+  cron: "15 23 * * *" #at 23-15
   class: "CreateLogFilesScheduler"
   queue: "default"
 message_service_set_service_status:
-  cron: "25 00 * * * *" #at 00-25
+  cron: "35 23 * * *" #at 23-35
   class: "MessageServiceScheduler"
   queue: "default"
 

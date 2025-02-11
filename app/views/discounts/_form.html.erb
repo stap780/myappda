@@ -10,10 +10,10 @@
 </ul>
 <div class="tab-content pt-3">
   <div  class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-     <%= form_with(model: discount) do |f| %>
-      <%=tag.div(class: 'card') do %>
-        <%=tag.div(class: 'card-header bg-transparent') do %>
-          <%=tag.div(class: 'h3') do %><%= f.object.new_record? ? 'Создать' : 'Редактировать'%><%end%>
+    <%= form_with(model: discount ) do |f| %>
+      <%= tag.div(class: 'card') do %>
+        <%= tag.div(class: 'card-header bg-transparent') do %>
+          <%= tag.div(class: 'h3') do %><%= f.object.new_record? ? 'Создать' : 'Редактировать'%><%end%>
         <% end %>
 
         <%= tag.div(class: 'card-body py-0 bg-transparent') do %>
@@ -51,8 +51,8 @@
 
         <% end %>
 
-      <%end%>
-    <%end %> 
+      <% end %>
+    <% end %> 
   </div>
   <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
     <p>В результате проверок всех условий должна остаться фраза - do_work. Она должна присутствовать один раз в коде liquid.</p>

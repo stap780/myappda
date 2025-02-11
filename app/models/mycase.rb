@@ -1,3 +1,4 @@
+# Mycase < ApplicationRecord
 class Mycase < ApplicationRecord
   belongs_to :client
   has_many :lines
@@ -11,8 +12,6 @@ class Mycase < ApplicationRecord
   include ActionView::RecordIdentifier
 
   before_save :normalize_data_white_space
-  # after_create :add_restock
-  # after_commit :do_event_action, on: :create # for 'order' & 'abandoned_cart' & 'preorder' # отключил, так как работало некоректно и добавил это действие в конце каждого запроса в insint
 
   after_create_commit do
     broadcast_prepend_to [Apartment::Tenant.current, :mycases],target: "#{Apartment::Tenant.current}_mycases",partial: 'mycases/mycase',locals: {mycase: self}
@@ -43,7 +42,7 @@ class Mycase < ApplicationRecord
   ].freeze
 
   def self.ransackable_attributes(auth_object = nil)
-    Mycase.attribute_names
+    attribute_names
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -81,7 +80,7 @@ class Mycase < ApplicationRecord
 
     puts 'Case add_abandoned_cart start'
     lines.each do |line|
-      data = {product_id: line.product.id, variant_id: line.variant.id, client_id: client.id, mycase_id: id}
+      data = { product_id: line.product.id, variant_id: line.variant.id, client_id: client.id, mycase_id: id }
       abandoned = AbandonedCart.where(data).first
       AbandonedCart.create!(data) unless abandoned.present?
     end
@@ -139,7 +138,7 @@ class Mycase < ApplicationRecord
 
   def delete_lines_and_relation_abandoned
     lines.each do |line|
-      data = {product_id: line.product.id, variant_id: line.variant.id, client_id: client.id, mycase_id: id}
+      data = { product_id: line.product.id, variant_id: line.variant.id, client_id: client.id, mycase_id: id }
       abandoned = AbandonedCart.where(data).first
       abandoned.destroy if abandoned.present?
     end

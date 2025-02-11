@@ -10,7 +10,6 @@ class Insint::Discount < ApplicationService
   def call
     puts "Insint::Discount time now => #{Time.now}"
     add_collection_title_to_datas
-    sleep 0.5
     data = get_discount
     puts "Insint::Discount get_discount data => #{data}"
     puts "     data.present? => #{data.present?}"
@@ -60,8 +59,8 @@ class Insint::Discount < ApplicationService
 
     @datas['order_lines'].each do |line|
       product = service.get_product_data(line['product_id'])
-      cols_titlies = product.collections_ids.map{|id| InsalesApi::Collection.find(id).title }
-      line['colls'] = cols_titlies
+      colls = product.collections_ids.map{|id| InsalesApi::Collection.find(id).title }
+      line['colls'] = colls
     end
   end
 
