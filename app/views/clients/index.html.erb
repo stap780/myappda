@@ -3,19 +3,17 @@
     <div class="h3 m-0">Клиенты</div>
     <div class="h6 m-0 small">Всего - <%= Client.count%></div>
     <%=tag.div( class: 'h6 m-0 small') do %>
-      <%= page_entries_info(@clients).to_s.gsub('Client','').html_safe %>
+      <%= page_entries_info(@clients).to_s.gsub('Client','').gsub('клиенты','').html_safe %>
     <% end %>
   </div>
-  <%= search_form_for @search, html: {class: 'form-inline col pl-0 pr-0'}  do |f|%>
+  <%= search_form_for @search, html: {class: 'form-inline col px-0'}  do |f|%>
     <div class="input-group input-group-sm">
-      <%= f.search_field :clientid_cont_all, placeholder: 'ID', class: "form-control"%>
-      <%= f.search_field :name_or_surname_cont_all, placeholder: 'ФИО', class: "form-control"%>
-      <%= f.search_field :email_cont_all, placeholder: 'Email', class: "form-control"%>
-      <%= f.search_field :phone_cont_all, placeholder: 'Телефон', class: "form-control"%>
+      <%= f.search_field :clientid_cont_all, placeholder: 'ins ID', class: "form-control"%>
+      <%= f.search_field :name_or_surname_or_email_or_phone_cont_all, placeholder: 'ФИО, Email, Телефон', class: "form-control"%>
       <%= f.select :favorites_client_id_not_null, [['есть',true],['нет',false]], { prompt: 'Избранное'}, class: "form-select" %>
       <%= f.select :restocks_client_id_not_null, [['есть',true],['нет',false]], { prompt: 'Сообщить о поступлении'}, class: "form-select" %>
       <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
-      <%= link_to arrow_clockwise_icon, clients_path, class: 'btn btn-outline-dark' %>
+      <%= link_to arrow_clockwise_icon, clients_path(search_cancel: true), class: 'btn btn-outline-dark' %>
     </div>
   <% end %>
   <div class="col-2 gap-2 d-flex align-items-center justify-content-end">
@@ -29,10 +27,10 @@
 </div>
 
 <div class="table-responsive">
-  <table class="table table-hover table-condensed">
+  <table class="table table-hover table-condensed" data-controller="select-all">
     <thead>
       <tr class="bg-success">
-        <th># (INS)</th>
+        <th><%= div_check_box_tag_all %></th>
         <th style="width:120px;">Создан</th>
         <th>ФИО</th>
         <th></th>

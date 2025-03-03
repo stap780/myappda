@@ -105,9 +105,16 @@ Rails.application.routes.draw do
       end
     end
     resources :variants
-    get '/dashboard', to: 'dashboard#index'
-    get '/dashboard/test_email', to: 'dashboard#test_email'
-    get '/dashboard/services', to: 'dashboard#services'
+    # get '/dashboard', to: 'dashboard#index'
+    # get '/dashboard/test_email', to: 'dashboard#test_email'
+    # get '/dashboard/services', to: 'dashboard#services'
+    resources :dashboards do
+      collection do
+        post :fullsearch
+        get :test_email
+        get :services
+      end
+    end
   end
 
   devise_for :users, controllers: {
@@ -115,7 +122,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     passwords: 'users/passwords',
   }
-  
+
   resources :users do
     post :impersonate, on: :member
     post :stop_impersonating, on: :collection

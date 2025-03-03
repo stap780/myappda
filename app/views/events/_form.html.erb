@@ -11,12 +11,12 @@
         <% if Insint.work? %>
         <%= f.input :custom_status, label: "Статус заказа (Insales)", collection: ApiInsales.new(Insint.current).statuses, prompt: "Статус", 
                                     input_html: { class: "form-select" }, wrapper_html: { class: class_display } %>
-        <%= f.input :financial_status,  label: "Фин Статус заказа (Insales)", collection: Event::FIN_STATUS, prompt: "Фин Статус", 
+        <%= f.input :financial_status,  label: "Фин Ст заказа (Insales)", collection: Event::FIN_STATUS, prompt: "Фин Статус", 
                                         input_html: { class: "form-select" }, wrapper_html: { class: class_display } %>
         <% else %>
-        <%= f.input :custom_status, label: "Статус заказа (Insales)", placeholder: "Статус",disabled: true, 
+        <%= f.input :custom_status, label: "Статус заказа (Insales)", placeholder: "Статус", disabled: true, 
                                     input_html: { class: "form-control" }, wrapper_html: { class: class_display }, hint: 'Не настроена интеграция Insales' %>
-        <%= f.input :financial_status,  label: "Фин Статус заказа (Insales)", collection: Event::FIN_STATUS, prompt: "Фин Статус", 
+        <%= f.input :financial_status,  label: "Фин Ст заказа (Insales)", collection: Event::FIN_STATUS, prompt: "Фин Статус", 
                                         input_html: { class: "form-select" }, wrapper_html: { class: class_display }, hint: 'Не настроена интеграция Insales' %>
         <% end %>
         

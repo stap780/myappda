@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import DebounceController from "./debounce_controller"
+application.register("debounce", DebounceController)
+
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 

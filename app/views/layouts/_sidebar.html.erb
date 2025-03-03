@@ -1,0 +1,18 @@
+ <!-- Sidebar -->
+<nav id="sidebarMenu" class="col-2 d-block bg-light sidebar collapse" style="max-width: 190px;">
+    <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+            <% if current_admin %>
+                <%= li_menu_link_to User.model_name.human(count: 2), users_path, class: "nav-link" %>
+                <%= li_menu_link_to Payment.model_name.human(count: 2), payments_path, class: "nav-link" %>
+                <%= li_menu_link_to Insints.model_name.human(count: 2), adminindex_insints_path, class: "nav-link" %>
+                <%= li_menu_link_to Payplan.model_name.human(count: 2), payplans_path, class: "nav-link" %>
+            <% else %>
+                <%= li_menu_link_to Mycase.model_name.human(count: 2), mycases_path, class: "nav-link" %>
+                <%= li_menu_link_to Client.model_name.human(count: 2), clients_path, class: "nav-link" %>
+                <%= li_menu_link_to Product.model_name.human(count: 2), products_path, class: "nav-link" %>
+            <% end %>
+        </ul>
+    </div>
+</nav>
+<!-- Sidebar -->

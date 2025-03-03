@@ -3,21 +3,24 @@
     <div class="h4 m-0">Заявки</div>
     <div class="h6 m-0 small">Всего - <%= Mycase.count%></div>
     <%=tag.div( class: 'h6 m-0 small') do %>
-      <%= page_entries_info(@mycases).to_s.gsub('Mycase','').html_safe %>
+      <%= page_entries_info(@mycases).to_s.gsub('Mycase','').gsub('entries не найдена','').html_safe %>
     <%end %>
   </div>
 
-  <%= search_form_for @search, {class: 'form-inline col pl-0 pr-0'} do |f| %>
+  <%= search_form_for @search, {class: 'form-inline col px-0'} do |f| %>
     <div class="input-group input-group-sm">
-      <%= f.select :casetype_in, Mycase::CASETYPE, { :prompt => 'Тип заявки'}, class: "form-select" %>
-      <%= f.select :status_eq , Mycase::STATUS, { :prompt => 'Статус заявки'}, class: "form-select" %>
       <%= f.search_field :created_at_datebegin, type: :date, placeholder: 'создан от', class: "form-control", autocomplete: "off", data: { controller: '' } %>
       <%= f.search_field :number_eq , placeholder: 'number', class: "form-control" %>
+      <%= f.select :casetype_eq, Mycase::CASETYPE, { :prompt => 'Тип заявки'}, class: "form-select" %>
+      <%= f.select :status_eq , Mycase::STATUS, { :prompt => 'Статус заявки'}, class: "form-select" %>
+      <%= f.select :insales_custom_status_title_eq , ApiInsales.new(Insint.current).statuses, { :prompt => 'Статус Ins'}, class: "form-select" if Insint.work? %>
+      <%= f.select :insales_financial_status_eq , Event::FIN_STATUS, { :prompt => 'Фин Ст Ins'}, class: "form-select" if Insint.work? %>
       <%= f.search_field :client_name_or_client_surname_or_client_email_cont , placeholder: 'client fio, email', class: "form-control" %>
       <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
-      <%= link_to arrow_clockwise_icon, mycases_path, class: 'btn btn-outline-dark d-flex justify-content-center align-items-center' %>
+      <%= link_to arrow_clockwise_icon, mycases_path(search_cancel: true), class: 'btn btn-outline-dark d-flex justify-content-center align-items-center' %>
     </div>
   <% end %>
+
   <div class="col-1 ms-1">
     <%= form_with url: csv_export_mycases_path, method: :post, id: :bulk_action_form  do |f| %>
       <%# f.button "#{button_print} CSV" , type: :submit, class: "btn btn-outline-primary" %>
@@ -26,17 +29,16 @@
   </div>
 </div>
 
-
-<div id="datatables-cases_wrapper">
+<div id="datatables-cases_wrapper" class="mt-3">
   <div class="col-12 list-group list-group-striped" data-controller="select-all">
-    <div class="row py-2 px-0 justify-content-start align-items-center">
+    <%= tag.div( class: 'row py-2 px-0 justify-content-start align-items-center') do %>
       <%= div_check_box_tag_all %>
       <%= tag.div( 'Статус', class: 'col-1 fw-semibold' )%>
       <%= tag.div( 'Тип заявки', class: 'col-2 fw-semibold' )%>
       <%= tag.div( 'Клиент', class: 'col-5 fw-semibold' )%>
       <%= tag.div( 'Сумма', class: 'col-1 fw-semibold' )%>
       <%= tag.div('', class: 'col fw-semibold')%>
-    </div>
+     <%end if @mycases.present? %>
     <%= turbo_stream_from [Apartment::Tenant.current, :mycases] %>
     <%= turbo_frame_tag [Apartment::Tenant.current, :mycases], data: { } do %>
       <%= render @mycases %>
@@ -45,4 +47,3 @@
 </div>
 
 <%= render 'shared/paginate', object: @mycases %>
-

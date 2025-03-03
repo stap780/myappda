@@ -60,13 +60,14 @@
      <code><pre>{% if order_lines.size == 2 %}do_work{% else %}false{% endif %}</pre></code> 
      <code><pre>{% if order_lines.size == 3 %}do_work{% else %}false{% endif %}</pre></code>
      <code><pre>
-{% assign muj_coll_array = '' | split: '' %}
+{% assign muj_coll = "" %}
 {% for item in order_lines %}
-  {% if item.colls contains 'Мужская одежда' %}
-    {% assign muj_coll_array = 'true' | slice: forloop.index0 | concat: muj_coll_array %}
+  {% if item.colls contains "Мужская одежда" %}
+    {% assign muj_coll = muj_coll | append: "," | append: "Мужская одежда" %}
   {% endif %}
 {% endfor %}
-{% if order_lines.size == muj_coll_array.size %}do_work{% endif %}</pre></code>
+{% assign muj_coll_array = muj_coll | remove_first: "," | split: "," %}
+{% if order_lines.size == muj_coll_array.size and muj_coll_array.size == 2 %}do_work{%else%}false{% endif %}</pre></code>
 <p>Песочница где можно проверять условия - <a href="https://liquidjs.com/playground.html" target="_blank"></a>
  В качестве данных Пример данных</p>
   </div>

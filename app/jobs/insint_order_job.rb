@@ -1,4 +1,4 @@
-
+# InsintOrderJob < ApplicationJob
 class InsintOrderJob < ApplicationJob
   queue_as :insint_job
   sidekiq_options retry: 0

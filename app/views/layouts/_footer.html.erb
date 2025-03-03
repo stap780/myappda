@@ -18,8 +18,8 @@
     <div class="container">
       <div class="row gap-2">
         <div class="col-12 col-sm-3 text-center text-md-start">
-          <h5>MyAppDA</h5>
-          <h6>это сервис маркетинга для интернет-магазина (email, соц сети, мессенджеры, формы, статистика, аналитика)</h6>
+          <h5 class="text-danger">MyAppDA</h5>
+          <div class="text-muted mb-3">маркетинга для интернет-магазина</br>(email, соц сети, мессенджеры, формы, статистика, аналитика)</div>
           <ul class="list-unstyled text-small">
             <li>
               <a class="text-muted" href="+74997042035">84997042035</a>
@@ -30,8 +30,7 @@
           </ul>
         </div>
         <div class="col-3 col-md d-none d-md-block">
-          <h5>Меню</h5>
-          <% menu_array = [['#about-app','О приложении'],['favorite','Избранные товары'],['restock','Собщить о поступлении'],['message','Триггеры'],['documents','Настройка'],['oferta','Оферта'],['disc','Сценарии скидок']]%>
+          <% menu_array = [['#about-app','О приложении'],['favorite','Избранные товары'],['restock','Собщить о поступлении'],['message','Тарифы'],['documents','Настройка'],['oferta','Оферта'],['disc','Сценарии скидок']]%>
           <ul class="list-unstyled text-small">
             <% menu_array.each do |link, text|%>
             <li>
@@ -41,18 +40,19 @@
           </ul>
         </div>
         <div class="col-3 col-md d-none d-md-block">
-          <h5>Способы оплаты</h5>
+          <h6 class="text-muted">Способы оплаты</h6>
           <ul class="text-small list-group list-group-horizontal d-flex align-items-center">
-            <li class="list-group-item bg-transparen border-0 px-1 bg-light">Счет для юр лиц</li>
+            <li class="list-group-item bg-transparen border-0 px-1 bg-light text-muted">Счет для юр лиц</li>
             <li class="list-group-item bg-transparen border-0 px-1 bg-light"><%= image_tag "/visa-master.png", style:"max-width: 120px;"%></li>
           </ul>
-          <p>Прием платежей организован агрегатором
+          <div class="d-flex flex-column">
+            <span class="text-muted">Прием платежей организован агрегатором</span>
             <a class="text-muted" rel="nofollow noopener" href="http://www.paymaster.ru/" target="_blank">Paymaster</a>
-          </p>
+          </div>
         </div>
         <div class="col-3 col-md d-none d-md-block">
-          <h5>Наши данные</h5>
-          <ul class="list-unstyled text-small">
+          <h6 class="text-muted">Наши данные</h6>
+          <ul class="list-unstyled text-small text-muted">
             <li>ИП Эмексизов Панаёт Алексеевич</li>
             <li>Свидетельство о регистрации - 313774610800128</li>
             <li>ИНН - 772745849012</li>

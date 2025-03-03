@@ -1,0 +1,8 @@
+<%= tag.header do %>
+    <%= render 'layouts/nav_not_for_sign_in' %>
+<% end %>
+<main class="<%= current_page_path_as_class%>">
+    <%= tag.div(class: user_signed_in? ? 'container-fluid px-4' : 'container-fluid px-0', id: 'main-content') do %>
+        <%= yield %>
+    <% end %>
+</main>

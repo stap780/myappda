@@ -2,17 +2,14 @@
     <%= tag.div class: "col-1 d-flex flex-column" do %>
         <%=tag.div class: 'form-check' do %>
             <%= check_box_tag "product_ids[]", product.id, false, {class: 'checkboxes form-check-input', data: { 'select-all_target': 'checkbox', action: "change->selectall#toggleParent"}, form: :bulk_action_form } %>
-            <%=tag.div( product.insid, class: 'opacity-75 fs-8') if product.insid %>
+            <%=link_to arrow_clockwise_icon, insales_info_product_path(product), class: "btn btn-sm btn-outline-primary border-0", data: {turbo_stream: true}%>
         <% end %>
+        <%=tag.div( product.insid, class: 'opacity-75 fs-8') if product.insid %>
     <% end %>
     <%=tag.div( product.created_at.strftime('%d/%m/%Y %H:%M'), class: "col-1 fs-8") %>
 
     <%=tag.div class: 'col-1 p-0' do %>
-        <% if product.image_link.present? %>
-            <%= image_block(product.image_link)%>
-        <% else %>
-            <%=link_to arrow_clockwise_icon, insales_info_product_path(product), class: "btn btn-primary", data: {turbo_stream: true}%>
-        <% end %>
+        <%= image_block(product.image_link)%>
     <% end %>
     <%=tag.div(product.title, class: 'col-5') %>
     <%=tag.div class: 'col-1 p-0 d-flex align-items-center justify-content-center' do %>

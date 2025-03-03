@@ -1,0 +1,50 @@
+<nav class="sidebar d-flex flex-column p-3 sticky-top vh-100">
+    <div class="logo px-2 pb-3 d-flex gap-2">
+        <%= tag.div 'MyAppDA', class: 'logo_text' %>
+        <%# image_tag "new_logo_myappda_white.svg", data: {src: "new_logo_myappda_white.svg", title: 'MyAppDa'}, class: 'logo logo_white' %>
+        <%= link_to sidekiq_icon , '/sidekiq', target: "_blank", class: "align-self-end fs-7" %>
+    </div>
+    <% if current_user != true_user %>
+      <ul class="nav flex-column">
+        <%= button_to "You (#{true_user.name }) are signed in as #{current_user.name }</br>Back to admin".html_safe, stop_impersonating_users_path, data: {turbo: false}, class: "btn text-white",style: 'max-width:200px;'  %>
+      </ul>
+    <% end %>
+    <ul class="nav flex-column">
+        <%= li_menu_link_to "<i class='bi bi-folder'></i> #{Mycase.model_name.human(count: 2)}".html_safe, mycases_path, class: "nav-link text-capitalize" %>
+        <%= li_menu_link_to "<i class='bi bi-people'></i> #{Client.model_name.human(count: 2)}".html_safe, clients_path, class: "nav-link text-capitalize" %>
+        <%= li_menu_link_to "<i class='bi bi-box'></i> #{Product.model_name.human(count: 2)}".html_safe, products_path, class: "nav-link text-capitalize" %>
+        
+        <li class="nav-item">
+            <a class="nav-link text-capitalize" data-bs-toggle="collapse" href="#triggersMenu" role="button" aria-expanded="false" aria-controls="triggersMenu">
+                <i class="bi bi-bell"></i> триггеры <i class="bi bi-chevron-down float-end"></i>
+            </a>
+            <div class="collapse" id="triggersMenu">
+                <ul class="nav flex-column ms-3">
+                    <%= li_menu_link_to Event.model_name.human(count: 2), events_path, class: "nav-link text-capitalize" %>
+                    <%= li_menu_link_to 'шаблоны', templates_path, class: "nav-link text-capitalize" %>
+                </ul>
+            </div>
+        </li>
+        <%= li_menu_link_to "<i class='bi bi-percent'></i> #{Discount.model_name.human(count: 2)}".html_safe, discounts_path, class: "nav-link text-capitalize" %>
+        <li class="nav-item">
+            <a class="nav-link text-capitalize" data-bs-toggle="collapse" href="#optionsMenu" role="button" aria-expanded="false" aria-controls="optionsMenu">
+                <i class="bi bi-gear"></i> настройки <i class="bi bi-chevron-down float-end"></i>
+            </a>
+            <div class="collapse" id="optionsMenu">
+                <ul class="nav flex-column ms-3">
+                    <%= li_menu_link_to 'аккаунт', dashboards_path, class: "nav-link text-capitalize" %>
+                    <%= li_menu_link_to 'почта', email_setups_path, class: "nav-link text-capitalize" %>
+                    <%= li_menu_link_to 'сервисы', services_dashboards_path, class: "nav-link text-capitalize" %>
+                    <%= li_menu_link_to 'счета', invoices_path, class: "nav-link text-capitalize" %>
+                    <%= li_menu_link_to 'insales api', insints_path, class: "nav-link text-capitalize" %>
+                </ul>
+            </div>
+        </li>
+        <% if current_admin %>
+            <%= li_menu_link_to "<i class='bi bi-person'></i> #{User.model_name.human(count: 2)}".html_safe, users_path, class: "nav-link text-capitalize" %>
+            <%= li_menu_link_to "<i class='bi bi-link'></i> #{Insints.model_name.human(count: 2)}", adminindex_insints_path, class: "nav-link text-capitalize" %>
+            <%= li_menu_link_to "<i class='bi bi-receipt'></i> #{Payment.model_name.human(count: 2)}".html_safe, payments_path, class: "nav-link text-capitalize" %>
+            <%= li_menu_link_to "<i class='bi bi-credit-card'></i> #{Payplan.model_name.human(count: 2)}".html_safe, payplans_path, class: "nav-link text-capitalize" %>
+        <% end %>
+    </ul>
+</nav>

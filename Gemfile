@@ -87,5 +87,5 @@ group :development do
   gem 'web-console', '>= 3.3.0'
 end
 
-gem 'hotwire-livereload', '~> 1.4', :group => :development
+# gem 'hotwire-livereload', '~> 1.4', :group => :development
 gem 'acts_as_list'

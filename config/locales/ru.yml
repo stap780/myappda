@@ -24,6 +24,7 @@ ru:
   log_in: "Войти"
   sign_up: "Регистрация"
   save: 'Сохранить'
+  search: 'Поиск'
   will_paginate:
     previous_label: "&#8592; Назад"
     next_label: "вперёд &#8594;"
@@ -46,7 +47,31 @@ ru:
         other: "пользователи"
       mycase:
         one: "заявка"
-        other: "заявки"      
+        other: "заявки"
+      client:
+        one: "клиент"
+        other: "клиенты"
+      payment:
+        one: "платеж"
+        other: "платежи"
+      product:
+        one: "товар"
+        other: "товары"
+      useraccount:
+        one: "аккаунт пользователя"
+        other: "аккаунты пользователей"
+      discount:
+        one: "скидка"
+        other: "скидки"
+      event:
+        one: "событие"
+        other: "события"
+      insins:
+        one: "интеграция"
+        other: "интеграции"
+      payplan:
+        one: "платежный план"
+        other: "платежные планы"
     attributes:
       user: &user
         name: "имя"
@@ -86,14 +111,6 @@ ru:
       success: обновили!
     remove_nested:
       success: удалили!
-  helpers:
-    label:
-      user:
-        <<: *user
-      mycase:
-        <<: *mycase
-      client:
-        <<: *client
   message_setups:
     <<: *model_system_flash
   date:
@@ -266,6 +283,17 @@ ru:
         many: "%{model}: сохранение не удалось из-за %{count} ошибок"
         other: "%{model}: сохранение не удалось из-за %{count} ошибки"
   helpers:
+    label:
+      user:
+        <<: *user
+      mycase:
+        <<: *mycase
+      client:
+        <<: *client
+      dashboard:
+        product: "товары"
+        client: "клиенты"
+        mycase: "заявки"
     select:
       prompt: 'Выберите: '
     submit:

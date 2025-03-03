@@ -1,0 +1,27 @@
+<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0 show" id="fullsearch_result" aria-labelledby="fullsearch_result_form"">
+    <div class="list-group">
+        <% if @search_results.values.uniq.size == 1 %>
+            no results
+        <% else %>
+        <% Dashboard::SEARCHABLE_MODEL_ATTRIBUTES.each do |model_name, searchable_fields| %>
+            <% model_results = @search_results[model_name] %>
+            <% if model_results.present? %>
+                <div class="list-group-item">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-12 ps-2">
+                            <div class="text-dark"><%= I18n.t("helpers.label.dashboard.#{model_name.downcase}") %></div>
+                            <% model_results.each do |result| %>
+                                <div class="text-muted small mt-1">
+                                    <% real_model = model_name == 'Variant' ? 'products' : model_name.downcase.pluralize %>
+                                    <% href = model_name == 'Mycase' ? "/#{real_model}/#{result[0]}/edit" : "/#{real_model}/#{result[0]}/" %>
+                                    <a href="<%= href %>" class="" data-turbo="false"><%=highlight result.drop(1).join(' '), params.dig(:query)%></a>
+                                </div>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        <% end %>
+        <% end %>
+    </div>
+</div>

@@ -70,7 +70,7 @@ class Mycase < ApplicationRecord
 
     puts 'Case add_preorder start'
     lines.each do |line|
-      self.reorders.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
+      self.preorders.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
     end
     puts 'Case add_preorder finish'
   end

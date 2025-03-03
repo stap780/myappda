@@ -1,28 +1,18 @@
 <!DOCTYPE html>
-<html class="h-100" id="hotwire-livereload">
-  <head <%= Rails.env.development? %>>
+<html>
+  <head>
     <%= render partial: 'layouts/head' %>
-    <%= render partial: 'layouts/metrics' unless Rails.env.development? %>
+    <%# render partial: 'layouts/metrics' unless Rails.env.development? %>
 
-    <%= action_cable_meta_tag if Rails.env.development? %>
-    <%= hotwire_livereload_tags if Rails.env.development? %>
+    <%# action_cable_meta_tag if Rails.env.development? %>
+    <%# hotwire_livereload_tags if Rails.env.development? %>
   </head>
-  <body class="<%= current_page_path_as_class %> d-flex flex-column h-100">
-    <%= tag.header do %>
-      <%= render 'layouts/nav_for_sign_in' if user_signed_in? %>
-      <%= render 'layouts/nav_not_for_sign_in' if !user_signed_in? %>
+  <body class="<%= current_page_path_as_class %>  <%= user_signed_in? ? 'admin-body' : 'home-body' %>">
+    <% if user_signed_in? %>
+     <%= render partial: 'layouts/signed' %>
+    <% else %>
+      <%= render partial: 'layouts/home' %>
+      <%= render partial: "layouts/footer" if check_current_page_show_this_part? %>
     <% end %>
-    <main class="<%= current_page_path_as_class%>">
-      <%= tag.div(class: user_signed_in? ? 'container-fluid px-4' : 'container-fluid px-0', id: 'main-content') do %>
-        <%= render "shared/modal_wrap"%>
-        <%= render "shared/offcanvas_wrap" %>
-        <%= tag.div(class: 'position-fixed z-1 top-0 end-0 p-3 w-50', id: 'our_flash') do %>
-          <%= render "shared/flash"%>
-        <% end %>
-        <%= yield %>
-      <% end %>
-    </main>
-    <%= render partial: "/layouts/footer" if check_current_page_show_this_part? %>
-    <%# render partial: "/layouts/messengers"%>
   </body>
 </html>

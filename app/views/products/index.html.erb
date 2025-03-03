@@ -4,11 +4,11 @@
       <div class="h3">Товары</div>
       <div class="h6 m-0 small">Всего - <%= Product.count %></div>
       <%=tag.div( class: 'h6 m-0 small') do %>
-        <%= page_entries_info(@products).to_s.gsub('Product','').html_safe %>
+        <%= page_entries_info(@products).to_s.gsub('Product','').gsub('товары','').html_safe %>
       <% end %>
     </div>
   </div>
-  <%= search_form_for @search, {class: 'form-inline col pl-0 pr-0'} do |f| %>
+  <%= search_form_for @search, {class: 'form-inline col px-0'} do |f| %>
     <div class="input-group input-group-sm">
       <%= f.search_field :title_cont , placeholder: 'Название', class: "form-control"%>
       <%= f.search_field :insid_or_variants_insid_eq , placeholder: 'insid(товар, вариант)', class: "form-control" %>
@@ -16,8 +16,7 @@
       <%= f.select :preorders_status_eq, Preorder::Status, { prompt: 'Предзаказ'}, class: "form-select input-sm" %>
       <%= f.select :favorites_client_id_not_null, [['есть',true],['нет',false]], { prompt: 'Избранное', blank: true }, class: "form-select" %>
       <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
-      <%= link_to arrow_clockwise_icon, products_path, class: 'btn btn-outline-dark' %>
-      <%= link_to trash_icon, delete_selected_products_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true if current_admin %>
+      <%= link_to arrow_clockwise_icon, products_path(search_cancel: true), class: 'btn btn-outline-dark' %>
     </div>
   <% end %>
   <%= form_with url: csv_export_products_path, method: :post, id: :bulk_action_form , class: 'col-1 ms-1' do |f| %>
@@ -27,9 +26,9 @@
 </div>
 
 <div id="datatables-products_wrapper">
-  <div class="col-12 list-group list-group-striped">
+  <div class="col-12 list-group list-group-striped" data-controller="select-all">
     <div class="row py-2 px-0 justify-content-start align-items-center">
-      <%= tag.div( '# (INS)', class: 'col-1 fw-semibold' )%>
+      <%= div_check_box_tag_all %>
       <%= tag.div( 'Создан', class: 'col-1 fw-semibold' )%>
       <%= tag.div( '', class: 'col-1 fw-semibold' )%>
       <%= tag.div( 'Название', class: 'col-5 fw-semibold' )%>

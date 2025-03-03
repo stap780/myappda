@@ -4,7 +4,6 @@
 class Insint::Order < ApplicationService
 
   def initialize(tenant, datas)
-    super
     @tenant = tenant
     @datas = datas
   end

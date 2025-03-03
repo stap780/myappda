@@ -9,6 +9,7 @@ window.Stimulus   = application
 export { application }
 
 
+
 // take from old 
 function getActive(){
 	console.log( document.querySelector('input[name="receiver-options"]:checked').value );
@@ -26,6 +27,11 @@ function getActive(){
 
 document.addEventListener("turbo:load", () => {
     document.querySelectorAll("input[name='receiver-options']").forEach( input => input.addEventListener('click', getActive) );
+
+    document.getElementById('burgerButton').addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.toggle('d-none');
+    });
+
 });
 
 

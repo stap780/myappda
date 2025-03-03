@@ -172,3 +172,10 @@ end
 def button_bulk_delete
   '<button class="btn btn-outline-info btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-trash3"></i></button>'.html_safe
 end
+
+def li_menu_link_to(name = nil, options = nil, html_options = nil, &block)
+  status = current_page?(options) ? "active" : ""
+  content_tag :li, class: "nav-item #{status}" do
+    link_to(name, options, html_options, &block)
+  end
+end

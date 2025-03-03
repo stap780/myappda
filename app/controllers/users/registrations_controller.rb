@@ -97,7 +97,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   private
-  
+
   def check_captcha
     return if verify_recaptcha # verify_recaptcha(action: 'login') for v3
 
