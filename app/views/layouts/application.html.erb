@@ -2,7 +2,7 @@
 <html>
   <head>
     <%= render partial: 'layouts/head' %>
-    <%# render partial: 'layouts/metrics' unless Rails.env.development? %>
+    <%= render partial: 'layouts/metrics' unless Rails.env.development? %>
 
     <%# action_cable_meta_tag if Rails.env.development? %>
     <%# hotwire_livereload_tags if Rails.env.development? %>
