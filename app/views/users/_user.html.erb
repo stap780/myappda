@@ -1,6 +1,10 @@
 <tr id="<%= dom_id user %>">
     <td><%= link_to user.id, edit_user_path(user) %><br>
-    <%= button_to '<span class="oi oi-transfer"></span>'.html_safe, impersonate_user_path(user), data: {turbo: false}, class: "btn px-0" %>
+    <% if user.admin? %>
+        <%= tag.span('admin', class: 'text-danger')%>
+    <% else %>
+        <%= button_to '<span class="oi oi-transfer"></span>'.html_safe, impersonate_user_path(user), data: {turbo: false}, class: "btn px-0" %>
+    <% end %>
     </td>
     <td>
         <div class="d-flex flex-column">
@@ -23,19 +27,15 @@
                 <%= link_to "#{arrow_up} Order WebHook".html_safe, add_insales_order_webhook_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" if insint %>
             </div>
         </td>
-    <td>
-        <span type="button" data-bs-toggle= "tooltip" data-bs-trigger= "click" data-bs-html= "true" 
-            data-bs-placement= "left" data-bs-title="<span><%=user.last_client_data.to_s%></span>">
-            <%= user.clients_count %>
-        </span>
-    </td>
+    <td><%= user_client_info(user) %></td>
     <td><%= user.products_count %></td>
-    <td><%= user.izb_count %></td>
-    <td><%= user.restock_count %></td>
-    <td></td>
-    <td></td>
+    <td><%= user.orders_count %></td>
+    <td><%= user.favorites_count %></td>
+    <td><%= user.restocks_count %></td>
+    <td><%= user.preorders_count %></td>
+    <td><%= user.abandoned_carts_count %></td>
     <td><%= user.message_setup_status %> <%= link_to "Add 4 week", add_message_setup_ability_users_path(user), data: {turbo_method: :get, turbo_stream: true}, class: "btn btn-outline-info btn-sm" %><br>
         Действует до:<br> <%= user.message_setup_valid_until %>
     </td>
-    <td><%= link_to trash_icon, user, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }  if current_admin %></td>
+    <td><%= link_to trash_icon, user, data: { "turbo-method": :delete, 'turbo-confirm': 'Вы уверенны?' }  if current_admin && !user.admin?%></td>
 </tr>

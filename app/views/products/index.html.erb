@@ -11,36 +11,38 @@
   <%= search_form_for @search, {class: 'form-inline col px-0'} do |f| %>
     <div class="input-group input-group-sm">
       <%= f.search_field :title_cont , placeholder: 'Название', class: "form-control"%>
-      <%= f.search_field :insid_or_variants_insid_eq , placeholder: 'insid(товар, вариант)', class: "form-control" %>
-      <%= f.select :restocks_status_eq, Restock::Status, { prompt: 'Сообщить о поступлении'}, class: "form-select input-sm" %>
-      <%= f.select :preorders_status_eq, Preorder::Status, { prompt: 'Предзаказ'}, class: "form-select input-sm" %>
-      <%= f.select :favorites_client_id_not_null, [['есть',true],['нет',false]], { prompt: 'Избранное', blank: true }, class: "form-select" %>
+      <%= f.search_field :insid_or_variants_insid_eq , placeholder: 'InsID(товар, вариант)', class: "form-control" %>
+      <%= f.select :favorites_product_id_not_null, [['есть',true],['нет',false]], { prompt: 'Избранное', blank: true }, class: "form-select", style: 'max-width: 130px;' %>
+      <%= f.select :restocks_status_eq, Restock::STATUS, { prompt: 'Сообщить о поступлении'}, class: "form-select input-sm" %>
+      <%= f.select :preorders_status_eq, Preorder::STATUS, { prompt: 'Предзаказ'}, class: "form-select input-sm", style: 'max-width: 130px;' %>
+      <%= f.select :abandoned_carts_product_id_not_null, [['есть',true],['нет',false]], { prompt: 'Корзина'}, class: "form-select", style: 'max-width:130px;' %>
       <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
       <%= link_to arrow_clockwise_icon, products_path(search_cancel: true), class: 'btn btn-outline-dark' %>
     </div>
   <% end %>
-  <%= form_with url: csv_export_products_path, method: :post, id: :bulk_action_form , class: 'col-1 ms-1' do |f| %>
+  <%= form_with url: csv_export_products_path, method: :post, id: :bulk_action_form , class: 'col-2 ms-1' do |f| %>
     <%# f.button "#{button_print} CSV" , type: :submit, class: "btn btn-outline-primary" %>
+    <%= render 'shared/download_excel_buttons', f: f, object: Product.new %>
     <%= render 'shared/bulk_delete_buttons', f: f, object: Product.new %>
   <% end %>
 </div>
 
-<div id="datatables-products_wrapper">
-  <div class="col-12 list-group list-group-striped" data-controller="select-all">
-    <div class="row py-2 px-0 justify-content-start align-items-center">
-      <%= div_check_box_tag_all %>
-      <%= tag.div( 'Создан', class: 'col-1 fw-semibold' )%>
-      <%= tag.div( '', class: 'col-1 fw-semibold' )%>
-      <%= tag.div( 'Название', class: 'col-5 fw-semibold' )%>
-      <%= tag.div( '', class: 'col-1 fw-semibold' )%>
-      <%= tag.div( 'Цены', class: 'col-2 fw-semibold' )%>
-      <%= tag.div('', class: 'col fw-semibold')%>
-    </div>
-    <%= turbo_stream_from [Apartment::Tenant.current, :products] %>
-    <%= turbo_frame_tag [Apartment::Tenant.current, :products], data: { } do %>
-      <%= render @products %>
-    <% end %>
-  </div>
+<div id="datatables-products_wrapper" class="mt-3">
+  <%= turbo_stream_from [Apartment::Tenant.current, :products] %>
+  <%= turbo_frame_tag [Apartment::Tenant.current, :products], class:"table d-table", data: { controller: "select-all" } do %>
+    <%= tag.div( class: 'd-table-row') do %>
+      <%= tag.div class: 'd-table-cell fw-semibold' do %>
+        <%= div_check_box_tag_all %>
+      <% end %>
+      <%= tag.div( 'Создан', class: 'd-table-cell fw-semibold' )%>
+      <%= tag.div( '', class: 'd-table-cell fw-semibold' )%>
+      <%= tag.div( 'Название', class: 'd-table-cell fw-semibold' )%>
+      <%= tag.div( '', class: 'd-table-cell fw-semibold' )%>
+      <%= tag.div( 'Цены', class: 'd-table-cell fw-semibold' )%>
+      <%= tag.div('', class: 'd-table-cell fw-semibold')%>
+    <% end if @products.present? %>
+    <%= render @products %>
+  <% end %>
+  
+  <%= render 'shared/paginate', object: @products %>
 </div>
-
-<%= render 'shared/paginate', object: @products %>

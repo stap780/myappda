@@ -47,7 +47,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :info #:debug
+  config.log_level = :info # :debug
 
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
@@ -78,7 +78,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
@@ -92,12 +92,12 @@ Rails.application.configure do
 
   config.action_mailer.smtp_settings = {
     tls: true,
-    address: "smtp.yandex.com",
+    address: 'smtp.yandex.com',
     port: 465,
-    domain: "yandex.ru",
-    authentication: "login",
-    user_name: ENV["YANDEX_USER_NAME"],
-    password:  ENV["YANDEX_PASSWORD"] ,
+    domain: 'yandex.ru',
+    authentication: 'login',
+    user_name: ENV['YANDEX_USER_NAME'],
+    password:  ENV['YANDEX_PASSWORD'] ,
     enable_starttls_auto: true
   }
   # config.action_mailer.smtp_settings = {
@@ -115,5 +115,5 @@ Rails.application.configure do
 
 
     # Store uploaded files on the local file system (see config/storage.yml for options).
-    config.active_storage.service = :local
+    config.active_storage.service = :timeweb
 end

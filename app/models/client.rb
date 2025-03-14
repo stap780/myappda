@@ -11,8 +11,17 @@ class Client < ApplicationRecord
   has_many :mycases, dependent: :destroy
   validates :phone, phone: { possible: true, allow_blank: true }
   before_validation :normalize_phone
-
   validates :email, presence: true, uniqueness: true
+
+  include ActionView::RecordIdentifier
+
+  after_update_commit do
+    broadcast_replace_to [Apartment::Tenant.current, :clients], target: dom_id(self, Apartment::Tenant.current),partial: 'clients/client',locals: {client: self}
+  end
+
+  after_destroy_commit do
+    broadcast_remove_to [Apartment::Tenant.current, :clients], target: dom_id(self, Apartment::Tenant.current)
+  end
 
   scope :first_five, -> { all.limit(5)}
   scope :collection_for_select, ->(id) { where(id: id) + first_five }
@@ -116,6 +125,10 @@ class Client < ApplicationRecord
       end
     end
     puts 'finish get_ins_client_data'
+  end
+
+  def orders_count
+    self.mycases.orders.count
   end
 
   private

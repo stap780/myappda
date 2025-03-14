@@ -25,9 +25,12 @@ gem 'active_storage_validations'
 
 gem 'ros-apartment', git: 'https://github.com/rails-on-services/apartment.git', branch: 'development', require: 'apartment'
 
+gem 'aws-sdk-s3'
 gem 'bcrypt'
 gem 'bcrypt_pbkdf', '< 2.0', :require => false
 
+gem 'caxlsx'
+gem 'caxlsx_rails'
 gem 'combine_pdf'
 
 gem 'devise'

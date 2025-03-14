@@ -84,9 +84,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def set_user_valid_date_and_message_setup
     if current_user.present?
       current_user.valid_from = current_user.created_at
-      current_user.valid_until = 'Sat, 30 Dec 2025' #current_user.created_at + 30.days
+      current_user.valid_until = Date.today+2.year
       current_user.save
-      current_user.message_setup
+
+      # NOTICE switch on service for new user
+      current_user.message_service_start
     end
   end
 

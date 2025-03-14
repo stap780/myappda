@@ -47,7 +47,8 @@ class User < ApplicationRecord
     Apartment::Tenant.drop(subdomain)
   end
 
-  def message_setup
+  # NOTICE we use this method in registration_controller for new user
+  def message_service_start
     Apartment::Tenant.switch(subdomain) do
       MessageSetup.create!(status: true, valid_until: Date.today + 30.days)
     end
@@ -88,21 +89,29 @@ class User < ApplicationRecord
     # "/default_avatar.png"
   end
 
+  def orders_count
+    Apartment::Tenant.switch(subdomain) do
+      Mycase.orders.count
+    end
+  end
+
   def products_count
     Apartment::Tenant.switch(subdomain) do
-      Product.count.to_s
+      Product.count
     end
   end
 
   def clients_count
     Apartment::Tenant.switch(subdomain) do
-      Client.count.to_s
+      Client.count
     end
   end
 
   def last_client_data
     Apartment::Tenant.switch(subdomain) do
-      Client.last.present? ? Client.last.attributes.except('izb_productid', 'updated_at') : ''
+      return '' unless Client.last.present?
+
+      Client.last.attributes.except('izb_productid', 'updated_at')
     end
   end
 
@@ -140,15 +149,28 @@ class User < ApplicationRecord
     end
   end
 
-  def izb_count
+  def favorites_count
     Apartment::Tenant.switch(subdomain) do
-      Client.all_favorites_count
+      # Client.all_favorites_count
+      Favorite.all.count
     end
   end
 
-  def restock_count
+  def restocks_count
     Apartment::Tenant.switch(subdomain) do
       "All: #{Restock.all.count}<br>(Wait: #{Restock.status_wait.count})".html_safe
+    end
+  end
+
+  def preorders_count
+    Apartment::Tenant.switch(subdomain) do
+      "All: #{Preorder.all.count}<br>(Wait: #{Preorder.status_wait.count})".html_safe
+    end
+  end
+
+  def abandoned_carts_count
+    Apartment::Tenant.switch(subdomain) do
+      AbandonedCart.all.count
     end
   end
 

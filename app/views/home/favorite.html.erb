@@ -1,94 +1,49 @@
 <div class="container mb-5">
-<h1 class="display-4 text-center text-uppercase mt-5 mb-5">Сервис Избранное</h1>
-<section class="page-section pt-0">
-  <div class="card-group gap-sm-3 gap-md-2">
-      <div class="card ml-0 mr-0">
-          <div class="view overlay">
-          <%= image_tag "/benefit1.jpg", data: { src: "/benefit1.jpg"}, class: "card-img-top" %>
-          <div class="mask rgba-white-slight"></div>
-          </div>
-          <div class="card-body">
-          <h4 class="card-title">Больше удобств клиенту</h4>
-          <p class="card-text">"Избранные товары" доступны клиенту как в мобильной , так и в полной версии сайта. Ваш клиент всегда может отправить себе на email отобранные товары.</p>
-          </div>
-      </div>
-      <div class="card ml-0 mr-0">
-          <div class="view overlay">
-          <%= image_tag "/benefit3.jpg", data: { src: "/benefit3.jpg"}, class: "card-img-top" %>
-          <div class="mask rgba-white-slight"></div>
-          </div>
-          <div class="card-body">
-          <h4 class="card-title">Отчеты об отобранных товарах</h4>
-          <p class="card-text">Вы можете просматривать список отобранных товаров по клиентам отдельно или экспортировать весь список в CSV для дальнейшего анализа.</p>
-          </div>
-      </div>
-      <div class="card ml-0 mr-0">
-          <div class="view overlay">
-          <%= image_tag "/benefit2.jpg", data: { src: "/benefit2.jpg"}, class: "card-img-top" %>
-          <div class="mask rgba-white-slight"></div>
-          </div>
-          <div class="card-body">
-          <h4 class="card-title">Полностью изменяемый вид</h4>
-          <p class="card-text">Обладая базовыми знаниями в CSS вы можете полностью изменить дизайн кнопок и страницы "Избранные товары" под Ваш стиль магазина.</p>
-          </div>
-      </div>
-      <div class="card ml-0 mr-0">
-          <div class="view overlay">
-          <%= image_tag "/benefit4.jpg", data: { src: "/benefit4.jpg"}, class: "card-img-top" %>
-          <div class="mask rgba-white-slight"></div>
-          </div>
-          <div class="card-body">
-          <h4 class="card-title">Состав избранного на email</h4>
-          <p class="card-text">Ваши клиенты могут отправлять список товаров на свой контактный email со страницы "Избранные товары".</p>
-          <p></p>
-          </div>
-      </div>
-  </div>
-</section>
-<%= render 'home/price_section'%>
-
-<section class="page-section price pt-0">
-  <div class="display-5 text-center text-uppercase mb-5">Дополнительные услуги</div>
-  <div class="table-responsive">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Наименование услуги</th>
-          <th>Стоимость</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td scope="row" class="text-start">
-            <span>Стандартная настройка* тем второго поколения</span>
-            <small class="d-block mt-1">К темам второго поколения относятся все бесплатные темы поддерживающие common v2.<br /> Например темы: Fler, Cross, Аромат 2.0, Фантазия 2.0 и др</small>
-          </td>
-          <td>2500 руб</td>
-          <td><%= link_to "Заказать", new_registration_path('user'), class: 'btn btn-primary' %></td>
-        </tr>
-        <tr>
-          <td scope="row" class="text-start">
-            <span>Стандартная настройка* тем четвертого поколения</span>
-            <small class="d-block mt-1">К темам четвертого поколения относятся все бесплатные темы появившиеся в 2021 году.<br />  Например темы: Fine, Mono, Fourth, Gift, Markom, Loft, Stories, Newtone 2.0</small>
-          </td>
-          <td>4000 руб</td>
-          <td><%= link_to "Заказать", new_registration_path('user'), class: 'btn btn-primary' %></td>
-        </tr>
-        <tr>
-          <td scope="row" class="text-start"><span>Стандартная настройка* платных тем второго и четвертого поколения.</span>
-            <small class="d-block mt-1"> Например темы: Showroom, Furnistore, Flowerstore, E-comm, Revmag, Dotstore</small></td>
-          <td>6000 руб</td>
-          <td><%= link_to "Заказать", new_registration_path('user'), class: 'btn btn-primary' %></td>
-        </tr>
-        <tr>
-          <td scope="row" class="text-start"><span>Настройка индивидуальных тем второго и четвертого поколения</span></td>
-          <td>10000 руб</td>
-          <td><%= link_to "Заказать", new_registration_path('user'), class: 'btn btn-primary' %></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="mt-4"><small>*Стандартная настройка - это кнопка в карточке товара, кнопка в мини-карточке в категории, кнопка в шапке, создание страницы Избранное, кнопка в личном кабинете клиента магазина (Отправить на почту)</small></div>
-</section>
+  <h1 class="display-4 text-center text-uppercase mt-5 mb-5">Сервис Избранное</h1>
+  <section class="page-section pt-0">
+    <div class="card-group gap-sm-3 gap-md-2">
+        <div class="card ml-0 mr-0">
+            <div class="view overlay">
+            <%= image_tag "/benefit1.jpg", data: { src: "/benefit1.jpg"}, class: "card-img-top" %>
+            <div class="mask rgba-white-slight"></div>
+            </div>
+            <div class="card-body">
+            <h4 class="card-title">Больше удобств клиенту</h4>
+            <p class="card-text">"Избранные товары" доступны клиенту как в мобильной , так и в полной версии сайта. Ваш клиент всегда может отправить себе на email отобранные товары.</p>
+            </div>
+        </div>
+        <div class="card ml-0 mr-0">
+            <div class="view overlay">
+            <%= image_tag "/benefit3.jpg", data: { src: "/benefit3.jpg"}, class: "card-img-top" %>
+            <div class="mask rgba-white-slight"></div>
+            </div>
+            <div class="card-body">
+            <h4 class="card-title">Отчеты об отобранных товарах</h4>
+            <p class="card-text">Вы можете просматривать список отобранных товаров по клиентам отдельно или экспортировать весь список в CSV для дальнейшего анализа.</p>
+            </div>
+        </div>
+        <div class="card ml-0 mr-0">
+            <div class="view overlay">
+            <%= image_tag "/benefit2.jpg", data: { src: "/benefit2.jpg"}, class: "card-img-top" %>
+            <div class="mask rgba-white-slight"></div>
+            </div>
+            <div class="card-body">
+            <h4 class="card-title">Полностью изменяемый вид</h4>
+            <p class="card-text">Обладая базовыми знаниями в CSS вы можете полностью изменить дизайн кнопок и страницы "Избранные товары" под Ваш стиль магазина.</p>
+            </div>
+        </div>
+        <div class="card ml-0 mr-0">
+            <div class="view overlay">
+            <%= image_tag "/benefit4.jpg", data: { src: "/benefit4.jpg"}, class: "card-img-top" %>
+            <div class="mask rgba-white-slight"></div>
+            </div>
+            <div class="card-body">
+            <h4 class="card-title">Состав избранного на email</h4>
+            <p class="card-text">Ваши клиенты могут отправлять список товаров на свой контактный email со страницы "Избранные товары".</p>
+            <p></p>
+            </div>
+        </div>
+    </div>
+  </section>
+  <%= render 'home/price_section'%>
 </div>

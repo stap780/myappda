@@ -1,23 +1,53 @@
 <div class="container mb-5">
-<h1 class="display-4 text-center text-uppercase mt-5 mb-5">Триггеры</h1>
-<section class="page-section pt-0">
-<div class="row">
-    <div class="display-6 text-center text-uppercase mb-5">Возможности</div>
-    <ol class="list-group list-group-numbered">
-        <li class="list-group-item">уведомлений клиентов и менеджеров интернет-магазина о событиях, происходящих с заказами в зависимости от статуса заказа или оплаты, включая пользовательские статусы.</li>
-        <li class="list-group-item">возможность настроить и использовать доменную почту, например info@store.ru Есть настройки для yandex, mail, gmail, masterhost и др.</li>
-        <li class="list-group-item">отложенная отправка через несколько минут, часов, дней</li>
-        <li class="list-group-item">индивидуальные шаблоны сообщений для разных событий как для клиента, так и для менеджера магазина. (планируется добавить к статусам и способы доставки)</li>
-        <li class="list-group-item">использование языка Liquid для сообщений, как в шаблонах InSales. 
-        С помощью языка Liquid можно подставлять любую информацию, доступную в заказе, включая телефон клиента, сумму заказа, E-mail клиента, купленные позиции и т.д. 
-        С помощью условий в Liquid вы можете реализовать адаптивные сообщения, которые показывают или скрывают информацию в зависимости от переменных заказа</li>
-        <li class="list-group-item">разные каналы оповещения клиента: email, sms (в разработке), telegramm (в разработке), whatsapp (в разработке) </li>
-        <li class="list-group-item">выполнение периодических заданий (email, API) </li>
-        <li class="list-group-item">"Брошенная корзина"</li>
-        <li class="list-group-item">"Предзаказ"</li>
-        <li class="list-group-item">"Сообщить о поступлении"</li>
-    </ol>
-    </div>
+    <section class="page-section pt-0">
+        <div class="row">
+            <div class="display-6 text-center text-uppercase mb-5">Возможности</div>
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item">различные типы Заявок с сайта в "одном окне": "Брошенная корзина", "Предзаказ", "Сообщить о поступлении"</li>
+                <li class="list-group-item">"Избранные товары" с возможностью автоматического оповещения клиента по сценарию</li>
+                <li class="list-group-item">уведомления клиентам и менеджерам интернет-магазина о событиях, происходящих с Заявками в зависимости от разных триггеров</li>
+                <li class="list-group-item">возможность использовать свою доменную почту, например info@store.ru (есть настройки для yandex, mail, gmail, masterhost и др.)</li>
+                <li class="list-group-item">отложенная отправка сообщений через несколько минут, часов, дней</li>
+                <li class="list-group-item">индивидуальные шаблоны сообщений для разных событий как для клиента, так и для менеджера магазина</li>
+                <li class="list-group-item">использование языка Liquid для сообщений, как в шаблонах InSales</li>
+                <li class="list-group-item">разные каналы оповещения клиента: email, sms (в разработке), telegramm (в разработке), whatsapp (в разработке) </li>
+                <li class="list-group-item">выполнение периодических заданий (email, API) </li>
+                <li class="list-group-item">"Сценарии скидок" в зависимости от состава корзины и категорий товаров</li>
+                <li class="list-group-item">cтатистика по Клиентам и Товарам</li>
+                <li class="list-group-item">экспорт данных в .xlsx и .csv</li>
+                <li class="list-group-item">бесплатные инструкции по настройке в личном кабинете</li>
+            </ol>
+        </div>
+    </section>
+    <%= render 'home/price_section'%>
+
+<section class="page-section price pt-0">
+  <div class="display-5 text-center text-uppercase mb-5">Дополнительные услуги</div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Наименование услуги</th>
+          <th>Стоимость</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="vertical-align: middle;">
+          <td scope="row">Настройка всех типов заявок для стандартных тем четвертого поколения.</td>
+          <td>10000 руб</td>
+          <td><%= link_to "Заказать", new_registration_path('user'), class: 'btn btn-primary' %></td>
+        </tr>
+        <tr style="vertical-align: middle;">
+          <td scope="row">Настройка всех типов заявок для индивидуальных тем четвертого поколения</td>
+          <td>20000 руб</td>
+          <td><%= link_to "Заказать", new_registration_path('user'), class: 'btn btn-primary' %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="mt-4"><small>При оплате на год - скидка на настройку 50%</small></div>
 </section>
-<%= render 'home/price_section'%>
+
+
 </div>

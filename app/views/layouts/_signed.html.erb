@@ -18,32 +18,29 @@
             <div class="d-flex align-items-center">
                 <i class="bi bi-bell me-3"></i>
                 <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <%= tag.button class: "btn btn-outline-secondary dropdown-toggle", type: "button", id: "userMenu", data: { bs_toggle: "dropdown" }, aria: { expanded: "false" } do %>
                         <i class="bi bi-person"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li>
-                            <%= link_to 'Выйти', destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" if user_signed_in?%>
-                        </li>
-                    </ul>
+                    <% end %>
+                    <%= tag.ul class: "dropdown-menu", aria: { labelledby: "userMenu" } do %>
+                        <%= tag.li do %>
+                            <%= link_to 'Выйти', destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %>
+                        <% end %>
+                    <% end if user_signed_in? %>
                 </div>
-            </div>
-            <div id="our_flash" class="position-absolute z-1 start-50 translate-middle-x w-50" style="top: 60px;">
-                <%= render "shared/flash"%>
-            </div>
+            <%= tag.div id: "our_flash", class: "position-absolute z-1 start-50 translate-middle-x w-50", style: "top: 60px;" do %>
+                <%= render "shared/flash" %>
+            <% end %>
         <% end %>
         <main class="d-flex flex-column w-100 p-0">
             <div class="container-fluid">
+                <%= turbo_stream_from [Apartment::Tenant.current, :bulk_actions] if user_signed_in? %>
                 <%= render "shared/modal_wrap"%>
                 <%= render "shared/offcanvas_wrap" %>
                 <%= yield %>
             </div>
         </main>
         <footer class="footer p-3 sticky-bottom">
-            <div class="text-center">
-            Поддержка: <a href="mailto:info@myappda.ru">info@myappda.ru</a>
-            </div>
+            <div class="text-center">Поддержка: <a href="mailto:info@myappda.ru">info@myappda.ru</a></div>
         </footer>
     </div>
  </div>

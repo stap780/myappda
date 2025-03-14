@@ -17,7 +17,7 @@ module ApplicationHelper
   end
 
   def check_current_page_show_this_part?
-    not_show = ["users", "users_sign_in", "users_sign_up", "users_password_new"]
+    not_show = %w[users users_sign_in users_sign_up users_password_new]
     if not_show.include?(current_page_path_as_class)
       false
     else
@@ -37,9 +37,21 @@ module ApplicationHelper
     '<i class="bi bi-eye"></i>'.html_safe
   end
 
+  def order_icon
+    '<i class="bi bi-card-list"></i>'.html_safe
+  end
+
+  def client_icon
+    '<i class="bi bi-person-standing"></i>'.html_safe
+  end
+
+  def product_icon
+    '<i class="bi bi-box-seam"></i>'.html_safe
+  end
+
   def div_check_box_tag_all
-    content_tag :div, class: "col-1 d-flex self-content-start" do
-      check_box_tag("selectAll", "selectAll", class: "checkboxes form-check-input", data: {select_all_target: "checkboxAll", action: "change->select-all#toggleChildren"})
+    content_tag :div, class: 'col-1 d-flex self-content-start' do
+      check_box_tag('selectAll', 'selectAll', class: 'checkboxes form-check-input', data: {select_all_target: 'checkboxAll', action: 'change->select-all#toggleChildren'})
     end
   end
 
@@ -76,7 +88,7 @@ module ApplicationHelper
   end
 
   def prepend_flash
-    turbo_stream.prepend "our_flash", partial: "shared/flash"
+    turbo_stream.prepend 'our_flash', partial: 'shared/flash'
   end
 
   def download_icon
@@ -116,7 +128,7 @@ module ApplicationHelper
   end
 
   def add_icon
-    "<i class='bi bi-plus'></i> #{t("add")}".html_safe
+    "<i class='bi bi-plus'></i> #{t(:add)}".html_safe
   end
 
   def play_icon
@@ -146,9 +158,11 @@ module ApplicationHelper
   end
 
   def image_block(img_link = nil)
-    content_tag :div, class: 'img-ratio img-fit' do
-      content_tag :div, class: 'img-ratio__inner' do
-        picture_tag([img_link], image: {class: 'img-fluid m-0 p-2', loading: 'lazy'}) if img_link.present?
+    content_tag :div, class: 'd-block p-0' do
+      content_tag :div, class: 'img-ratio img-fit' do
+        content_tag :div, class: 'img-ratio__inner' do
+          picture_tag([img_link], image: {class: 'img-fluid m-0 p-2', loading: 'lazy'}) if img_link.present?
+        end
       end
     end
   end
@@ -174,8 +188,12 @@ def button_bulk_delete
 end
 
 def li_menu_link_to(name = nil, options = nil, html_options = nil, &block)
-  status = current_page?(options) ? "active" : ""
+  status = current_page?(options) ? 'active' : ''
   content_tag :li, class: "nav-item #{status}" do
     link_to(name, options, html_options, &block)
   end
+end
+
+def button_download
+  '<button class="btn btn-outline-info dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">.xlsx</button>'.html_safe
 end

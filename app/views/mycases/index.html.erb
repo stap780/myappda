@@ -13,37 +13,38 @@
       <%= f.search_field :number_eq , placeholder: 'number', class: "form-control" %>
       <%= f.select :casetype_eq, Mycase::CASETYPE, { :prompt => 'Тип заявки'}, class: "form-select" %>
       <%= f.select :status_eq , Mycase::STATUS, { :prompt => 'Статус заявки'}, class: "form-select" %>
-      <%= f.select :insales_custom_status_title_eq , ApiInsales.new(Insint.current).statuses, { :prompt => 'Статус Ins'}, class: "form-select" if Insint.work? %>
+      <%= f.select :insales_custom_status_title_eq , ApiInsales.new(Insint.current).statuses, { prompt: 'Статус Ins'}, class: "form-select" if Insint.work? %>
       <%= f.select :insales_financial_status_eq , Event::FIN_STATUS, { :prompt => 'Фин Ст Ins'}, class: "form-select" if Insint.work? %>
       <%= f.search_field :client_name_or_client_surname_or_client_email_cont , placeholder: 'client fio, email', class: "form-control" %>
-      <%= button_tag(type: 'submit', :class => "btn btn-outline-primary") do %><%= search_icon %><% end %>
+      <%= button_tag(type: 'submit', class: "btn btn-outline-primary") do %><%= search_icon %><% end %>
       <%= link_to arrow_clockwise_icon, mycases_path(search_cancel: true), class: 'btn btn-outline-dark d-flex justify-content-center align-items-center' %>
     </div>
   <% end %>
 
-  <div class="col-1 ms-1">
-    <%= form_with url: csv_export_mycases_path, method: :post, id: :bulk_action_form  do |f| %>
-      <%# f.button "#{button_print} CSV" , type: :submit, class: "btn btn-outline-primary" %>
-      <%= render 'shared/bulk_delete_buttons', f: f, object: Mycase.new %>
-    <% end %>
-  </div>
+  <%= form_with url: csv_export_mycases_path, method: :post, id: :bulk_action_form , class: 'col-2 ms-1' do |f| %>
+    <%# f.button "#{button_print} CSV" , type: :submit, class: "btn btn-outline-primary" %>
+    <%= render 'shared/download_excel_buttons', f: f, object: Mycase.new %>
+    <%= render 'shared/bulk_delete_buttons', f: f, object: Mycase.new %>
+  <% end %>
 </div>
 
 <div id="datatables-cases_wrapper" class="mt-3">
-  <div class="col-12 list-group list-group-striped" data-controller="select-all">
-    <%= tag.div( class: 'row py-2 px-0 justify-content-start align-items-center') do %>
-      <%= div_check_box_tag_all %>
-      <%= tag.div( 'Статус', class: 'col-1 fw-semibold' )%>
-      <%= tag.div( 'Тип заявки', class: 'col-2 fw-semibold' )%>
-      <%= tag.div( 'Клиент', class: 'col-5 fw-semibold' )%>
-      <%= tag.div( 'Сумма', class: 'col-1 fw-semibold' )%>
-      <%= tag.div('', class: 'col fw-semibold')%>
+  <%= turbo_stream_from [Apartment::Tenant.current, :mycases] %>
+  <%= turbo_frame_tag [Apartment::Tenant.current, :mycases], class:"table d-table", data: { controller: "select-all" } do %>
+    <%= tag.div( class: 'd-table-row') do %>
+      <%=tag.div class: 'd-table-cell fw-semibold' do %>
+        <%= div_check_box_tag_all %>
+      <% end %>
+      <%= tag.div( 'Статус', class: 'd-table-cell fw-semibold' )%>
+      <%= tag.div( 'Номер', class: 'd-table-cell fw-semibold' )%>
+      <%= tag.div( 'Тип заявки', class: 'd-table-cell fw-semibold' )%>
+      <%= tag.div( 'Клиент', class: 'd-table-cell fw-semibold' )%>
+      <%= tag.div( 'Сумма', class: 'd-table-cell fw-semibold' )%>
+      <%= tag.div('', class: 'd-table-cell fw-semibold')%>
      <%end if @mycases.present? %>
-    <%= turbo_stream_from [Apartment::Tenant.current, :mycases] %>
-    <%= turbo_frame_tag [Apartment::Tenant.current, :mycases], data: { } do %>
-      <%= render @mycases %>
-    <% end %>
-  </div>
+    <%= render @mycases %>
+  <% end %>
+  
+  <%= render 'shared/paginate', object: @mycases %>
 </div>
 
-<%= render 'shared/paginate', object: @mycases %>

@@ -1,25 +1,28 @@
-<%= turbo_frame_tag dom_id(mycase, Apartment::Tenant.current), class: "d-flex list-group-item py-2 border-start-0 border-end-0 row justify-content-start align-items-center px-0" do %>
-    <%= tag.div class: "col-1 d-flex flex-column" do %>
-        <%=tag.div class: 'form-check' do %>
-            <%= check_box_tag "mycase_ids[]", mycase.id, false, {class: 'checkboxes form-check-input', data: { 'select-all_target': 'checkbox', action: "change->selectall#toggleParent"}, form: :bulk_action_form } %>
-            <%=tag.label class: 'form-check-label' do %><%= tag.b( mycase.id ) %><% end %>
+<%= turbo_frame_tag dom_id(mycase, Apartment::Tenant.current), class: "d-table-row" do %>
+    <%= tag.div(class: "d-table-cell border-0 border-top border-light", style: 'width: 130px;') do %>
+        <%=tag.div class: 'form-check py-0' do %>
+            <%= check_box_tag "mycase_ids[]", mycase.id, false, {class: 'checkboxes form-check-input ms-0 me-1', data: { 'select-all_target': 'checkbox', action: "change->selectall#toggleParent"}, form: :bulk_action_form } %>
+            <%= tag.label class: 'form-check-label' do %><%= tag.b( mycase.id ) %><% end %>
         <% end %>
-        <%=tag.div( mycase.created_at.strftime('%d/%m/%Y %H:%M'), class: "fs-8") %>
+        <%= tag.div( mycase.created_at.strftime('%d/%m/%Y %H:%M'), class: "fs-8 py-0") %>
     <% end %>
-    <%= tag.div class: "col-1 d-flex flex-column" do %>
+    <%= tag.div class: "d-table-cell border-0 border-top border-light" do %>
         <%=tag.div( mycase.status_title, class: status_class(mycase.status)) %>
     <% end %>
-    <%= tag.div class: "col-2 d-flex flex-column" do %>
+    <%= tag.div class: "d-table-cell border-0 border-top border-light" do %>
+        <%= mycase.number %>
+    <% end %>
+    <%= tag.div class: "d-table-cell border-0 border-top border-light" do %>
         <%=tag.div( "#{mycase.casetype_value }", class: '') %>
         <%=tag.div( "#{mycase.insales_order_id}".html_safe, class: "fw-lighter") if mycase.casetype == 'order' %>
     <% end %>
-    <%= tag.div class: "col-5 d-flex flex-column" do %>
+    <%= tag.div class: "d-table-cell border-0 border-top border-light" do %>
         <%= mycase.client_data %>
     <% end %>
-    <%= tag.div class: "col-1 d-flex flex-column" do %>
+    <%= tag.div class: "d-table-cell border-0 border-top border-light" do %>
         <%= mycase.lines_sum %>
     <% end %>
-    <div class= "col-1 d-flex justify-content-end gap-3 align-items-center" id="buttons-<%=mycase.id%>">
+    <div class= "d-table-cell border-0 border-top border-light d-flex justify-content-end gap-1 align-items-center ps-2" id="buttons-<%=mycase.id%>">
         <%= link_to edit_icon, edit_mycase_path(mycase), class: '', data: {turbo_frame: "_top"} %>
         <%= link_to trash_icon, mycase, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "" %>
     </div>

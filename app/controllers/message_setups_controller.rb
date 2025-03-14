@@ -3,7 +3,6 @@ class MessageSetupsController < ApplicationController
   before_action :set_message_setup, only: %i[show edit update destroy]
   include ActionView::RecordIdentifier
 
-  # GET /message_setups
   def index
     @search = MessageSetup.all.ransack(params[:q])
     @search.sorts = 'id asc' if @search.sorts.empty?
@@ -11,11 +10,9 @@ class MessageSetupsController < ApplicationController
     redirect_to dashboard_services_url
   end
 
-  # GET /message_setups/1
   def show
   end
 
-  # GET /message_setups/new
   def new
     if current_user.insints.present? && current_user.insints.last.status
       @message_setup = MessageSetup.new
@@ -24,11 +21,9 @@ class MessageSetupsController < ApplicationController
     end
   end
 
-  # GET /message_setups/1/edit
   def edit
   end
 
-  # POST /message_setups
   def create
     @message_setup = MessageSetup.new(message_setup_params)
 

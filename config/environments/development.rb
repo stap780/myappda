@@ -13,16 +13,13 @@ Rails.application.configure do
   config.consider_all_requests_local = true
 
   # Enable/disable caching. By default caching is disabled.
+  config.action_controller.perform_caching = false
   if Rails.root.join('tmp/caching-dev.txt').exist?
-    config.action_controller.perform_caching = false
-
     config.cache_store = :memory_store
     config.public_file_server.headers = {
       'Cache-Control' => 'public, max-age=172800'
     }
   else
-    config.action_controller.perform_caching = false
-
     config.cache_store = :null_store
   end
 
@@ -57,21 +54,22 @@ Rails.application.configure do
   # Make app the standard subdomain
   config.after_initialize do
     Rails.application.routes.default_url_options[:host] = 'lvh.me:3000'
-  end # after_initialize
+  end
 
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
 
-  config.action_mailer.smtp_settings = {
-    tls: true,
-    address: "smtp.yandex.com",
-    port: 465,
-    domain: "yandex.ru",
-    authentication: "login",
-    user_name: ENV["YANDEX_USER_NAME"],
-    password: ENV["YANDEX_PASSWORD"],
-    enable_starttls_auto: true
-  }
+  # config.action_mailer.smtp_settings = {
+  #   tls: true,
+  #   address: "smtp.yandex.com",
+  #   port: 465,
+  #   domain: "yandex.ru",
+  #   authentication: "login",
+  #   user_name: ENV["YANDEX_USER_NAME"],
+  #   password: ENV["YANDEX_PASSWORD"],
+  #   enable_starttls_auto: true
+  # }
+
   # config.action_mailer.smtp_settings = {
   #   address: "smtp.gmail.com",
   #   port: 587,
@@ -86,5 +84,5 @@ Rails.application.configure do
     config.action_mailer.default_url_options = { host: 'http://lvh.me:3000'}
 
     # Store uploaded files on the local file system (see config/storage.yml for options).
-    config.active_storage.service = :local
+    config.active_storage.service = :timeweb
 end

@@ -59,6 +59,7 @@ Rails.application.routes.draw do
       collection do
         post :bulk_delete
         post :csv_export
+        post :download
       end
     end
     resources :order_status_changes
@@ -91,6 +92,7 @@ Rails.application.routes.draw do
         put :update_api_insales
         post :csv_export
         post :bulk_delete
+        post :download
       end
     end
     resources :invoices do
@@ -102,6 +104,7 @@ Rails.application.routes.draw do
       collection do
         post :bulk_delete
         post :csv_export
+        post :download
       end
     end
     resources :variants

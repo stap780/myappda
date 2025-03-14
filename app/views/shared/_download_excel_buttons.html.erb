@@ -1,0 +1,8 @@
+<div class="btn-group" role="group">
+    <%= button_download %>
+    <ul class="dropdown-menu">
+        <%= f.button 'Выбранное', type: :submit, class: "dropdown-item", formaction: polymorphic_path(object, action: 'download', download_type: :selected)%>
+        <%= f.button 'Отфильтрованное', type: :submit, class: "dropdown-item", formaction: polymorphic_path(object, action: 'download', download_type: :filtered)%>
+        <%= f.button 'Всё',type: :submit, class: "dropdown-item", formaction: polymorphic_path(object, action: 'download', download_type: :all)%>
+    </ul>
+</div>

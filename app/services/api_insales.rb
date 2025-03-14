@@ -12,14 +12,16 @@ class ApiInsales
     def statuses
         begin
             statuses = InsalesApi::CustomStatus.find(:all).map{ |d| d.title }
-            rescue ActiveResource::ResourceNotFound
-                #redirect_to :action => 'not_found'
-                puts  'not_found 404'
-            rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
-                #redirect_to :action => 'new'
-                puts "ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid"
-            rescue ActiveResource::UnauthorizedAccess
-                puts "Failed.  Response code = 401.  Response message = Unauthorized"
+        rescue ActiveResource::ResourceNotFound
+            #redirect_to :action => 'not_found'
+            puts  'not_found 404'
+        rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+            #redirect_to :action => 'new'
+            puts 'ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid'
+        rescue ActiveResource::UnauthorizedAccess
+            puts 'Failed.  Response code = 401.  Response message = Unauthorized'
+        rescue StandardError => e
+            puts e
         else
             statuses
         end
@@ -28,7 +30,7 @@ class ApiInsales
     def create_or_find_custom_status
         begin
             # if InsalesApi::CustomStatus.find(:all).map{ |d| d if d.system_status == 'preorder' }.reject(&:blank?).present?
-                status = InsalesApi::CustomStatus.find(:all).map{ |d| d if d.permalink.include?('preorder') }.reject(&:blank?)[0]
+            status = InsalesApi::CustomStatus.find(:all).map{ |d| d if d.permalink.include?('preorder') }.reject(&:blank?)[0]
             # else
             #     data =  {  "system_status" => "preorder", "title" => "Предзаказ" } 
             #     status = InsalesApi::CustomStatus.new(data)
@@ -47,7 +49,7 @@ class ApiInsales
         else
             status
         end
-        puts "create_or_find_custom_status status => " + status.inspect.to_s
+        puts "create_or_find_custom_status status => #{status.inspect}"
         status
     end
 

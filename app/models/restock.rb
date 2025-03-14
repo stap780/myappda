@@ -9,7 +9,11 @@ class Restock < ApplicationRecord
   before_save :set_status_if_new_record
   validates_uniqueness_of :variant_id, scope: %i[client_id mycase_id]
 
-  Status = [['Ждём поступления', 'wait'], ['Появился', 'ready'], ['Сообщение отправлено', 'send']].freeze
+  STATUS = [
+    ['Ждём поступления', 'wait'],
+    ['Появился', 'ready'],
+    ['Сообщение отправлено', 'send']
+  ].freeze
 
   scope :for_inform, -> { where(status: 'ready') }
   scope :status_wait, -> { where(status: 'wait') }

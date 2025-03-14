@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "modal", "" %>
+<%= turbo_frame_tag "modal" do %>
+    <%= render partial: "shared/pending_bulk_text"%>
+<% end %>
+<%= turbo_stream_action_tag :set_unchecked, targets: '.checkboxes' %>
+<%= turbo_stream_action_tag :open_modal, targets: '.modal' %>

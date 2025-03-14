@@ -1,0 +1,5 @@
+<%= tag.p "Создали файл" if blob %>
+<%= tag.p "Процесс окончен" if message %>
+<%# link_to 'Скачать', rails_blob_path(bulk_print, disposition: 'attachment') if bulk_print %>
+<%= link_to 'Скачать', "https://s3.timeweb.cloud/#{blob.service.bucket.name}/#{blob.key}", target: '_blank' if blob %>
+<%= tag.p message if message %>

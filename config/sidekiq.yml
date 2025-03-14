@@ -10,6 +10,7 @@
     - abandoned_job
     - insint_job
     - bulk_delete
+    - print
 :max_retries: 3
 :scheduler:
   :dynamic: true
@@ -19,4 +20,4 @@ development:
 staging:
   :concurrency: 10
 production:
-  :concurrency: 30
+  :concurrency: 20

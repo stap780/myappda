@@ -11,8 +11,6 @@ class Mycase < ApplicationRecord
 
   include ActionView::RecordIdentifier
 
-  before_save :normalize_data_white_space
-
   after_create_commit do
     broadcast_prepend_to [Apartment::Tenant.current, :mycases],target: "#{Apartment::Tenant.current}_mycases",partial: 'mycases/mycase',locals: {mycase: self}
   end
@@ -56,51 +54,46 @@ class Mycase < ApplicationRecord
   end
 
   def add_restock
-    return '' unless casetype == 'restock'
+    return unless casetype == 'restock'
 
-    puts 'MyCase add_restock start'
     lines.each do |line|
       self.restocks.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
     end
-    puts 'MyCase add_restock finish'
   end
 
   def add_preorder
-    return '' unless casetype == 'preorder'
+    return unless casetype == 'preorder'
 
-    puts 'Case add_preorder start'
     lines.each do |line|
       self.preorders.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
     end
-    puts 'Case add_preorder finish'
   end
 
   def add_abandoned_cart
-    return '' unless casetype == 'abandoned_cart'
+    return unless casetype == 'abandoned_cart'
 
-    puts 'Case add_abandoned_cart start'
     lines.each do |line|
       data = { product_id: line.product.id, variant_id: line.variant.id, client_id: client.id, mycase_id: id }
       abandoned = AbandonedCart.where(data).first
       AbandonedCart.create!(data) unless abandoned.present?
     end
-    puts 'Case add_abandoned_cart finish'
   end
 
-  # for 'order' & 'abandoned_cart' & 'preorder'
+  # NOTICE for 'order' & 'abandoned_cart' & 'preorder'
   def do_event_action
     user = User.find_by_subdomain(Apartment::Tenant.current)
-    if casetype == 'order' || casetype == 'abandoned_cart' || casetype == 'preorder'
-      puts "########## Case do_event_action start - #{casetype}"
-      events = Event.active.where(casetype: casetype)
-      if events.size.positive?
-        puts "case do_event_action events.size > 0 and count = #{events.size}"
-        events.each do |event|
-          EventActionService.new(user, event, self).do_action
-        end
+    casetypes = %w[order abandoned_cart preorder]
+    return unless casetypes.include?(casetype)
+
+    puts "########## Case do_event_action start - #{casetype}"
+    events = Event.active.where(casetype: casetype)
+    if events.size.positive?
+      puts "case do_event_action events.size > 0 and count = #{events.size}"
+      events.each do |event|
+        EventActionService.new(user, event, self).do_action
       end
-      puts '########## Case do_event_action finish'
     end
+    puts '########## Case do_event_action finish'
   end
 
   def self.restock_update_cases(client)
@@ -145,11 +138,5 @@ class Mycase < ApplicationRecord
     lines.delete_all
   end
 
-  private
 
-  def normalize_data_white_space
-    attributes.each do |key, value|
-      self[key] = value.squish if value.respond_to?(:squish)
-    end
-  end
 end

@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
-lock "~> 3.19.1"
+lock '~> 3.19.1'
 
-server "178.253.40.249", roles: %w[app db web]
+server '178.253.40.249', roles: %w[app db web]
 
-set :application, "myappda"
+set :application, 'myappda'
 set :repo_url, "git@github.com:stap780/#{fetch(:application)}.git"
 
-set :user, "myappda"
-set :systemctl_user, :system #this is livehack for 'capistrano3-puma', '6.0.0.beta.1'
-set :branch, "master"
+set :user, 'myappda'
+
+# NOTICE this is livehack for 'capistrano3-puma', '6.0.0.beta.1'
+set :systemctl_user, :system
+
+set :branch, 'master'
 set :pty, true
 set :stage, :production
 set :deploy_to, "/var/www/#{fetch(:application)}"
@@ -18,11 +21,11 @@ set :puma_error_log, "#{release_path}/log/puma.error.log"
 set :ssh_options, {forward_agent: true, user: fetch(:user), keys: %w[~/.ssh/id_rsa.pub]}
 # set :puma_enable_socket_service, true
 
-append :linked_files, "config/master.key", "config/database.yml", "config/sidekiq.yml", "config/sidekiq_scheduler.yml"
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "public", "tmp/sockets", "vendor/bundle", "lib/tasks", "lib/drop", "storage"
+append :linked_files, 'config/master.key','config/database.yml','config/sidekiq.yml','config/sidekiq_scheduler.yml','config/storage.yml'
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'public', 'tmp/sockets', 'vendor/bundle', 'lib/tasks', 'lib/drop', 'storage'
 
 namespace :puma do
-  desc "Create Directories for Puma Pids and Socket"
+  desc 'Create Directories for Puma Pids and Socket'
   task :make_dirs do
     on roles(:app) do
       execute "mkdir #{shared_path}/tmp/sockets -p"
@@ -30,17 +33,17 @@ namespace :puma do
     end
   end
 
-  before "deploy:starting", "puma:make_dirs"
+  before 'deploy:starting', 'puma:make_dirs'
 end
 
 namespace :deploy do
-  desc "Make sure local git is in sync with remote."
+  desc 'Make sure local git is in sync with remote.'
   task :check_revision do
     on roles(:app) do
       # Update this to your branch name: master, main, etc. Here it's master
       unless `git rev-parse HEAD` == `git rev-parse origin/master`
-        puts "WARNING: HEAD is not the same as origin/master"
-        puts "Run `git push` to sync changes."
+        puts 'WARNING: HEAD is not the same as origin/master'
+        puts 'Run `git push` to sync changes.'
         exit
       end
     end
@@ -77,4 +80,4 @@ namespace :deploy do
   # after 'deploy:published', 'sidekiq:restart'
 end
 
-Rake::Task["deploy:assets:backup_manifest"].clear_actions
+Rake::Task['deploy:assets:backup_manifest'].clear_actions

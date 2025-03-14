@@ -20,21 +20,22 @@
 <div class="table-responsive">
   <table class="table table-sm table-hover align-middle table-bordered border-light">
     <thead class="align-middle">
-      <tr class="bg-success">
+      <tr>
         <th rowspan="2">#</th>
         <th rowspan="2">Пользователь</th>
         <th rowspan="2">Настройки</th>
-        <th colspan="6">Всего</th>
-        <th rowspan="2">Состояние</th>
+        <th colspan="7" class="text-center">Всего</th>
+        <th rowspan="2" class="text-center">Состояние</th>
         <th rowspan="2"></th>
       </tr>
-      <tr class="bg-success mt-0">
-        <th>Clients</th>
-        <th>Products</th>
-        <%=tag.th heart_icon, title: 'Избранное' %>
-        <%=tag.th reload_icon, title: 'Сообщить о поступлении' %>
-        <%=tag.th bell_icon, title: 'Предзаказ' %>
-        <%=tag.th cart_icon, title: 'Корзина' %>
+      <tr>
+        <%=tag.th client_icon, title: 'клиенты' %>
+        <%=tag.th product_icon, title: 'товары' %>
+        <%=tag.th order_icon, title: 'заказы' %>
+        <%=tag.th heart_icon, title: 'избранное' %>
+        <%=tag.th reload_icon, title: 'сообщить о поступлении' %>
+        <%=tag.th bell_icon, title: 'предзаказ' %>
+        <%=tag.th cart_icon, title: 'корзина' %>
       </tr>
     </thead>
     <tbody class="align-middle">

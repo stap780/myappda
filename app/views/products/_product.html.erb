@@ -1,22 +1,26 @@
-<%= turbo_frame_tag dom_id(product, Apartment::Tenant.current), class: "d-flex list-group-item py-0 border-start-0 border-end-0 row justify-content-start align-items-center px-0" do %>
-    <%= tag.div class: "col-1 d-flex flex-column" do %>
-        <%=tag.div class: 'form-check' do %>
-            <%= check_box_tag "product_ids[]", product.id, false, {class: 'checkboxes form-check-input', data: { 'select-all_target': 'checkbox', action: "change->selectall#toggleParent"}, form: :bulk_action_form } %>
+<%= turbo_frame_tag dom_id(product, Apartment::Tenant.current), class: "d-table-row" do %>
+    <%= tag.div class: "d-table-cell border-0 border-top border-light" do %>
+        <%=tag.div class: 'form-check py-0' do %>
+            <%= check_box_tag "product_ids[]", product.id, false, {class: 'checkboxes form-check-input ms-0 me-1', data: { 'select-all_target': 'checkbox', action: "change->selectall#toggleParent"}, form: :bulk_action_form } %>
             <%=link_to arrow_clockwise_icon, insales_info_product_path(product), class: "btn btn-sm btn-outline-primary border-0", data: {turbo_stream: true}%>
+            <%= tag.label class: 'form-check-label' do %><%= tag.b(product.id) %><% end %>
         <% end %>
-        <%=tag.div( product.insid, class: 'opacity-75 fs-8') if product.insid %>
+        <%=tag.div( product.insid, class: 'opacity-75 fs-8 py-0') if product.insid %>
     <% end %>
-    <%=tag.div( product.created_at.strftime('%d/%m/%Y %H:%M'), class: "col-1 fs-8") %>
+    <%=tag.div( product.created_at.strftime('%d/%m/%Y %H:%M'), class: "d-table-cell border-0 border-top border-light fs-8") %>
 
-    <%=tag.div class: 'col-1 p-0' do %>
+    <%=tag.div class: 'd-table-cell border-0 border-top border-light', style: "width:100px;vertical-align: middle;" do %>
         <%= image_block(product.image_link)%>
     <% end %>
-    <%=tag.div(product.title, class: 'col-5') %>
-    <%=tag.div class: 'col-1 p-0 d-flex align-items-center justify-content-center' do %>
+    <%=tag.div(product.title, class: 'd-table-cell border-0 border-top border-light') %>
+    <%=tag.div class: 'd-table-cell border-0 border-top border-light' do %>
         <%= link_to eye_icon, product, data: { turbo_frame: "offcanvas_wrap", turbo_stream: true } %>
     <% end %>
-    <%=tag.div(product.price, class: 'col-2') %>
-    <%=tag.div class: 'col-1 p-0 d-flex align-items-center justify-content-center' do %>
-        <%= link_to trash_icon, product, data: { "turbo-method": :delete, 'turbo-confirm': 'Будут удалены избранные, сообщить о поступлении, предзаказ связанные с этим товаром. Вы уверенны? ' }, class:"" %>
+    <%=tag.div(product.price, class: 'd-table-cell border-0 border-top border-light') %>
+    <%=tag.div class: 'd-table-cell border-0 border-top border-light' do %>
+        <%= link_to trash_icon, product, data: { 
+            turbo_method: :delete,
+            turbo_confirm: 'Будут удалены избранные, сообщить о поступлении, предзаказ связанные с этим товаром. Вы уверенны?'
+            }, class:"" %>
     <% end %>
 <% end %>

@@ -62,9 +62,8 @@ class Insint::Order < ApplicationService
 
         line.present? ? line.first.update!(line_data) : mycase.lines.create!(line_data)
       end
-
+      # NOTICE run order event action
       mycase.do_event_action
-      # конец создаём заявку
     end
   end
 

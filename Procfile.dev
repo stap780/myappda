@@ -1,4 +1,4 @@
-web: env RUBY_DEBUG_OPEN=true bin/rails server
-css: yarn watch:css
+web: unset PORT && bin/rails server
 js: yarn build --watch
-css: yarn watch:css
+css: yarn build:css --watch
+sidekiq: bundle exec sidekiq -C config/sidekiq.yml

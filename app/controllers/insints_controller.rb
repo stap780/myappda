@@ -278,9 +278,15 @@ class InsintsController < ApplicationController
     Apartment::Tenant.switch(saved_subdomain) do
       if MessageSetup.check_ability
         InsintOrderJob.perform_later(saved_subdomain, params.permit!)
-        render json: { success: true, message: 'Информация сохранена в order_status_changes and case' }
+        render json: {
+          success: true,
+          message: 'Информация сохранена в order_status_changes and case'
+        }
       else
-        render json: { error: false, message: 'не смогли добавить запись в order_status_changes and case Сервис не включен' }
+        render json: {
+          error: false,
+          message: 'не смогли добавить запись в order_status_changes and case Сервис не включен'
+        }
       end
     end
   end

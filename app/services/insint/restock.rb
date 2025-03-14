@@ -9,11 +9,12 @@ class Insint::Restock < ApplicationService
   def call
     Apartment::Tenant.switch(@tenant) do
       number = @datas['id']
-      search_client = Client.find_by_email(@datas['contacts']['email']).present? ? Client.find_by_email(@datas['contacts']['email']) :
-                                                                                  Client.find_by_phone(@datas['contacts']['phone'])
-      client_name = @datas['contacts']['name'].present? ? @datas['contacts']['name'] : "restock_#{number}"
+      email = @datas['contacts']['email'].present? ? @datas['contacts']['email'] : "#{number}@mail.ru"
       phone = @datas['contacts']['phone'].present? ? @datas['contacts']['phone'] : '+79011111111'
-      client = search_client.present? ? search_client : Client.create!(email: @datas['contacts']['email'], phone: phone, name: client_name)
+      name = @datas['contacts']['name'].present? ? @datas['contacts']['name'] : "restock_#{number}"
+      check = Client.find_by_email(email)
+      search_client = check.present? ? check : Client.find_by_phone(phone)
+      client = search_client.present? ? search_client : Client.create!(email: email, phone: phone, name: name)
       mycase_data = {
         number: number,
         casetype: 'restock',
@@ -35,6 +36,7 @@ class Insint::Restock < ApplicationService
         }
         line.present? ? line.first.update!(line_data) : mycase.lines.create!(line_data)
       end
+      # NOTICE add record to restocks
       mycase.add_restock
     end
   end

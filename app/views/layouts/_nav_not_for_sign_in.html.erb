@@ -9,6 +9,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
                 <a href="/#about-app" class="nav-item nav-link fs-6">О приложении</a>
+                <a href="/message" class="nav-item nav-link fs-6">Тарифы</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle fs-6" role="button" data-bs-toggle="dropdown" aria-expanded="false">Сервисы</a>
                     <div class="dropdown-menu m-0">
@@ -19,8 +20,7 @@
                         <a href="/disc" class="dropdown-item">Сценарии скидок</a>
                     </div>
                 </div>
-                <a href="/message" class="nav-item nav-link fs-6">Тарифы</a>
-                <a href="/documents" class="nav-item nav-link fs-6">Помощь</a>
+                <%# link_to 'Помощь', '/documents', class: "nav-item nav-link fs-6" %>
             </div>
             <%= link_to t('log_in'), new_session_path('user'), class: 'btn btn-light border border-primary rounded-pill text-primary py-2 px-4 mx-4' %>
             <%= link_to t('sign_up'), new_registration_path('user'), class: 'btn btn-primary rounded-pill text-white py-2 px-4' %>

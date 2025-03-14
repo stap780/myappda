@@ -5,8 +5,9 @@ class ClientsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_client, only: %i[show edit update emailizb update_from_insales destroy]
   include SearchQueryRansack
+  include DownloadExcel
   include BulkDelete
-  
+
   def index
     @search = Client.includes(:favorites, :restocks, :preorders, :abandoned_carts).ransack(params[:q])
     @search.sorts = 'id desc' if @search.sorts.empty?
@@ -25,7 +26,6 @@ class ClientsController < ApplicationController
 
   def update_from_insales
     @client.get_ins_data
-    redirect_to @client, notice: 'Обновили клиента.'
   end
 
   def otchet

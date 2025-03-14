@@ -86,6 +86,21 @@ document.addEventListener("turbo:load", () => {
             });
         });
     }
+
+    var templateContent = document.getElementById("template-content");
+    // console.log(templateContent);
+    if (templateContent) {
+        var editor = CodeMirror.fromTextArea(templateContent, {
+            theme: 'elegant',
+            mode: "htmlmixed",
+            lineWrapping: true,
+            lineNumbers: true,
+            styleActiveLine: true,
+            matchBrackets: true
+        });
+        editor.save()
+        editor.setSize("100%", "500")
+    }
 });
 
 

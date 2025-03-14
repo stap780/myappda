@@ -21,3 +21,6 @@ application.register("select-all", SelectAllController)
 
 import SortableController from "./sortable_controller"
 application.register("sortable", SortableController)
+
+import TooltipController from "./tooltip_controller"
+application.register("tooltip", TooltipController)
