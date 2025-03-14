@@ -41,10 +41,21 @@ class EventActionService
       subject = subject_template.render('mycase' => case_drop, 'client' => client_drop)
       content = content_template.render('mycase' => case_drop, 'client' => client_drop, 'user' => user_drop)
 
-      email_data = {user: @user, subject: subject, content: content, receiver: receiver}
+      email_data = {
+        user: @user,
+        subject: subject,
+        content: content,
+        receiver: receiver
+      }
 
-      if @mycase.casetype != 'abandoned_cart' && check_trigger == true
+      if @mycase.casetype == 'order' && check_insales_statuses
         EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
+      end
+      if @mycase.casetype == 'preorder'
+        EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
+        @mycase.preorders.each do |preorder|
+          preorder.update(status: 'send')
+        end
       end
       if @mycase.casetype == 'abandoned_cart'
         AbandonedJob.set(wait: wait.to_i.minutes).perform_later(@mycase.id, tenant, email_data)
@@ -66,7 +77,7 @@ class EventActionService
 
   private
 
-  def check_trigger
+  def check_insales_statuses
     check = false
     if @mycase.insales_custom_status_title == @event.custom_status && @mycase.insales_financial_status == @event.financial_status
       check = true

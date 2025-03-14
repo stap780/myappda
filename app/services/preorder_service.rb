@@ -41,7 +41,7 @@ class PreorderService
       # в инсалес должен быть создан кастомный статус в группе Новый с названием - 'preorder'
       order_custom_status_permalink = service.create_or_find_custom_status.present? ? service.create_or_find_custom_status.permalink : "preorder"
       set_status = service.set_order_custom_status(order_insales.id, order_custom_status_permalink) if order_custom_status_permalink
-      mycase.update(status: "finish") if set_status
+      mycase.update(status: 'finish') if set_status
     end
   end
 end

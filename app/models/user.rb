@@ -142,7 +142,12 @@ class User < ApplicationRecord
       ms = MessageSetup.first
       if ms.present?
         ms = MessageSetup.first.add_extra_ability
-        ms.present? ? 'Добавили четыре недели' : 'Не добавили Сегодня не последний день'
+        if ms.present?
+          MessageSetup.set_service_status
+          'Добавили четыре недели'
+        else
+          'Не добавили Сегодня не последний день'
+        end
       else
         'Сервис не включен'
       end
