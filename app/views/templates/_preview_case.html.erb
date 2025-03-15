@@ -2,17 +2,17 @@
 <% content_template = Liquid::Template.parse(@template.content) %>
 
 <% client_drop = Drops::Client.new(@client) %>
-<% case_drop = Drops::Mycase.new(@case) %>
+<% case_drop = Drops::Mycase.new(@mycase) %>
 <% user_drop = Drops::User.new(current_user) %>
 
 
 <div class="row mx-auto">
     <pre>
     <code>
-    <div><span class="h6">Тема письма:</span> <%= subject_template.render('case' => case_drop, 'client' => client_drop)%></div>
+    <div><span class="h6">Тема письма:</span> <%= subject_template.render('mycase' => case_drop, 'client' => client_drop)%></div>
     
     <div class="h6">Содержание письма:</div> 
-    <%= content_template.render('case' => case_drop, 'client' => client_drop, 'user' => user_drop).html_safe%>
+    <%= content_template.render('mycase' => case_drop, 'client' => client_drop, 'user' => user_drop).html_safe%>
     </code>
     </pre>
 </div>

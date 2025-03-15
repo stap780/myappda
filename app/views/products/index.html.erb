@@ -29,7 +29,7 @@
 
 <div id="datatables-products_wrapper" class="mt-3">
   <%= turbo_stream_from [Apartment::Tenant.current, :products] %>
-  <%= turbo_frame_tag [Apartment::Tenant.current, :products], class:"table d-table", data: { controller: "select-all" } do %>
+  <%= tag.div( class:"table d-table", data: { controller: "select-all" } ) do %>
     <%= tag.div( class: 'd-table-row') do %>
       <%= tag.div class: 'd-table-cell fw-semibold' do %>
         <%= div_check_box_tag_all %>
@@ -41,7 +41,9 @@
       <%= tag.div( 'Цены', class: 'd-table-cell fw-semibold' )%>
       <%= tag.div('', class: 'd-table-cell fw-semibold')%>
     <% end if @products.present? %>
-    <%= render @products %>
+    <%= turbo_frame_tag [Apartment::Tenant.current, :products] do %>
+      <%= render @products %>
+    <% end %>
   <% end %>
   
   <%= render 'shared/paginate', object: @products %>

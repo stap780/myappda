@@ -2,7 +2,7 @@
     <%= tag.div class: "logo px-3 py-2 d-flex gap-2" do %>
         <%= tag.div 'MyAppDA', class: 'logo_text' %>
         <%# image_tag "new_logo_myappda_white.svg", data: {src: "new_logo_myappda_white.svg", title: 'MyAppDa'}, class: 'logo logo_white' %>
-        <%= link_to sidekiq_icon, '/sidekiq', target: "_blank", class: "align-self-end fs-7" %>
+        <%= link_to sidekiq_icon, '/sidekiq', target: "_blank", class: "align-self-end fs-7" if current_admin %>
     <% end %>
     <% if current_user != true_user %>
       <%= tag.ul class: "nav flex-column" do %>

@@ -30,7 +30,7 @@ class EventActionService
         client_drop = Drops::Client.new(@mycase.client)
       end
       if @mycase.casetype == 'order'
-        check_trigger
+        check_insales_statuses
         service = ApiInsales.new(insint)
         order = service.order(@mycase.insales_order_id)
         client = service.client(order.client.id)
@@ -56,17 +56,18 @@ class EventActionService
         @mycase.preorders.each do |preorder|
           preorder.update(status: 'send')
         end
+        @mycase.update(status: 'finish')
       end
       if @mycase.casetype == 'abandoned_cart'
         AbandonedJob.set(wait: wait.to_i.minutes).perform_later(@mycase.id, tenant, email_data)
       end
     end
 
-    if channel == 'insales_api' && operation == 'cancel_order' && check_trigger
+    if channel == 'insales_api' && operation == 'cancel_order' && check_insales_statuses
       CancelOrderJob.set(wait: wait.to_i.minutes).perform_later(@mycase.insales_order_id, operation, insint)
     end
 
-    if channel == 'insales_api' && operation == 'change_order_status_to_new' && check_trigger
+    if channel == 'insales_api' && operation == 'change_order_status_to_new' && check_insales_statuses
       ChangeOrderStatusToNewJob.set(wait: wait.to_i.minutes).perform_later(@mycase.insales_order_id, operation, insint)
     end
 

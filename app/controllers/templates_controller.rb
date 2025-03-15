@@ -25,8 +25,8 @@ class TemplatesController < ApplicationController
   end
 
   def preview_case
-    @case = Mycase.find_by_id(params[:case_id])
-    @client = @case.client
+    @mycase = Mycase.find_by_id(params[:case_id])
+    @client = @mycase.client
     # respond_to do |format|
     #   format.js
     # end
