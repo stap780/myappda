@@ -13,8 +13,12 @@ class Template < ApplicationRecord
 
   private
 
-  def normalize_data_white_space
+  def normalize_whitespace
     attributes.each do |key, value|
+      # puts "key: #{key}, value: #{value}"
+      excluded_keys = %w[content]
+      next if excluded_keys.include?(key)
+
       self[key] = value.squish if value.respond_to?(:squish)
     end
   end
