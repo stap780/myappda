@@ -95,8 +95,8 @@ Rails.application.configure do
     port: 465,
     domain: 'masterhost.ru',
     authentication: 'login',
-    user_name: Rails.credentials.dig(:masterhost, :user_name),
-    password: Rails.credentials.dig(:masterhost, :password),
+    user_name: Rails.application.credentials.dig(:masterhost, :user_name),
+    password: Rails.application.credentials.dig(:masterhost, :password),
     enable_starttls_auto: true
   }
 
