@@ -184,7 +184,6 @@ GEM
     caxlsx_rails (0.6.4)
       actionpack (>= 3.1)
       caxlsx (>= 3.0)
-    chronic (0.10.2)
     combine_pdf (1.0.29)
       matrix
       ruby-rc4 (>= 0.1.5)
@@ -457,8 +456,6 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    whenever (1.0.0)
-      chronic (>= 0.6.3)
     wicked_pdf (2.8.2)
       activesupport
       ostruct
@@ -534,7 +531,6 @@ DEPENDENCIES
   stringio
   turbo-rails
   web-console (>= 3.3.0)
-  whenever
   wicked_pdf
   will_paginate
   will_paginate-bootstrap-style
