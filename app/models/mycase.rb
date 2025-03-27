@@ -79,7 +79,7 @@ class Mycase < ApplicationRecord
     end
   end
 
-  def api_insales_statuses
+  def self.api_insales_statuses
     return [] unless Insint.work? && ApiInsales.new(Insint.current).account
 
     ApiInsales.new(Insint.current).statuses

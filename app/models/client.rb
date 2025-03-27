@@ -112,7 +112,7 @@ class Client < ApplicationRecord
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
     service = ApiInsales.new(user.insints.first)
-    if service.work?
+    if service.account.present?
       client = service.client(clientid)
       if client.present?
         client_data = {

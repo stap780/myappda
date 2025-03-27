@@ -38,7 +38,7 @@ class Product < ApplicationRecord
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
     service = ApiInsales.new(user.insints.first)
-    if service.work?
+    if service.account.present?
       product = service.get_product_data(insid)
       if product.present?
         product_data = {
@@ -58,7 +58,7 @@ class Product < ApplicationRecord
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
     service = ApiInsales.new(user.insints.first)
-    if service.work?
+    if service.account.present?
       product = service.get_product_data(insid)
       if product.present?
         var_insid = product.variants.first.id

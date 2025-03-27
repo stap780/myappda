@@ -20,7 +20,7 @@ class Variant < ApplicationRecord
     current_subdomain = Apartment::Tenant.current
     user = User.find_by_subdomain(current_subdomain)
     service = ApiInsales.new(user.insints.first)
-    if service.work?
+    if service.account.present?
       variant = service.get_variant_data(product.insid, insid)
       if variant.present?
         variant_data = {

@@ -37,13 +37,13 @@ class InsintsController < ApplicationController
     respond_to do |format|
       if @insint.save
         service = ApiInsales.new(@insint)
-        if service.work?
+        if service.account.present?
           @insint.update!(status: true, insales_account_id: service.account.id)
         else
           @insint.update!(status: false)
         end
-        # @insint.update_and_email if service.work?
-        notice = (service.work? == true) ? 'Интеграция insales создана. Интеграция работает!' : 'Интеграция insales создана. Не работает!'
+        # @insint.update_and_email if service.account.present?
+        notice = service.account.present? ? 'Интеграция insales создана. Интеграция работает!' : 'Интеграция insales создана. Не работает!'
         format.html { redirect_to dashboard_url, notice: notice }
         format.json { render :show, status: :created, location: @insint }
       else
@@ -57,8 +57,8 @@ class InsintsController < ApplicationController
     respond_to do |format|
       if @insint.update(insint_params)
         service = ApiInsales.new(@insint)
-        service.work? ? @insint.update!(status: true) : @insint.update!(status: false)
-        notice = (service.work? == true) ? 'Update. Интеграция работает!' : 'Updateю Интеграция не работает!'
+        service.account.present? ? @insint.update!(status: true) : @insint.update!(status: false)
+        notice = service.account.present? ? 'Update. Интеграция работает!' : 'Update. Интеграция не работает!'
         redirect_path = current_admin ? adminindex_insints_url : insints_url
         format.html { redirect_to redirect_path, notice: notice }
         format.json { render :show, status: :ok, location: @insint }
@@ -256,9 +256,8 @@ class InsintsController < ApplicationController
   end
 
   def check
-    @insint = Insint.find(params[:id])
     service = ApiInsales.new(@insint)
-    notice = service.work? ? 'Интеграция работает!' : 'Не работает интеграция!'
+    notice = service.account.present? ? 'Интеграция работает!' : 'Не работает интеграция!'
     respond_to do |format|
       flash.now[:success] = notice
       format.turbo_stream do

@@ -13,7 +13,7 @@
       <%= f.search_field :number_eq , placeholder: 'number', class: "form-control" %>
       <%= f.select :casetype_eq, Mycase::CASETYPE, { :prompt => 'Тип заявки'}, class: "form-select" %>
       <%= f.select :status_eq , Mycase::STATUS, { :prompt => 'Статус заявки'}, class: "form-select" %>
-      <%= f.select :insales_custom_status_title_eq , Mycase.api_insales_statuses, { prompt: 'Статус Ins'}, class: "form-select" if Insint.work? %>
+      <%= f.select :insales_custom_status_title_eq , Mycase.api_insales_statuses, { prompt: 'Статус Ins'}, class: "form-select" %>
       <%= f.select :insales_financial_status_eq , Event::FIN_STATUS, { :prompt => 'Фин Ст Ins'}, class: "form-select" if Insint.work? %>
       <%= f.search_field :client_name_or_client_surname_or_client_email_cont , placeholder: 'client fio, email', class: "form-control" %>
       <%= button_tag(type: 'submit', class: "btn btn-outline-primary") do %><%= search_icon %><% end %>

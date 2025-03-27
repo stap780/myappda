@@ -3,7 +3,7 @@ class DashboardsController < ApplicationController
 
   def index
     service = current_user.insints.first.present? ? ApiInsales.new(current_user.insints.first) : nil
-    @ins_account = service.present? && service.work? ? service.account : nil
+    @ins_account = service&.account.present? ? service.account : nil
     respond_to do |format|
 		  format.html
 		end

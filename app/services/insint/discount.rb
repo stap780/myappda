@@ -55,7 +55,7 @@ class Insint::Discount < ApplicationService
     user = User.find_by_subdomain(@saved_subdomain)
     service = ApiInsales.new(user.insints.first)
 
-    return unless service.work?
+    return unless service.account.present?
 
     @datas['order_lines'].each do |line|
       product = service.get_product_data(line['product_id'])
