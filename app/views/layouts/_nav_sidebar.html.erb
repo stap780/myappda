@@ -15,6 +15,7 @@
             <%= li_menu_link_to "<i class='bi bi-link'></i> #{Insint.model_name.human(count: 2)}".html_safe, adminindex_insints_path, class: "nav-link text-capitalize" %>
             <%= li_menu_link_to "<i class='bi bi-receipt'></i> #{Payment.model_name.human(count: 2)}".html_safe, payments_path, class: "nav-link text-capitalize" %>
             <%= li_menu_link_to "<i class='bi bi-credit-card'></i> #{Payplan.model_name.human(count: 2)}".html_safe, payplans_path, class: "nav-link text-capitalize" %>
+            <%= li_menu_link_to "<i class='bi bi-credit-card'></i> #{EmailSetup.model_name.human(count: 2)}".html_safe, email_setups_path, class: "nav-link text-capitalize" %>
         <% else %>
             <%= li_menu_link_to "<i class='bi bi-folder'></i> #{Mycase.model_name.human(count: 2)}".html_safe, mycases_path(search_cancel: true), class: "nav-link text-capitalize" %>
             <%= li_menu_link_to "<i class='bi bi-people'></i> #{Client.model_name.human(count: 2)}".html_safe, clients_path(search_cancel: true), class: "nav-link text-capitalize" %>
