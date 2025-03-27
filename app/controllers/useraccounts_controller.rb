@@ -24,7 +24,7 @@ class UseraccountsController < ApplicationController
 
     respond_to do |format|
       if @useraccount.save
-        flash.now[:success] = t(".success")
+        flash.now[:success] = t('.success')
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.update( dom_id(current_user, dom_id(Useraccount.new)), ''),
@@ -44,7 +44,7 @@ class UseraccountsController < ApplicationController
   def update
     respond_to do |format|
       if @useraccount.update(useraccount_params)
-        flash.now[:success] = t(".success")
+        flash.now[:success] = t('.success')
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.update( dom_id(current_user, :useraccounts), partial: 'useraccounts/useraccount', locals: {useraccount: @useraccount, current_user: current_user} ),
@@ -63,18 +63,19 @@ class UseraccountsController < ApplicationController
   def destroy
     @useraccount.destroy
     respond_to do |format|
-      format.turbo_stream {flash.now[:success] = t(".success")}
+      format.turbo_stream {flash.now[:success] = t('.success')}
       format.html { redirect_to dashboard_path, notice: 'Пользователь was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    def set_useraccount
-      @useraccount = Useraccount.find(params[:id])
-    end
 
-    def useraccount_params
-      params.require(:useraccount).permit(:name, :email, :shop, :insuserid, :user_id)
-    end
+  def set_useraccount
+    @useraccount = Useraccount.find(params[:id])
+  end
+
+  def useraccount_params
+    params.require(:useraccount).permit(:name, :email, :shop, :insuserid, :user_id)
+  end
 end

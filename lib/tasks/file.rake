@@ -50,3 +50,4 @@ namespace :file do
     end
     puts 'finish copy_production_log_every_day'
   end
+end

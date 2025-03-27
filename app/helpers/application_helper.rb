@@ -1,19 +1,20 @@
 module ApplicationHelper
   def flash_class(level)
     case level
-    when "info" then "alert alert-info"
-    when "notice", "success" then "alert alert-success"
-    when "error" then "alert alert-danger"
-    when "alert" then "alert alert-warning"
+    when 'info' then 'alert alert-info'
+    when 'notice', 'success' then 'alert alert-success'
+    when 'error' then 'alert alert-danger'
+    when 'alert' then 'alert alert-warning'
     end
   end
 
   def status_class(mycase_status)
-    case mycase_status
-    when "new" then "text-primary text-opacity-75"
-    when "take" then "text-secondary text-opacity-75"
-    when "finish" then "text-success text-opacity-75"
-    end
+    status_classes = {
+      'new' => 'text-primary text-opacity-75',
+      'take' => 'text-secondary text-opacity-75',
+      'finish' => 'text-success text-opacity-75'
+    }
+    status_classes[mycase_status]
   end
 
   def check_current_page_show_this_part?
@@ -26,7 +27,7 @@ module ApplicationHelper
   end
 
   def current_page_path_as_class
-    request.path.split("?").first[1..-1].tr("/", "_")
+    request.path.split('?').first[1..-1].tr('/', '_')
   end
 
   def close_icon

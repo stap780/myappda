@@ -1,6 +1,6 @@
 class Users::PasswordsController < Devise::PasswordsController
   # prepend_before_action :check_captcha, only: [:create]
-  
+
   # GET /resource/password/new
   # def new
   #   super
@@ -33,7 +33,7 @@ class Users::PasswordsController < Devise::PasswordsController
   # end
 
   private
-  
+
   def check_captcha
     return if verify_recaptcha # verify_recaptcha(action: 'login') for v3
 

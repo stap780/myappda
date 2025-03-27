@@ -4,7 +4,7 @@
     border-bottom: unset!important;
     padding-top: 2rem!important;
   }
-  .header-wrap .navbar-toggler, .header-wrap .navbar-collapse {display:none!important;}
+  .header-wrap .navbar-toggler, .header-wrap .navbar-collapse, .footer {display:none!important;}
   .header-wrap .navbar {
     justify-content: center;
     display: flex;
@@ -12,10 +12,10 @@
   }
 </style>
 <div class="form-wrap">
-  <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), :html => { class: 'form-signin', method: :post }) do |f| %>
+  <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { class: 'form-signin', method: :post, data: { turbo: false} }) do |f| %>
   <h2 class="form-signin-heading"><%= t('.sign_up', :default => "Забыли пароль?") %></h2>
   <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.input_field :email, autofocus: true , class: 'form-control', placeholder: "Email" %>
+  <%= f.input_field :email, autofocus: true , class: 'form-control my-2', placeholder: "Email" %>
 
   <%# START add reCAPTCHA %>
   <%# flash[:recaptcha_error] %>
