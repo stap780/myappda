@@ -42,8 +42,10 @@
           <td><%= pr.variants.first.sku if pr.variants.count.positive? %></td>
           <td></td>
           <td><%=pr.price%></td>
-          <td class='opacity-75 fs-8'>Созд: <%= fav.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></br>
-          Обн: <%= fav.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
+          <td class='d-flex flex-column opacity-75 fs-8 px-0'>
+            <div>С: <%= fav.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+            <div>О: <%= fav.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+          </td>
         </tr>
         <% end %>
       </tbody>
@@ -87,8 +89,10 @@
           <td><%= var.quantity %></td>
           <td><%= var.price %></td>
           <td><%= res.status %></td>
-          <td class='opacity-75 fs-8'>Созд: <%= res.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></br>
-          Обн: <%= res.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
+          <td class='d-flex flex-column opacity-75 fs-8 px-0'>
+            <div>С: <%= res.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+            <div>О: <%= res.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+          </td>
         </tr>
         <% end %>
       </tbody>
@@ -132,8 +136,10 @@
           <td><%= var.quantity %></td>
           <td><%= var.price %></td>
           <td><%= res.status %></td>
-          <td class='opacity-75 fs-8'>Созд: <%= res.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></br>
-          Обн: <%= res.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></td>
+          <td class='d-flex flex-column opacity-75 fs-8 px-0'>
+            <div>С: <%= res.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+            <div>О: <%= res.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+          </td>
         </tr>
         <% end %>
       </tbody>

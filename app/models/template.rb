@@ -4,7 +4,7 @@ class Template < ApplicationRecord
   validates :title, presence: true
   validates :subject, presence: true
   validates :receiver, presence: true
-  before_save :normalize_data_white_space
+  before_save :normalize_whitespace
 
   def self.ransackable_attributes(auth_object = nil)
     Template.attribute_names

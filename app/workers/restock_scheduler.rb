@@ -1,7 +1,6 @@
 require 'sidekiq-scheduler'
 
 class RestockScheduler
-  # include Sidekiq::Worker
   include Sidekiq::Job
 
   def perform

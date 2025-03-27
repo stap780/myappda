@@ -32,22 +32,21 @@ namespace :file do
   task create_log_zip_every_day: :environment do
     puts 'start copy_production_log_every_day'
     folder = '/var/www/myappda/shared/log/'
-    file_names = ['cron.log','production.log','puma.access.log','puma.error.log'] #,'nginx.error.log','nginx.access.log']
+    file_names = ['cron','production','puma.access','puma.error'] #,'nginx.error.log','nginx.access.log']
     zip_folder = '/var/www/myappda/shared/log/zip/'
 
     file_names.each do |f_name|
+	  log_file = "#{f_name}.log"
       time = Time.zone.now.strftime('%d_%m_%Y_%I_%M')
-      zipfile_name = "#{zip_folder}#{f_name}_#{time}.zip"
-      Zip::File.open(zipfile_name, create: true) do |zipfile|
-        zipfile.add(f_name, File.join(folder, f_name))
+      archive = "#{zip_folder}#{f_name}_#{time}.zip"
+      Zip::File.open(archive, create: true) do |zip|
+        zip.add(log_file, File.join(folder, log_file))
       end
 
-      log_file = "#{folder}#{f_name}"
-      File.open(log_file , 'w+') do |f|
+      log_file_path = "#{folder}#{log_file}"
+      File.open(log_file_path, 'w+') do |f|
         f.write("Time - #{Time.zone.now}")
       end
     end
     puts 'finish copy_production_log_every_day'
   end
-
-end

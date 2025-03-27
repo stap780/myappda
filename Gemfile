@@ -65,7 +65,7 @@ gem 'redis'
 gem 'requestjs-rails'
 gem 'rexml', '~> 3.2', '>= 3.2.6'
 gem 'simple_form'
-gem 'whenever', require: false
+# gem 'whenever', require: false
 gem 'wicked_pdf'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap-style'

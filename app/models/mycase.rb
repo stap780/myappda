@@ -57,7 +57,7 @@ class Mycase < ApplicationRecord
     return unless casetype == 'restock'
 
     lines.each do |line|
-      self.restocks.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
+      restocks.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
     end
   end
 
@@ -65,7 +65,7 @@ class Mycase < ApplicationRecord
     return unless casetype == 'preorder'
 
     lines.each do |line|
-      self.preorders.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
+      preorders.create!(product_id: line.product.id, variant_id: line.variant.id, client_id: client.id)
     end
   end
 
@@ -77,6 +77,12 @@ class Mycase < ApplicationRecord
       abandoned = AbandonedCart.where(data).first
       AbandonedCart.create!(data) unless abandoned.present?
     end
+  end
+
+  def api_insales_statuses
+    return [] unless Insint.work? && ApiInsales.new(Insint.current).account
+
+    ApiInsales.new(Insint.current).statuses
   end
 
   # NOTICE for 'order' & 'abandoned_cart' & 'preorder'
@@ -104,13 +110,14 @@ class Mycase < ApplicationRecord
     end
   end
 
-  def self.preorder_update_cases(client)
-    client.mycases.where(casetype: 'preorder').each do |mycase|
-      lines_state = mycase.lines.map { |line| line.variant.preorders.first.status }
-      # puts "lines_state.uniq => "+lines_state.uniq
-      mycase.update(status: 'finish') if lines_state.uniq.join == 'send'
-    end
-  end
+  # NOTICE not find where use this method
+  # def self.preorder_update_cases(client)
+  #   client.mycases.where(casetype: 'preorder').each do |mycase|
+  #     lines_state = mycase.lines.map { |line| line.variant.preorders.first.status }
+  #     # puts "lines_state.uniq => "+lines_state.uniq
+  #     mycase.update(status: 'finish') if lines_state.uniq.join == 'send'
+  #   end
+  # end
 
   def client_data
     client ? "#{client.fio}<br>#{client.email} #{client.phone}".html_safe : ''
@@ -137,6 +144,5 @@ class Mycase < ApplicationRecord
     end
     lines.delete_all
   end
-
 
 end
