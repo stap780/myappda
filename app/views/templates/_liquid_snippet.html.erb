@@ -1,9 +1,14 @@
 <p>Примеры сниппетов</p>
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">Сниппет для письма о новом заказе</h5>
+    <p class="card-text">Сниппет для письма о новом заказе. Содержит информацию о заказе и его статусе.</p>
+  </div>
+  <div class="card-body">
 <p>
 Заголовок письма: {{client.name}} - Ваша брошенная корзина
 </p>
 <p>Содержание письма</p>
-<p>
 <pre>
 &lt;html&gt;
 &lt;body&gt;
@@ -12,7 +17,7 @@
 &lt;td&gt;
 &lt;p&gt;Добрый день, {{ client.name }}&lt;/p&gt;
 
-{% if case.items.size &gt; 0 %}
+{% if mycase.items.size &gt; 0 %}
 &lt;p&gt;Товары, которыми вы интересовались снова в наличии:&lt;/p&gt;
 {% for item in mycase.items %}
   &lt;p&gt;&lt;a href=&quot;https://my-store.ru/product_by_id/{{item['insid']}}?variant_id={{item['var_insid']}}&quot;&gt;{{item['title']}}&lt;a/&gt;&lt;/p&gt;
@@ -27,4 +32,49 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
+
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">Сниппет для письма Сообщить о поступлении клиент</h5>
+  </div>
+  <div class="card-body">
+<p>
+Товар, на который вы подписались, снова в наличии!
 </p>
+<p>Содержание письма</p>
+<pre>
+&lt;html&gt;
+&lt;style&gt;
+*{font-family:'Tahoma'; font-size: 12px;}
+.logo{max-height: 50px;margin-bottom: 20px;}
+&lt;/style&gt;
+&lt;body&gt;
+&lt;div style="background-color: #eaeaea; border: 0px solid #f3f2f2; box-shadow: 0 2px 14px 1px #f3f2f2; margin-bottom: 30px; margin-left: auto; margin-right: auto; max-width: 600px;"&gt;
+  &lt;div style="background-color: #eaeaea; box-sizing: border-box; padding-top: 25px; padding-left: 20px; padding-right:20px;"&gt;
+    &lt;div style="text-align: center;"&gt;
+      &lt;img class="logo" alt="Some Image" src="https://myappda.ru/assets/new_logo_myappda-f344bc46ecd53b6d77f9d631c409ddfbdec004adb52ca8424a0a04c09d457b12.svg" /&gt;
+      &lt;/div&gt;
+&lt;p&gt;Здравствуйте, {{ client.name }}!&lt;br&gt;Вы подписались на уведомление о наличии вашего размера в интернет-магазине TEST. 
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;Товары, на которые вы подписаны:&lt;/p&gt;
+&lt;ul&gt;
+{% for item in client.restocks %}
+&lt;li&gt;{{item['title']}} (арт.{{item['sku']}}) &lt;a href="https://test.me/product_by_id/{{item['insid']}}?variant_id={{item['var_insid']}}"&gt;Товар в магазине&lt;a/&gt;&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+&lt;p&gt;Товары, которые снова доступны для покупки:&lt;/p&gt;
+&lt;ul&gt;
+{% for item in client.restocks_for_inform %}
+&lt;li&gt;{{item['title']}} (арт.{{item['sku']}}) &lt;a href="https://test.me/product_by_id/{{item['insid']}}?variant_id={{item['var_insid']}}"&gt;Товар в магазине&lt;a/&gt;&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+      </div>
+</div>
