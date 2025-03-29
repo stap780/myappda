@@ -44,7 +44,7 @@ class InsintsController < ApplicationController
         end
         # @insint.update_and_email if service.account.present?
         notice = service.account.present? ? 'Интеграция insales создана. Интеграция работает!' : 'Интеграция insales создана. Не работает!'
-        format.html { redirect_to dashboard_url, notice: notice }
+        format.html { redirect_to insints_url, notice: notice }
         format.json { render :show, status: :created, location: @insint }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -72,7 +72,7 @@ class InsintsController < ApplicationController
   def destroy
     @insint.destroy
     respond_to do |format|
-      format.html { redirect_to insints_url, notice: 'Insint was successfully destroyed.' }
+      format.html { redirect_to insints_url, notice: t(:success) }
       format.json { head :no_content }
     end
   end

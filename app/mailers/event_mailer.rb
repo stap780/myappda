@@ -11,11 +11,12 @@ class EventMailer < ApplicationMailer
     mail( to: @receiver, from: @user_email_from, subject: @subject )
   end
 
-
   private
 
   def set_from_email
-    @user&.has_smtp_settings? ? email_address_with_name(@user.smtp_settings[:user_name], @user.name.to_s) : 'info@myappda.ru'
+    return 'info@myappda.ru' unless @user&.has_smtp_settings?
+
+    email_address_with_name(@user.smtp_settings[:user_name], @user.name.to_s)
   end
 
   def set_delivery_options

@@ -6,12 +6,12 @@
   <div class="row">
     <div class="col-12 h4"><%= page_title %></div>
     <div class="col-6">
-    <%= f.input :address %>
+    <%= f.input :address, input_html: { placeholder: "smtp.mail.ru // smtp.yandex.ru // etc" } %>
     <%= f.input :port %>
     <%= f.input :domain %>
-    <%= f.input :authentication,  collection: ['login','plain'],include_blank: false, input_html: { class: "form-select" }%>
+    <%= f.input :authentication,  collection: ['login','plain'], include_blank: false, input_html: { class: "form-select" }%>
     <%= f.input :user_name %>
-    <%= f.input :user_password, input_html: { type: "text", value: @email_setup.user_password } %>
+    <%= f.input :user_password, input_html: { type: "text", value: @email_setup.user_password, placeholder: "app password"} %>
     <%= f.input :tls %>
   </div>
 </div>
@@ -22,3 +22,4 @@
     </div>
   </div>
 <% end %>
+smtp.mail.ru

@@ -6,7 +6,7 @@
 <% user_drop = Drops::User.new(current_user) %>
 
 
-<div class="row mx-auto">
+<div class="card row mx-auto">
     <pre>
     <code>
     <div><span class="h6">Тема письма:</span> <%= subject_template.render('mycase' => case_drop, 'client' => client_drop)%></div>

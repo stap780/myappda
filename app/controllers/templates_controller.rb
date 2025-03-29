@@ -5,46 +5,54 @@ class TemplatesController < ApplicationController
 
   # GET /templates
   def index
-    #@templates = Template.all
     @search = Template.ransack(params[:q])
     @search.sorts = 'id asc' if @search.sorts.empty?
     @templates = @search.result.paginate(page: params[:page], per_page: 30)
   end
 
-  # GET /templates/1
-  def show
-  end
-  
+  def show; end
+
   def preview_ins_order
-    service = ApiInsales.new(current_user.insints.first)
-    @order = service.order(params[:insales_order_id])
-    @client = service.client(@order.client.id)
-    # respond_to do |format|
-    #   format.js
-    # end
+    if params[:insales_order_id].present?
+      service = ApiInsales.new(current_user.insints.first)
+      @order = service.order(params[:insales_order_id])
+      @client = service.client(@order.client.id)
+    else
+      respond_to do |format|
+        flash.now[:notice] = "Не указан ID заказа"
+        format.turbo_stream do
+          render turbo_stream: [
+            render_turbo_flash
+          ]
+        end
+      end
+    end
   end
 
   def preview_case
-    @mycase = Mycase.find_by_id(params[:case_id])
-    @client = @mycase.client
-    # respond_to do |format|
-    #   format.js
-    # end
+    if params[:case_id].present?
+      @mycase = Mycase.find_by_id(params[:case_id])
+      @client = @mycase.client
+    else
+      respond_to do |format|
+        flash.now[:notice] = "Не указан ID кейса"
+        format.turbo_stream do
+          render turbo_stream: [
+            render_turbo_flash
+          ]
+        end
+      end
+    end
   end
 
   def preview_restock
     @client = Client.find_by_id(params[:client_id])
-    # respond_to do |format|
-    #   format.js
-    # end
   end
 
-  # GET /templates/new
   def new
     @template = Template.new
   end
 
-  # GET /templates/1/edit
   def edit
     if Insint.work?
       service = ApiInsales.new(Insint.current)
@@ -52,7 +60,6 @@ class TemplatesController < ApplicationController
     end
   end
 
-  # POST /templates
   def create
     success, message = check_receiver
     @template = Template.new(template_params)
@@ -72,7 +79,6 @@ class TemplatesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /templates/1
   def update
     success, message = check_receiver
 

@@ -14,7 +14,7 @@
 
 {% if case.items.size &gt; 0 %}
 &lt;p&gt;Товары, которыми вы интересовались снова в наличии:&lt;/p&gt;
-{% for item in case.items %}
+{% for item in mycase.items %}
   &lt;p&gt;&lt;a href=&quot;https://my-store.ru/product_by_id/{{item['insid']}}?variant_id={{item['var_insid']}}&quot;&gt;{{item['title']}}&lt;a/&gt;&lt;/p&gt;
   &lt;p&gt;SKU - {{item['sku']}}&lt;/p&gt;
   &lt;p&gt;quantity - {{item['quantity']}}&lt;/p&gt;

@@ -2,6 +2,19 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 14px;
 }
+.messenger_icon { 
+  z-index: 1020;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  max-width: 35px;
+  text-align: center;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  grid-gap: 5px;
+}
 .admin-body {
   .sidebar {
     background-color: #38444f;

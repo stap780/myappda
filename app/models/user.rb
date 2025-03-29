@@ -244,16 +244,22 @@ class User < ApplicationRecord
   end
 
   def check_email
-    email_data = {
-      user: self,
-      subject: 'Test subject',
-      content: 'Test content',
-      receiver: 'info@ketago.com'
-    }
-    # check_email = EventMailer.with(email_data).send_action_email.deliver_later(wait: '1'.to_i.minutes)
-    check_email = EventMailer.with(email_data).send_action_email.deliver_now
+    notice_txt = 'Почта настроена верно и тестовое сообщение отправили'
+    error_txt = 'Не работает Почта! Проверьте настройки'
+    begin
+      email_data = {
+        user: self,
+        subject: 'Test subject',
+        content: 'Test content',
+        receiver: 'info@ketago.com'
+      }
+      # check_email = EventMailer.with(email_data).send_action_email.deliver_later(wait: '1'.to_i.minutes)
+      check_email = EventMailer.with(email_data).send_action_email.deliver_now
 
-    check_email.present? ? [true, 'Почта настроена верно и тестовое сообщение отправили'] : [false, 'Не работает Почта! Проверьте настройки']
+      check_email.present? ? [true, notice_txt] : [false, error_txt]
+    rescue StandardError => e
+      [false, "#{error_txt} Ошибка: #{e.message}"]
+    end
   end
 
   def image_data
