@@ -175,7 +175,8 @@ class User < ApplicationRecord
 
   def abandoned_carts_count
     Apartment::Tenant.switch(subdomain) do
-      AbandonedCart.all.count
+      #AbandonedCart.all.count
+      Mycase.abandoned_carts.status_finish.count
     end
   end
 

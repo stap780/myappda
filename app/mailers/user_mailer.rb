@@ -1,6 +1,9 @@
 # UserMailer
 class UserMailer < ApplicationMailer
-  before_action { @user, @subject = params[:user], params[:subject] }
+  before_action do
+    @user = params[:user]
+    @subject = params[:subject]
+  end
   before_action :set_from_email
   after_action :set_delivery_options
 

@@ -125,10 +125,8 @@ class ApiInsales
       message.push('webhook_order_create SocketError port 80')
     rescue StandardError => e
       message.push('Error webhook_order_create => ')
-      puts "StandardError => #{e}"
-      puts "e.response => #{e.response}" if e.response
-      puts "e.response.body => #{e.response.body}" if e.response&.body
-      message.push(e.to_s)
+      message.push("Error webhook_order_create => #{e.inspect}")
+      puts "StandardError => #{e} // e.response => #{e&.response} // e.response.body => #{e&.response&.body}"
     else
       message.push('All Good webhook_order_create')
     end
@@ -143,11 +141,8 @@ class ApiInsales
     rescue SocketError
       message.push('webhook_order_update SocketError port 80')
     rescue StandardError => e
-      message.push('Error webhook_order_update => ')
-      puts "StandardError => #{e}"
-      puts "e.response => #{e.response}" if e.response
-      puts "e.response.body => #{e.response.body}" if e.response&.body
-      message.push(e.to_s)
+      message.push("Error webhook_order_update => #{e.inspect}")
+      puts "StandardError => #{e} // e.response => #{e&.response} // e.response.body => #{e&.response&.body}"
     else
       message.push('All Good webhook_order_create')
     end
@@ -155,17 +150,19 @@ class ApiInsales
   end
 
   def client(insales_client_id)
-    client = InsalesApi::Client.find(insales_client_id)
-    rescue ActiveResource::ResourceNotFound
-    puts  'not_found 404'
-    rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
-    puts 'ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid'
-    rescue ActiveResource::UnauthorizedAccess
-    puts 'Failed.  Response code = 401.  Response message = Unauthorized'
-    rescue ActiveResource::ForbiddenAccess
-    puts 'Failed.  Response code = 403.  Response message = Forbidden.'
+    begin
+      client = InsalesApi::Client.find(insales_client_id)
+      rescue ActiveResource::ResourceNotFound
+      puts  'not_found 404'
+      rescue ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid
+      puts 'ActiveResource::ResourceConflict, ActiveResource::ResourceInvalid'
+      rescue ActiveResource::UnauthorizedAccess
+      puts 'Failed.  Response code = 401.  Response message = Unauthorized'
+      rescue ActiveResource::ForbiddenAccess
+      puts 'Failed.  Response code = 403.  Response message = Forbidden.'
     else
-    client
+      client
+    end
   end
 
   def create_client(data)
@@ -204,23 +201,24 @@ class ApiInsales
   end
 
   def set_order_custom_status(insales_order_id, order_custom_status_permalink)
+    begin
     puts 'set_order_custom_status'
     order = InsalesApi::Order.find(insales_order_id)
     order.custom_status_permalink = order_custom_status_permalink
-    order.fulfillment_status = 'new' # 'главный статус обязательно , так как пользовательский делается только внутри главного
+    #NOTICE 'главный статус обязательно , так как пользовательский делается только внутри главного
+    order.fulfillment_status = 'new'
     order.save
     rescue ActiveResource::Redirection => e
-      puts  'ActiveResource::Redirection => '+ e
+      puts  "ActiveResource::Redirection => #{e}"
     rescue StandardError => e
-      puts 'set_order_custom_status StandardError => '+e.to_s #e.response.body
-      puts e.response.body if e.present? && e.response.present?
+      puts "set_order_custom_status StandardError => #{e} /// e.response.body => #{e&.response&.body}"
     else
       order
     end
-    order
   end
 
   def get_product_data(insales_product_id)
+    begin
     product = InsalesApi::Product.find(insales_product_id)
     rescue ActiveResource::ResourceNotFound
       puts 'not_found 404'
@@ -232,9 +230,11 @@ class ApiInsales
       puts 'Failed.  Response code = 403.  Response message = Forbidden.'
     else
     product
+    end
   end
 
   def get_variants(insales_product_id)
+    begin
     variants = InsalesApi::Variant.find(:all, :params => {:product_id => insales_product_id})
     rescue ActiveResource::ResourceNotFound
       #redirect_to :action => 'not_found'
@@ -248,6 +248,7 @@ class ApiInsales
       puts "Failed.  Response code = 403.  Response message = Forbidden."    
     else
     variants
+    end
   end
 
   def get_variant_data(insales_product_id, insales_variant_id)
@@ -267,6 +268,7 @@ class ApiInsales
   end
 
   def collections_ids
+    begin
       ids = InsalesApi::Collection.find( :all).map{|p| p.id}
     rescue ActiveResource::ResourceNotFound
       #redirect_to :action => 'not_found'
@@ -278,6 +280,7 @@ class ApiInsales
       puts "Failed.  Response code = 401.  Response message = Unauthorized"
     else
       ids
+    end
   end
 
   def marketplaces
@@ -380,7 +383,7 @@ class ApiInsales
   end
 
   def variants_group_update(variants)
-    # variants - [{"id": 1,"price": 100,"quantity": 3}]
+    #NOTICE variants - [{"id": 1,"price": 100,"quantity": 3}]
     begin
       variants = InsalesApi::Product.variants_group_update(variants)
     rescue ActiveResource::ResourceNotFound
@@ -397,6 +400,7 @@ class ApiInsales
       variants
     end
   end
+
 end
 
 # def work?

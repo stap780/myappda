@@ -26,6 +26,8 @@ class Mycase < ApplicationRecord
   scope :abandoned_carts, -> { where(casetype: 'abandoned_cart') }
   scope :preorders, -> { where(casetype: 'preorder') }
   scope :status_new, -> { where(status: 'new') }
+  scope :status_take, -> { where(status: 'take') }
+  scope :status_finish, -> { where(status: 'finish') }
 
   CASETYPE = [
     ['Заказ (insales)', 'order'],

@@ -32,17 +32,24 @@ namespace :file do
   task create_log_zip_every_day: :environment do
     puts 'start copy_production_log_every_day'
     folder = '/var/www/myappda/shared/log/'
-    file_names = ['cron','production','puma.access','puma.error'] #,'nginx.error.log','nginx.access.log']
+    file_names = ['production', 'puma.access', 'puma.error']
     zip_folder = '/var/www/myappda/shared/log/zip/'
 
     file_names.each do |f_name|
-	  log_file = "#{f_name}.log"
+      log_file = "#{f_name}.log"
       time = Time.zone.now.strftime('%d_%m_%Y_%I_%M')
       archive = "#{zip_folder}#{f_name}_#{time}.zip"
+
       Zip::File.open(archive, create: true) do |zip|
-        zip.add(log_file, File.join(folder, log_file))
+        # Check if the file already exists in the archive
+        if zip.find_entry(log_file)
+          puts "File #{log_file} already exists in the archive. Skipping..."
+        else
+          zip.add(log_file, File.join(folder, log_file))
+        end
       end
 
+      # Clear the log file after archiving
       log_file_path = "#{folder}#{log_file}"
       File.open(log_file_path, 'w+') do |f|
         f.write("Time - #{Time.zone.now}")
@@ -50,4 +57,5 @@ namespace :file do
     end
     puts 'finish copy_production_log_every_day'
   end
+  
 end

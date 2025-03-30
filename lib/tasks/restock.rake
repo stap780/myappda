@@ -10,7 +10,7 @@ namespace :restock do
       Apartment::Tenant.switch(tenant) do
         puts '======='
         ms = MessageSetup.first
-        client_ids = Mycase.restocks.status_new.group(:client_id).count.map { |id, count| id }
+        client_ids = Mycase.restocks.status_new.group(:client_id).count.map { |id, _count| id }
         puts "status #{ms&.status} // product_xml #{!ms&.product_xml.blank?} // client_ids #{client_ids.present?}"
         if ms&.status && !ms&.product_xml.blank? && client_ids.present?
           xml_file = Restock::GetFile.call(ms.product_xml)
@@ -30,6 +30,7 @@ namespace :restock do
 
     puts "###### finish check_product_qt - время москва - #{Time.zone.now}"
   end
+  
 end
 
 # testing

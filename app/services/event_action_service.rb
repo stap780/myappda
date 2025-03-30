@@ -52,7 +52,7 @@ class EventActionService
         EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
       end
       if @mycase.casetype == 'preorder'
-        EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
+        EventMailer.with(email_data).send_action_email.deliver_later(wait: 1.minutes)
         @mycase.preorders.each do |preorder|
           preorder.update(status: 'send')
         end

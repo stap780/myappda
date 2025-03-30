@@ -16,18 +16,17 @@ class Restock::GetFile < ApplicationService
   private
 
   def check_product_xml_work
-    check = true
     begin
-      response = RestClient.get(@product_xml)
+      RestClient.get(@product_xml)
     rescue SocketError => e
-      puts "In Socket errror"
-      puts e
-      check = false
-    rescue => e
-      puts(e.class.inspect)
-      check = false
+      puts "check_product_xml_work In Socket errror => #{e}"
+      false
+    rescue StandardError => e
+      puts "check_product_xml_work StandardError errror => #{e.inspect}"
+      # puts(e.class.inspect)
+      false
     else
-      check
+      true
     end
   end
 
@@ -46,7 +45,7 @@ class Restock::GetFile < ApplicationService
         f.close
         file = download_path
       when 301
-        puts "load_products_xml error 301 - это редирект у файла с технического домена на реальный домен. нужно в настройках поменять ссылку на файл"
+        puts 'load_products_xml error 301 - это редирект у файла с технического домена на реальный домен. нужно в настройках поменять ссылку на файл'
       else
         response.return!(&block)
       end

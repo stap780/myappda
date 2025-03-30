@@ -1,7 +1,12 @@
 # class EventMailer
 class EventMailer < ApplicationMailer
 
-  before_action { @user, @subject, @content, @receiver = params[:user], params[:subject], params[:content], params[:receiver] }
+  before_action do
+    @user = params[:user]
+    @subject = params[:subject]
+    @content = params[:content]
+    @receiver = params[:receiver]
+  end
   before_action :set_from_email
   after_action :set_delivery_options
 
@@ -22,9 +27,9 @@ class EventMailer < ApplicationMailer
   def set_delivery_options
     if @user&.has_smtp_settings?
       mail.delivery_method.settings.merge!(@user.smtp_settings)
-    end
-    if @user && !@user.has_smtp_settings?
+    else
       mail.delivery_method.settings.merge!(User.default_smtp_settings)
     end
   end
+
 end

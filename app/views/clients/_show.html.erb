@@ -89,9 +89,11 @@
           <td><%= var.quantity %></td>
           <td><%= var.price %></td>
           <td><%= res.status %></td>
-          <td class='d-flex flex-column opacity-75 fs-8 px-0'>
-            <div>С: <%= res.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
-            <div>О: <%= res.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+          <td>
+            <div class='d-flex flex-column opacity-75 fs-8 px-0'>
+              <div>С: <%= res.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+              <div>О: <%= res.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+            </div>
           </td>
         </tr>
         <% end %>
@@ -136,9 +138,11 @@
           <td><%= var.quantity %></td>
           <td><%= var.price %></td>
           <td><%= res.status %></td>
-          <td class='d-flex flex-column opacity-75 fs-8 px-0'>
-            <div>С: <%= res.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
-            <div>О: <%= res.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+          <td>
+            <div class='d-flex flex-column opacity-75 fs-8 px-0'>
+              <div>С: <%= res.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+              <div>О: <%= res.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+            </div>
           </td>
         </tr>
         <% end %>
