@@ -149,10 +149,10 @@ module ApplicationHelper
   end
 
   def td_tag_image(img_link = nil)
-    content_tag :td, class: '' do
+    content_tag :td, class: 'p-0' do
       content_tag :div, class: 'img-ratio img-fit', style: 'width:80px;' do
         content_tag :div, class: 'img-ratio__inner' do
-          picture_tag([img_link], image: {class: 'img-fluid m-0 p-2', loading: 'lazy'}) if img_link.present?
+          picture_tag([img_link], image: {class: 'img-fluid m-0 p-0', loading: 'lazy'}) if img_link.present?
         end
       end
     end

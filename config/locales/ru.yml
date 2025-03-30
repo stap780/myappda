@@ -84,7 +84,7 @@ ru:
         updated_at: "обновлено"
         client_id: "клиент"
         mycasetype: "тип"
-        insales_financial_status: "фин татус инсейлс"
+        insales_financial_status: "фин статус инсейлс"
         insales_custom_status_title: "статуса инсейлс"
         insales_order_id: "номер заказа инсейлс"
         casetype: "тип"

@@ -15,6 +15,13 @@ body {
   grid-template-rows: auto;
   grid-gap: 5px;
 }
+.template-preview {
+  border: 1px solid rgba(0,28,61,0.05);
+  padding: 10px;
+  background-color: #F7F8FA;
+  border-radius: 6px
+}
+
 .admin-body {
   .sidebar {
     background-color: #38444f;

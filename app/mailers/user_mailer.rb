@@ -61,8 +61,7 @@ class UserMailer < ApplicationMailer
   def set_delivery_options
     if @user&.has_smtp_settings?
       mail.delivery_method.settings.merge!(@user.smtp_settings)
-    end
-    if @user && !@user.has_smtp_settings?
+    else
       mail.delivery_method.settings.merge!(User.default_smtp_settings)
     end
   end

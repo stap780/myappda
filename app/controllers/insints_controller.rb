@@ -273,6 +273,8 @@ class InsintsController < ApplicationController
     puts "insint order account_id => #{account_id}"
 
     insint = Insint.find_by_insales_account_id(account_id)
+    return unless insint.present?
+
     saved_subdomain = insint.user.subdomain
     Apartment::Tenant.switch(saved_subdomain) do
       if MessageSetup.check_ability
@@ -295,13 +297,15 @@ class InsintsController < ApplicationController
     puts "account_id => #{account_id}"
 
     insint = Insint.find_by_insales_account_id(account_id)
+    return unless insint.present?
+
     saved_subdomain = insint.user.subdomain
     Apartment::Tenant.switch(saved_subdomain) do
       if MessageSetup.check_ability && params['lines'].presence && params['contacts']['email'].presence
         InsintAbandonedCartJob.perform_later(saved_subdomain, params.permit!)
-        render json: {success: true, message: 'Информация сохранена в cases abandoned_cart'}
+        render json: {success: true, message: 'Информация сохранена в abandoned_cart'}
       else
-        render json: {error: true, message: 'не смогли добавить запись в cases abandoned_cart Сервис не включен'}
+        render json: {error: true, message: 'не смогли добавить запись в abandoned_cart Сервис не включен'}
       end
     end
   end

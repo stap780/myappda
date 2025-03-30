@@ -1,7 +1,13 @@
 # ClientMailer
 class ClientMailer < ApplicationMailer
 
-  before_action { @user, @fio, @current_subdomain, @receiver, @products = params[:user], params[:fio], params[:current_subdomain], params[:receiver], params[:products] }
+  before_action do
+    @user = params[:user]
+    @fio = params[:fio]
+    @current_subdomain = params[:current_subdomain]
+    @receiver = params[:receiver]
+    @products = params[:products]
+  end
   before_action :set_from_email
   after_action :set_delivery_options
 
@@ -23,16 +29,6 @@ class ClientMailer < ApplicationMailer
     mail( to: @receiver, from: @user_email_from, subject: "#{@shoptitle} Ваше Избранное" )
   end
 
-  # def emailrestock(shoptitle, shopemail, shopurl, fio, email, variants )
-  #   @shoptitle =  shoptitle
-  #   @shopemail =  shopemail
-  #   @shopurl = shopurl
-  #   @fio =  fio
-  #   @client_email = email
-  #   @variants = Variant.where(id: variants)
-  #   mail(to: @client_email, subject: 'Поступление товаров в магазин', reply_to: @shopemail )
-  # end
-
   private
 
   def set_from_email
@@ -42,8 +38,7 @@ class ClientMailer < ApplicationMailer
   def set_delivery_options
     if @user&.has_smtp_settings?
       mail.delivery_method.settings.merge!(@user.smtp_settings)
-    end
-    if @user && !@user.has_smtp_settings?
+    else
       mail.delivery_method.settings.merge!(User.default_smtp_settings)
     end
   end

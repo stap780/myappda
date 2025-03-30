@@ -12,30 +12,19 @@ class TemplatesController < ApplicationController
 
   def show; end
 
-  def preview_ins_order
-    if params[:insales_order_id].present?
-      service = ApiInsales.new(current_user.insints.first)
-      @order = service.order(params[:insales_order_id])
-      @client = service.client(@order.client.id)
-    else
-      respond_to do |format|
-        flash.now[:notice] = "Не указан ID заказа"
-        format.turbo_stream do
-          render turbo_stream: [
-            render_turbo_flash
-          ]
-        end
-      end
-    end
-  end
-
   def preview_case
     if params[:case_id].present?
       @mycase = Mycase.find_by_id(params[:case_id])
       @client = @mycase.client
-    else
+    end
+    if params[:insales_order_id].present?
+      service = ApiInsales.new(current_user.insints.first)
+      @order = service.order(params[:insales_order_id])
+      @client = service.client(@order.client.id)
+    end
+    if !params[:case_id].present? && !params[:insales_order_id].present?
       respond_to do |format|
-        flash.now[:notice] = "Не указан ID кейса"
+        flash.now[:notice] = 'Не указан ID заказа или ID кейса'
         format.turbo_stream do
           render turbo_stream: [
             render_turbo_flash
@@ -45,9 +34,7 @@ class TemplatesController < ApplicationController
     end
   end
 
-  def preview_restock
-    @client = Client.find_by_id(params[:client_id])
-  end
+
 
   def new
     @template = Template.new

@@ -16,9 +16,7 @@ class Insint::Discount < ApplicationService
     if data.present?
       [true, data]
     else
-      error_data = {
-        "errors": ['нет условий для скидки']
-      }
+      error_data = {"errors": ['errors Карта не найдена']}
       [true, error_data]
     end
   end
@@ -28,7 +26,10 @@ class Insint::Discount < ApplicationService
   def get_discount
     Apartment::Tenant.switch(@saved_subdomain) do
       data = {}
-      # this is for future personal discount # @datas['client']['personal_discount'] = Client.find_by(clientid: @datas['client']['id'])&.discount || ''
+      # NOTICE this is for future personal discount 
+      # @datas['client']['personal_discount'] = Client.find_by(clientid: @datas['client']['id'])&.discount || ''
+      # NOTICE END
+
       Discount.order(position: :asc).each do |discount|
         result = false
         template = Liquid::Template.parse(discount.rule)
