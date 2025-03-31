@@ -77,7 +77,7 @@ class InsintsController < ApplicationController
     end
   end
 
-  # we use it for check service work when have request from clients json
+  # NOTICE we use it for check service work when have request from clients json
   def install
     # # puts params[:insales_id]
     # @insint = Insint.find_by_insales_account_id(params[:insales_id])

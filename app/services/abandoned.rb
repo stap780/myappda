@@ -5,32 +5,36 @@ class Abandoned < ApplicationService
     @mycase_id = mycase_id
     @tenant = tenant
     @email_data = email_data
-    @check = []
   end
 
   def call
+    # NOTICE 
     # if we have order that equal to abandoned
     # we set status finish to mycase
     #
     # if we don't have order that equal to abandoned
-    # we send email and set status finish to mycase
-    send_email if check_ability
-    set_status_finish
+    # we send email
+    # NOTICE end
+    send_email unless order_present?
+    set_status_finish if order_present?
   end
 
   private
 
-  def check_ability
-    # we check if abandoned equal to order
+  def order_present?
+    # NOTICE we check if abandoned equal to order
+    check = []
     Apartment::Tenant.switch(@tenant) do
       mycase = Mycase.find(@mycase_id)
-      lines = mycase.lines.pluck(:variant_id)
+      mycase.update(status: 'take') if mycase.status == 'new'
+      mycase_lines = mycase.lines.pluck(:variant_id)
       orders = Mycase.where(client_id: mycase.client_id, casetype: 'order').where('created_at > ?', mycase.created_at)
       orders.each do |order|
-        @check.push(order.lines.pluck(:variant_id).sort == lines.sort)
+        order_lines = order.lines.pluck(:variant_id)
+        check.push(order_lines.sort == mycase_lines.sort)
       end
     end
-    @check.uniq.include?(true) ? false : true
+    check.uniq.include?(true)
   end
 
   def send_email

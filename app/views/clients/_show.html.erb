@@ -42,9 +42,11 @@
           <td><%= pr.variants.first.sku if pr.variants.count.positive? %></td>
           <td></td>
           <td><%=pr.price%></td>
-          <td class='d-flex flex-column opacity-75 fs-8 px-0'>
-            <div>С: <%= fav.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
-            <div>О: <%= fav.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+          <td>
+            <div class="d-flex flex-column opacity-75 fs-8">
+              <div>С: <%= fav.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+              <div>О: <%= fav.updated_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>
+            </div>
           </td>
         </tr>
         <% end %>

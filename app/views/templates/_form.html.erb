@@ -51,8 +51,8 @@
       <% if @template.new_record? %>
         <p>Сохраните шаблон и появится Предпросмотр</p>
       <% else %>
-        <div class="d-flex gap-4">
-          <div class="d-flex justify-content-beetwen align-items-center row">
+        <div class="d-flex gap-2">
+          <div class="d-flex align-items-center row">
             <div class="h6 mt-3 col-12">Id заявки в сервисе</div>
             <div class="col-6">
               <%= form_with url: preview_case_templates_path, method: :get, data: {turbo_stream: true}, class: "input-group", local: false do |form| %>
@@ -67,7 +67,7 @@
               <% end %>
             </div>
           </div>          
-          <%=tag.div class:"d-flex justify-content-beetwen align-items-center row" do %>
+          <%=tag.div class:"d-flex align-items-center row" do %>
             <div class="h6 mt-3 col-12">Id заказа из инсалес</div>
             <div class="col-6">
             <%= form_with url: preview_case_templates_path, method: :get, data: {turbo_stream: true}, class: "input-group", local: false do |form| %>
