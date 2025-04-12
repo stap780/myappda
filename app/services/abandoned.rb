@@ -1,10 +1,11 @@
 # Abandoned < ApplicationService
 class Abandoned < ApplicationService
 
-  def initialize(mycase_id, tenant, email_data)
+  def initialize(mycase_id, tenant, email_data, last)
     @mycase_id = mycase_id
     @tenant = tenant
     @email_data = email_data
+    @last = last # last is a boolean
   end
 
   def call
@@ -15,8 +16,12 @@ class Abandoned < ApplicationService
     # if we don't have order that equal to abandoned
     # we send email
     # NOTICE end
-    send_email unless order_present?
-    set_status_finish if order_present?
+    if order_present?
+      set_status_finish
+    else
+      send_email
+      set_status_finish if @last
+    end
   end
 
   private

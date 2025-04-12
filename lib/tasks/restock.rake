@@ -1,4 +1,5 @@
 #  encoding : utf-8
+
 namespace :restock do
   desc 'restock schedule update'
 
@@ -30,7 +31,7 @@ namespace :restock do
 
     puts "###### finish check_product_qt - время москва - #{Time.zone.now}"
   end
-  
+
 end
 
 # testing

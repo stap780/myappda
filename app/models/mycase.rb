@@ -33,7 +33,8 @@ class Mycase < ApplicationRecord
     ['Заказ (insales)', 'order'],
     ['Сообщить о поступлении', 'restock'],
     ['Брошенная корзина', 'abandoned_cart'],
-    ['Предзаказ', 'preorder']
+    ['Предзаказ', 'preorder'],
+    ['Избранное', 'favorite']
   ].freeze
   STATUS = [
     ['Новый', 'new'],

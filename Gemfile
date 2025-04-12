@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.0'
 
-gem 'rails', '~> 7.1.5.1'
+gem 'rails', '~> 7.2.1.2'
 
 gem 'pg', '~> 1.1'
 
@@ -55,7 +55,7 @@ gem 'ru_propisju'
 
 gem 'stringio'
 
-gem 'sidekiq', '~> 7.1.3'
+gem 'sidekiq'
 gem 'sidekiq-scheduler'
 
 gem 'bootsnap', require: false
@@ -79,15 +79,16 @@ end
 
 group :development do
   gem 'capistrano', require: false
-  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma', github: 'seuros/capistrano-puma'
   gem 'capistrano-rails', require: false
   gem 'capistrano-rails-console'
   gem 'capistrano-rvm', require: false
-  gem 'capistrano-sidekiq'
-  gem 'capistrano3-puma', github: 'seuros/capistrano-puma'
+  gem 'capistrano-sidekiq', require: false
 
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
+  gem 'web-console'
+
+  gem 'letter_opener'
+  
 end
 
 # gem 'hotwire-livereload', '~> 1.4', :group => :development

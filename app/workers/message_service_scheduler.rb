@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'sidekiq-scheduler'
 
-# MessageServiceScheduler
+# This worker is update the message service status
 class MessageServiceScheduler
   # include Sidekiq::Worker
   include Sidekiq::Job

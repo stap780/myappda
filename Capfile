@@ -7,11 +7,11 @@ install_plugin Capistrano::SCM::Git
 require 'capistrano/rails'
 require 'capistrano/bundler'
 require 'capistrano/rvm'
-# require "whenever/capistrano"
+# require 'whenever/capistrano'
 require 'capistrano/rails/console'
 
 require 'capistrano/puma'
-install_plugin Capistrano::Puma
+install_plugin Capistrano::Puma, load_hooks: false
 install_plugin Capistrano::Puma::Systemd
 
 require 'capistrano/sidekiq'

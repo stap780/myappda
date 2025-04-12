@@ -80,4 +80,4 @@ namespace :deploy do
   # after 'deploy:published', 'sidekiq:restart'
 end
 
-Rake::Task['deploy:assets:backup_manifest'].clear_actions
+# Rake::Task['deploy:assets:backup_manifest'].clear_actions

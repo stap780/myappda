@@ -64,11 +64,15 @@ function check_type(elementValue){
         document.querySelector('.event_event_actions_timetable_time').classList.remove('d-none');
         document.querySelector('.event_event_actions_timetable input').checked = true;
         document.querySelector('.event_event_actions_timetable_time select').selectedIndex = 1;
+        document.querySelector('.event_event_actions_pause_time').classList.add('d-none');
+        document.querySelector('.event_event_actions_pause').classList.add('d-none');
     } else {
         document.querySelector('.event_event_actions_timetable').classList.add('d-none');
         document.querySelector('.event_event_actions_timetable_time').classList.add('d-none');
         document.querySelector('.event_event_actions_timetable input').checked = false;
         document.querySelector('.event_event_actions_timetable_time select').selectedIndex = 0;
+        document.querySelector('.event_event_actions_pause_time').classList.remove('d-none');
+        document.querySelector('.event_event_actions_pause').classList.remove('d-none');
     }
 
 }

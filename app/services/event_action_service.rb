@@ -17,7 +17,7 @@ class EventActionService
     receiver = action.template.receiver if action.template.receiver != 'client'
     insint = @user.insints.first
     tenant = @user.subdomain
-    wait = (pause == true && pause_time.present?) ? pause_time : 1
+    wait = pause && pause_time.to_i.zero? ? 1 : pause_time.to_i
 
     subject_template = Liquid::Template.parse(action.template.subject)
     content_template = Liquid::Template.parse(action.template.content)
@@ -49,7 +49,7 @@ class EventActionService
       }
 
       if @mycase.casetype == 'order' && check_insales_statuses
-        EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.to_i.minutes)
+        EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.minutes)
       end
       if @mycase.casetype == 'preorder'
         EventMailer.with(email_data).send_action_email.deliver_later(wait: 1.minutes)
@@ -59,7 +59,12 @@ class EventActionService
         @mycase.update(status: 'finish')
       end
       if @mycase.casetype == 'abandoned_cart'
-        AbandonedJob.set(wait: wait.to_i.minutes).perform_later(@mycase.id, tenant, email_data)
+        # we need check is this event last because we can have scenario with several events for abandoned cart.
+        # For example - send email through 10 minutes and then send email through 1 hour
+        # And only after that we can set status to finish
+        events_wait = Event.active.abandoned_cart.map{|ev| ev.event_actions.first.pause_time.to_i}
+        last = events_wait.max == wait
+        AbandonedJob.set(wait: wait.minutes).perform_later(@mycase.id, tenant, email_data, last)
       end
     end
 

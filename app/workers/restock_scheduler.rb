@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'sidekiq-scheduler'
 
+# This worker is responsible for checking the quantity for restock
 class RestockScheduler
   include Sidekiq::Job
 

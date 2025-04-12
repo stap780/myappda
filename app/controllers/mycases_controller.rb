@@ -28,7 +28,7 @@ class MycasesController < ApplicationController
 
     respond_to do |format|
       if @mycase.save
-        format.html { redirect_to mycases_url, notice: 'Mycase was successfully created.' }
+        format.html { redirect_to mycases_url, notice: t(:success)}
         format.json { render :show, status: :created, location: @mycase }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,7 +40,7 @@ class MycasesController < ApplicationController
   def update
     respond_to do |format|
       if @mycase.update(mycase_params)
-        format.html { redirect_to mycases_url, notice: 'Mycase was successfully updated.' }
+        format.html { redirect_to mycases_url, notice: t(:success) }
         format.json { render :show, status: :ok, location: @mycase }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class MycasesController < ApplicationController
   def destroy
     @mycase.destroy
     respond_to do |format|
-      format.html { redirect_to mycases_url, notice: 'Mycase was successfully destroyed.' }
+      format.html { redirect_to mycases_url, notice: t(:success) }
       format.json { head :no_content }
     end
   end
