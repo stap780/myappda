@@ -4,32 +4,35 @@ namespace :restock do
   desc 'restock schedule update'
 
   task check_quantity_and_send_client_email: :environment do
-    puts "###### start check_product_qt - время москва - #{Time.zone.now}"
+    logger = Logger.new(Rails.root.join('log', 'restock.log'))
+    logger.info "###### start check_product_qt - время москва - #{Time.zone.now}"
     tenants = User.order(:id).pluck(:subdomain)
-    puts "=======всего tenants - #{tenants.count}"
+    logger.info "=======всего tenants - #{tenants.count}"
     tenants.each do |tenant|
       Apartment::Tenant.switch(tenant) do
-        puts '======='
+        logger.info '======='
         ms = MessageSetup.first
         client_ids = Mycase.restocks.status_new.group(:client_id).count.map { |id, _count| id }
-        puts "status #{ms&.status} // product_xml #{!ms&.product_xml.blank?} // client_ids #{client_ids.present?}"
+        logger.info "status #{ms&.status} // product_xml #{!ms&.product_xml.blank?} // client_ids #{client_ids.present?}"
         if ms&.status && !ms&.product_xml.blank? && client_ids.present?
           xml_file = Restock::GetFile.call(ms.product_xml)
           if xml_file.present?
             Restock::SetStatusForInform.call(tenant, xml_file)
             client_ids.each do |client_id|
               client = Client.find(client_id)
-              RestockSendMessageJob.perform_later(tenant, {client_id: client_id}) if client.restocks.for_inform.present?
+              if client.restocks.for_inform.present?
+                RestockSendMessageJob.perform_later(tenant, {client_id: client_id})
+              end
             end
           end
-          puts "**** запустили #{tenant} ****"
+          logger.info "**** запустили #{tenant} ****"
         else
-          puts "не запустили #{tenant}"
+          logger.info "не запустили #{tenant}"
         end
       end
     end
 
-    puts "###### finish check_product_qt - время москва - #{Time.zone.now}"
+    logger.info "###### finish check_product_qt - время москва - #{Time.zone.now}"
   end
 
 end
