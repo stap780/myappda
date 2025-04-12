@@ -32,7 +32,7 @@ namespace :file do
   task create_log_zip_every_day: :environment do
     puts 'start copy_production_log_every_day'
     folder = '/var/www/myappda/shared/log/'
-    file_names = ['production', 'puma.access', 'puma.error']
+    file_names = ['production', 'puma.access', 'puma.error','restock']
     zip_folder = '/var/www/myappda/shared/log/zip/'
 
     file_names.each do |f_name|
