@@ -115,6 +115,23 @@ ru:
       success: удалили!
   message_setups:
     <<: *model_system_flash
+  mycases:
+    <<: *model_system_flash
+  clients:
+    <<: *model_system_flash
+  payments:
+    <<: *model_system_flash
+  products:
+    <<: *model_system_flash
+  discounts:
+    <<: *model_system_flash
+  events:
+    <<: *model_system_flash
+  insints:
+    <<: *model_system_flash
+  payplans:
+    <<: *model_system_flash
+    
   date:
     abbr_day_names:
     - Вс

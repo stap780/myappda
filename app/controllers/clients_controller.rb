@@ -109,13 +109,18 @@ class ClientsController < ApplicationController
       service = ApiInsales.new(current_user.insints.first)
       @insales_fields = service.client_fields
     else
-      flash[:alert] = "Ошибка в файле импорта"
+      flash[:alert] = 'Ошибка в файле импорта'
     end
   end
 
   def update_api_insales
-    Rails.env.development? ? Client::Insales.create_client(params, current_user.insints.first) : InsalesClientJob.perform_later(params.to_unsafe_hash, current_user.insints.first)
-    redirect_to clients_url, notice: 'Запущен процесс создания контактов. Дождитесь выполнения процесса. Поступит уведомление на почту'
+    notice = 'Запущен процесс создания контактов. Дождитесь выполнения процесса. Поступит уведомление на почту'
+    if Rails.env.development? 
+      Client::Insales.create_client(params, current_user.insints.first)
+    else
+      InsalesClientJob.perform_later(params.to_unsafe_hash, current_user.insints.first)
+    end
+    redirect_to clients_url, notice: notice
   end
 
   private
@@ -125,6 +130,6 @@ class ClientsController < ApplicationController
   end
 
   def client_params
-    params.require(:client).permit(:clientid, :name, :surname, :email, :phone, :discount)
+    params.require(:client).permit(:clientid, :name, :surname, :email, :phone, :discount, :ya_client)
   end
 end

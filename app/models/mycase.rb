@@ -8,6 +8,7 @@ class Mycase < ApplicationRecord
   has_many :restocks, dependent: :destroy
   has_many :preorders, dependent: :destroy
   has_many :abandoned_carts, dependent: :destroy
+  after_create :start_favorite_action, if: -> { casetype == 'favorite' }
 
   include ActionView::RecordIdentifier
 
@@ -25,6 +26,7 @@ class Mycase < ApplicationRecord
   scope :restocks, -> { where(casetype: 'restock') }
   scope :abandoned_carts, -> { where(casetype: 'abandoned_cart') }
   scope :preorders, -> { where(casetype: 'preorder') }
+  scope :favorites, -> { where(casetype: 'favorite') }
   scope :status_new, -> { where(status: 'new') }
   scope :status_take, -> { where(status: 'take') }
   scope :status_finish, -> { where(status: 'finish') }
@@ -88,10 +90,10 @@ class Mycase < ApplicationRecord
     ApiInsales.new(Insint.current).statuses
   end
 
-  # NOTICE for 'order' & 'abandoned_cart' & 'preorder'
+  # NOTICE for 'order' & 'abandoned_cart' & 'preorder' & 'favorite'
   def do_event_action
     user = User.find_by_subdomain(Apartment::Tenant.current)
-    casetypes = %w[order abandoned_cart preorder]
+    casetypes = %w[order abandoned_cart preorder favorite]
     return unless casetypes.include?(casetype)
 
     puts "########## Case do_event_action start - #{casetype}"
@@ -112,15 +114,6 @@ class Mycase < ApplicationRecord
       mycase.update(status: 'finish') if lines_state.uniq.join == 'send'
     end
   end
-
-  # NOTICE not find where use this method
-  # def self.preorder_update_cases(client)
-  #   client.mycases.where(casetype: 'preorder').each do |mycase|
-  #     lines_state = mycase.lines.map { |line| line.variant.preorders.first.status }
-  #     # puts "lines_state.uniq => "+lines_state.uniq
-  #     mycase.update(status: 'finish') if lines_state.uniq.join == 'send'
-  #   end
-  # end
 
   def client_data
     client ? "#{client.fio}<br>#{client.email} #{client.phone}".html_safe : ''
@@ -148,4 +141,10 @@ class Mycase < ApplicationRecord
     lines.delete_all
   end
 
+  private
+
+  def start_favorite_action
+    do_event_action
+  end
+  
 end

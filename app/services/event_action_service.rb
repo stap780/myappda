@@ -66,6 +66,13 @@ class EventActionService
         last = events_wait.max == wait
         AbandonedJob.set(wait: wait.minutes).perform_later(@mycase.id, tenant, email_data, last)
       end
+      if @mycase.casetype == 'favorite'
+        EventMailer.with(email_data).send_action_email.deliver_later(wait: wait.minutes)
+        @mycase.client.favorites.each do |favorite|
+          favorite.update(status: 'send')
+        end
+        @mycase.update(status: 'finish')
+      end
     end
 
     if channel == 'insales_api' && operation == 'cancel_order' && check_insales_statuses

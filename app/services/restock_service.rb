@@ -6,11 +6,11 @@ class RestockService
     @user = user
     @client = client
     @events = events
-    # @product_xml = product_xml
-    @xml_file = xml_file # Rails.env.development? ? "#{Rails.root}/public/#{@user.id}.xml" : "/var/www/myappda/shared/public/#{@user.id}.xml"
+    @xml_file = xml_file
   end
 
-  def do_action # (user, client, events)
+  def do_action 
+    # NOTICE (user, client, events)
     @events.each do |event|
       action = event.event_actions.first
       channel = action.channel

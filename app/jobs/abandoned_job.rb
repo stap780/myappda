@@ -1,8 +1,8 @@
 # AbandonedJob
 class AbandonedJob < ApplicationJob
   queue_as :abandoned_job
-  def perform(mycase_id, tenant, email_data)
-    Abandoned.call(mycase_id, tenant, email_data)
+  def perform(mycase_id, tenant, email_data, last)
+    Abandoned.call(mycase_id, tenant, email_data, last)
   end
 end
 

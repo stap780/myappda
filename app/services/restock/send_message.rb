@@ -19,7 +19,7 @@ class Restock::SendMessage < ApplicationService
 
   def send_message
     Apartment::Tenant.switch(@tenant) do
-      events = Event.active.restocks
+      events = Event.active.restock
 
       next unless events.exists?
 

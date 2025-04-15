@@ -13,7 +13,8 @@
   <div class="row align-items-center mt-3 mb-3">
     <div class="col-4 d-flex w-100 align-items-center mb-2 h5">
       <span><%= heart_icon %> Избранное</span>
-      <%= link_to mail_icon+' избранное'.html_safe, emailizb_client_path(@client), title: "Отправить письмо с избранным", class: "btn btn-light ms-auto", data: {turbo_method: :get, turbo_stream: true} %>
+      <%# link_to mail_icon+' избранное'.html_safe, emailizb_client_path(@client), title: "Отправить письмо с избранным", class: "btn btn-light ms-auto", data: {turbo_method: :get, turbo_stream: true} %>
+      <%= link_to 'Создать заявку'.html_safe, new_mycase_path(client_id: @client.id, casetype: 'favorite'), class: 'btn btn-light ms-auto', data: {turbo_frame: "offcanvas_wrap", turbo_stream: true } %>
     </div>
     <div class="table-responsive">
     <table class="table table-hover table-condensed table-sm">
@@ -25,6 +26,7 @@
           <th>Sku</th>
           <th>Остаток</th>
           <th>Цена</th>
+          <th>Статус</th>
           <th>Даты</th>
         </tr>
       </thead>
@@ -42,6 +44,7 @@
           <td><%= pr.variants.first.sku if pr.variants.count.positive? %></td>
           <td></td>
           <td><%=pr.price%></td>
+          <td><%= fav.status %></td>
           <td>
             <div class="d-flex flex-column opacity-75 fs-8">
               <div>С: <%= fav.created_at.in_time_zone.strftime('%d/%m/%Y %H:%M') %></div>

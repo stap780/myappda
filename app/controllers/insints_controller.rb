@@ -139,9 +139,11 @@ class InsintsController < ApplicationController
       if MessageSetup.check_ability
         pr_id = params[:product_id]
         client_id = params[:client_id]
+        ya_client = params[:ya_client_id]
         client = Client.find_by_clientid(client_id)
         # product = Product.find_by(insid: pr_id).present? ? Product.find_by(insid: pr_id) : Product.create!(insid: pr_id)
-        product = Product.find_or_create_by!(insid: pr_id)
+        # product = Product.find_or_create_by!(insid: pr_id)
+        product = Product.where(insid: pr_id).first_or_create!
         product.create_variant_webhook
         resp_data = {}
         # default
@@ -161,11 +163,12 @@ class InsintsController < ApplicationController
           service = ApiInsales.new(insint)
           api_client = service.client(client_id)
           new_client_data = {
-            clientid: params[:client_id],
+            clientid: client_id,
             name: search_client.name,
             surname: search_client.surname,
             email: search_client.email,
-            phone: search_client.phone
+            phone: search_client.phone,
+            ya_client: ya_client
           }
           check_client_from_api = Client.find_by_email(api_client.email)
           check_client_from_api.update!(new_client_data) if check_client_from_api
