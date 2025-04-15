@@ -52,6 +52,7 @@ class ProductsController < ApplicationController
 
   def insales_info
     @product.get_ins_data
+    @product.create_variant_webhook
   end
 
   def destroy

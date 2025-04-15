@@ -59,11 +59,8 @@ class Product < ApplicationRecord
     user = User.find_by_subdomain(current_subdomain)
     service = ApiInsales.new(user.insints.first)
     if service.account.present?
-      product = service.get_product_data(insid)
-      if product.present?
-        var_insid = product.variants.first.id
-        product.variants.create(insid: var_insid)
-      end
+      ins_pr = service.get_product_data(insid)
+      variants.create(insid: ins_pr.variants.first.id) if ins_pr.present?
     end
     puts 'finish product create_variant_webhook'
   end
@@ -74,6 +71,7 @@ class Product < ApplicationRecord
     favorites.delete_all
     restocks.delete_all
     preorders.delete_all
+    abandoned_carts.delete_all
   end
 
 end

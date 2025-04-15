@@ -12,7 +12,7 @@ class Insint::Order < ApplicationService
     Apartment::Tenant.switch(@tenant) do
       client_email = @datas['client']['email'].present? ? @datas['client']['email'] : "#{@datas['client']['id']}@mail.ru"
       client_phone = @datas['client']['phone']
-      ya_client =  @datas['client']['ya_client_id']
+      ya_client =  @datas['client']['ya_client_id'].present? ? @datas['client']['ya_client_id'] : nil
       check_client = client_email.present? ? Client.find_by_email(client_email) : Client.find_by_phone(client_phone)
       client_data = {
         clientid: @datas['client']['id'],
