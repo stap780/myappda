@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.0'
 
-gem 'rails', '~> 7.2.1.2'
+gem 'rails', '~> 7.2.2'
 
 gem 'pg', '~> 1.1'
 
@@ -28,6 +28,7 @@ gem 'ros-apartment', git: 'https://github.com/rails-on-services/apartment.git', 
 gem 'aws-sdk-s3'
 gem 'bcrypt'
 gem 'bcrypt_pbkdf', '< 2.0', :require => false
+
 
 gem 'caxlsx'
 gem 'caxlsx_rails'
