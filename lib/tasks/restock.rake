@@ -22,6 +22,7 @@ namespace :restock do
               client = Client.find(client_id)
               if client.restocks.for_inform.present?
                 RestockSendMessageJob.perform_later(tenant, {client_id: client_id})
+                logger.info "**** создали задание #{client_id} ****"
               end
             end
           end

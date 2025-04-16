@@ -128,7 +128,7 @@ class Client < ApplicationRecord
   end
 
   def orders_count
-    self.mycases.orders.count
+    mycases.orders.count
   end
 
   private

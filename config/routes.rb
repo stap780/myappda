@@ -82,7 +82,7 @@ Rails.application.routes.draw do
     resources :clients do
       member do
         get :emailizb
-        put :update_from_insales
+        get :update_from_insales
       end
       collection do
         get :otchet

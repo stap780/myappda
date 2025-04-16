@@ -139,7 +139,7 @@ class InsintsController < ApplicationController
       if MessageSetup.check_ability
         pr_id = params[:product_id]
         client_id = params[:client_id]
-        ya_client = params[:ya_client_id].present? ? params[:ya_client_id] : nil
+        ya_client = params[:ya_client_id].present? ? params[:ya_client_id] : ''
         client = Client.find_by_clientid(client_id)
         # product = Product.find_by(insid: pr_id).present? ? Product.find_by(insid: pr_id) : Product.create!(insid: pr_id)
         # product = Product.find_or_create_by!(insid: pr_id)

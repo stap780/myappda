@@ -12,7 +12,7 @@ class Insint::AbandonedCart < ApplicationService
       email = @datas['contacts']['email'].present? ? @datas['contacts']['email'] : "#{number}@mail.ru"
       phone = @datas['contacts']['phone'].present? ? @datas['contacts']['phone'] : '+79011111111'
       name = @datas['contacts']['name'].present? ? @datas['contacts']['name'] : "abandoned_#{number}"
-      ya_client = @datas['client']['ya_client_id'].present? ? @datas['client']['ya_client_id'] : nil
+      ya_client = @datas['contacts']['ya_client_id'].present? ? @datas['contacts']['ya_client_id'] : ''
       check = Client.find_by_email(email)
       search_client = check.present? ? check : Client.find_by_phone(phone)
       client = search_client.present? ? search_client : Client.create!(email: email, phone: phone, name: name, ya_client: ya_client)
