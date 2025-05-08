@@ -45,6 +45,12 @@ class Insint::Discount < ApplicationService
           data['title'] = discount.notice
           result = true
         end
+        if check.include?('do_work_with_lower_price')
+          data['discount'] = @datas['lower_price']
+          data['discount_type'] = 'money'.upcase
+          data['title'] = discount.notice
+          result = true
+        end
 
         break if result
       end
@@ -63,6 +69,12 @@ class Insint::Discount < ApplicationService
       colls = product.collections_ids.map{|id| InsalesApi::Collection.find(id).title }
       line['colls'] = colls
     end
+
+    calculate_lower_price
+  end
+
+  def calculate_lower_price
+    @datas['lower_price'] = @datas['order_lines'].map{|line| line['sale_price']}.min
   end
 
 end
