@@ -64,7 +64,7 @@ gem 'puma', '>= 6.0'
 gem 'recaptcha'
 gem 'redis'
 gem 'requestjs-rails'
-gem 'rexml', '~> 3.2', '>= 3.2.6'
+gem 'rexml', '~> 3.4'
 gem 'simple_form'
 # gem 'whenever', require: false
 gem 'wicked_pdf'
